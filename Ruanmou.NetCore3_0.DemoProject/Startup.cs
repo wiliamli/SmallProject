@@ -92,19 +92,19 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             //app.UseMvc();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapAreaControllerRoute(
-            //           name: "areas",
-            //           areaName: "System",
-            //           pattern: "{area:exists}/{controller=Home}/  {action=Index}/{id?}");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapAreaControllerRoute(
+                       name: "areas",
+                       areaName: "System",
+                       pattern: "{area:exists}/{controller=Home}/  {action=Index}/{id?}");
 
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            //    endpoints.MapRazorPages();
-            //});//终结点，可能是mvc 也可能是别的项目类型  signalr
+                endpoints.MapRazorPages();
+            });//终结点，可能是mvc 也可能是别的项目类型  signalr
 
             //app.UseMvc(routes =>
             //{
@@ -115,13 +115,13 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "PlatForm API V1");
-                options.IndexStream = () => Assembly.GetExecutingAssembly().GetManifestResourceStream("Ruanmou04.Web.wwwroot.swagger.ui.index.html");
-            }); // URL: /swagger
+            //app.UseSwagger();
+            //// Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            //app.UseSwaggerUI(options =>
+            //{
+            //    options.SwaggerEndpoint("/swagger/v1/swagger.json", "PlatForm API V1");
+            //    options.IndexStream = () => Assembly.GetExecutingAssembly().GetManifestResourceStream("Ruanmou04.Web.wwwroot.swagger.ui.index.html");
+            //}); // URL: /swagger
         }
     }
 }
