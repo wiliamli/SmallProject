@@ -1,33 +1,39 @@
-namespace Ruanmou.EFCore3_0.Model
+ 
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RM04.DBEntity
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
-
-    [Table("SysRole")]
-    public partial class SysRole
+    public class SysRole : BaseEntity
     {
-        public int Id { get; set; }
-
-        [Required]
-        [StringLength(36)]
+        /// <summary>
+        /// 角色名称
+        /// </summary>
         public string Text { get; set; }
-
-        [StringLength(1000)]
+        /// <summary>
+        /// 说明
+        /// </summary>
         public string Description { get; set; }
-
-        public byte Status { get; set; }
-
-        public DateTime CreateTime { get; set; }
-
-        public int CreateId { get; set; }
-
+        /// <summary>
+        /// 状态：0 正常 1 冻结 2 删除
+        /// <summary>
+        public int Status { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateTime { get; set; }
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        public int? CreateId { get; set; }
+        /// <summary>
+        /// 修改时间
+        /// </summary>
         public DateTime? LastModifyTime { get; set; }
-
+        /// <summary>
+        /// 修改时间
+        /// </summary>
         public int? LastModifierId { get; set; }
-
-        public virtual ICollection<SysRoleMenuMapping> SysRoleMenuMappingList { get; set; }
     }
 }

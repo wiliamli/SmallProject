@@ -5,13 +5,9 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
-using Ruanmou.NetCore.Servcie;
 using Ruanmou.NetCore.Service;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Utility
 {
@@ -31,13 +27,10 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
 
 
             containerBuilder.Register(c => new CustomAutofacAop());//aop注册
-            containerBuilder.RegisterType<TestServiceA>().As<ITestServiceA>().SingleInstance().PropertiesAutowired();
-            containerBuilder.RegisterType<TestServiceC>().As<ITestServiceC>();
-            containerBuilder.RegisterType<TestServiceB>().As<ITestServiceB>();
-            containerBuilder.RegisterType<TestServiceD>().As<ITestServiceD>();
+
 
             containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
-            containerBuilder.RegisterType<UserService>().As<IUserService>();
+            containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
 
 
 

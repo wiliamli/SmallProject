@@ -1,18 +1,20 @@
-namespace Ruanmou.EFCore3_0.Model
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RM04.DBEntity
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
-
-    [Table("SysUserMenuMapping")]
-    public partial class SysUserMenuMapping
+using System;
+    public class SysUserMenuMapping : BaseEntity
     {
-        public int Id { get; set; }
+        /// <summary>
+        /// ÓÃ»§Id
+        /// </summary>
+        public int? SysUserId { get; set; }
 
-        public int SysUserId { get; set; }
-
-        public int SysMenuId { get; set; }
+        /// <summary>
+        ///²Ëµ¥Id 
+        /// </summary>
+        public int? SysMenuId { get; set; }
     }
 }

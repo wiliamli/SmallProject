@@ -1,53 +1,71 @@
-namespace Ruanmou.EFCore3_0.Model
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RM04.DBEntity
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
-
-    [Table("SysUser")]
-    public partial class SysUser
+    public class SysUser : BaseEntity
     {
-        public int Id { get; set; }
-
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// 用户名
+        /// <summary>
         public string Name { get; set; }
-
-        [Required]
-        [StringLength(64)]
+        /// <summary>
+        /// 密码
+        /// <summary>
         public string Password { get; set; }
-
-        public byte Status { get; set; }
-
-        [StringLength(20)]
+        /// <summary>
+        /// 用户状态   0 正常 1 冻结 2 删除
+        /// <summary>
+        /// <summary>
+        public int Status { get; set; }
+        /// <summary>
+        /// 联系电话
+        /// <summary>
         public string Phone { get; set; }
-
-        [StringLength(20)]
+        /// <summary>
+        /// 手机号
+        /// <summary>
         public string Mobile { get; set; }
-
-        [StringLength(50)]
+        /// <summary>
+        /// 联系地址
+        /// <summary>
         public string Address { get; set; }
-
-        [StringLength(100)]
+        /// <summary>
+        /// 联系邮箱
+        /// <summary>
         public string Email { get; set; }
-
-        public long? QQ { get; set; }
-
-        [StringLength(50)]
+        /// <summary>
+        /// 联系QQ
+        /// <summary>
+        public Int64? QQ { get; set; }
+        /// <summary>
+        /// 微信号
+        /// <summary>
         public string WeChat { get; set; }
-
-        public byte? Sex { get; set; }
-
+        /// <summary>
+        /// 性别 男:Male 女：Female
+        /// <summary>
+        public string Sex { get; set; }
+        /// <summary>
+        /// 最后登陆时间
+        /// <summary>
         public DateTime? LastLoginTime { get; set; }
-
-        public DateTime CreateTime { get; set; }
-
-        public int CreateId { get; set; }
-
+        /// <summary>
+        /// 添加时间
+        /// <summary>
+        public DateTime? CreateTime { get; set; }
+        /// <summary>
+        /// 添加用户
+        /// <summary>
+        public int? CreateId { get; set; }
+        /// <summary>
+        /// 修改时间
+        /// <summary>
         public DateTime? LastModifyTime { get; set; }
-
+        /// <summary>
+        /// 修改用户
+        /// <summary>
         public int? LastModifyId { get; set; }
     }
 }

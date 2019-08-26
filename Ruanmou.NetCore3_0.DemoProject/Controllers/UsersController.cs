@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Ruanmou.NetCore.Interface;
-using Ruanmou.NetCore3_0.DemoProject.Utility;
+using Ruanmou.NetCore3_0.DemoProject.Utility; 
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
@@ -33,31 +33,17 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     {
         #region MyRegion
         private ILoggerFactory _Factory = null;
-        private ILogger<SecondController> _logger = null;
-        private ITestServiceA _ITestServiceA = null;
-        private ITestServiceB _ITestServiceB = null;
-        private ITestServiceC _ITestServiceC = null;
-        private ITestServiceD _ITestServiceD = null;
-        private IUserService _IUserService = null;
-        private IA _IA = null;
-        public ITestServiceA ITestServiceA { get; set; }
+        private ILogger<UsersController> _logger = null;
+        private ISysUserService _IUserService = null;
+
         public UsersController(ILoggerFactory factory,
-            ILogger<SecondController> logger,
-            ITestServiceA testServiceA,
-            ITestServiceB testServiceB,
-            ITestServiceC testServiceC,
-            ITestServiceD testServiceD,
-            IUserService userService,
-            IA a)
+            ILogger<UsersController> logger,
+
+            ISysUserService userService)
         {
             this._Factory = factory;
             this._logger = logger;
-            this._ITestServiceA = testServiceA;
-            this._ITestServiceB = testServiceB;
-            this._ITestServiceC = testServiceC;
-            this._ITestServiceD = testServiceD;
             this._IUserService = userService;
-            this._IA = a;
         }
         #endregion
 

@@ -1,18 +1,18 @@
-namespace Ruanmou.EFCore3_0.Model
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RM04.DBEntity
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    
-
-    [Table("SysUserRoleMapping")]
-    public partial class SysUserRoleMapping
+    public class SysUserRoleMapping : BaseEntity
     {
-        public int Id { get; set; }
-
-        public int SysUserId { get; set; }
-
-        public int SysRoleId { get; set; }
+        /// <summary>
+        /// 用户Id
+        /// <summary>
+        public int? SysUserId { get; set; }
+        /// <summary>
+        /// 角色Id
+        /// <summary>
+        public int? SysRoleId { get; set; }
     }
 }
