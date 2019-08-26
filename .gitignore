@@ -6,3 +6,7 @@
 bin/
 obj/
 
+/.vs/Ruanmou04.NetCore.Project/config/applicationhost.config
+/.vs/Ruanmou04.NetCore.Project/v16/.suo
+/.vs/Ruanmou04.NetCore.Project/v16/Server/sqlite3/db.lock
+/.vs/Ruanmou04.NetCore.Project/v16/Server/sqlite3/storage.ide

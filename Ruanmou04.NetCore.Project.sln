@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou.NetCore3_0.DemoProject", "Ruanmou.NetCore3_0.DemoProject\Ruanmou.NetCore3_0.DemoProject.csproj", "{B6D38CED-FCBE-4BE3-92A7-A804D9EE7EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.NetCore.Project", "Ruanmou.NetCore3_0.DemoProject\Ruanmou04.NetCore.Project.csproj", "{B6D38CED-FCBE-4BE3-92A7-A804D9EE7EA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou.Core.Utility", "Ruanmou.Core.Utility\Ruanmou.Core.Utility.csproj", "{C2338037-B4B1-4F88-8756-BA2A578662DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.Core.Utility", "Ruanmou.Core.Utility\Ruanmou04.Core.Utility.csproj", "{C2338037-B4B1-4F88-8756-BA2A578662DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou.NetCore.Interface", "Ruanmou.NetCore.Interface\Ruanmou.NetCore.Interface.csproj", "{4D0866A0-A615-47ED-B32D-AC33B92D8486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.NetCore.Interface", "Ruanmou.NetCore.Interface\Ruanmou04.NetCore.Interface.csproj", "{4D0866A0-A615-47ED-B32D-AC33B92D8486}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou.NetCore.Service", "Ruanmou.NetCore.Service\Ruanmou.NetCore.Service.csproj", "{D422618B-E023-46C7-8410-887BF9C275E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.NetCore.Service", "Ruanmou.NetCore.Service\Ruanmou04.NetCore.Service.csproj", "{D422618B-E023-46C7-8410-887BF9C275E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou.EFCore3_0.Model", "Ruanmou.EFCore3_0.Model\Ruanmou.EFCore3_0.Model.csproj", "{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.EFCore.Model", "Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj", "{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

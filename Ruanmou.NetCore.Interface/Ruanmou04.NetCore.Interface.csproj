@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou.EFCore3_0.Model.csproj" />
+    <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
   </ItemGroup>
 
 </Project>

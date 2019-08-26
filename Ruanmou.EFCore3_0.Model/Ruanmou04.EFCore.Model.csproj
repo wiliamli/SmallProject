@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ruanmou.Core.Utility\Ruanmou.Core.Utility.csproj" />
+    <ProjectReference Include="..\Ruanmou.Core.Utility\Ruanmou04.Core.Utility.csproj" />
   </ItemGroup>
 
 </Project>

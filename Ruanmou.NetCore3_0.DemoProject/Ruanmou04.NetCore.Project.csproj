@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0-preview7.19362.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0-preview7-19378-04" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ruanmou.Core.Utility\Ruanmou.Core.Utility.csproj" />
-    <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou.EFCore3_0.Model.csproj" />
-    <ProjectReference Include="..\Ruanmou.NetCore.Interface\Ruanmou.NetCore.Interface.csproj" />
-    <ProjectReference Include="..\Ruanmou.NetCore.Service\Ruanmou.NetCore.Service.csproj" />
+    <ProjectReference Include="..\Ruanmou.Core.Utility\Ruanmou04.Core.Utility.csproj" />
+    <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
+    <ProjectReference Include="..\Ruanmou.NetCore.Interface\Ruanmou04.NetCore.Interface.csproj" />
+    <ProjectReference Include="..\Ruanmou.NetCore.Service\Ruanmou04.NetCore.Service.csproj" />
   </ItemGroup>
 
 </Project>
