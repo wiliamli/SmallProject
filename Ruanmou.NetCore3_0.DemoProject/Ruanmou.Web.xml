@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ruanmou04.NetCore.Project</name>
+    </assembly>
+    <members>
+        <member name="F:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController._userList">
+            <summary>
+            User Data List
+            </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.NoGetUserByModelSerializeWithoutGet(System.String)">
+            <summary>
+            方法名以Get开头，WebApi会自动默认这个请求就是get请求，而如果你以其他名称开头而又不标注方法的请求方式，那么这个时候服务器虽然找到了这个方法，但是由于请求方式不确定，所以直接返回给你405——方法不被允许的错误。
+            最后结论：所有的WebApi方法最好是加上请求的方式（[HttpGet]/[HttpPost]/[HttpPut]/[HttpDelete]），不要偷懒，这样既能防止类似的错误，也有利于方法的维护，别人一看就知道这个方法是什么请求。
+            </summary>
+            <param name="userString"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            自有妙用
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacAop">
+            <summary>
+            自定义的Autofac的AOP扩展
+            </summary>
+        </member>
+    </members>
+</doc>

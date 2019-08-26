@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Ruanmou.Core.Utility;
-using Ruanmou.Core.Utility.Middleware;
 using Ruanmou.NetCore3_0.DemoProject.Utility;
 
 namespace Ruanmou.NetCore3_0.DemoProject
@@ -39,6 +35,33 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "1.0.0.0",
+                    Title = "Ruanmou",
+                    Description = "Ruanmou ASP.NET Core Web API"
+                });
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "Ruanmou.Web.xml");
+                c.IncludeXmlComments(xmlPath);
+            });
+
+
+            //ContainerBuilder builder = new ContainerBuilder();
+
+            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Ruanmou.NetCore.Interface.IBaseService)))
+            //    .AsImplementedInterfaces()
+            //    .InstancePerLifetimeScope();
+
+
+            //builder.Populate(services);
+
+            //var container = builder.Build();
+
+            //return new AutofacServiceProvider(container);
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -196,17 +219,20 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
+            app.UseCors();
             app.UseRouting();
 
             app.UseAuthorization();
 
+           
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapAreaControllerRoute(
-                       name: "areas",
-                       areaName: "System",
-                       pattern: "{area:exists}/{controller=Home}/  {action=Index}/{id?}");
+                //endpoints.MapAreaControllerRoute(
+                //       name: "areas",
+                //       areaName: "System",
+                //       pattern: "{area:exists}/{controller=Home}/  {action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
@@ -214,6 +240,14 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
                 endpoints.MapRazorPages();
             });//终结点，可能是mvc 也可能是别的项目类型  signalr
+
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Ruanmou Web API");
+            
+            });
         }
     }
 }

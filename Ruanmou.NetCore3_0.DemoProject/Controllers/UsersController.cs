@@ -133,7 +133,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return _userList;
         }
 
-        //[HttpGet]
+        [HttpGet]
         public IEnumerable<Users> GetUserByModelSerializeWithoutGet(string userString)
         {
             Users user = JsonConvert.DeserializeObject<Users>(userString);
@@ -145,6 +145,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <param name="userString"></param>
         /// <returns></returns>
+        [HttpGet]
         public IEnumerable<Users> NoGetUserByModelSerializeWithoutGet(string userString)
         {
             Users user = JsonConvert.DeserializeObject<Users>(userString);
