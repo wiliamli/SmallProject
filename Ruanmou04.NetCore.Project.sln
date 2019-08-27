@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.NetCore.Service",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.EFCore.Model", "Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj", "{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou04.NetCore.Webapi", "Ruanmou04.NetCore.Webapi\Ruanmou04.NetCore.Webapi.csproj", "{AC11484F-C32F-4627-9E36-C916E944FCA2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC11484F-C32F-4627-9E36-C916E944FCA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC11484F-C32F-4627-9E36-C916E944FCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC11484F-C32F-4627-9E36-C916E944FCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC11484F-C32F-4627-9E36-C916E944FCA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
