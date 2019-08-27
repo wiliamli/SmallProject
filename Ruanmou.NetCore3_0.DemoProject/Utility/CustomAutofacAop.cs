@@ -23,18 +23,4 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
         }
     }
 
-    public interface IA
-    {
-        void Show(int id, string name);
-    }
-
-    [Intercept(typeof(CustomAutofacAop))]
-    public class A : IA
-    {
-        public void Show(int id, string name)
-        {
-            Console.WriteLine($"This is {id} _ {name}");
-        }
-    }
-
 }

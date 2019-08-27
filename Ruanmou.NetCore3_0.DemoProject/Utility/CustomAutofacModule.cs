@@ -34,10 +34,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
 
 
 
-            containerBuilder.RegisterType<A>().As<IA>().EnableInterfaceInterceptors();
-
-            //containerBuilder.Register<FirstController>();
-
         }
     }
 }
