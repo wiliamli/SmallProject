@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Ruanmou.Core.Utility;
 using Ruanmou.NetCore3_0.DemoProject.Utility;
+using System.Reflection;
+using Autofac.Extensions.DependencyInjection;
+using System;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -49,19 +52,6 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 c.IncludeXmlComments(xmlPath);
             });
 
-
-            //ContainerBuilder builder = new ContainerBuilder();
-
-            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(Ruanmou.NetCore.Interface.IBaseService)))
-            //    .AsImplementedInterfaces()
-            //    .InstancePerLifetimeScope();
-
-
-            //builder.Populate(services);
-
-            //var container = builder.Build();
-
-            //return new AutofacServiceProvider(container);
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
