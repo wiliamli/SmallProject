@@ -10,3 +10,8 @@
   * c.attribute问题，在.net core3.0下使用swagger，所有的http请求，都需要【显示】添加attribute
   * d.路由问题，不能使用area特性路由，否则无法生存swagger.json文档，则显示swagger错误
   
+  
+  ##### 2.2019-08-27  william
+  * a. 新增数据库表，新增数据库对应脚本
+  * b. 修改了IOC按基类接口注入
+  
