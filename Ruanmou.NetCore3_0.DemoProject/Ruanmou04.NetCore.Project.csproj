@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Ruanmou04.NetCore.Project.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspectCore.Extensions.Autofac" Version="1.3.0" />
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
