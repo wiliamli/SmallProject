@@ -30,15 +30,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
 
 
             containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
-            //containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IBaseService)))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
 
 
-            //containerBuilder.RegisterType<A>().As<IA>().EnableInterfaceInterceptors();
-
-            //containerBuilder.Register<FirstController>();
 
         }
     }

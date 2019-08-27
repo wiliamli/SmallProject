@@ -18,6 +18,10 @@ namespace Ruanmou.Core.Utility
         /// ConnectionStrings:JDDbConnectionString
         /// </summary>
         public static string JDDbConnection = null;
-
+        /// <summary>
+        /// 默认页条数
+        /// </summary>
+        public const int DefaultPageSize = 20;
+        public const int MaxPageSize = 1000;
     }
 }
