@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Ruanmou04.NetCore.Service.Forum
 {
-    public class ForumChannelService : BaseService, IForumChannelService
+    public class ForumRoleChannelService : BaseService, IForumRoleChannelService
     {
-        public ForumChannelService(DbContext context) : base(context)
+        public ForumRoleChannelService(DbContext context) : base(context)
         {
         }
     }
