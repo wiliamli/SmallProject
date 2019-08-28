@@ -60,8 +60,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             if (ajax.success)
             {
 
-                var sysuserdto =  ajax.data as SysUserDto;
-                var generatedto = DataMapping<SysUserDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
+                var sysuserdto =  ajax.data as SysUserOutputDto;
+                var generatedto = DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
                 ajax= await _tokenService.GenerateTokenAsync(generatedto);
             }
 

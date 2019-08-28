@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
-using Ruanmou.NetCore3_0.DemoProject.Utility; 
+using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
@@ -22,7 +20,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
 
-    
+
 
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : ControllerBase
@@ -31,7 +29,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ILoggerFactory _Factory = null;
         private ILogger<UsersController> _logger = null;
         private ISysUserService _IUserService = null;
-        private List<SysUser> _userList = new List<SysUser>();
         public UsersController(ILoggerFactory factory,
             ILogger<UsersController> logger,
 
@@ -78,25 +75,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         #endregion HttpGet
 
         #region HttpPost
-        //POST api/SysUser/RegisterNone
-        [HttpPost]
-        public SysUser RegisterNone()
-        {
-            return _userList.FirstOrDefault();
-        }
 
-        [HttpPost]
-        public SysUser RegisterNoKey([FromBody]int id)
-        {
-            string idParam = base.HttpContext.Request.Form["id"];
-
-            var user = _userList.FirstOrDefault(users => users.Id == id);
-            if (user == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return user;
-        }
 
         //POST api/SysUser/register
         //只接受一个参数的需要不给key才能拿到
@@ -106,12 +85,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         {
             string idParam = base.HttpContext.Request.Form["id"];
 
-            var user = _userList.FirstOrDefault(users => users.Id == id);
-            if (user == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return user;
+            
+            return null;
         }
 
         //POST api/SysUser/RegisterUser
@@ -159,122 +134,36 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         #endregion HttpPost
 
         #region HttpPut
-        //POST api/SysUser/RegisterNonePut
         [HttpPut]
-        public SysUser RegisterNonePut()
+        public AjaxResult RegisterUserPut(SysUserInputDto userInput)//可以来自FromBody   FromUri
         {
-            return _userList.FirstOrDefault();
-        }
-
-        [HttpPut]
-        public SysUser RegisterNoKeyPut([FromBody]int id)
-        {
-            string idParam = base.HttpContext.Request.Form["id"];
-
-            var user = _userList.FirstOrDefault(users => users.Id == id);
-            if (user == null)
+            AjaxResult ajaxResult = new AjaxResult { success = false };
+            //string idParam = base.HttpContext.Request.Form["Id"];
+            //string nameParam = base.HttpContext.Request.Form["UserName"];
+            //string emailParam = base.HttpContext.Request.Form["UserEmail"];
+            var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
+            user= _IUserService.Insert<SysUser>(user);
+            if(user!=null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                ajaxResult.success = true;
             }
-            return user;
-        }
-
-        //POST api/SysUser/registerPut
-        //只接受一个参数的需要不给key才能拿到
-        [HttpPut]
-        public SysUser RegisterPut([FromBody]int id)//可以来自FromBody   FromUri
-                                                  //public SysUser Register(int id)//可以来自url
-        {
-            string idParam = base.HttpContext.Request.Form["id"];
-
-            var user = _userList.FirstOrDefault(users => users.Id == id);
-            if (user == null)
+            else
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                ajaxResult.msg = "添加失败";
             }
-            return user;
-        }
-
-        //POST api/SysUser/RegisterUserPut
-        [HttpPut]
-        public SysUser RegisterUserPut(SysUser user)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["Id"];
-            string nameParam = base.HttpContext.Request.Form["UserName"];
-            string emailParam = base.HttpContext.Request.Form["UserEmail"];
-
-            return user;
+            return ajaxResult;
         }
 
 
-        //POST api/SysUser/registerPut
-        [HttpPut]
-        public string RegisterObjectPut(JObject jData)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["User[Id]"];
-            string nameParam = base.HttpContext.Request.Form["User[UserName]"];
-            string emailParam = base.HttpContext.Request.Form["User[UserEmail]"];
-            string infoParam = base.HttpContext.Request.Form["info"];
-            dynamic json = jData;
-            JObject jUser = json.User;
-            string info = json.Info;
-            var user = jUser.ToObject<SysUser>();
 
-            return string.Format("{0}_{1}_{2}_{3}", user.Id, user.Name, user.Email, info);
-        }
 
-        [HttpPut]
-        public string RegisterObjectDynamicPut(dynamic dynamicData)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["User[Id]"];
-            string nameParam = base.HttpContext.Request.Form["User[UserName]"];
-            string emailParam = base.HttpContext.Request.Form["User[UserEmail]"];
-            string infoParam = base.HttpContext.Request.Form["info"];
-            dynamic json = dynamicData;
-            JObject jUser = json.User;
-            string info = json.Info;
-            var user = jUser.ToObject<SysUser>();
-
-            return string.Format("{0}_{1}_{2}_{3}", user.Id, user.Name, user.Email, info);
-        }
+        
         #endregion HttpPut
 
         #region HttpDelete
         //POST api/SysUser/RegisterNoneDelete
-        [HttpDelete]
-        public SysUser RegisterNoneDelete()
-        {
-            return _userList.FirstOrDefault();
-        }
 
-        [HttpDelete]
-        public SysUser RegisterNoKeyDelete([FromBody]int id)
-        {
-            string idParam = base.HttpContext.Request.Form["id"];
-
-            var user = _userList.FirstOrDefault(users => users.Id == id);
-            if (user == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return user;
-        }
-
-        //POST api/SysUser/registerDelete
-        //只接受一个参数的需要不给key才能拿到
-        [HttpDelete]
-        public SysUser RegisterDelete([FromBody]int id)//可以来自FromBody   FromUri
-                                                     //public SysUser Register(int id)//可以来自url
-        {
-            string idParam = base.HttpContext.Request.Form["id"];
-
-            var user = _userList.FirstOrDefault(users => users.Id == id);
-            if (user == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return user;
-        }
+       
 
         //POST api/SysUser/RegisterUserDelete
         [HttpDelete]
@@ -287,36 +176,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
 
 
-        //POST api/SysUser/registerDelete
-        [HttpDelete]
-        public string RegisterObjectDelete(JObject jData)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["User[Id]"];
-            string nameParam = base.HttpContext.Request.Form["User[UserName]"];
-            string emailParam = base.HttpContext.Request.Form["User[UserEmail]"];
-            string infoParam = base.HttpContext.Request.Form["info"];
-            dynamic json = jData;
-            JObject jUser = json.User;
-            string info = json.Info;
-            var user = jUser.ToObject<SysUser>();
-
-            return string.Format("{0}_{1}_{2}_{3}", user.Id, user.Name, user.Email, info);
-        }
-
-        [HttpDelete]
-        public string RegisterObjectDynamicDelete(dynamic dynamicData)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["User[Id]"];
-            string nameParam = base.HttpContext.Request.Form["User[UserName]"];
-            string emailParam = base.HttpContext.Request.Form["User[UserEmail]"];
-            string infoParam = base.HttpContext.Request.Form["info"];
-            dynamic json = dynamicData;
-            JObject jUser = json.User;
-            string info = json.Info;
-            var user = jUser.ToObject<SysUser>();
-
-            return string.Format("{0}_{1}_{2}_{3}", user.Id, user.Name, user.Email, info);
-        }
+       
         #endregion HttpDelete
     }
 }
