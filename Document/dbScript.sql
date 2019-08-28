@@ -205,6 +205,7 @@ GO
 	CREATE TABLE ForumChannel (
 	Id INT IDENTITY ( 1, 1 ) PRIMARY KEY,
 	Name VARCHAR ( 16 ) NOT NULL,
+	Status bit not null default (1),
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
@@ -223,6 +224,7 @@ GO
 	FileName VARCHAR ( 128 ) NOT NULL,
 	FilePath VARCHAR ( 256 ) NOT NULL,
 	FileExtension VARCHAR ( 8 ) NOT NULL,
+	Status  bit  not null default (1),
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
@@ -279,13 +281,22 @@ GO
 	Id INT IDENTITY ( 1, 1 ) PRIMARY KEY,
 	Username VARCHAR ( 128 ) NOT NULL,
 	Password VARCHAR ( 128 ) NOT NULL,
-	CheckIn INT NOT NULL,
-	CheckInDate datetime NOT NULL,
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
 	ModifiedDate datetime NULL DEFAULT GETDATE() 
 	) 
+GO
+
+IF EXISTS ( SELECT 1 FROM sysobjects WHERE id = object_id ( 'ForumCheckIn' ) AND type = 'U' ) DROP TABLE ForumCheckIn
+/*==============================================================*/
+/* Table: ForumCheckIn                                         */
+/*==============================================================*/
+CREATE TABLE ForumCheckIn ( 
+Id INT IDENTITY ( 1, 1 ) PRIMARY KEY, 
+UserId INT NOT NULL, 
+CheckDate datetime NOT NULL DEFAULT GETDATE()
+) 
 GO
 
 

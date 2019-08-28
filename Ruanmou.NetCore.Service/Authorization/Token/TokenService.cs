@@ -1,5 +1,4 @@
-﻿using Abp.Domain.Repositories;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -9,10 +8,9 @@ using System.Threading.Tasks;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.EFCore.Model.Token.Dtos;
-using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {
