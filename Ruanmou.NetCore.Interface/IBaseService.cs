@@ -17,7 +17,13 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="id"></param>
         /// <returns></returns>
         T Find<T>(int id) where T : class;
-
+        /// <summary>
+        /// 根据条件查询一个实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        T Find<T>(Expression<Func<T, bool>> func) where T : class;
         /// <summary>
         /// 提供对单表的查询
         /// </summary>

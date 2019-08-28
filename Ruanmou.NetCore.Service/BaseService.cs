@@ -31,7 +31,10 @@ namespace Ruanmou.NetCore.Service
         {
             return this.Context.Set<T>().Find(id);
         }
-
+        public T Find<T>(Expression<Func<T,bool>> func) where T : class
+        {
+            return this.Context.Set<T>().Where<T>(func).FirstOrDefault();
+        }
         /// <summary>
         /// 不应该暴露给上端使用者，尽量少用
         /// </summary>

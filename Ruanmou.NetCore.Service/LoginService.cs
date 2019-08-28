@@ -1,32 +1,47 @@
 ﻿
 
+using Aio.Domain.SystemManage.Dtos;
 using Microsoft.EntityFrameworkCore;
 using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
-using Ruanmou.NetCore.Interface;
-using System;
-using System.Collections.Generic;
 
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.Core.Utility.Security;
 using System.Threading.Tasks;
+using Abp.AutoMapper;
+using AutoMapper;
 
 namespace Ruanmou.NetCore.Service
 {
-    public class LoginService : BaseService, ISysUserService
+    public class LoginService : BaseService, ILoginService
     {
-        public LoginService(DbContext context) : base(context)
+        private readonly IObjectMapper _objectMapper;
+        public LoginService(DbContext context, IObjectMapper objectMapper) : base(context)
         {
+            _objectMapper = objectMapper;
         }
 
-        public void UpdateLastLogin(SysUser user)
+        public AjaxResult Login(LoginInputDto loginInput)
         {
-            SysUser userDB = base.Find<SysUser>(user.Id);
-            userDB.LastLoginTime = DateTime.Now;
-            this.Commit();
+            AjaxResult ajaxResult = new AjaxResult() { success=false};
+
+            var user =base.Find<SysUser>(u => u.Name == loginInput.Account) ;
+            if (user == null)
+            {
+                ajaxResult.msg = "用户名或密码不正确,请检查！";
+            }
+            var password = Encrypt.EncryptionPassword(loginInput.Password);
+            if(user.Password!=password)
+            {
+                ajaxResult.msg = "用户名或密码不正确,请检查！";
+            }
+
+            else//MapTo
+            {
+                ajaxResult.data = user;// _objectMapper.MapTo<SysUserDto>(user);  //user.ObjectMapper<SysUserDto>();
+                ajaxResult.success = true;
+                ajaxResult.msg = "登录成功";
+            }
+            return ajaxResult;
         }
-
-
     }
 }

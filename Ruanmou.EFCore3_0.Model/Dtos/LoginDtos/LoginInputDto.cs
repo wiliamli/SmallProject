@@ -16,9 +16,5 @@ namespace Aio.Domain.SystemManage.Dtos
         /// </summary>
         public string Password { get; set; }
 
-        /// <summary>
-        /// 系统ID
-        /// </summary>
-        public string SystemID { get; set; }
     }
 }

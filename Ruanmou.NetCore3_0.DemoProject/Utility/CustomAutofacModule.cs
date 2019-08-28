@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
 using Ruanmou.NetCore.Service;
+using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
 using System.Linq;
 using System.Reflection;
 
@@ -31,6 +32,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
 
             containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
             containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
+            containerBuilder.RegisterType<LoginService>().As<ILoginService>();
+            containerBuilder.RegisterType<TokenService>().As<ITokenService>();
 
 
 
