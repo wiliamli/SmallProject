@@ -16,6 +16,7 @@ using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Ruanmou04.Core.Utility.Security;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
@@ -91,13 +92,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         //POST api/SysUser/RegisterUser
         [HttpPost]
-        public SysUser RegisterUser(SysUser user)//可以来自FromBody   FromUri
+        public AjaxResult RegisterUser(SysUserInputDto user)//可以来自FromBody   FromUri
         {
             string idParam = base.HttpContext.Request.Form["Id"];
             string nameParam = base.HttpContext.Request.Form["UserName"];
             string emailParam = base.HttpContext.Request.Form["UserEmail"];
 
-            return user;
+            return null;
         }
 
 
@@ -143,7 +144,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //string emailParam = base.HttpContext.Request.Form["UserEmail"];
             var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
             user= _IUserService.Insert<SysUser>(user);
-            if(user!=null)
+            user.Password = Encrypt.EncryptionPassword(user.Password);
+            if (user!=null)
             {
                 ajaxResult.success = true;
             }

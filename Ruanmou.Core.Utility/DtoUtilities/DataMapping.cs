@@ -19,12 +19,16 @@ namespace Ruanmou04.Core.Utility.DtoUtilities
             List<MemberBinding> memberBindingList = new List<MemberBinding>();
             foreach (var item in typeof(TOut).GetProperties())
             {
+                if (typeof(TIn).GetProperty(item.Name) == null)
+                    continue;
                 MemberExpression property = Expression.Property(parameterExpression, typeof(TIn).GetProperty(item.Name));
                 MemberBinding memberBinding = Expression.Bind(item, property);
                 memberBindingList.Add(memberBinding);
             }
             foreach (var item in typeof(TOut).GetFields())
             {
+                if (typeof(TIn).GetField(item.Name) == null)
+                    continue;
                 MemberExpression property = Expression.Field(parameterExpression, typeof(TIn).GetField(item.Name));
                 MemberBinding memberBinding = Expression.Bind(item, property);
                 memberBindingList.Add(memberBinding);
