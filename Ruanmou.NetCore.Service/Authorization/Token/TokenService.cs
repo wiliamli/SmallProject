@@ -10,7 +10,6 @@ using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.EFCore.Model.Token.Dtos;
 using Ruanmou.NetCore.Interface;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {
@@ -180,15 +179,13 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             var accessToken = "";
             long longUserId = 1;
 
-            generateDto.UserID.ToByteArray().ToList().ForEach(x => { if (x != 0) longUserId = longUserId * x; });
-            ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);//
+            //generateDto.Id.ToList().ForEach(x => { if (x != 0) longUserId = longUserId * x; });
+            ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);//
             identity.AddClaim(new Claim(ClaimTypes.Name, generateDto.Name.ToString()));
             //identity.AddClaim(new Claim(ClaimTypes.PrimarySid, generateDto.Account.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.PrimarySid, generateDto.UserID.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.System, generateDto.TenantId.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.Role, generateDto.UserType.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.PrimarySid, generateDto.Id.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.Sid, longUserId.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, longUserId.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, generateDto.Id.ToString()));
 
             TimeSpan tokenExpiration = _configuration.Expiration;
             if (tokenInformation == null)
@@ -292,7 +289,7 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
                 IssuedUtc = DateTime.UtcNow,
                 IsPersistent = true
             };
-            await _authenticationService.SignOutAsync(httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, props);
+            await _authenticationService.SignOutAsync(httpContextAccessor.HttpContext, Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme, props);
         }
 
         /// <summary>

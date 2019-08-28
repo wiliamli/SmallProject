@@ -14,6 +14,7 @@ using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
 using Ruanmou.NetCore.Service;
 using Ruanmou.NetCore3_0.DemoProject.Utility;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
@@ -53,13 +54,15 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
         #endregion
         [HttpPostAttribute]
-        public AjaxResult LoginSystemManager(LoginInputDto loginInput)
+        public async Task< AjaxResult> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _ILoginService.Login(loginInput);
             if (ajax.success)
             {
-                //ajax.data
-                //await _tokenService.GenerateTokenAsync(ajax.data);
+
+                var sysuserdto =  ajax.data as SysUserDto;
+                var generatedto = DataMapping<SysUserDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
+                ajax= await _tokenService.GenerateTokenAsync(generatedto);
             }
 
 
