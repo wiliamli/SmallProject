@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Authentication.Cookies">
-      <HintPath>C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\3.0.0-preview8.19405.7\ref\netcoreapp3.0\Microsoft.AspNetCore.Authentication.Cookies.dll</HintPath>
+      <HintPath>C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\3.0.0-preview7.19365.7\ref\netcoreapp3.0\Microsoft.AspNetCore.Authentication.Cookies.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -9,6 +9,7 @@ namespace Ruanmou.EFCore3_0.Model
     using RM04.DBEntity;
     using Ruanmou.Core.Utility;
     using Ruanmou.EFCore3_0.Model.SqlLog;
+    using Ruanmou04.EFCore.Model.Models.Forum;
 
     /// <summary>
     /// 日志问题
@@ -40,9 +41,6 @@ namespace Ruanmou.EFCore3_0.Model
 
         }
 
-   
-    
-
         public virtual DbSet<SysMenu> SysMenus { get; set; }
         public virtual DbSet<SysMenuOperation> SysMenuOperation { get; set; }
         public virtual DbSet<SysRole> SysRoles { get; set; }
@@ -56,6 +54,14 @@ namespace Ruanmou.EFCore3_0.Model
         public virtual DbSet<SysUserRoleMapping> SysUserRoleMappings { get; set; }
 
 
+        public virtual DbSet<ForumAttachment> ForumAttachment { get; set; }
+        public virtual DbSet<ForumChannel> ForumChannel { get; set; }
+        public virtual DbSet<ForumCheckIn> ForumCheckIn { get; set; }
+        public virtual DbSet<ForumConcern> ForumConcern { get; set; }
+        public virtual DbSet<ForumInvitation> ForumInvitation { get; set; }
+        public virtual DbSet<ForumPersonal> ForumPersonal { get; set; }
+        public virtual DbSet<ForumRoleChannel> ForumRoleChannel { get; set; }
+        public virtual DbSet<ForumTopic> ForumTopic { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
