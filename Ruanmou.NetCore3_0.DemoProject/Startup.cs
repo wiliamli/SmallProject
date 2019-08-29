@@ -219,10 +219,10 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapAreaControllerRoute(
-                //       name: "areas",
-                //       areaName: "System",
-                //       pattern: "{area:exists}/{controller=Home}/  {action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute(
+                       name: "areas",
+                       areaName: "System",
+                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

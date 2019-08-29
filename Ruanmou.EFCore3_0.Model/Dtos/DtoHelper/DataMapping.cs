@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Ruanmou04.Core.Utility.DtoUtilities
+namespace Ruanmou04.Core.Model.DtoHelper
 {
     /// <summary>
     /// 生成表达式目录树  泛型缓存

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ruanmou04.NetCore.Interface.Forum
+namespace Ruanmou04.NetCore.Interface.Forum.Service
 {
-    public interface IForumRoleChannelService:IBaseService
+    public interface IForumChannelService:IBaseService
     {
     }
 }

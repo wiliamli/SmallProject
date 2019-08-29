@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ruanmou.Core.Utility\Ruanmou04.Core.Utility.csproj" />
+    <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
+    <ProjectReference Include="..\Ruanmou.NetCore.Interface\Ruanmou04.NetCore.Interface.csproj" />
+    <ProjectReference Include="..\Ruanmou.NetCore.Service\Ruanmou04.NetCore.Service.csproj" />
+  </ItemGroup>
+
+</Project>
