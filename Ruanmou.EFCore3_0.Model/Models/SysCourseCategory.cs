@@ -53,7 +53,7 @@ namespace RM04.DBEntity
         /// <summary>
         /// 状态
         /// </summary>
-        public int Status { get; set; }
+        public bool Status { get; set; }
         /// <summary>
         /// 创建日期
         /// </summary>
