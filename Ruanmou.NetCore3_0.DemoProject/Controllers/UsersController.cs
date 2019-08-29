@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,7 +7,6 @@ using Newtonsoft.Json.Linq;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
 using Ruanmou04.EFCore.Model.DtoHelper;
-using Ruanmou04.Core.Utility.DtoUtilities;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
@@ -17,6 +14,7 @@ using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Ruanmou04.Core.Utility.Security;
+using Ruanmou04.Core.Model.DtoHelper;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
@@ -142,9 +140,10 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //string idParam = base.HttpContext.Request.Form["Id"];
             //string nameParam = base.HttpContext.Request.Form["UserName"];
             //string emailParam = base.HttpContext.Request.Form["UserEmail"];
-            var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
-            user= _IUserService.Insert<SysUser>(user);
+            //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
+            var user= userInput.MapTo<SysUser>();
             user.Password = Encrypt.EncryptionPassword(user.Password);
+            user = _IUserService.Insert<SysUser>(user);
             if (user!=null)
             {
                 ajaxResult.success = true;
