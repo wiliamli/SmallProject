@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\System\**" />
+    <Content Remove="Areas\System\**" />
+    <EmbeddedResource Remove="Areas\System\**" />
+    <None Remove="Areas\System\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Ruanmou04.NetCore.Project.xml" />
   </ItemGroup>
 
@@ -45,10 +52,11 @@
     <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
     <ProjectReference Include="..\Ruanmou.NetCore.Interface\Ruanmou04.NetCore.Interface.csproj" />
     <ProjectReference Include="..\Ruanmou.NetCore.Service\Ruanmou04.NetCore.Service.csproj" />
+    <ProjectReference Include="..\Ruanmou04.NetCore.Application\Ruanmou04.NetCore.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Areas\System\Views\Home\Index.cshtml" />
+    <Folder Include="Areas\" />
   </ItemGroup>
 
 </Project>

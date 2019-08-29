@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
+using Ruanmou04.NetCore.Application.Forum;
 using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.Forum.Applications;
+using Ruanmou04.NetCore.Interface.Forum.Service;
+using Ruanmou04.NetCore.Service.Forum;
 using System.Linq;
 using System.Reflection;
 
@@ -34,6 +38,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
             containerBuilder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IApplication)))
                .AsImplementedInterfaces()
                .InstancePerLifetimeScope();
+
+            #region 上面的方式不行？！
+
+            containerBuilder.RegisterType<ForumChannelService>().As<IForumChannelService>();
+            containerBuilder.RegisterType<ForumChannelApplication>().As<IForumChannelApplication>();
+
+            #endregion
 
             containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
             //containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();

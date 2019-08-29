@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Ruanmou.NetCore.Interface
 {
     public interface IBaseService : IDisposable//是为了释放Context
     {
+        public abstract DbContext Context { get; set; }
+
         #region Query
         /// <summary>
         /// 根据id查询实体
