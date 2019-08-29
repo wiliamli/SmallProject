@@ -10,13 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\System\**" />
-    <Content Remove="Areas\System\**" />
-    <EmbeddedResource Remove="Areas\System\**" />
-    <None Remove="Areas\System\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Ruanmou04.NetCore.Project.xml" />
   </ItemGroup>
 
@@ -55,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
+    <None Include="Areas\System\Views\Home\Index.cshtml" />
   </ItemGroup>
 
 </Project>
