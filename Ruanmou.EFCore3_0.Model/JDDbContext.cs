@@ -47,7 +47,7 @@ namespace Ruanmou.EFCore3_0.Model
         public virtual DbSet<SysRoleMenuMapping> SysRoleMenuMappings { get; set; }
 
         public virtual DbSet<SysRoleMenuOperationMapping> SysRoleMenuOperationMapping { get; set; }
-
+public virtual DbSet<test> test { get; set; }
         public virtual DbSet<SysUser> SysUsers { get; set; }
         public virtual DbSet<SysUserMenuMapping> SysUserMenuMappings { get; set; }
         public virtual DbSet<SysUserMenuOperationMapping> SysUserMenuOperationMapping { get; set; }
@@ -66,33 +66,33 @@ namespace Ruanmou.EFCore3_0.Model
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
-            modelBuilder.Entity<SysMenu>()
-                .Property(e => e.Url)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysMenu>()
+            //    .Property(e => e.Url)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<SysMenu>()
-                .Property(e => e.Description)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysMenu>()
+            //    .Property(e => e.Description)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<SysMenu>()
-                .Property(e => e.SourcePath)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysMenu>()
+            //    .Property(e => e.SourcePath)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<SysUser>()
-                .Property(e => e.Phone)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysUser>()
+            //    .Property(e => e.Phone)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<SysUser>()
-                .Property(e => e.Mobile)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysUser>()
+            //    .Property(e => e.Mobile)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<SysUser>()
-                .Property(e => e.Email)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysUser>()
+            //    .Property(e => e.Email)
+            //    .IsUnicode(false);
 
-            modelBuilder.Entity<SysUser>()
-                .Property(e => e.WeChat)
-                .IsUnicode(false);
+            //modelBuilder.Entity<SysUser>()
+            //    .Property(e => e.WeChat)
+            //    .IsUnicode(false);
 
             
         }

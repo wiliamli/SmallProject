@@ -3,7 +3,6 @@ using RM04.DBEntity;
 
 namespace Aio.Domain.SystemManage.Dtos
 {
-    [AutoMap(typeof(SysUser))]
     public class LoginInputDto
     {
         /// <summary>

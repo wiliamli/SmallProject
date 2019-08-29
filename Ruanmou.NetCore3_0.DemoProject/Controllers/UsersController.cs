@@ -100,36 +100,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
 
 
-        //POST api/SysUser/register
-        [HttpPost]
-        public string RegisterObject(JObject jData)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["User[Id]"];
-            string nameParam = base.HttpContext.Request.Form["User[UserName]"];
-            string emailParam = base.HttpContext.Request.Form["User[UserEmail]"];
-            string infoParam = base.HttpContext.Request.Form["info"];
-            dynamic json = jData;
-            JObject jUser = json.User;
-            string info = json.Info;
-            var user = jUser.ToObject<SysUser>();
-
-            return string.Format("{0}_{1}_{2}_{3}", user.Id, user.Name, user.Email, info);
-        }
-
-        [HttpPost]
-        public string RegisterObjectDynamic(dynamic dynamicData)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["User[Id]"];
-            string nameParam = base.HttpContext.Request.Form["User[UserName]"];
-            string emailParam = base.HttpContext.Request.Form["User[UserEmail]"];
-            string infoParam = base.HttpContext.Request.Form["info"];
-            dynamic json = dynamicData;
-            JObject jUser = json.User;
-            string info = json.Info;
-            var user = jUser.ToObject<SysUser>();
-
-            return string.Format("{0}_{1}_{2}_{3}", user.Id, user.Name, user.Email, info);
-        }
+       
         #endregion HttpPost
 
         #region HttpPut
@@ -141,9 +112,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //string nameParam = base.HttpContext.Request.Form["UserName"];
             //string emailParam = base.HttpContext.Request.Form["UserEmail"];
             //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
-            var user= userInput.MapTo<SysUser>();
+            var user= userInput.MapTo<SysUserInputDto, SysUser>();
             user.Password = Encrypt.EncryptionPassword(user.Password);
+            //user.CreateId= user.LastModifyId = 1;
+            //user.CreateTime=user.LastLoginTime=user.LastModifyTime = DateTime.Now;
+
             user = _IUserService.Insert<SysUser>(user);
+            
             if (user!=null)
             {
                 ajaxResult.success = true;
@@ -155,7 +130,20 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return ajaxResult;
         }
 
-
+[HttpPut]
+        public AjaxResult Registertest(test userInput)//可以来自FromBody   FromUri
+        {
+            AjaxResult ajaxResult = new AjaxResult { success = false };
+            //string idParam = base.HttpContext.Request.Form["Id"];
+            //string nameParam = base.HttpContext.Request.Form["UserName"];
+            //string emailParam = base.HttpContext.Request.Form["UserEmail"];
+            //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
+            //var user= userInput.MapTo<SysUserInputDto, SysUser>();
+            //user.Password = Encrypt.EncryptionPassword(user.Password);
+            _IUserService.Insert<test>(userInput);
+            
+            return ajaxResult;
+        }
 
 
         

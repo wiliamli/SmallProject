@@ -23,7 +23,7 @@ namespace RM04.DBEntity
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
         /// <summary>
-        public int Status { get; set; }
+        public string Status { get; set; }
         /// <summary>
         /// 联系电话
         /// <summary>
@@ -43,7 +43,7 @@ namespace RM04.DBEntity
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public Int64? QQ { get; set; }
+        public string QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>
