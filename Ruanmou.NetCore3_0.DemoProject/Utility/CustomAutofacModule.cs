@@ -1,11 +1,10 @@
 ﻿using Autofac;
-using Autofac.Extras.DynamicProxy;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
-using Ruanmou.NetCore.Service;
+using Ruanmou04.NetCore.Interface;
 using System.Linq;
 using System.Reflection;
 
@@ -28,9 +27,16 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
 
             containerBuilder.Register(c => new CustomAutofacAop());//aop注册
 
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IBaseService)))
+               .AsImplementedInterfaces()
+               .InstancePerLifetimeScope();
+
+            containerBuilder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IApplication)))
+               .AsImplementedInterfaces()
+               .InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
-            containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
+            //containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
 
 
 
