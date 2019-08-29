@@ -1,0 +1,25 @@
+﻿/*全局样式*/ 
+/*** basic ***/ 
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,fieldset,legend,input,textarea,p,th,td{padding:0;margin: 0;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+fieldset,img{border:0;}
+li{list-style:none;}
+em,strong,th{font-style:normal;font-weight:normal;}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}
+input,textarea,select{*font-size:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+a:link,a:visited{text-decoration:none;}
+a:hover{color:#a10000;text-decoration:none;} 
+.blank0{clear:both;display:block;font-size:1px;height:0px;line-height:0;overflow:hidden;width:0px;}
+.blank5{clear:both;display:block;font-size:1px;overflow:hidden;height:5px;}
+.blank8{clear:both;display:block;font-size:1px;overflow:hidden;height:8px;}
+.blank10{clear:both;display:block;font-size:1px;overflow:hidden;height:10px;}
+.blank12{clear:both;display:block;font-size:1px;overflow:hidden;height:12px;}
+.blank15{clear:both;display:block;font-size:1px;overflow:hidden;height:15px;}
+.blank20{clear:both;display:block;font-size:1px;overflow:hidden;height:20px;}
+.blank25{clear:both;display:block;font-size:1px;overflow:hidden;height:25px;}  
+.hide{display:none;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.mb10{ margin-bottom:10px;}
+.b{font-weight:bolder;}
+ 
