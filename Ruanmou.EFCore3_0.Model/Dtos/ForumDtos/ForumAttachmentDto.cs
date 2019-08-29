@@ -85,7 +85,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
             ForumAttachment forumAttachment = null;
             if (dto != null)
             {
-                DataMapping<ForumAttachmentDto, ForumAttachmentDto>.Trans(dto);
+                forumAttachment = DataMapping<ForumAttachmentDto, ForumAttachment>.Trans(dto);
             }
             return forumAttachment;
         }

@@ -15,7 +15,7 @@ namespace Ruanmou.NetCore.Service
     public class BaseService : IBaseService
     {
         #region Identity
-        protected DbContext Context { get; private set; }
+        public DbContext Context { get; set; }
         /// <summary>
         /// 构造函数注入
         /// </summary>

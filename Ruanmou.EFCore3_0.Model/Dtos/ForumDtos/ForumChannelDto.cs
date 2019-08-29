@@ -70,7 +70,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
             ForumChannel forumChannel = null;
             if (dto != null)
             {
-                DataMapping<ForumChannelDto, ForumChannel>.Trans(dto);
+                forumChannel = DataMapping<ForumChannelDto, ForumChannel>.Trans(dto);
             }
             return forumChannel;
         }
