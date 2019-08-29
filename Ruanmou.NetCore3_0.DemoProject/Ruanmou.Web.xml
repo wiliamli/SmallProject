@@ -4,6 +4,26 @@
         <name>Ruanmou04.NetCore.Project</name>
     </assembly>
     <members>
+        <member name="T:Ruanmou04.NetCore.Project.Controllers.BaseApiController">
+            <summary>
+            WebApi基类
+            </summary>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.StandardAction(System.Action)">
+            <summary>
+            标准数据返回
+            </summary>
+            <param name="action">action</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.StandardAction``1(System.Func{``0})">
+            <summary>
+            标准数据返回
+            </summary>
+            <typeparam name="T">返回参数</typeparam>
+            <param name="func">func</param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
             <summary>
