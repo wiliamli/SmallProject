@@ -6,6 +6,7 @@ using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
 using Ruanmou.NetCore.Service;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Ruanmou04.NetCore.Application;
 using Ruanmou04.NetCore.Application.Forum;
 using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
@@ -45,6 +46,21 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
 
             containerBuilder.RegisterType<ForumChannelService>().As<IForumChannelService>();
             containerBuilder.RegisterType<ForumChannelApplication>().As<IForumChannelApplication>();
+
+            containerBuilder.RegisterType<ForumAttachmentService>().As<IForumAttachmentService>();
+            containerBuilder.RegisterType<ForumAttachmentApplication>().As<IForumAttachmentApplication>();
+
+            containerBuilder.RegisterType<ForumCheckInService>().As<IForumCheckInService>();
+            containerBuilder.RegisterType<ForumCheckInApplication>().As<IForumCheckInApplication>();
+
+            containerBuilder.RegisterType<ForumConcernService>().As<IForumConcernService>();
+            containerBuilder.RegisterType<ForumConcernApplication>().As<IForumConcernApplication>();
+
+            containerBuilder.RegisterType<ForumInvitationService>().As<IForumInvitationService>();
+            containerBuilder.RegisterType<ForumInvitationApplication>().As<IForumInvitationApplication>();
+
+            containerBuilder.RegisterType<ForumTopicService>().As<IForumTopicService>();
+            containerBuilder.RegisterType<ForumTopicApplication>().As<IForumTopicApplication>();
 
             #endregion
 

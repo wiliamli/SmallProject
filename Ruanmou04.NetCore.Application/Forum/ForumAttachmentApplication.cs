@@ -35,12 +35,17 @@ namespace Ruanmou04.NetCore.Application
 
         public IEnumerable<ForumAttachmentDto> GetForumAttachmentByCreatedId(int createdId)
         {
-            return forumAttachmentService.Query<ForumAttachment>(m => m.CreatedId == createdId).ToList().ToDtos();
+            return forumAttachmentService.Query<ForumAttachment>(m => m.CreatedId == createdId).ToDtos();
 ;        }
 
         public ForumAttachmentDto GetForumAttachmentById(int id)
         {
             return forumAttachmentService.Find<ForumAttachment>(id).ToDto();
+        }
+
+        public IEnumerable<ForumAttachmentDto> GetForumAttachmentByTopicId(int topicId)
+        {
+            return forumAttachmentService.Query<ForumAttachment>(m => m.TopicId == topicId).ToDtos();
         }
     }
 }
