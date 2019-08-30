@@ -7,6 +7,7 @@
 .red { background: red; }
 
 .cl:after { content: "."; display: block; height: 0; clear: both; visibility: hidden }
+input.disabled { background:#EEE; } 
 /*** header ***/
 .rm-header { height: 80px; }
 .rm-header .rm-logo{ float: left; }
@@ -199,12 +200,8 @@
 .download-list .download-operate {  margin-top: 5px; line-height: 30px; }
 .download-list .download-operate .btnDownload { padding: 5px 10px; background: #009688; color: #FFF; border-radius: 5px; }
 .download-list .download-operate .btnDownload i { position:relative; left:-2px;top:1px;}
-
-
-/*** login-dialog ***/
-
-/*.rm-body-white.rm-poplogin { display: block; background: yellow; width: 312px; }
-.rm-body-white.rm-poplogin .layui-container { width: 312px; }*/
+ 
+/*** login-dialog ***/ 
 .rm-poplogin .layui-container { margin: 10px; }
 .rm-poplogin form { margin: 0 20px; }
 .rm-poplogin .layui-form-item { position: relative; margin-bottom: 20px; }
@@ -214,15 +211,79 @@
 .rm-poplogin .layui-form-item .layui-input { padding-left: 38px; }
 .rm-poplogin .ver-code-wrap { margin-left:10px; }
 .rm-poplogin .ver-code-wrap img{ width:100%; height:36px;  }
+
+/*** member ***/ 
+.rm-member { padding: 20px 0; min-height: calc(100% - 140px); }
+ 
+.mb-topmenu { float:left; }
+.mb-topmenu ul { overflow: hidden; margin: 15px 0 0 60px; }
+.mb-topmenu ul li { float: left; width: 100px; height:50px; line-height:50px; text-align:center; font-size:14px; }
+.mb-topmenu ul li a:hover { color:#009688;font-weight:bold;}
+.mb-header-wrap { background: #0193df; height: 70px; color:#FFF;}  
+.mb-headface { padding-top:10px; float:left; margin-left:20px;}
+.mb-headface .default-face, .mb-headface img { height: 50px; width: 50px; line-height: 50px; border-radius: 50%; text-align: center; display: inline-block;  }
+.mb-headface .default-face{ background: #FFF;color: #0193df; }
+.mb-headface i { font-size:40px; }
+.mb-header-info { float: left; margin-left:30px; padding-top:10px; line-height:25px;}
+.mb-header-info .mb-hello { }
+.mb-header-info .mb-hello .mb-nickname { font-weight:bold; }
+.mb-header-info .mb-tips { font-size:12px;}
+.mb-header-info .mb-lv { font-size: 12px; }
+.mb-header-info .mb-lv i { font-size:10px; margin-right:5px; }
+.mb-header-info .mb-lv .mb-lv-sp { }
+.mb-header-account { float: left; padding-top: 10px; margin-left:200px; line-height:25px; }
+.mb-header-account li { float: left; width: 160px; height: 50px; border-left: 1px solid #2eb2ec; text-align: center; font-size: 12px; }
+.mb-header-account li h5 { }
+.mb-header-account li p { font-size: 16px; }
+.mb-header-account li .sm { font-size: 12px; }
+/*** rm-member ***/
+.rm-member .main-left { width: 210px; float: left; }
+.rm-member .main-right { width: 900px; float: right; }
+
+.mb-leftmenu-wrap { padding:20px; background:#FFF; }
+.mb-leftmenu-wrap .mb-leftmenu { margin-bottom: 20px; line-height: 30px; }
+.mb-leftmenu .leftmenu-title { border-bottom: 1px solid #E4E4E4; font-weight: bold; margin-bottom: 10px; color: #0193df; }
+.mb-leftmenu .leftmenu-title i{ font-size:12px; margin-right:8px; }
+.mb-leftmenu .leftmenu-item { text-indent: 20px; }
+.mb-leftmenu .leftmenu-item a{ display:block; }
+.mb-leftmenu .leftmenu-item a:hover { color:#009688; }
+.mb-leftmenu .leftmenu-item.active a { color: #009688; font-weight:bold; } 
+
+.rm-member .main-right .content-title { padding: 10px 20px; background: #FFF; border-bottom: 1px solid #E5E5E5; height:30px;line-height:30px; }
+.rm-member .main-right .content-title span { border-left: 3px solid #0193df; padding-left: 5px; font-weight: bold; color: #444; } 
+.rm-member .main-right .main-content { padding: 20px 10px; background: #FFF; min-height:400px; } 
 /*** 中等屏幕(桌面≥992px) ***/
-@media screen and (min-width:992px) and (max-width:1199px) { }
+@media screen and (min-width:992px) and (max-width:1199px) {
+    .rm-member .main-right, .rm-about .main-right { width: 700px; }
+    .rm-body-content .content-list-item .p-img { height: 102px; width: 156px; }
+    .rm-body-content .content-list-item .p-teacher { display:none; }
+    .rm-body .rm-brand .layui-tab .layui-tab-title li { margin-right: 9px; }
+    .rm-course .hot-popular { display: none; }
+    .rm-course .main-left { width: 100%; float: none; } 
+}
 
 /*** 小屏幕(平板≥768px) ***/
 @media screen and (min-width:768px) and (max-width:991px){
     .rm-course .hot-popular { display: none; }
+    .rm-member .main-right, .rm-about .main-right { width: 480px;  }
+    .rm-header { height: 60px; }
+    .rm-header .rm-header-right, .rm-header .rm-header-right div { line-height: 60px; }
+    .rm-header .rm-logo img { max-height: 60px; max-width: 300px; }
+    .mb-topmenu ul li {  width: 80px; height: 30px; line-height: 30px; } 
+    .rm-course .main-left { width: 100%; float: none; }
+    .rm-body-content .content-list-item { width:25%;}
+    .rm-body-content .content-list-item:last-child { display:none; }
+    .rm-body-content .content-list-item .p-img { height: 97px; width: 148px; }
+    .rm-body-content .content-list-item .p-teacher { display: none; }
+    .rm-body-content .content-list-item5 .content-list-item:last-child { display: none; }
+    .rm-body-content .content-list-item10 .content-list-item:nth-last-child(-n+2) { display: none; }
+    .rm-body .rm-brand .layui-tab .layui-tab-title li { margin-right: 10px; }
+    .rm-body .rm-brand .layui-tab .layui-tab-title li:nth-last-child(-n+3) { display: none; }
+    /*.rm-body .rm-brand .layui-tab .layui-tab-title li a{ display:none;}*/
 }
 
-/*** 超小屏幕(手机<768px) ***/
+/*** 超小屏幕(手机<768px) 手机屏幕下最好重新设计 ***/
 @media screen and (max-width:767px) {
     .rm-course .hot-popular { display:none; }
+    .rm-member .main-left { display:none; }
 }
