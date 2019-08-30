@@ -23,5 +23,7 @@ namespace Ruanmou.Core.Utility
         /// </summary>
         public const int DefaultPageSize = 20;
         public const int MaxPageSize = 1000;
+
+        public const string AuthenticationScheme = "Cookies";
     }
 }

@@ -10,7 +10,7 @@ namespace YRuanmou04.NetCore.Project.Dtos
 
         public string Account { get; set; }
 
-        public SysUserDto UsersData { get; set; }
+        public SysUserOutputDto UsersData { get; set; }
     }
 
 

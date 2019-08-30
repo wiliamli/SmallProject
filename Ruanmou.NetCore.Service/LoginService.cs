@@ -6,9 +6,8 @@ using RM04.DBEntity;
 
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.Core.Utility.Security;
-using System.Threading.Tasks;
-using Abp.AutoMapper;
 using AutoMapper;
+using Ruanmou04.Core.Model.DtoHelper;
 
 namespace Ruanmou.NetCore.Service
 {
@@ -37,7 +36,7 @@ namespace Ruanmou.NetCore.Service
 
             else//MapTo
             {
-                ajaxResult.data = user;// _objectMapper.MapTo<SysUserDto>(user);  //user.ObjectMapper<SysUserDto>();
+                ajaxResult.data = DataMapping<SysUser, SysUserOutputDto>.Trans(user);
                 ajaxResult.success = true;
                 ajaxResult.msg = "登录成功";
             }

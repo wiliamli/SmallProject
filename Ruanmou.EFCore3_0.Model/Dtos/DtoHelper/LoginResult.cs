@@ -12,7 +12,7 @@ namespace Ruanmou04.EFCore.Model.DtoHelper
         public string Token { get; set; }
         
         public Guid UserId { get; set; }
-        public SysUserDto User { get; set; }
+        public SysUserOutputDto User { get; set; }
         //public LoginResultType LoginResultType { get; set; }
     }
 }

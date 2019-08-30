@@ -23,7 +23,7 @@ namespace Ruanmou.NetCore.Service
         public void UpdateLastLogin(SysUser user)
         {
             SysUser userDB = base.Find<SysUser>(user.Id);
-            userDB.LastLoginTime = DateTime.Now;
+            //userDB.LastLoginTime = DateTime.Now;
             this.Commit();
         }
 
