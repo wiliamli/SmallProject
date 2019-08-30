@@ -131,7 +131,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
 
 [HttpPut]
-        public AjaxResult Registertest(test userInput)//可以来自FromBody   FromUri
+        public AjaxResult Registertest(SysRoleDto userInput)//可以来自FromBody   FromUri
         {
             AjaxResult ajaxResult = new AjaxResult { success = false };
             //string idParam = base.HttpContext.Request.Form["Id"];
@@ -140,7 +140,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
             //var user= userInput.MapTo<SysUserInputDto, SysUser>();
             //user.Password = Encrypt.EncryptionPassword(user.Password);
-            _IUserService.Insert<test>(userInput);
+            var role = userInput.MapTo<SysRoleDto, SysRole>();
+            _IUserService.Insert<SysRole>(role);
             
             return ajaxResult;
         }

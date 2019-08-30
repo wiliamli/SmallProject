@@ -5,14 +5,10 @@ using System.Text;
 
 namespace RM04.DBEntity
 {
-    public class test:BaseEntity
-    {
-             /// <summary>
-             /// 用户名/姓名
-             /// <summary>
-        public string Name { get; set; }
-    }
-    [Table("SMUser")]
+    /// <summary>
+    /// 系统用户
+    /// </summary>
+    [Table("SystemUser")]
     public class SysUser : BaseEntity
     {
         /// <summary>
