@@ -63,7 +63,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 帖子盖楼
         /// </summary>
-        public ForumInvitationDto ChildInvitation { get; set; }
+        public List<ForumInvitationDto> ChildInvitation { get; set; }
 
     }
 

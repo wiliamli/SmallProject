@@ -11,6 +11,12 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
 
         void UpdateForumInvitation(ForumInvitationDto forumInvitationDto);
 
-        IEnumerable<ForumInvitationDto> GetForumInvitation(int topicId);
+
+        ForumInvitationDto GetForumInvitation(int topicId);
+
+
+        ForumInvitationDto GetOnlyForumInvitation(int id);
+
+        void DeleteForumInvitation(int id);
     }
 }
