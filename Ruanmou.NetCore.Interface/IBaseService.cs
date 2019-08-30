@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Ruanmou04.Core.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore.Interface
 {
@@ -53,7 +52,7 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="funcOrderby"></param>
         /// <param name="isAsc"></param>
         /// <returns></returns>
-        PageResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class;
+        PagedResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class;
         #endregion
 
         #region Add

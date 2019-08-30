@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.EFCore.Model.Models.Forum;
-using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Interface.Forum.Service;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Ruanmou04.NetCore.Application.Forum
 {
@@ -14,9 +13,13 @@ namespace Ruanmou04.NetCore.Application.Forum
     {
         private IForumChannelService forumChannelService;
 
-        public ForumChannelApplication(IForumChannelService forumChannelService)
+        private IForumRoleChannelService forumRoleChannelService;
+
+        public ForumChannelApplication(IForumChannelService forumChannelService,
+            IForumRoleChannelService forumRoleChannelService)
         {
             this.forumChannelService = forumChannelService;
+            this.forumRoleChannelService = forumRoleChannelService;
         }
 
 
@@ -41,22 +44,38 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public void DeleteForumChannel(int id)
         {
-            throw new NotImplementedException();
+            System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[] 
+            {new System.Data.SqlClient.SqlParameter("@id",id)};
+            forumChannelService.Excute<ForumChannel>($"UPDATE ForumChannel SET Status=0 WHERE Id=@id", paramList);
         }
 
         public void EditForumChannel(ForumChannelDto forumChannelDto)
         {
-            throw new NotImplementedException();
+            forumChannelService.Update<ForumChannel>(forumChannelDto.ToEntity());
         }
 
-        public IEnumerable<ForumChannelDto> GetForumAttachmentByCreatedId(int createdId)
+        public IEnumerable<ForumChannelDto> GetForumChannelByCreatedId(int createdId)
         {
-            throw new NotImplementedException();
+            return forumChannelService.Query<ForumChannel>(m => m.CreatedId == createdId).ToDtos();
         }
 
         public ForumChannelDto GetForumChannelById(int id)
         {
-            throw new NotImplementedException();
+            return forumChannelService.Find<ForumChannel>(id).ToDto();
+        }
+
+        public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId)
+        {
+            var channels = forumChannelService.Query<ForumChannel>(m => m.Status);
+
+            var roles = forumRoleChannelService.Set<ForumRoleChannel>();
+
+            var query = (from a in channels
+                        join b in roles on a.Id equals b.SysRoleId
+                        where b.SysRoleId == roleId
+                        select a).ToDtos();
+
+            return query;
         }
     }
 }

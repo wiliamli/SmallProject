@@ -16,6 +16,8 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
 
         public ForumChannelDto GetForumChannelById(int id);
 
-        public IEnumerable<ForumChannelDto> GetForumAttachmentByCreatedId(int createdId);
+        public IEnumerable<ForumChannelDto> GetForumChannelByCreatedId(int createdId);
+
+        public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId);
     }
 }
