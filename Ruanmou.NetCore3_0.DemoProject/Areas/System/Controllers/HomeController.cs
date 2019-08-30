@@ -11,6 +11,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Areas.System.Controllers
     [Route("System/[controller]/[action]"), ApiController]
     public class HomeController : ControllerBase
     {
+        [HttpGet]
         public string Index()
         {
             return null;

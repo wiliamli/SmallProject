@@ -1,10 +1,12 @@
  
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace RM04.DBEntity
 {
+    [Table("SysRole")]
     public class SysRole : BaseEntity
     {
         /// <summary>

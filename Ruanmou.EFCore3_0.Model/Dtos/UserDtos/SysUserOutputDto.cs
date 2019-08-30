@@ -5,17 +5,13 @@ using System.Text;
 
 namespace RM04.DBEntity
 {
-    [AutoMap(typeof(SysUser))]
-    public class SysUserDto
+    public class SysUserOutputDto:BaseEntity
     {
         /// <summary>
         /// 用户名
         /// <summary>
         public string Name { get; set; }
-        /// <summary>
-        /// 密码
-        /// <summary>
-        public string Password { get; set; }
+
         /// <summary>
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
@@ -53,21 +49,5 @@ namespace RM04.DBEntity
         /// 最后登陆时间
         /// <summary>
         public DateTime? LastLoginTime { get; set; }
-        /// <summary>
-        /// 添加时间
-        /// <summary>
-        public DateTime? CreateTime { get; set; }
-        /// <summary>
-        /// 添加用户
-        /// <summary>
-        public int? CreateId { get; set; }
-        /// <summary>
-        /// 修改时间
-        /// <summary>
-        public DateTime? LastModifyTime { get; set; }
-        /// <summary>
-        /// 修改用户
-        /// <summary>
-        public int? LastModifyId { get; set; }
     }
 }
