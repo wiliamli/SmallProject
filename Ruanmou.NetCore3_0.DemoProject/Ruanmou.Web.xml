@@ -24,6 +24,12 @@
             <param name="func">func</param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsByRoleId(System.Int32)">
+            <summary>
+            根据角色获取所有频道
+            </summary>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
             <summary>

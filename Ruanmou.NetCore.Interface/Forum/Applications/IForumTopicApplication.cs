@@ -10,7 +10,7 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
 
         void UpdateTopic(ForumTopicDto forumTopicDto);
 
-        Core.Utility.PagedResult<IEnumerable<ForumTopicDto>> GetPagedResult(int channelId,PagingInput pagingInput);
+        Core.Utility.PagedResult<ForumTopicDto> GetPagedResult(int channelId,PagingInput pagingInput);
 
         ForumTopicDto GetForumTopic(int topicId);
     }

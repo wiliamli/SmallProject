@@ -1,4 +1,5 @@
 ﻿using Ruanmou04.Core.Model.DtoHelper;
+using Ruanmou04.Core.Utility;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using System;
 using System.Collections.Generic;
@@ -78,14 +79,27 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
             return dto;
         }
 
-        public static IEnumerable<ForumTopicDto> ToDtos(this IEnumerable<ForumTopic> forumCheckIns)
+        public static IEnumerable<ForumTopicDto> ToDtos(this IEnumerable<ForumTopic> forumTopics)
         {
             IEnumerable<ForumTopicDto> dtos = null;
-            if (forumCheckIns != null)
+            if (forumTopics != null)
             {
-                dtos = forumCheckIns.Select(m => DataMapping<ForumTopic, ForumTopicDto>.Trans(m));
+                dtos = forumTopics.Select(m => DataMapping<ForumTopic, ForumTopicDto>.Trans(m));
             }
             return dtos;
+        }
+
+        public static PagedResult<ForumTopicDto> ToPaged(this PagedResult<ForumTopic> forumTopics)
+        {
+            PagedResult<ForumTopicDto> pagedResult = new PagedResult<ForumTopicDto>();
+            if (forumTopics != null)
+            {
+                pagedResult.Rows = forumTopics.Rows.Select(m => DataMapping<ForumTopic, ForumTopicDto>.Trans(m)).ToList();
+                pagedResult.PageIndex = forumTopics.PageIndex;
+                pagedResult.PageSize = forumTopics.PageSize;
+                pagedResult.Total = forumTopics.Total;
+            }
+            return pagedResult;
         }
 
         public static ForumTopic ToEntity(this ForumTopicDto dto)

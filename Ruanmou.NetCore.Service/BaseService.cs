@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Ruanmou.NetCore.Interface;
+using Ruanmou04.Core.Utility;
 using System;
 using System.Collections.Generic;
 
@@ -57,7 +58,7 @@ namespace Ruanmou.NetCore.Service
                 return this.Context.Set<T>().Where<T>(funcWhere);
         }
 
-        public PageResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class
+        public PagedResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class
         {
             var list = this.Set<T>();
             if (funcWhere != null)
@@ -72,12 +73,12 @@ namespace Ruanmou.NetCore.Service
             {
                 list = list.OrderByDescending(funcOrderby);
             }
-            PageResult<T> result = new PageResult<T>()
+            PagedResult<T> result = new PagedResult<T>()
             {
-                DataList = list.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList(),
+                Rows = list.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                TotalCount = list.Count()
+                Total = list.Count()
             };
             return result;
         }
