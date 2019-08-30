@@ -1,12 +1,28 @@
 ﻿//全局js
-var common = {
+var common = { 
+    Init: function ($, layer) {
+        this.Login($, layer);
+        this.Register($, layer);
+    },
     Login: function ($, layer) {
         $(".a-login").click(function () {
             layer.open({
-                title: '在线调试'
-                , content: '可以填写任意的layer代码'
+                title: '登录'
+                , type: 2
+                , content: ['poplogin.html', 'no']
+                , area: ['350px', '320px']
             });  
         })
-        console.log('这是common');
+    },
+    Register: function ($, layer) {
+        $(".a-reg").click(function () {
+            layer.open({
+                title: '注册'
+                , type: 2
+                , content: 'popregister.html'
+                , area: ['420px', '500px']
+            });
+        })
     }
+
 };

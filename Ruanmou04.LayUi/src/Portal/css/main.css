@@ -201,6 +201,19 @@
 .download-list .download-operate .btnDownload i { position:relative; left:-2px;top:1px;}
 
 
+/*** login-dialog ***/
+
+/*.rm-body-white.rm-poplogin { display: block; background: yellow; width: 312px; }
+.rm-body-white.rm-poplogin .layui-container { width: 312px; }*/
+.rm-poplogin .layui-container { margin: 10px; }
+.rm-poplogin form { margin: 0 20px; }
+.rm-poplogin .layui-form-item { position: relative; margin-bottom: 20px; }
+.rm-poplogin .layui-form-item .user-login-codeimg { border: 1px solid #E6E6E6; border-radius: 2px; }
+.rm-poplogin .layui-form-item .btnLogin { font-size: 20px; }
+.rm-poplogin .user-login-icon { position: absolute; left: 1px; top: 1px; width: 38px; line-height: 36px; text-align: center; color: #d2d2d2; }
+.rm-poplogin .layui-form-item .layui-input { padding-left: 38px; }
+.rm-poplogin .ver-code-wrap { margin-left:10px; }
+.rm-poplogin .ver-code-wrap img{ width:100%; height:36px;  }
 /*** 中等屏幕(桌面≥992px) ***/
 @media screen and (min-width:992px) and (max-width:1199px) { }
 

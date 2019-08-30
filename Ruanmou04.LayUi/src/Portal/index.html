@@ -681,6 +681,8 @@
             var config = layui.config;
             var $ = layui.jquery;
 
+            common.Init($, layer);
+
             //banner
             carousel.render({
                 elem: '#banner'
@@ -688,9 +690,7 @@
                 , height: '450px' //设置容器高度
                 , arrow: 'always' //始终显示箭头
                 , anim: 'fade'
-            });
-
-            $(".banner-wrap").css("background", $(".banner-wrap").find(".banner-item:first").attr("bg"));
+            }); 
              
             //brand
             $(".rm-brand .layui-tab-title li").hover(
@@ -709,8 +709,7 @@
                 , css: { bottom: 240}
                 , bgcolor: '#313131' 
             }); 
-
-            //common.Login($,layer);
+             
         })
     </script>
 </body>
