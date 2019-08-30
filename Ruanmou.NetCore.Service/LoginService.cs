@@ -14,11 +14,10 @@ namespace Ruanmou.NetCore.Service
     public class LoginService : BaseService, ILoginService
     {
         private readonly IObjectMapper _objectMapper;
-        public LoginService(DbContext context, IObjectMapper objectMapper) : base(context)
+        public LoginService(DbContext context) : base(context)
         {
-            _objectMapper = objectMapper;
-        }
 
+        }
         public AjaxResult Login(LoginInputDto loginInput)
         {
             AjaxResult ajaxResult = new AjaxResult() { success=false};
