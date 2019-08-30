@@ -20,7 +20,7 @@ namespace RM04.DBEntity
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
         /// <summary>
-        public int Status { get; set; }
+        public bool Status { get; set; }
         /// <summary>
         /// 联系电话
         /// <summary>

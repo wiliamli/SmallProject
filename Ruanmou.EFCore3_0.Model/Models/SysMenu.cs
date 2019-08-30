@@ -46,7 +46,7 @@ namespace RM04.DBEntity
         /// <summary>
         /// 状态：0 正常 1 冻结 2 删除
         /// <summary>
-        public int Status { get; set; }
+        public bool Status { get; set; } = true;
         /// <summary>
         /// 添加时间
         /// <summary>

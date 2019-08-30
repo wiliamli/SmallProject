@@ -20,10 +20,10 @@ namespace RM04.DBEntity
         /// <summary>
         public string Password { get; set; }
         /// <summary>
-        /// 用户状态   0 正常 1 冻结 2 删除
+        /// 用户状态   1 正常 0 删除
         /// <summary>
         /// <summary>
-        public string Status { get; set; }
+        public bool Status { get; set; }
         /// <summary>
         /// 联系电话
         /// <summary>
@@ -31,7 +31,7 @@ namespace RM04.DBEntity
         /// <summary>
         /// 手机号
         /// <summary>
-        public string Mobile { get; set; }
+        public Int64 Mobile { get; set; }
         /// <summary>
         /// 联系地址
         /// <summary>
@@ -43,13 +43,13 @@ namespace RM04.DBEntity
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public string QQ { get; set; }
+        public Int64 QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>
         public string WeChat { get; set; }
         /// <summary>
-        /// 性别 男:Male 女：Female
+        /// 性别 男 女
         /// <summary>
         public string Sex { get; set; }
     }
