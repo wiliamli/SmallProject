@@ -73,6 +73,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         #region 课程分类
         //GET api/Courses/GetCourseCategory
+        [HttpGet]
         public SysCourseCategory GetCourseCategory(int id)
         {
             return _courseService.Find<SysCourseCategory>(c => c.Id == id && c.Status);
