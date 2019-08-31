@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>信息管理</title>
+    <link href="../../css/layui.css" rel="stylesheet" media="all" />
+    <link href="css/main.css" rel="stylesheet" media="all" />
+
+</head>
+<body>
+    <!-- header -->
+    <div class="layui-container rm-header">
+        <div class="rm-logo">
+            <img src="images/logo.jpg" />
+        </div>
+        <div class="mb-topmenu">
+            <ul>
+                <li class="cl"><a href="index.html">首页</a></li>
+                <li class="cl"><a href="course.html">课程中心</a></li>
+                <li class="cl"><a href="forum.html">交流学习</a></li>
+                <li class="cl"><a href="download.html">工具下载</a></li>
+                <li class="cl"><a href="about.html">关于我们</a></li>
+            </ul>
+        </div>
+        <div class="rm-header-right">
+            <div class="login">
+                <a href="javascript:void(0);" class="a-logout">退出</a>
+            </div>
+        </div>
+    </div> 
+    
+    <!-- rm-body -->
+    <div class="rm-body"> 
+        <div class="blank0"></div>
+        <div class="mb-header-wrap">
+            <div class="layui-container"> 
+                <div class="mb-headface cl">
+                    <!--<img src="http://localhost:26338/Content/img/face_big.png" alt="夜静无息">-->
+                    <div class="default-face">
+                        <i class="iconfont">&#xe787;</i>
+                    </div>
+                </div>
+                <div class="mb-header-info">
+                    <div class="mb-hello">欢迎你，<span class="mb-nickname">Eleven！</span></div>
+                    <div class="mb-lv"><i class="layui-icon layui-icon-diamond"></i>会员等级：<span class="mb-lv-sp">VIP</span></div>
+                </div>
+                <ul class="mb-header-account">
+                    <!--<li>
+                        <h5>账户余额</h5>
+                        <p><span class="sm">￥</span>4569<span class="sm">.00</span></p>
+                    </li>-->
+                    <li>
+                        <h5>积分</h5>
+                        <p>52638</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-container cl">
+            <div class="layui-row rm-member"> 
+                <div class="main-left">
+                    <div class="mb-leftmenu-wrap">
+                        <dl class="mb-leftmenu">
+                            <dt class="leftmenu-title"><i class="layui-icon layui-icon-friends"></i>个人中心</dt>
+                            <dd class="leftmenu-item active"><a href="mbInfo.html">信息管理</a></dd>
+                            <dd class="leftmenu-item"><a href="mbPwd.html">修改密码</a></dd>
+                            <dd class="leftmenu-item"><a href="mbDownload.html">资料下载</a></dd>
+                        </dl> 
+                        <dl class="mb-leftmenu">
+                            <dt class="leftmenu-title"><i class="iconfont">&#xe714;</i>积分管理</dt> 
+                            <dd class="leftmenu-item"><a href="javascript:void(0);">积分概况</a></dd>
+                            <dd class="leftmenu-item"><a href="javascript:void(0);">积分说明</a></dd>
+                            <dd class="leftmenu-item"><a href="javascript:void(0);">积分获取/兑换记录</a></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="main-right">
+                    <div class="content-title"><span>信息管理</span></div> 
+                    <div class="main-content">
+                        <form method="post" class="layui-form">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label" for="UserName">账号</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="text" id="UserName" name="UserName" autocomplete="off" value="2131231321" class="layui-input disabled" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label" for="NickName">昵称</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="text" id="NickName" name="NickName" autocomplete="off" value="" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label" for="RealName">真实姓名</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="text" id="RealName" name="RealName" autocomplete="off" value="" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="radio" name="Gender" value="M" title="纯爷们" checked="checked">
+                                        <input type="radio" name="Gender" value="F" title="萌妹子">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label" for="Mobile">手机号</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="text" id="Mobile" name="Mobile" autocomplete="off" value="" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label" for="QQ">QQ</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="text" id="QQ" name="QQ" autocomplete="off" value="" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label" for="Wechat">微信号</label>
+                                    <div class="layui-input-block cell">
+                                        <input type="text" id="Wechat" name="Wechat" autocomplete="off" value="" class="layui-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn layui-input-block" lay-submit="submitInfo">保存资料</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="rm-footer-wrap">
+        <div class="layui-container rm-footer">
+            <p>
+                <a href="javascript:void(0);">主站首页</a>
+                <a href="javascript:void(0);">机构发展</a>
+                <a href="javascript:void(0);">创始人致辞</a>
+                <a href="javascript:void(0);">联系我们</a>
+                <a href="javascript:void(0);">讲师团队</a>
+            </p>
+            <p>
+                <a href="http://search.51job.com/list/180200,000000,0000,00,9,99,%25E6%25AD%25A6%25E6%25B1%2589%25E8%25BD%25AF%25E8%25B0%258B%25E6%2595%2599%25E8%2582%25B2%25E7%25A7%2591%25E6%258A%2580%25E6%259C%2589%25E9%2599%2590%25E5%2585%25AC%25E5%258F%25B8,2,1.html?lang=c&amp;stype=1&amp;postchannel=0000&amp;workyear=99&amp;cotype=99&amp;degreefrom=99&amp;jobterm=99&amp;companysize=99&amp;lonlat=0%2C0&amp;radius=-1&amp;ord_field=0&amp;confirmdate=9&amp;fromType=4&amp;dibiaoid=0&amp;address=&amp;line=&amp;specialarea=00&amp;from=&amp;welfare=">岗位招聘</a>
+                <a href="/Students.aspx">学员风采</a>
+                <a href="http://ruanmou.ke.qq.com">腾讯课堂</a>
+                <a href="/Process.aspx">入学流程</a>
+                <a href="/VIPPower.aspx">VIP权限</a>
+                <a href="/PayWay.aspx">支付方式</a>
+                <a href="/StudyExplain.aspx">学习说明</a>
+            </p>
+            <p class="copyright">
+                <span>Copyright 软谋教育 2012-2018</span>
+                <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">鄂ICP备13007080号</a>
+                <a href="https://ke.qq.com/download/pcapp.html#from=student" target="_blank">腾讯课堂PC端下载</a>
+                <a href="https://ke.qq.com/download/app.html" target="_blank">腾讯课堂移动端下载</a>
+                <script language="javascript" type="text/javascript" src="http://js.users.51.la/15797254.js"></script>
+            </p>
+        </div>
+    </div>
+
+
+    <script src="../../layui.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript">
+        layui.use(['element', 'layer', 'form', 'config'], function () {
+            //debugger;
+            var element = layui.element;
+          
+
+            var layer = layui.layer;
+            var form = layui.form;
+            var config = layui.config;
+            var $ = layui.jquery;
+
+            common.Init($, layer); 
+
+          
+
+        })
+    </script>
+</body>
+</html>

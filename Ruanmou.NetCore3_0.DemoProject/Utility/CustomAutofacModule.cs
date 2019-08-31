@@ -69,7 +69,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
             containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
             containerBuilder.RegisterType<LoginService>().As<ILoginService>();
             containerBuilder.RegisterType<TokenService>().As<ITokenService>();
-
+            containerBuilder.RegisterType<SysCourseService>().As<ISysCourseService>();
+          
             //containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
 
 
