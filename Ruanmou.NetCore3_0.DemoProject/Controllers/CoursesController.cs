@@ -46,19 +46,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         // GET api/Courses/GetCourseByID?id=1
         [HttpGet]
 
-        public SysCourse GetCourseByID(int id)
+        public SysCourse GetCourse(int id)
         {
             return _courseService.Find<SysCourse>(c=>c.Id== id && c.Status);
         }
 
-        //GET api/Courses/GetCoursesByCategoryID/1
+        //GET api/Courses/GetCoursesByCategory?id=1
         [HttpGet]
-        public IEnumerable<SysCourse> GetCoursesByCategoryID(int id)
+        public IEnumerable<SysCourse> GetCoursesByCategory(int id)
         {
             return _courseService.Query<SysCourse>(c=>c.CourseCategoryID== id && c.Status).OrderBy(c => c.Sort);
         }
 
-        //GET api/SysCourse/GetHotCourses/3
+        //GET api/Courses/GetHotCourses
         [HttpGet]
         public IEnumerable<SysCourse> GetHotCourses(int TopN = 5)
         {
@@ -72,9 +72,15 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         */
 
         #region 课程分类
-        // GET api/Courses/GetSysCourseCategories
+        //GET api/Courses/GetCourseCategory
+        public SysCourseCategory GetCourseCategory(int id)
+        {
+            return _courseService.Find<SysCourseCategory>(c => c.Id == id && c.Status);
+        }
+
+        //GET api/Courses/GetCourseCategories
         [HttpGet]
-        public IEnumerable<SysCourseCategory> GetSysCourseCategories()
+        public IEnumerable<SysCourseCategory> GetCourseCategories()
         {
             return _courseService.Query<SysCourseCategory>(c => c.Status).OrderBy(c => c.Sort);
         }
