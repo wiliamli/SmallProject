@@ -1,4 +1,5 @@
-﻿using Autofac.Extras.DynamicProxy;
+﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Utility
     {
         public void Intercept(IInvocation invocation)
         {
-            Console.WriteLine($"invocation.Methond={invocation.Method}");
-            Console.WriteLine($"invocation.Arguments={string.Join(",", invocation.Arguments)}");
-
+            //Console.WriteLine($"invocation.Methond={invocation.Method}");
+            //Console.WriteLine($"invocation.Arguments={string.Join(",", invocation.Arguments)}");
             invocation.Proceed(); //继续执行
 
-            Console.WriteLine($"方法{invocation.Method}执行完成了");
+            //Console.WriteLine($"方法{invocation.Method}执行完成了");
         }
+       
     }
 
 }

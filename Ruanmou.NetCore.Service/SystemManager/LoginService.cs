@@ -35,7 +35,7 @@ namespace Ruanmou.NetCore.Service
 
             else//MapTo
             {
-                ajaxResult.data = DataMapping<SysUser, SysUserOutputDto>.Trans(user);
+                ajaxResult.data = user.MapTo<SysUser,SysUserOutputDto>();// DataMapping<SysUser, SysUserOutputDto>.Trans(user);
                 ajaxResult.success = true;
                 ajaxResult.msg = "登录成功";
             }
