@@ -12,8 +12,4 @@
     <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SystemManager\Applications\" />
-  </ItemGroup>
-
 </Project>

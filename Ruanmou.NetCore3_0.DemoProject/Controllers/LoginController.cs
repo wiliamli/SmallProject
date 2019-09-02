@@ -3,6 +3,7 @@ using Aio.Domain.SystemManage.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RM04.DBEntity;
+using Ruanmou.NetCore.Application;
 using Ruanmou.NetCore.Interface;
 using Ruanmou.NetCore.Service;
 using Ruanmou04.Core.Model.DtoHelper;
@@ -24,27 +25,27 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ILoggerFactory _Factory = null;
         private ILogger<UsersController> _logger = null;
         private ISysUserService _IUserService = null;
-        private ILoginService _ILoginService = null;
+        private ILoginApplication _loginApplication = null;
         private ITokenService _tokenService;
 
         public LoginController(ILoggerFactory factory,
             ILogger<UsersController> logger,
             ISysUserService userService
-            ,            ILoginService loginService
+            , ILoginApplication loginApplication
             , ITokenService tokenService
             )
         {
             this._Factory = factory;
             this._logger = logger;
             this._IUserService = userService;
-            this._ILoginService = loginService;
+            this._loginApplication = loginApplication;
             this._tokenService = tokenService;
         }
         #endregion
         [HttpPostAttribute]
         public async Task< AjaxResult> LoginSystemManager(LoginInputDto loginInput)
         {
-            var ajax = _ILoginService.Login(loginInput);
+            var ajax = _loginApplication.Login(loginInput);
             if (ajax.success)
             {
 
