@@ -19,6 +19,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
 {
     public class Startup
     {
+        private const string _defaultCorsPolicyName = "localhost";
         /// <summary>
         /// 自有妙用
         /// </summary>
@@ -42,6 +43,15 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
 
+            services.AddCors(
+                options => options.AddPolicy(
+                    _defaultCorsPolicyName,
+                    builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                )
+            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -215,7 +225,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseCors();
+            app.UseCors(_defaultCorsPolicyName);
             app.UseRouting();
 
             app.UseAuthorization();

@@ -18,7 +18,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
                 <div class="layui-input-block">
-                    <input required lay-verify="required" name="userName" class="layui-input" type="text" placeholder="请输入账号" autocomplete="off" />
+                    <input required lay-verify="required" name="account" class="layui-input" type="text" placeholder="请输入账号" autocomplete="off" />
                 </div>
             </div>
             <div class="layui-form-item">
@@ -50,31 +50,33 @@
     <script src="/layui.js"></script>
     <script> 
         // 登录 需要做表单提交给后台，  或者数据收集之后提交给后台
-        layui.use(['layer', 'form'], function () { 
+        layui.use(['layer', 'form','config'], function () { 
             var layer = layui.layer;
             var form = layui.form,
-                $ = layui.jquery;
+                $ = layui.jquery
+                config = layui.config;
                 
-                form.on("submit(login)",function(obj)
+                form.on("submit(loginxxx)",function(obj)
                 {
                       var user=obj.field;
                       $.ajax({
                           type:'Post',
-                          data:user,
-                          url:'https://localhost:44367/api/Login/LoginSystemManager',
+                          data:JSON.stringify(user),
+                          contentType:'application/json',
+                          url:config.apiUrl +'/Login/LoginSystemManager',
                           success:function (result)
                           {
-                                var jsonResult=JSON.parse(result);
-                                if(jsonResult.Result)
+                                // var jsonResult=JSON.parse(result);
+                                debugger
+                                if(result.success)
                                 {
-                                   var apiTiket= jsonResult.Ticket; 
-                                   localStorage.setItem("apiTicket",apiTiket)
-                                   layer.msg(jsonResult.Message,{icon:1});   
-                                   window.location.href="Index.html";
+                                   var apiTiket= result.data; 
+                                   sessionStorage.setItem("apiTicket",apiTiket)
+                                   window.location.href="home.html";
                                 }
                                 else
                                 {
-                                    layer.msg(jsonResult.Message,{icon:2});
+                                    layer.msg(result.msg,{icon:2});
                                 } 
                           }
                      })
