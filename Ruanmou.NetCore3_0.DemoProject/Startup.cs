@@ -12,6 +12,8 @@ using Ruanmou.NetCore3_0.DemoProject.Utility;
 using System.Reflection;
 using Autofac.Extensions.DependencyInjection;
 using System;
+using Ruanmou04.NetCore.Project;
+using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -23,11 +25,12 @@ namespace Ruanmou.NetCore3_0.DemoProject
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _Configuration = configuration;
             StaticConstraint.Init(s => configuration[s]);
+            
         }
 
-        public IConfiguration Configuration { get; }
+        IConfiguration _Configuration { get; }
 
 
 
@@ -57,6 +60,8 @@ namespace Ruanmou.NetCore3_0.DemoProject
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterModule<CustomAutofacModule>();
+            //ProjectModule.Init(containerBuilder, _Configuration);
+            //var token= provider.GetService(typeof(TokenAuthConfiguration));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

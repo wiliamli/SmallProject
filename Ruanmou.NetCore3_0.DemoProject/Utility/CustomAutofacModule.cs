@@ -14,64 +14,63 @@ using Ruanmou04.NetCore.Interface.Forum.Service;
 using Ruanmou04.NetCore.Service.Forum;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
+using Microsoft.AspNetCore.Http;
+using Autofac.Core;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Utility
 {
+    /// <summary>
+    /// Autofac配置
+    /// </summary>
     public class CustomAutofacModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder containerBuilder)
         {
-            var assembly = this.GetType().GetTypeInfo().Assembly;
-            var builder = new ContainerBuilder();
-            var manager = new ApplicationPartManager();
-            manager.ApplicationParts.Add(new AssemblyPart(assembly));
-            manager.FeatureProviders.Add(new ControllerFeatureProvider());
-            var feature = new ControllerFeature();
-            manager.PopulateFeature(feature);
-            builder.RegisterType<ApplicationPartManager>().AsSelf().SingleInstance();
-            builder.RegisterTypes(feature.Controllers.Select(ti => ti.AsType()).ToArray()).PropertiesAutowired();
-
 
             containerBuilder.Register(c => new CustomAutofacAop());//aop注册
 
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IBaseService)))
+            //自动注册service 下面 实现 了IBaseService或者 IApplication 的所有类
+            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName("Ruanmou04.NetCore.Service"));
+
+            containerBuilder.RegisterAssemblyTypes(assembly)
+                .Where(t => (typeof(IBaseService).IsAssignableFrom(t) || typeof(IApplication).IsAssignableFrom(t)) && t != typeof(IBaseService) && t != typeof(IApplication))
                .AsImplementedInterfaces()
                .InstancePerLifetimeScope();
 
-            containerBuilder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IApplication)))
-               .AsImplementedInterfaces()
-               .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
+            containerBuilder.RegisterType<JwtSecurityTokenHandler>().As<JwtSecurityTokenHandler>();
 
             #region 上面的方式不行？！
 
-            containerBuilder.RegisterType<ForumChannelService>().As<IForumChannelService>();
-            containerBuilder.RegisterType<ForumChannelApplication>().As<IForumChannelApplication>();
+            //containerBuilder.RegisterType<ForumChannelService>().As<IForumChannelService>();
+            //containerBuilder.RegisterType<ForumChannelApplication>().As<IForumChannelApplication>();
 
-            containerBuilder.RegisterType<ForumAttachmentService>().As<IForumAttachmentService>();
-            containerBuilder.RegisterType<ForumAttachmentApplication>().As<IForumAttachmentApplication>();
+            //containerBuilder.RegisterType<ForumAttachmentService>().As<IForumAttachmentService>();
+            //containerBuilder.RegisterType<ForumAttachmentApplication>().As<IForumAttachmentApplication>();
 
-            containerBuilder.RegisterType<ForumCheckInService>().As<IForumCheckInService>();
-            containerBuilder.RegisterType<ForumCheckInApplication>().As<IForumCheckInApplication>();
+            //containerBuilder.RegisterType<ForumCheckInService>().As<IForumCheckInService>();
+            //containerBuilder.RegisterType<ForumCheckInApplication>().As<IForumCheckInApplication>();
 
-            containerBuilder.RegisterType<ForumConcernService>().As<IForumConcernService>();
-            containerBuilder.RegisterType<ForumConcernApplication>().As<IForumConcernApplication>();
+            //containerBuilder.RegisterType<ForumConcernService>().As<IForumConcernService>();
+            //containerBuilder.RegisterType<ForumConcernApplication>().As<IForumConcernApplication>();
 
-            containerBuilder.RegisterType<ForumInvitationService>().As<IForumInvitationService>();
-            containerBuilder.RegisterType<ForumInvitationApplication>().As<IForumInvitationApplication>();
+            //containerBuilder.RegisterType<ForumInvitationService>().As<IForumInvitationService>();
+            //containerBuilder.RegisterType<ForumInvitationApplication>().As<IForumInvitationApplication>();
 
-            containerBuilder.RegisterType<ForumTopicService>().As<IForumTopicService>();
-            containerBuilder.RegisterType<ForumTopicApplication>().As<IForumTopicApplication>();
+            //containerBuilder.RegisterType<ForumTopicService>().As<IForumTopicService>();
+            //containerBuilder.RegisterType<ForumTopicApplication>().As<IForumTopicApplication>();
 
             #endregion
 
-            containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
-
-            containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
-            containerBuilder.RegisterType<LoginService>().As<ILoginService>();
-            containerBuilder.RegisterType<TokenService>().As<ITokenService>();
+            //containerBuilder.RegisterType<TokenAuthConfiguration>().As<TokenAuthConfiguration>().SingleInstance();
+            //containerBuilder.RegisterType<IHttpContextAccessor>().As<HttpContextAccessor>();
 
             //containerBuilder.RegisterType<SysUserService>().As<ISysUserService>();
-
+            //containerBuilder.RegisterType<LoginService>().As<ILoginService>();
+            //containerBuilder.RegisterType<TokenService>().As<ITokenService>();
 
 
 

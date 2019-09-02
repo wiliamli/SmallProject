@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RM04.DBEntity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace Ruanmou04.NetCore.Service.Core.Tokens.Dtos
     /// <summary>
     /// 生成tokenDto
     /// </summary>
-    public class GenerateTokenDto
+    public class GenerateTokenDto:BaseEntity
     {
         /// <summary>
         /// 账号

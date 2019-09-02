@@ -3,7 +3,7 @@ using RM04.DBEntity;
 
 namespace Aio.Domain.SystemManage.Dtos
 {
-    public class LoginInputDto
+    public class LoginInputDto:BaseEntity
     {
         /// <summary>
         /// 账号
