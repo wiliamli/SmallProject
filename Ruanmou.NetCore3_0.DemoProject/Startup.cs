@@ -14,6 +14,7 @@ using Autofac.Extensions.DependencyInjection;
 using System;
 using Ruanmou04.NetCore.Project;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -28,7 +29,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
         {
             _Configuration = configuration;
             StaticConstraint.Init(s => configuration[s]);
-            
+
         }
 
         IConfiguration _Configuration { get; }
@@ -211,6 +212,23 @@ namespace Ruanmou.NetCore3_0.DemoProject
             ////});
             #endregion
 
+            //Func<RequestDelegate, RequestDelegate> authorityMiddware =
+            //     next => async context =>
+            //            {
+            //                var requestController = context.Response;
+            //                var token = context.Response.Headers["Authorization"];
+            //                //if(confir)
+            //                await context.Response.WriteAsync("ok");
+            //            };
+            app.Use(next => async context =>
+            {
+                var requestController = context.Response;
+                var token = context.Response.Headers["Authorization"];
+                //if(confir)
+                //await context.Response.WriteAsync("ok");
+                await next.Invoke(context);
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -230,7 +248,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             app.UseAuthorization();
 
-           
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -251,8 +269,20 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "Ruanmou Web API");
-            
+
             });
+        }
+        private RequestDelegate authorityConfirm(RequestDelegate requestDelegate)
+        {
+            return new RequestDelegate(
+                async context =>
+                {
+                    var requestController = context.Response;
+                    var token = context.Response.Headers["Authorization"];
+                    //if(confir)
+
+                }
+                );
         }
     }
 }
