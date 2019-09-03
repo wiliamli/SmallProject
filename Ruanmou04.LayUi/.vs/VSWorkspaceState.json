@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\lay",
+    "\\src",
+    "\\src\\Portal"
   ],
-  "SelectedNode": "\\src\\Portal",
+  "SelectedNode": "\\src\\Portal\\index.html",
   "PreviewInSolutionExplorer": false
 }
