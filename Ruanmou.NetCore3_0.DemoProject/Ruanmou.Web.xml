@@ -74,5 +74,6 @@
             Autofac配置
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:Ruanmou.Core.Utility.Middleware.AuthorityMiddleware" -->
     </members>
 </doc>
