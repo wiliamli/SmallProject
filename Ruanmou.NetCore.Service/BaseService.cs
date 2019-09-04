@@ -186,7 +186,13 @@ namespace Ruanmou.NetCore.Service
         public IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class
         {
             //return this.Context.Database.SqlQuery<T>(sql, parameters).AsQueryable();
-            return this.Context.Set<T>().FromSqlRaw<T>(sql, parameters);
+            return this.Context.Set<T>().FromSqlRaw<T>(sql,parameters);
+        }
+
+        [Obsolete]
+        public IQueryable<T> ExcuteQuery<T>(string sql) where T : class
+        {
+            return this.Context.Query<T>().FromSql($"{sql}");
         }
 
         public void Excute<T>(string sql, SqlParameter[] parameters) where T : class

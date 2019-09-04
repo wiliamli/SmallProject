@@ -44,7 +44,7 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public void DeleteForumChannel(int id)
         {
-            System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[] 
+            System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[1] 
             {new System.Data.SqlClient.SqlParameter("@id",id)};
             forumChannelService.Excute<ForumChannel>($"UPDATE ForumChannel SET Status=0 WHERE Id=@id", paramList);
         }
@@ -66,16 +66,16 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId)
         {
-            var channels = forumChannelService.Query<ForumChannel>(m => m.Status);
+            var forumChannels = forumChannelService.Query<ForumChannel>(null).ToList();
 
-            var roles = forumRoleChannelService.Set<ForumRoleChannel>();
+            var  forumRoleChannels = forumRoleChannelService.Query<ForumRoleChannel>(m => m.SysRoleId == roleId).ToList();
 
-            var query = (from a in channels
-                        join b in roles on a.Id equals b.SysRoleId
-                        where b.SysRoleId == roleId
-                        select a).ToDtos();
+            var query = (from a in forumChannels
+                         join b in forumRoleChannels on a.Id equals b.ChannelId
+                         select a).ToDtos();
 
             return query;
+;
         }
     }
 }

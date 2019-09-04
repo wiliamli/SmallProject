@@ -1,3 +1,3 @@
 function baseDomain(){
-    return "http://localhost:5001/";
+    return "https://localhost:5001/";
 }

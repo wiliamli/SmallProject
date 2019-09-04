@@ -43,14 +43,30 @@
  
 <div class="layui-tab" lay-filter="channel" lay-allowclose="true">
   <ul class="layui-tab-title">
-    <li class="layui-this" lay-id="11">网站设置</li>
+    <!--<li class="layui-this" lay-id="11">网站设置</li>
     <li lay-id="22">用户管理</li>
     <li lay-id="33">权限分配</li>
     <li lay-id="44">商品管理</li>
     <li lay-id="55">订单管理</li>
+    -->
   </ul>
   <div class="layui-tab-content">
-    <div class="layui-tab-item layui-show">内容1</div>
+    <div class="layui-tab-item layui-show">
+      <div class="layui-row">
+      <div class="layui-col-md1">
+        <div class="grid-demo grid-demo-bg1">1/4撒旦法萨芬撒法萨芬撒发顺丰</div>
+      </div>
+      <div class="layui-col-md3">
+        <div class="grid-demo">1/4撒旦法萨芬撒法萨芬撒发顺丰</div>
+      </div>
+      <div class="layui-col-md3">
+        <div class="grid-demo grid-demo-bg1">1/4撒旦法萨芬撒法萨芬撒发顺丰</div>
+      </div>
+      <div class="layui-col-md3">
+        <div class="grid-demo">1/4撒旦法萨芬撒法萨芬撒发顺丰</div>
+      </div>
+      </div>
+    </div>
     <div class="layui-tab-item">内容2</div>
     <div class="layui-tab-item">内容3</div>
     <div class="layui-tab-item">内容4</div>
@@ -189,7 +205,7 @@
   </div>
 </div>             
 -->      
-<script src="..//Forum/api/base.js" charset="utf-8"></script>
+<script src="../src/Forum/api/base.js" charset="utf-8"></script>
 <script src="../layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
@@ -198,8 +214,24 @@ layui.use('element', function(){
   ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 
    $.ajax({
-      url:http://
-
+      url:baseDomain()+"api/ForumChannel/GetChannelsByRoleId",
+      data: {"roleId":1},
+      type: 'get',
+      dataType: 'json',
+      success: function(obj) {
+          var data =obj.Data;
+          for(i=0;i<data.length;++i)
+          {
+            element.tabAdd('channel', {
+            title: data[i].Name //用于演示
+            ,content: data[i].Name
+            ,id: data[i].Id //实际使用一般是规定好的id，这里以时间戳模拟下
+            })
+          }
+      },
+      error: function() {
+          console.log('ajax请求失败！');
+      }
    });
 
 
@@ -216,8 +248,6 @@ layui.use('element', function(){
     ,tabDelete: function(othis){
       //删除指定Tab项
       element.tabDelete('channel', '44'); //删除：“商品管理”
-      
-      
       othis.addClass('layui-btn-disabled');
     }
     ,tabChange: function(){
