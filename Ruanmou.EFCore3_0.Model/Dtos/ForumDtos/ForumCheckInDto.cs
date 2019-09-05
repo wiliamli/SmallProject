@@ -18,7 +18,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 签到时间
         /// </summary>
-        public DateTime CheckDate { get; set; } = DateTime.Now;
+        public DateTime? CheckDate { get; set; } = DateTime.Now;
     }
 
     public static class ForumCheckInDtoExt

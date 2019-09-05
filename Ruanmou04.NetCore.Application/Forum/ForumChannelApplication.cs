@@ -5,6 +5,7 @@ using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Interface.Forum.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 
 namespace Ruanmou04.NetCore.Application.Forum
@@ -15,11 +16,15 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         private IForumRoleChannelService forumRoleChannelService;
 
+        private IForumTopicService forumTopicService;
+
         public ForumChannelApplication(IForumChannelService forumChannelService,
-            IForumRoleChannelService forumRoleChannelService)
+            IForumRoleChannelService forumRoleChannelService,
+            IForumTopicService forumTopicService)
         {
             this.forumChannelService = forumChannelService;
             this.forumRoleChannelService = forumRoleChannelService;
+            this.forumTopicService = forumTopicService;
         }
 
 
@@ -66,13 +71,22 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId)
         {
+            // dbContext 没有单例
+            // sql 脚本执行提示异常
+            // TODO：
             var forumChannels = forumChannelService.Query<ForumChannel>(null).ToList();
 
-            var  forumRoleChannels = forumRoleChannelService.Query<ForumRoleChannel>(m => m.SysRoleId == roleId).ToList();
+            var forumRoleChannels = forumRoleChannelService.Query<ForumRoleChannel>(m => m.SysRoleId == roleId).ToList();
+
+            var forumTopics = forumTopicService.Query<ForumTopic>(m => m.Status).ToList();
 
             var query = (from a in forumChannels
                          join b in forumRoleChannels on a.Id equals b.ChannelId
-                         select a).ToDtos();
+                         select a).ToDtos().ToList();
+            query.ForEach(m=>
+            {
+                m.ForumTopics = forumTopics.Where(n => n.ChannelId == m.Id).ToDtos();
+            });
 
             return query;
 ;

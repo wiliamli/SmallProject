@@ -33,9 +33,27 @@ namespace Ruanmou04.NetCore.Application.Forum
         {
             PagedResult<ForumTopic> pagedResult = forumTopicService.QueryPage<ForumTopic, DateTime>
                 (m => m.ChannelId == channelId, pagingInput.PageIndex,
-                pagingInput.PageSize, n => n.ModifiedDate, false);
+                pagingInput.PageSize, n => n.ModifiedDate.Value, false);
 
             return pagedResult.ToPaged();
+
+        }
+
+        public IEnumerable<ForumTopicDto> GetTopicsByChannelId(int channelId)
+        {
+            IEnumerable<ForumTopic> forumTopics = forumTopicService.Query<ForumTopic>
+                (m => m.ChannelId == channelId);
+
+            return forumTopics.ToDtos();
+
+        }
+
+        public IEnumerable<ForumTopicDto> GetTopics()
+        {
+            IEnumerable<ForumTopic> forumTopics = forumTopicService.Query<ForumTopic>
+                (m => m.Status);
+
+            return forumTopics.ToDtos();
 
         }
 

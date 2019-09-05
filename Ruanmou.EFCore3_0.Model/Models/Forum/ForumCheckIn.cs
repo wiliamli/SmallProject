@@ -16,6 +16,6 @@ namespace Ruanmou04.EFCore.Model.Models.Forum
         /// <summary>
         /// 签到日期
         /// </summary>
-        public DateTime CheckInDate { get; set; }
+        public DateTime? CheckInDate { get; set; }
     }
 }

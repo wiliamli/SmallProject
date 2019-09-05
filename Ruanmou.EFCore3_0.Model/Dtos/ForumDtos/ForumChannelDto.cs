@@ -40,7 +40,10 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// </summary>
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
-
+        /// <summary>
+        /// 对应的主题数据
+        /// </summary>
+        public IEnumerable<ForumTopicDto> ForumTopics { get; set; }
     }
 
     public static class ForumChannelDtoExt
