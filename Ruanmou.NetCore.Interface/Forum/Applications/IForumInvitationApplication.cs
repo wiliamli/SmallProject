@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Ruanmou04.NetCore.Interface.Forum.Applications
 {
-    public interface IForumInvitationApplication
+    public interface IForumInvitationApplication : IApplication
     {
         int AddForumInvitation(ForumInvitationDto forumInvitationDto);
 
         void UpdateForumInvitation(ForumInvitationDto forumInvitationDto);
 
 
-        ForumInvitationDto GetForumInvitation(int topicId);
+        IEnumerable<ForumInvitationDto> GetForumInvitation(int topicId);
 
 
         ForumInvitationDto GetOnlyForumInvitation(int id);

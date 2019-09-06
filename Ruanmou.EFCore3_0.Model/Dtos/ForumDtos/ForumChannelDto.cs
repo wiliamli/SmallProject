@@ -28,7 +28,8 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreateDate { get; set; } = DateTime.Now;
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
 
         /// <summary>
         /// 修改人
@@ -41,6 +42,10 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
 
+        /// <summary>
+        /// 对应的主题数据
+        /// </summary>
+        public IEnumerable<ForumTopicDto> ForumTopics { get; set; }
     }
 
     public static class ForumChannelDtoExt

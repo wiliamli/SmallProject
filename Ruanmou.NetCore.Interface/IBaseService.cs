@@ -121,6 +121,13 @@ namespace Ruanmou.NetCore.Interface
         IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class;
 
         /// <summary>
+        /// 执行sql 返回集合
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        IQueryable<T> ExcuteQuery<T>(string sql) where T : class;
+
+        /// <summary>
         /// 执行sql，无返回
         /// </summary>
         /// <param name="sql"></param>

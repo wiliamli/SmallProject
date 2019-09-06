@@ -18,7 +18,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 帖子父ID
         /// </summary>
-        public int ParantId { get; set; }
+        public int ParentId { get; set; }
 
         /// <summary>
         /// 内容
@@ -48,7 +48,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 修改人
@@ -58,7 +58,8 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime? ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; } = DateTime.Now;
+
 
         /// <summary>
         /// 帖子盖楼

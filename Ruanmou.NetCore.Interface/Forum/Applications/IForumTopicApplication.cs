@@ -14,6 +14,9 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
 
         IEnumerable<ForumTopicDto> GetForumTopics(int channelId);
 
+        IEnumerable<ForumTopicDto> GetTopicsByChannelId(int channelId);
+
+
         ForumTopicDto GetForumTopic(int topicId);
     }
 }
