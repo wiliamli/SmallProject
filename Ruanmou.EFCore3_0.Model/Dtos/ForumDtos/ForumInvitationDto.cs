@@ -18,7 +18,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 帖子父ID
         /// </summary>
-        public int ParantId { get; set; }
+        public int ParentId { get; set; }
 
         /// <summary>
         /// 内容

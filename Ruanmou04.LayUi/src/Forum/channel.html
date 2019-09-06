@@ -18,7 +18,7 @@
      {{# } else{  }} 
       <li>
      {{#  } }} 
-    <a href="javascript:topicLoad({{item.Id}})" class="layui-this">{{ item.Name }}</a>
+    <a href="javascript:;" onclick="active.tabChange(this,{{item.Id}})">{{ item.Name }}</a>
     <span class="fly-mid"></span>
     </li>
   {{#  }); }}
@@ -35,16 +35,14 @@
 </script>
 
 <script id="topicTpl" type="text/html">
-<div class="layui-tab-item layui-show">
-  <ul class="fly-list">
   {{# layui.each(d, function(index, item){ }}
      <li>
-     <div>{{item.Conssensus}}</div>
+     <a href="javascript:;" class="fly-avatar">{{item.Conssensus}}</a>
      <h2>
          <!--<a class="layui-badge">分享</a>-->
-         <a href="jie/detail.html">{{item.Name}}</a>
+         <a href="../src/Forum/detail.html?topic={{item.Id}}" target="_blank" >{{item.Name}}</a>
       </h2>
-    <div class="fly-list-info">
+      <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>{{item.CreatedId}}</cite>
                 <!--
@@ -59,14 +57,12 @@
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回帖"></i> {{item.Conssensus}}
               </span>
-            </div>
+      </div>
     </li>
   {{#  }); }}
   {{#  if(d.length === 0){ }}
     无数据
   {{#  } }} 
-  </ul>
-  </div>
 </script>
 
 <div class="fly-header layui-bg-black">
@@ -311,9 +307,8 @@
           -->
         </div>
 
-      <div id="topicMenu" class="layui-tab-content">
-        <!-- 
-        <ul class="fly-list">    
+        <ul id="topicMenu" class="fly-list">    
+           <!-- 
           <li>
             <a href="user/home.html" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
@@ -342,14 +337,15 @@
               <span class="layui-badge layui-bg-red">精帖</span>
             </div>
           </li>
+          -->
         </ul>
-        
+        <!--
         <div style="text-align: center">
           <div class="laypage-main">
             <a href="jie/index.html" class="laypage-next">更多求解</a>
           </div>
         </div>
-       -->
+        -->
       </div>
     </div>
     <!--
@@ -538,41 +534,24 @@
 <script src="../layui.js" charset="utf-8"></script>
 <script src="../lay/modules/laytpl.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
+<script type="text/javascript">
+/*
 layui.use('element', function(){
   var $ = layui.jquery
   ,element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
   //,getTopic = topicData.innerHTML
   //,topicView=document.getElementById("topic");
   
-   $.ajax({
-      url:baseDomain()+"api/ForumChannel/GetChannelsByRoleId",
-      data: {"roleId":1},
-      type: 'get',
-      dataType: 'json',
-      success: function(obj) {
-          var data = obj.Data;
-          var channelTpl=document.getElementById('channelTpl').innerHTML;
-            var channelMenu=document.getElementById('channelMenu');
-            layui.laytpl(channelTpl).render(data,function(html){
-              channelMenu.innerHTML=html;
-            });
-      },
-      error: function() {
-          console.log('ajax请求失败！');
-      }
-   });
+   
     
-  var topicLoad=function(channleId)
-  {
+  
    $.ajax({
       url:baseDomain()+"api/ForumTopic/GetForumTopics",
-      data: {"channleId":1},
+      data: {"channleId":4},
       type: 'get',
       dataType: 'json',
       success: function(obj) {
           var data = obj.Data;
-            debugger;
             var topicTpl=document.getElementById('topicTpl').innerHTML;
             var topicMenu=document.getElementById('topicMenu');
             layui.laytpl(topicTpl).render(data,function(html){
@@ -583,56 +562,24 @@ layui.use('element', function(){
           console.log('ajax请求失败！');
       }
    });
-  }
-
-    /*
-   var topicData= function(data){
-      var tableData=new Array();
-      tableData.push("<div class='layui-tab-item'>");
-      for(i=0;i<data.length;++i)
-      {
-      tableData.push("<div class='layui-row'>");
-      tableData.push("<div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+data[i].Conssensus+"</div></div>");
-      tableData.push("<div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+data[i].Name+"</div></div>");
-      tableData.push("<div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+data[i].CreatedId+"</div></div>");
-      tableData.push("<div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+data[i].ModifiedDate+"</div></div>");
-      tableData.push("</div>");
-      }
-      tableData.push("</div>");
-      return tableData.toString();
-   }
-    */
-
-  /*
-   var topicData = { //数据
-      "list":[{"Conssensus":"弹层","alias":"layer","site":"layer.layui.com"},{"modname":"表单","alias":"form"}]
-   }
-   laytpl(getTpl).render(topicData, function(html){
-      view.innerHTML = html;
-   });
-   */
 
   //触发事件
-  var active = {
-    tabAdd: function(){
+  //var active = {
+  //  tabAdd: function(){
       //新增一个Tab项
-      element.tabAdd('channel', {
-        title: '新选项'+ (Math.random()*1000|0) //用于演示
-        ,content: "<div class='layui-tab-item'><div class='layui-row'><div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+(Math.random()*1000|0)+"</div></div></div></div>"
+  //    element.tabAdd('channel', {
+  //      title: '新选项'+ (Math.random()*1000|0) //用于演示
+  //      ,content: "<div class='layui-tab-item'><div class='layui-row'><div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+(Math.random()*1000|0)+"</div></div></div></div>"
         //'内容'+ (Math.random()*1000|0)
-        ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
-      })
-    }
-    ,tabDelete: function(othis){
+  //      ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+  //    })
+  //  }
+  //  ,tabDelete: function(othis){
       //删除指定Tab项
-      element.tabDelete('channel', '44'); //删除：“商品管理”
-      othis.addClass('layui-btn-disabled');
-    }
-    ,tabChange: function(){
-      //切换到指定Tab项
-      element.tabChange('channel', '22'); //切换到：用户管理
-    }
-  };
+  //    element.tabDelete('channel', '44'); //删除：“商品管理”
+  //    othis.addClass('layui-btn-disabled');
+  //  }
+  //};
   
   $('.site-demo-active').on('click', function(){
     var othis = $(this), type = othis.data('type');
@@ -647,6 +594,57 @@ layui.use('element', function(){
     location.hash = 'test='+ $(this).attr('lay-id');
   });
   
+});
+*/
+var domain=baseDomain();
+
+var active = {
+      channelInit:function(){
+        layui.jquery.ajax({
+          url:domain+"api/ForumChannel/GetChannelsByRoleId",
+          data: {"roleId":1},
+          type: 'get',
+          dataType: 'json',
+          success: function(obj) {
+              var data = obj.Data;
+              var channelTpl=document.getElementById('channelTpl').innerHTML;
+                var channelMenu=document.getElementById('channelMenu');
+                layui.laytpl(channelTpl).render(data,function(html){
+                  channelMenu.innerHTML=html;
+                });
+          },
+          error: function() {
+              console.log('ajax请求失败！');
+          }
+       });
+      },
+
+      tabChange: function(othis,Id){
+      //切换到指定Tab项
+      layui.jquery.ajax({
+      url:domain+"api/ForumTopic/GetForumTopics",
+      data: {"channleId":Id},
+      type: 'get',
+      dataType: 'json',
+      success: function(obj) {
+          var data = obj.Data;
+            var topicTpl=document.getElementById('topicTpl').innerHTML;
+            var topicMenu=document.getElementById('topicMenu');
+            layui.laytpl(topicTpl).render(data,function(html){
+              topicMenu.innerHTML=html;
+            });
+      },
+      error: function() {
+          console.log('ajax请求失败！');
+      }
+   });}
+}
+
+layui.use(['jquery','element'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+  active.channelInit();
+  active.tabChange(null,4);
 });
 </script>
 
