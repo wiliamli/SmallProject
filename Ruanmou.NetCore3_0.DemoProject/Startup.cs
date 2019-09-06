@@ -14,6 +14,10 @@ using Autofac.Extensions.DependencyInjection;
 using System;
 using Ruanmou04.NetCore.Project;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Microsoft.AspNetCore.Http;
+using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.Core.Utility.Extensions;
+using Ruanmou.Core.Utility.Middleware;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -28,7 +32,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
         {
             _Configuration = configuration;
             StaticConstraint.Init(s => configuration[s]);
-            
+
         }
 
         IConfiguration _Configuration { get; }
@@ -211,6 +215,22 @@ namespace Ruanmou.NetCore3_0.DemoProject
             ////});
             #endregion
 
+            //app.Use(next => async context =>
+            //{
+            //    var requestController = context.Response;
+                
+            //    if (context.Request.Path.HasValue && context.Request.Path.Value.Contains("/api/Login/"))
+            //    {
+            //        await next.Invoke(context);
+            //    }
+            //    else
+            //    {
+            //        var token = context.Response.Headers["Authorization"];
+            //        if(token.IsNullOrEmpty() )
+            //        AjaxResult ajaxResult = new AjaxResult { msg="" };
+            //    }
+            //});
+            app.UseMiddleware<AuthorityMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -230,7 +250,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             app.UseAuthorization();
 
-           
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -251,7 +271,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "Ruanmou Web API");
-            
+
             });
         }
     }
