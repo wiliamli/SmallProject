@@ -39,6 +39,15 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         }
 
+        public IEnumerable<ForumTopicDto> GetForumTopics(int channelId)
+        {
+            IEnumerable<ForumTopic> topics = forumTopicService.Query<ForumTopic>
+                (m => m.ChannelId == channelId);
+
+            return topics.ToDtos();
+
+        }
+
         public void UpdateTopic(ForumTopicDto forumTopicDto)
         {
             forumTopicService.Update<ForumTopic>(forumTopicDto.ToEntity());

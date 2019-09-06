@@ -66,9 +66,9 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId)
         {
-            var channels = forumChannelService.Query<ForumChannel>(m => m.Status);
+            var channels = forumChannelService.Query<ForumChannel>(m => m.Status).ToList();
 
-            var roles = forumRoleChannelService.Set<ForumRoleChannel>();
+            var roles = forumRoleChannelService.Query<ForumRoleChannel>(null).ToList();
 
             var query = (from a in channels
                         join b in roles on a.Id equals b.SysRoleId
