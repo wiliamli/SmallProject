@@ -45,7 +45,7 @@
     <script src="../../layui.js"></script>
     <script src="js/common.js"></script>
     <script type="text/javascript"> 
-        var curIndex = parent.layer.getFrameIndex(window.name);
+    <script type="text/javascript">  
         layui.use(['element', 'carousel', 'util', 'layer', 'form', 'config'], function () {
             //debugger;
             var element = layui.element;
@@ -56,8 +56,8 @@
             var form = layui.form;
             var config = layui.config;
             var $ = layui.jquery;
-            $.support.cors = true;
-
+            $.support.cors = true; 
+		
             function ShowValidImage() {
                 var numkey = Math.random();
                 document.getElementById("Img1").src = "/Login/GetLoginVerCode?NumKey=" + numkey;
