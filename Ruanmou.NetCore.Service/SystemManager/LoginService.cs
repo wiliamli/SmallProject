@@ -14,11 +14,10 @@ namespace Ruanmou.NetCore.Service
     public class LoginService : BaseService, ILoginService
     {
         private readonly IObjectMapper _objectMapper;
-        public LoginService(DbContext context, IObjectMapper objectMapper) : base(context)
+        public LoginService(DbContext context) : base(context)
         {
-            _objectMapper = objectMapper;
-        }
 
+        }
         public AjaxResult Login(LoginInputDto loginInput)
         {
             AjaxResult ajaxResult = new AjaxResult() { success=false};
@@ -36,7 +35,7 @@ namespace Ruanmou.NetCore.Service
 
             else//MapTo
             {
-                ajaxResult.data = DataMapping<SysUser, SysUserOutputDto>.Trans(user);
+                ajaxResult.data = user.MapTo<SysUser,SysUserOutputDto>();// DataMapping<SysUser, SysUserOutputDto>.Trans(user);
                 ajaxResult.success = true;
                 ajaxResult.msg = "登录成功";
             }

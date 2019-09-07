@@ -3,6 +3,7 @@ using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
+using System.Collections.Generic;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
 {
@@ -19,9 +20,16 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
 
         // GET: api/ForumTopic
         [HttpPost]
-        public StandardJsonResult<PagedResult<ForumTopicDto>> GetForumTopic(int channleId, PagingInput pagingInput)
+        public StandardJsonResult<PagedResult<ForumTopicDto>> GetForumTopicPager(int channleId, PagingInput pagingInput)
         {
             return StandardAction(()=> forumTopicApplication.GetPagedResult(channleId, pagingInput));
+        }
+
+
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumTopicDto>> GetForumTopics(int channleId)
+        {
+            return StandardAction(() => forumTopicApplication.GetTopicsByChannelId(channleId));
         }
 
         // GET: api/ForumTopic/5

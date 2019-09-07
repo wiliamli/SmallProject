@@ -306,7 +306,7 @@ GO
 /* Table: ForumInvitation                                      */
 /*==============================================================*/
 	CREATE TABLE ForumInvitation (
-	Id INT NOT NULL PRIMARY KEY,
+	Id INT NOT NULL PRIMARY KEY IDENTITY ( 1, 1 ),
 	TopicId INT NOT NULL,
 	ParentId INT NOT NULL,
 	Content text NULL,

@@ -10,6 +10,7 @@ using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.EFCore.Model.Token.Dtos;
 using Ruanmou.NetCore.Interface;
 using System.IdentityModel.Tokens.Jwt;
+using Ruanmou.Core.Utility;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {
@@ -20,10 +21,10 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
     {
 
         ISysUserService _usersRepository;
-        TokenAuthConfiguration _configuration;
+        //TokenAuthConfiguration _configuration;
         IAuthenticationService _authenticationService;
-        IHttpContextAccessor httpContextAccessor;
-
+        //IHttpContextAccessor httpContextAccessor;
+        JwtSecurityTokenHandler _jwtSecurityTokenHandler;
         /// <summary>
         /// 构造
         /// </summary>
@@ -31,22 +32,22 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         /// <param name="tokenInformationDetailRepository"></param>
         /// <param name="configurationUserSystemsRepository"></param>
         public TokenService(
-
-
-             TokenAuthConfiguration configuration,
+             //TokenAuthConfiguration configuration,
              IAuthenticationService authenticationService,
-             IHttpContextAccessor httpContextAccessor,
+             //IHttpContextAccessor httpContextAccessor,
+             JwtSecurityTokenHandler jwtSecurityTokenHandler,
              ISysUserService usersRepository
              )
         {
             _authenticationService = authenticationService;
-            _configuration = configuration;// new TokenAuthConfiguration(); 
-            this.httpContextAccessor = httpContextAccessor;
+            //_configuration = configuration;// new TokenAuthConfiguration(); 
+            //this.httpContextAccessor = httpContextAccessor;
             _usersRepository = usersRepository;
+            _jwtSecurityTokenHandler = jwtSecurityTokenHandler;
         }
 
         /// <summary>
-        /// 生成令牌 并保存到数据库
+        /// 生成令牌 
         /// </summary>
         /// <param name="account"></param>
         /// <param name="systemID"></param>
@@ -56,7 +57,8 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             AjaxResult result = new AjaxResult("");
             try
             {
-                var tokenInfoMation = new TokenInformation();
+                TokenInformation tokenInfoMation = null;
+                generateDto.TokenExpiration = StaticConstraint.Expiration;
                 tokenInfoMation = await CreateTokenDataAsync(generateDto, tokenInfoMation);
                 result.data = tokenInfoMation.Token;
             }
@@ -74,27 +76,28 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         /// </summary>
         /// <param name="dto"></param>
         /// <returns>AjaxResult</returns>
-        public async Task<AjaxResult> ConfirmVerificationAsync(VerificationTokenDto dto)
+        public async Task<AjaxResult> ConfirmVerificationAsync(string token)
         {
             AjaxResult result = new AjaxResult("");
             try
             {
 
-#warning 未实现
-                var tokenDetailObj = new TokenInformation();
+                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
 
-                if (tokenDetailObj == null) //没有令牌 
+
+                if (jwtSecurityToken == null) //没有令牌 
                 {
-                    result.msg = "未找到token信息,账号或SystemID有误";
+                    result.msg = "token已失效，请重新登录";
                 }
                 else
                 {
-                    if (tokenDetailObj.FailureTime < DateTime.Now) //已过期 
+                    if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
                     {
                         result.msg = "token已过期，请重新登录";
                     }
                     else
                     {
+                        result.msg = "token验证成功";
                         result.success = true;
                     }
                 }
@@ -150,11 +153,11 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
                     {
                         Id = Guid.NewGuid(),
                         Account = generateDto.Account,
-                        Token = await CreateTokenAsync(generateDto),
+                        Token = await CreateTokenAsync(generateDto, null),
                         IsEffective = 0,//正常
-                        FailureTime = DateTime.Now.Add(_configuration.Expiration)
+                        FailureTime = DateTime.Now.Add(generateDto.TokenExpiration)
                     };
-                   // tokenInformationRepository.Insert(tokenInformation);
+                    // tokenInformationRepository.Insert(tokenInformation);
                 }
                 else
                 {
@@ -174,7 +177,7 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         /// <param name="account"></param>
         /// <param name="userid"></param>
         /// <returns></returns>
-        private async Task<string> CreateTokenAsync(GenerateTokenDto generateDto, TokenInformation tokenInformation = null)
+        private async Task<string> CreateTokenAsync(GenerateTokenDto generateDto, TokenInformation tokenInformation)
         {
             var accessToken = "";
             long longUserId = 1;
@@ -182,29 +185,18 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             //generateDto.Id.ToList().ForEach(x => { if (x != 0) longUserId = longUserId * x; });
             ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);//
             identity.AddClaim(new Claim(ClaimTypes.Name, generateDto.Name.ToString()));
-            //identity.AddClaim(new Claim(ClaimTypes.PrimarySid, generateDto.Account.ToString()));
+            //失效时间
+            identity.AddClaim(new Claim("FaliureTime", DateTime.Now.Add(generateDto.TokenExpiration).ToString()));
             identity.AddClaim(new Claim(ClaimTypes.PrimarySid, generateDto.Id.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.Sid, longUserId.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, generateDto.Id.ToString()));
 
-            TimeSpan tokenExpiration = _configuration.Expiration;
+            TimeSpan tokenExpiration = generateDto.TokenExpiration;
             if (tokenInformation == null)
             {
                 //tokenExpiration = TimeSpan.FromHours(10);
                 accessToken = WriteAccessToken(CreateJwtClaims(identity), tokenExpiration);
             }
-            //else
-            //{
-            //    tokenExpiration = tokenInformation.FailureTime.Value - DateTime.Now;
-            //}
-            //var props = new AuthenticationProperties()
-            //{
-            //    IssuedUtc = DateTime.Now,
-            //    ExpiresUtc = DateTime.Now.Add(tokenExpiration),
-            //    IsPersistent = true
-            //};
-            //ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-            //await _authenticationService.SignInAsync(httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, principal, props);
             return accessToken;
         }
 
@@ -218,15 +210,15 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             var now = DateTime.Now;
 
             var jwtSecurityToken = new JwtSecurityToken(
-                issuer: _configuration.Issuer,
-                audience: _configuration.Audience,
+                issuer: StaticConstraint.Issuer,
+                audience: StaticConstraint.Audience,
                 claims: claims,
                 notBefore: now,
                 expires: now.Add(expiration),
-                signingCredentials: _configuration.SigningCredentials
+                signingCredentials: StaticConstraint.SigningCredentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            return _jwtSecurityTokenHandler.WriteToken(jwtSecurityToken);
         }
 
         /// <summary>
@@ -276,35 +268,8 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             return result;
         }
 
-        /// <summary>
-        /// 删除写入的token
-        /// </summary>
-        /// <param name="account"></param>
-        /// <param name="userid"></param>
-        /// <returns></returns>
-        private async Task SignOutTokenAsync(LoginOutTokenDto loginOutTokenDto)
-        {
-            var props = new Microsoft.AspNetCore.Authentication.AuthenticationProperties()
-            {
-                IssuedUtc = DateTime.UtcNow,
-                IsPersistent = true
-            };
-            await _authenticationService.SignOutAsync(httpContextAccessor.HttpContext, Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme, props);
-        }
 
-        /// <summary>
-        /// 各句token获取TokenInformation的实体
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task<TokenInformation> GetTokenInformationByTokenAsync(string token)
-        {
-            TokenInformation info = null;
-            if (token != "")
-            {
-                //info = await tokenInformationRepository.FirstOrDefaultAsync(x => x.Token == token);
-            }
-            return info;
-        }
+
+
     }
 }

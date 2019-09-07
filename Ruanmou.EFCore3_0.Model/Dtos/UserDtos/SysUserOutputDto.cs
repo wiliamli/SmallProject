@@ -8,15 +8,22 @@ namespace RM04.DBEntity
     public class SysUserOutputDto:BaseEntity
     {
         /// <summary>
-        /// 用户名
+        /// 用户名/姓名
         /// <summary>
         public string Name { get; set; }
-
+        /// <summary>
+        /// 账号
+        /// </summary>
+        public string Account { get; set; }
+        /// <summary>
+        /// 密码
+        /// <summary>
+        public string Password { get; set; }
         /// <summary>
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
         /// <summary>
-        public int Status { get; set; }
+        public bool Status { get; set; }
         /// <summary>
         /// 联系电话
         /// <summary>
@@ -24,7 +31,7 @@ namespace RM04.DBEntity
         /// <summary>
         /// 手机号
         /// <summary>
-        public string Mobile { get; set; }
+        public Int64? Mobile { get; set; }
         /// <summary>
         /// 联系地址
         /// <summary>
@@ -42,7 +49,7 @@ namespace RM04.DBEntity
         /// <summary>
         public string WeChat { get; set; }
         /// <summary>
-        /// 性别 男:Male 女：Female
+        /// 性别 男 女
         /// <summary>
         public string Sex { get; set; }
         /// <summary>

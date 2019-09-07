@@ -2,6 +2,7 @@
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
+using System.Collections.Generic;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
 {
@@ -19,7 +20,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
 
         // GET: api/ForumInvitation
         [HttpGet]
-        public StandardJsonResult<ForumInvitationDto> GetInvitations(int topicId)
+        public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitations(int topicId)
         {
             return StandardAction(()=> forumInvitationApplication.GetForumInvitation(topicId));
         }

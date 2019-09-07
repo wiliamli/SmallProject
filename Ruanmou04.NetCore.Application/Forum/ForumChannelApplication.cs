@@ -5,6 +5,7 @@ using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Interface.Forum.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 
 namespace Ruanmou04.NetCore.Application.Forum
@@ -15,11 +16,15 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         private IForumRoleChannelService forumRoleChannelService;
 
+        private IForumTopicService forumTopicService;
+
         public ForumChannelApplication(IForumChannelService forumChannelService,
-            IForumRoleChannelService forumRoleChannelService)
+            IForumRoleChannelService forumRoleChannelService,
+            IForumTopicService forumTopicService)
         {
             this.forumChannelService = forumChannelService;
             this.forumRoleChannelService = forumRoleChannelService;
+            this.forumTopicService = forumTopicService;
         }
 
 
@@ -44,7 +49,7 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public void DeleteForumChannel(int id)
         {
-            System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[] 
+            System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[1] 
             {new System.Data.SqlClient.SqlParameter("@id",id)};
             forumChannelService.Excute<ForumChannel>($"UPDATE ForumChannel SET Status=0 WHERE Id=@id", paramList);
         }
@@ -66,16 +71,25 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId)
         {
-            var channels = forumChannelService.Query<ForumChannel>(m => m.Status);
+            // dbContext 没有单例
+            // sql 脚本执行提示异常
+            // TODO：
+            var forumChannels = forumChannelService.Query<ForumChannel>(null).ToList();
 
-            var roles = forumRoleChannelService.Set<ForumRoleChannel>();
+            var forumRoleChannels = forumRoleChannelService.Query<ForumRoleChannel>(m => m.SysRoleId == roleId).ToList();
 
-            var query = (from a in channels
-                        join b in roles on a.Id equals b.SysRoleId
-                        where b.SysRoleId == roleId
-                        select a).ToDtos();
+            var forumTopics = forumTopicService.Query<ForumTopic>(m => m.Status).ToList();
+
+            var query = (from a in forumChannels
+                         join b in forumRoleChannels on a.Id equals b.ChannelId
+                         select a).ToDtos().ToList();
+            query.ForEach(m=>
+            {
+                m.ForumTopics = forumTopics.Where(n => n.ChannelId == m.Id).ToDtos();
+            });
 
             return query;
+;
         }
     }
 }
