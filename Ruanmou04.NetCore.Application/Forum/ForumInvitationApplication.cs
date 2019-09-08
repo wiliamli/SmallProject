@@ -53,7 +53,7 @@ namespace Ruanmou04.NetCore.Application.Forum
         {
             //
             var childInvitations = forumInvitationDtos.Where(m => m.ParentId == parant.Id);
-            parant.ChildInvitation.AddRange(childInvitations);
+            //parant.ChildInvitation.AddRange(childInvitations);
 
             foreach (var item in childInvitations)
             {

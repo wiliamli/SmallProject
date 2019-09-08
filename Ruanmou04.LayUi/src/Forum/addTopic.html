@@ -191,12 +191,8 @@
 <script src="/src/Forum/api/base.js" charset="utf-8"></script>
 <script src="/layui.js" charset="utf-8"></script>
 <script>
-layui.use(['jquery','laytpl','config','form'], function(){
-  var $ = layui.jquery
-  ,element = layui.element
 
-  var domain=baseDomain();
-  var active={
+ var active={
      channelSelShow:function(){
       layui.jquery.ajax({
           url:domain+"api/ForumChannel/GetChannelsByRoleId",
@@ -217,6 +213,13 @@ layui.use(['jquery','laytpl','config','form'], function(){
        });
      }
   }
+
+layui.use(['jquery','laytpl','config','form'], function(){
+  var $ = layui.jquery
+  ,element = layui.element
+
+  var domain=baseDomain();
+ 
 
    active.channelSelShow();
 });
