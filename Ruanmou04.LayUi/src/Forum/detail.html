@@ -4,10 +4,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Fly Template v3.0，基于 layui 的极简社区页面模版</title>
+  <title>论坛主题</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <link rel="stylesheet" href="/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -165,10 +163,10 @@
       
       <div class="fly-column-right layui-hide-xs"> 
         <span class="fly-search"><i class="layui-icon"></i></span> 
-        <a href="add.html" class="layui-btn">发表新帖</a> 
+        <a href="src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
       </div> 
       <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
-        <a href="add.html" class="layui-btn">发表新帖</a> 
+        <a href="src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
       </div> 
     </div>
   </div>
@@ -267,11 +265,15 @@ layui.use(['jquery','laytpl','config','form'], function(){
         replyData.TopicId=topicParam;
         replyData.ParentId=0;
         replyData.Content=data.field.content;
+        replyData.Accept=0;
+        replyData.Conssensus=0;
+        replyData.Oppose=0;
+        replyData.ChildInvitation=null;
         replyData.CreatedId=data.field.userId;
         replyData.ModifiedId=data.field.userId;
         $.ajax({
           url:domain+"api/ForumInvitation/Add",
-          data: JSON.stringify(replyData),
+          data: replyData,
           type: 'post',
           dataType: 'json',
           contentType:'application/json',
