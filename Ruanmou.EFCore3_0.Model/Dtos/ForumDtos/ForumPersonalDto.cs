@@ -30,6 +30,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// </summary>
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
+
         /// <summary>
         /// 修改人
         /// </summary>
@@ -39,6 +40,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// 修改时间
         /// </summary>
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
+
     }
 
     public static class ForumPersonalDtoExt

@@ -25,6 +25,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
             return StandardAction(()=> forumTopicApplication.GetPagedResult(channleId, pagingInput));
         }
 
+
         [HttpGet]
         public StandardJsonResult<IEnumerable<ForumTopicDto>> GetForumTopics(int channleId)
         {

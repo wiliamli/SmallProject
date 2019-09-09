@@ -39,19 +39,19 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         }
 
+
+        public IEnumerable<ForumTopicDto> GetForumTopics(int channelId)
+        {
+            IEnumerable<ForumTopic> topics = forumTopicService.Query<ForumTopic>
+                (m => m.ChannelId == channelId);
+
+            return topics.ToDtos();
+        }
+
         public IEnumerable<ForumTopicDto> GetTopicsByChannelId(int channelId)
         {
             IEnumerable<ForumTopic> forumTopics = forumTopicService.Query<ForumTopic>
                 (m => m.ChannelId == channelId);
-
-            return forumTopics.ToDtos();
-
-        }
-
-        public IEnumerable<ForumTopicDto> GetTopics()
-        {
-            IEnumerable<ForumTopic> forumTopics = forumTopicService.Query<ForumTopic>
-                (m => m.Status);
 
             return forumTopics.ToDtos();
 

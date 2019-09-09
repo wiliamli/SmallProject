@@ -60,6 +60,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// </summary>
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
+
         /// <summary>
         /// 帖子盖楼
         /// </summary>

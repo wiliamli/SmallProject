@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <title>登录</title>
+    <link href="../../css/layui.css" rel="stylesheet" media="all" /> 
+    <link href="css/main.css" rel="stylesheet" media="all" /> 
+</head>
+<body>  
+    <!-- form -->
+    <div class="rm-body-white rm-poplogin"> 
+        <div class="layui-container">
+            <form id="formLogin" class="layui-form"> 
+                <div class="blank15"></div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-username" for="UserName"></label>
+                    <input type="text" name="UserName" autocomplete="off" id="UserName" lay-verType="tips" lay-verify="required" placeholder="请输入QQ" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-password" for="Password"></label>
+                    <input type="password" name="Password" id="Password" lay-verType="tips" lay-verify="required" placeholder="请输入软谋注册密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-row">
+                        <div class="layui-col-xs7">
+                            <label class="user-login-icon layui-icon layui-icon-vercode" for="VerCode"></label>
+                            <input type="text" name="VerCode" id="VerCode" autocomplete="off" lay-verType="tips" lay-verify="required" placeholder="请输入验证码" class="layui-input">
+                        </div>
+                        <div class="layui-col-xs5">
+                            <div class="ver-code-wrap">
+                                <img src="example/vercode.jpg" class="user-login-codeimg" id="Img1" onclick="ShowValidImage();" title="看不清,点击换一张">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid btnLogin" lay-submit lay-filter="formSubmit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                </div>
+            </form>
+        </div>
+    </div>  
+
+    <script src="../../layui.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript"> 
+        var curIndex = parent.layer.getFrameIndex(window.name);
+        layui.use(['element', 'carousel', 'util', 'layer', 'form', 'config'], function () {
+            //debugger;
+            var element = layui.element;
+            var carousel = layui.carousel;
+            var util = layui.util;
+
+            var layer = layui.layer;
+            var form = layui.form;
+            var config = layui.config;
+            var $ = layui.jquery;
+            $.support.cors = true;
+
+            function ShowValidImage() {
+                var numkey = Math.random();
+                document.getElementById("Img1").src = "/Login/GetLoginVerCode?NumKey=" + numkey;
+            }
+
+            //登录事务处理
+            form.on("submit(formSubmit)", function (obj) {
+                //假登录
+                localStorage.setItem("RuanmouNetToken", "1234567890");
+                parent.layer.msg("登录成功", { icon: 1 }); 
+                parent.document.getElementsByClassName("rm-header-right")[0].innerHTML = common.WebLoginHtml;
+                parent.layer.close(curIndex);
+                return false;
+             
+
+                /*** 校验图片验证码 ***/
+                var loginInput = {
+                    Account: obj.field.UserName,
+                    Password: obj.field.Password
+                };
+                $.ajax({
+                    type: 'POST',
+                    dataType: "json",
+                    url: config.apiUrl + 'api/Login/LoginSystemManager',
+                    data: loginInput,
+                    cache: false,
+                    success: function (result) {
+                        console.log(result);
+                        if (result.success) {
+                            var apiTicket = result.data;
+                            localStorage.setItem("RuanmouNetToken", apiTiket);//JSON字符串
+                            parent.layer.msg("登录成功", { icon: 1 }); 
+                            // 头部写入 用户中心和退出
+                            parent.$(".rm-header-right").html(this.WebLoginHtml);  
+                        } else {
+                            parent.layer.msg(jsonResult.Message, { icon: 2 });
+                        }
+                        parent.layer.close(curIndex);
+                    },
+                    error: function (XMLHttpResponse) {
+                        console.log("error: api request failed");
+                        console.log(XMLHttpResponse);
+                    }
+                })
+
+                return false; 
+            })
+            
+
+            
+        })
+    </script>
+</body>
+</html>

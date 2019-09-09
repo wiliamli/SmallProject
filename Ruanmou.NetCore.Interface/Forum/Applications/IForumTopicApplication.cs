@@ -12,9 +12,10 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
 
         Core.Utility.PagedResult<ForumTopicDto> GetPagedResult(int channelId,PagingInput pagingInput);
 
+        IEnumerable<ForumTopicDto> GetForumTopics(int channelId);
+
         IEnumerable<ForumTopicDto> GetTopicsByChannelId(int channelId);
 
-        IEnumerable<ForumTopicDto> GetTopics();
 
         ForumTopicDto GetForumTopic(int topicId);
     }
