@@ -96,7 +96,7 @@
               <div class="layui-row layui-col-space15 layui-form-item">
                 <div class="layui-col-md3">
                   <label class="layui-form-label">所在专栏</label>
-                  <div id="channelSelView" class="layui-input-block">
+                  <div id="channelSelView" class="layui-input-block"> 
                   </div>
                 </div>
                 <div class="layui-col-md9">
@@ -205,6 +205,7 @@
                 layui.laytpl(channelSelTpl).render(data,function(html){
                   channelSelView.innerHTML=html;
                 });
+                layui.form.render('select');
           },
           error: function() {
               layer.alert(JSON.stringify(data.field), {
@@ -220,28 +221,33 @@ layui.use(['jquery','laytpl','form'], function(){
   ,form = layui.form
    active.channelSelShow();
 
+   var selValue=4;
+   form.on('select(column)', function(data){
+      selValue=parseInt(data.value);
+   });
+
 
    form.on('submit(topicPublish)', function(data){
         debugger;
         var topicData={};
-        topicData.ChannelId=4;
-        topicData.Name=data.field.title;
-        topicData.Content=data.field.content;
-        topicData.PV=0;
-        topicData.Conssensus=0;
-        topicData.Oppose=0;
-        topicData.CreatedId=parseInt(data.field.userId);
-        topicData.ModifiedId=parseInt(data.field.userId);
+        topicData.channelId=selValue;
+        topicData.name=data.field.title;
+        topicData.content=data.field.content;
+        topicData.pv=0;
+        topicData.conssensus=0;
+        topicData.oppose=0;
+        topicData.createdId=1;//parseInt(data.field.userId);
+        topicData.modifiedId=1;//parseInt(data.field.userId);
         $.ajax({
           url:domain+"api/ForumTopic/Add",
-          data: topicData,
+          data: JSON.stringify(topicData),
           type: 'post',
           dataType: 'json',
           contentType:'application/json',
           success: function(obj) {
             if(obj.Success){
               document.getElementById("L_content").value="";
-              layer.alert(JSON.stringify(data.field), {
+              layer.alert("提交成功!", {
               title: '提交成功！'});
             }
           }
