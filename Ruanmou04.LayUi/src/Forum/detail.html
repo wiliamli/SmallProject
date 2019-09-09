@@ -217,7 +217,7 @@ layui.use(['jquery','laytpl','form'], function(){
   ,element = layui.element
   ,form = layui.form
 
-  var topicParam= getQueryVariable("topic");
+  var topicParam = getQueryVariable("topic");
   var domain=baseDomain();
   var active={
      topicShow:function(){
@@ -264,34 +264,28 @@ layui.use(['jquery','laytpl','form'], function(){
    active.replyShow();
     //监听提交
     form.on('submit(reply)', function(data){
-        debugger;
         var replyData={};
-        replyData.TopicId=topicParam;
-        replyData.ParentId=0;
-        replyData.Content=data.field.content;
-        replyData.Accept=0;
-        replyData.Conssensus=0;
-        replyData.Oppose=0;
-        replyData.ChildInvitation=null;
-        replyData.CreatedId=data.field.userId;
-        replyData.ModifiedId=data.field.userId;
+        replyData.topicId=parseInt(topicParam);
+        replyData.parentId=0;
+        replyData.content=data.field.content;
+        replyData.accept=false;
+        replyData.conssensus=0;
+        replyData.oppose=0;
+        replyData.childInvitation=null;
+        replyData.createdId=parseInt(data.field.userId);
+        replyData.modifiedId=parseInt(data.field.userId);
         $.ajax({
           url:domain+"api/ForumInvitation/Add",
-          data: replyData,
+          data: JSON.stringify(replyData),
           type: 'post',
           dataType: 'json',
           contentType:'application/json',
           success: function(obj) {
-            debugger;
-            if(obj.success){
+            if(obj.Success){
+                document.getElementById("L_content").value="";
                 active.replyShow();
             }
           }
-          //error: function() {
-          //  debugger;
-          //  layer.alert(JSON.stringify(data.field), {
-          //    title: 'ajax请求失败！'});
-          //}
        });
     });
 });

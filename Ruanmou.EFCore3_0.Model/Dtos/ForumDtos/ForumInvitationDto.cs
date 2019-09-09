@@ -51,14 +51,25 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public int CreatedId { get; set; }
 
         /// <summary>
+        /// 创建人名称
+        /// </summary>
+        public string CreatedBy { get; set; }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
+        public DateTime? CreateDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 修改人
         /// </summary>
         public int ModifiedId { get; set; }
+
+        /// <summary>
+        /// 修改人名称
+        /// </summary>
+        public string ModifiedBy { get; set; }
+
 
         /// <summary>
         /// 修改时间
@@ -69,7 +80,7 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// <summary>
         /// 帖子盖楼
         /// </summary>
-        //public List<ForumInvitationDto> ChildInvitation { get; set; }
+        public List<ForumInvitationDto> ChildInvitation { get; set; }
 
     }
 

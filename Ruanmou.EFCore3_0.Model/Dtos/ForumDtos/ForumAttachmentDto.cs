@@ -43,6 +43,11 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public int CreatedId { get; set; }
 
         /// <summary>
+        /// 创建人名称
+        /// </summary>
+        public string CreatedBy { get; set; }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime? CreateDate { get; set; } = DateTime.Now;
@@ -53,9 +58,16 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public int ModifiedId { get; set; }
 
         /// <summary>
+        /// 修改人名称
+        /// </summary>
+        public string ModifiedBy { get; set; }
+
+
+        /// <summary>
         /// 修改时间
         /// </summary>
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
+
     }
 
     public static class ForumAttachmentDtoExt
