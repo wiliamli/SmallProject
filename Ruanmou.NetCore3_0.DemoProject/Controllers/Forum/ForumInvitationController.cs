@@ -26,7 +26,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         [HttpGet]
-        public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitationsbyUserId(int userId)
+        public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitationsByUserId(int userId)
         {
             return StandardAction(() => forumInvitationApplication.GetForumInvitationByUserId(userId));
         }

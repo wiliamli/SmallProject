@@ -59,6 +59,7 @@
   {{#  } }} 
 </script>
 
+
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
@@ -149,14 +150,17 @@
 </div>
 
 <div class="layui-container">
-  <div class="layui-row layui-col-space15">
+  <div class="layui-row">
     <div class="layui-col-md8">
+      <!---->
       <div class="fly-panel">
         <div class="fly-panel-title fly-filter">
           <a>置顶</a>
           <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
         </div>
         <ul id="topView" class="fly-list">
+            <li>
+              <div class="fly-list-info">没有置顶主题</div></li>
           <!--
           <li>
             <a href="user/home.html" class="fly-avatar">
@@ -273,7 +277,7 @@
         -->
         </ul>
       </div>
-
+           
       <div class="fly-panel" style="margin-bottom: 0;">
         
         <div id="channelMenu" class="fly-panel-title fly-filter">
@@ -517,9 +521,9 @@
 -->
 
 
-<script src="../src/Forum/api/base.js" charset="utf-8"></script>
-<script src="../layui.js" charset="utf-8"></script>
-<script src="../lay/modules/laytpl.js" charset="utf-8"></script>
+<script src="/src/Forum/api/base.js" charset="utf-8"></script>
+<script src="/layui.js" charset="utf-8"></script>
+<script src="/lay/modules/laytpl.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script type="text/javascript">
 
@@ -545,7 +549,6 @@ var active = {
           }
        });
       },
-
       tabChange: function(othis,Id){
       //切换到指定Tab项
       layui.jquery.ajax({
@@ -564,27 +567,7 @@ var active = {
       error: function() {
           console.log('ajax请求失败！');
       }
-   });},
-    //置顶
-     topInit: function(othis,Id){
-      //切换到指定Tab项
-      layui.jquery.ajax({
-      url:domain+"api/ForumTopic/GetForumTopics",
-      data: {"channleId":Id},
-      type: 'get',
-      dataType: 'json',
-      success: function(obj) {
-          var data = obj.Data;
-            var topicTpl=document.getElementById('topicTpl').innerHTML;
-            var topView=document.getElementById('topView');
-            layui.laytpl(topicTpl).render(data,function(html){
-              topView.innerHTML=html;
-            });
-      },
-      error: function() {
-          console.log('ajax请求失败！');
-      }
-   });},
+   });}
 }
 
 layui.use(['jquery','element'], function(){
@@ -592,7 +575,6 @@ layui.use(['jquery','element'], function(){
   ,element = layui.element
   active.channelInit();
   active.tabChange(null,4);
-  topInit.topInit(null,4);
 });
 </script>
 
