@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
 using Ruanmou04.EFCore.Model.DtoHelper;
@@ -15,11 +13,11 @@ using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Ruanmou04.Core.Utility.Security;
 using Ruanmou04.Core.Model.DtoHelper;
+using Ruanmou04.NetCore.Project.Utility;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-
-
 
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : ControllerBase
@@ -28,14 +26,16 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ILoggerFactory _Factory = null;
         private ILogger<UsersController> _logger = null;
         private ISysUserService _IUserService = null;
+        private ICurrentUserInfo _currentUserInfo = null;
         public UsersController(ILoggerFactory factory,
             ILogger<UsersController> logger,
-
+            ICurrentUserInfo currentUserInfo,
             ISysUserService userService)
         {
             this._Factory = factory;
             this._logger = logger;
             this._IUserService = userService;
+            this._currentUserInfo = currentUserInfo;
         }
         #endregion
 
@@ -45,12 +45,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         // GET api/SysUser/5
         [HttpGet]
 
-        public SysUser GetUserByID(int userId)
+        public SysUserOutputDto GetUserByID(int userId)
         {
-            return _IUserService.Find<SysUser>(userId);
+            return _IUserService.Find<SysUser>(userId).MapTo<SysUser,SysUserOutputDto>();
 
         }
+[HttpGet]
 
+        public CurrentUser GetCurrentUserByID()
+        {
+            return _currentUserInfo.CurrentUser;
+
+        }
         //GET api/SysUser/?username=xx
         [HttpGet]
         //[CustomBasicAuthorizeAttribute]
@@ -79,7 +85,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         //POST api/SysUser/register
         //只接受一个参数的需要不给key才能拿到
         [HttpPost]
-        public SysUser Register([FromBody]int id)//可以来自FromBody   FromUri
+        public SysUserOutputDto Register([FromBody]int id)//可以来自FromBody   FromUri
                                                //public SysUser Register(int id)//可以来自url
         {
             string idParam = base.HttpContext.Request.Form["id"];
@@ -157,12 +163,12 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         //POST api/SysUser/RegisterUserDelete
         [HttpDelete]
-        public SysUser RegisterUserDelete(SysUser user)//可以来自FromBody   FromUri
+        public SysUserOutputDto RegisterUserDelete(SysUserInputDto user)//可以来自FromBody   FromUri
         {
             string idParam = base.HttpContext.Request.Form["Id"];
             string nameParam = base.HttpContext.Request.Form["UserName"];
             string emailParam = base.HttpContext.Request.Form["UserEmail"];
-            return user;
+            return user.MapTo<SysUserInputDto,SysUserOutputDto>();
         }
 
 

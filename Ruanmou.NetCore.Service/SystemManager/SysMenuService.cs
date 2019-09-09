@@ -21,6 +21,11 @@ namespace Ruanmou.NetCore.Service
         }
 
         
+        public List<SysMenuTreeDto> GetMenuTree(CurrentUser currentUser)
+        {
+            //base.Query<SysMenu>();
+            return null;
+        }
 
 
     }

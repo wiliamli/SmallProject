@@ -11,6 +11,8 @@ using Ruanmou04.EFCore.Model.Token.Dtos;
 using Ruanmou.NetCore.Interface;
 using System.IdentityModel.Tokens.Jwt;
 using Ruanmou.Core.Utility;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {
@@ -23,7 +25,7 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         ISysUserService _usersRepository;
         //TokenAuthConfiguration _configuration;
         IAuthenticationService _authenticationService;
-        //IHttpContextAccessor httpContextAccessor;
+        IHttpContextAccessor _httpContextAccessor;
         JwtSecurityTokenHandler _jwtSecurityTokenHandler;
         /// <summary>
         /// 构造
@@ -34,14 +36,13 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         public TokenService(
              //TokenAuthConfiguration configuration,
              IAuthenticationService authenticationService,
-             //IHttpContextAccessor httpContextAccessor,
+             IHttpContextAccessor httpContextAccessor,
              JwtSecurityTokenHandler jwtSecurityTokenHandler,
              ISysUserService usersRepository
              )
         {
             _authenticationService = authenticationService;
-            //_configuration = configuration;// new TokenAuthConfiguration(); 
-            //this.httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _usersRepository = usersRepository;
             _jwtSecurityTokenHandler = jwtSecurityTokenHandler;
         }
@@ -81,9 +82,15 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             AjaxResult result = new AjaxResult("");
             try
             {
-
+                token = token.Replace("Bearer ", "");
                 var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
 
+                if (jwtSecurityToken.Claims.Any())
+                {
+                    ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                    identity.AddClaims(jwtSecurityToken.Claims);
+                    Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
+                }
 
                 if (jwtSecurityToken == null) //没有令牌 
                 {
@@ -157,7 +164,6 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
                         IsEffective = 0,//正常
                         FailureTime = DateTime.Now.Add(generateDto.TokenExpiration)
                     };
-                    // tokenInformationRepository.Insert(tokenInformation);
                 }
                 else
                 {
@@ -197,6 +203,14 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
                 //tokenExpiration = TimeSpan.FromHours(10);
                 accessToken = WriteAccessToken(CreateJwtClaims(identity), tokenExpiration);
             }
+            var props = new AuthenticationProperties()
+            {
+                IssuedUtc = DateTime.Now,
+                ExpiresUtc = DateTime.Now.Add(tokenExpiration),
+                IsPersistent = true
+            };
+            //_httpContextAccessor.HttpContext.User = new ClaimsPrincipal(identity);
+            //await _authenticationService.SignInAsync(_httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), props);
             return accessToken;
         }
 

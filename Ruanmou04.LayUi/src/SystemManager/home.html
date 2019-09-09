@@ -129,10 +129,16 @@
                 $.ajax({
                     type: "get",
                     data: {},
-                    beforeSend: function (XHR) {
-                        XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                    // beforeSend: function (XHR) {
+                    //     XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+                    // },
+          
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Headers": "Authorization",
+                        "Authorization": "Bearer " + sessionStorage.getItem("apiTicket")
                     },
-                    url: config.apiUrl + "api/System/GetMenuList",
+                    url: config.apiUrl + "/Menu/GetMenuList",
                     success: function (result) {
                          var jsonData=JSON.parse(result); 
                          if(jsonData.Result)
@@ -148,7 +154,7 @@
                             layer.msg(jsonData.Message,{icon:7}); 
                             setInterval(function()
                             {
-                                window.location.href="Sign.html";
+                                //window.location.href="Sign.html";
                             },2000) 
                          } 
                     }
@@ -159,9 +165,9 @@
                     type: "get",
                     data: { nav: 1 },
                     beforeSend: function (XHR) {
-                        XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                        XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
                     },
-                    url: config.apiUrl + "api/System/GetNavigationBarList",
+                    url: config.apiUrl + "/Menu/GetNavigationBarList",
                     success: function (result) {
                         var jsonData=JSON.parse(result); 
                         if(jsonData.Result)
@@ -177,7 +183,7 @@
                             layer.msg(jsonData.Message,{icon:7}); 
                             setInterval(function()
                             {
-                                window.location.href="Sign.html";
+                                // window.location.href="Sign.html";
                             },2000) 
                         } 
                     }

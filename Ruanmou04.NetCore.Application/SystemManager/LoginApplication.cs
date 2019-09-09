@@ -23,11 +23,15 @@ namespace Ruanmou.NetCore.Application
 
         private readonly ILoginService _loginService;
         private readonly ITokenService _tokenService;
-        public LoginApplication(ILoginService loginService)
+        public LoginApplication(ILoginService loginService, ITokenService tokenService)
         {
             _loginService = loginService;
+            _tokenService = tokenService;
         }
-
+        public LoginApplication()
+        {
+            _loginService = null;
+        }
         public Task<AjaxResult> ConfirmVerificationAsync(string token)
         {
             return _tokenService.ConfirmVerificationAsync(token);
