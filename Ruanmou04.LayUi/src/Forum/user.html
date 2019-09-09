@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <title>用户主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="../css/layui.css">
-  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="/css/layui.css">
+  <link rel="stylesheet" href="/css/global.css">
 </head>
 <body style="margin-top: 65px;">
 
@@ -37,7 +37,7 @@
           </li>
         {{#  }); }}
         {{#  if(d.length === 0){ }}
-         <!-- <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><i style="font-size:14px;">没有发表任何主题</i></div> -->
+          <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><i style="font-size:14px;">没有发表任何主题</i></div>
         {{#  } }} 
       </script>
 
@@ -62,7 +62,7 @@
       <!-- 登入后的状态 -->
       <li class="layui-nav-item">
         <a class="fly-nav-avatar" href="javascript:;">
-          <cite class="layui-hide-xs">贤心</cite>
+          <cite class="layui-hide-xs">wiliam</cite>
           <!--
           <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
           <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
@@ -73,7 +73,7 @@
           <!--<dd><a href="../user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
           <dd><a href="../user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
           -->
-          <dd><a href="src/forum/user.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+          <dd><a href="/src/forum/user.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
           <hr style="margin: 5px 0;">
           <dd><a href="" style="text-align: center;">退出</a></dd>
         </dl>
@@ -87,7 +87,7 @@
   <i class="iconfont icon-renzheng" title="Fly社区认证"></i>
   -->
   <h1>
-    贤心
+    william
     <i class="iconfont icon-nan"></i>
     <!-- <i class="iconfont icon-nv"></i> 
     <i class="layui-badge fly-badge-vip">VIP3</i>
@@ -109,7 +109,7 @@
     -->
   </p>
 
-  <p class="fly-home-sign">（人生仿若一场修行）</p>
+  <p class="fly-home-sign">（个人描述）</p>
    <!--
   <div class="fly-sns" data-user="">
     <a href="javascript:;" class="layui-btn layui-btn-primary fly-imActive" data-type="addFriend">加为好友</a>
@@ -122,7 +122,7 @@
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md6 fly-home-jie">
       <div class="fly-panel">
-        <h3 class="fly-panel-title">贤心 最近的发帖</h3>
+        <h3 class="fly-panel-title">william 最近的发帖</h3>
         <ul id="userTopicView" class="jie-row">
           
           
@@ -132,7 +132,7 @@
     
     <div class="layui-col-md6 fly-home-da">
       <div class="fly-panel">
-        <h3 class="fly-panel-title">贤心 最近的回帖</h3>
+        <h3 class="fly-panel-title">william 最近的回帖</h3>
         <ul id="replyUserView" class="home-jieda">
 
           <!--  -->
@@ -153,10 +153,10 @@
   -->
 </div>
 
-<script src="../src/Forum/api/base.js" charset="utf-8"></script>
-<script src="../layui.js" charset="utf-8"></script>
+<script src="/src/Forum/api/base.js" charset="utf-8"></script>
+<script src="/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
-layui.use(['jquery','laytpl','config','form'], function(){
+layui.use(['jquery','laytpl','form'], function(){
   var $ = layui.jquery
   ,element = layui.element
   ,form = layui.form
