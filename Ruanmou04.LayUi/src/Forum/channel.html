@@ -43,7 +43,7 @@
          <a href="../src/Forum/detail.html?topic={{item.Id}}" target="_blank" >{{item.Name}}</a>
       </h2>
       <div class="fly-list-info">
-              <a href="user/home.html" link>
+              <a href="/src/Forum/user.html" link>
                 <cite>{{item.CreatedId}}</cite>
               </a>
               <span>{{item.ModifiedDate}}</span>
@@ -132,9 +132,10 @@
       <li><a href="jie/index.html">动态</a></li> 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li> 
       -->
-      <!-- 用户登入后显示 -->
+      <!-- 用户登入后显示 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="user/index.html">我发表的贴</a></li> 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="user/index.html#collection">我收藏的贴</a></li> 
+      -->
     </ul> 
     
     <div class="fly-column-right layui-hide-xs"> 
@@ -155,7 +156,8 @@
           <a>置顶</a>
           <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
         </div>
-        <ul class="fly-list">
+        <ul id="topView" class="fly-list">
+          <!--
           <li>
             <a href="user/home.html" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
@@ -179,10 +181,10 @@
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
+              
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
+      
             </div>
           </li>
           <li>
@@ -196,24 +198,24 @@
             <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>贤心</cite>
-                <!--
+               
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
+              
               </a>
               <span>2017-11-30</span>
               
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
+             
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
+             
             </div>
           </li>
           <li>
@@ -227,24 +229,19 @@
             <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>贤心</cite>
-                <!--
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
               </a>
               <span>刚刚</span>
-              
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
             </div>
           </li>
           <li>
@@ -258,26 +255,22 @@
             <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>贤心</cite>
-                <!--
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
               </a>
               <span>刚刚</span>
-              
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
             </div>
           </li>
+        -->
         </ul>
       </div>
 
@@ -529,67 +522,7 @@
 <script src="../lay/modules/laytpl.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script type="text/javascript">
-/*
-layui.use('element', function(){
-  var $ = layui.jquery
-  ,element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
-  //,getTopic = topicData.innerHTML
-  //,topicView=document.getElementById("topic");
-  
-   
-    
-  
-   $.ajax({
-      url:baseDomain()+"api/ForumTopic/GetForumTopics",
-      data: {"channleId":4},
-      type: 'get',
-      dataType: 'json',
-      success: function(obj) {
-          var data = obj.Data;
-            var topicTpl=document.getElementById('topicTpl').innerHTML;
-            var topicMenu=document.getElementById('topicMenu');
-            layui.laytpl(topicTpl).render(data,function(html){
-              topicMenu.innerHTML=html;
-            });
-      },
-      error: function() {
-          console.log('ajax请求失败！');
-      }
-   });
 
-  //触发事件
-  //var active = {
-  //  tabAdd: function(){
-      //新增一个Tab项
-  //    element.tabAdd('channel', {
-  //      title: '新选项'+ (Math.random()*1000|0) //用于演示
-  //      ,content: "<div class='layui-tab-item'><div class='layui-row'><div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+(Math.random()*1000|0)+"</div></div></div></div>"
-        //'内容'+ (Math.random()*1000|0)
-  //      ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
-  //    })
-  //  }
-  //  ,tabDelete: function(othis){
-      //删除指定Tab项
-  //    element.tabDelete('channel', '44'); //删除：“商品管理”
-  //    othis.addClass('layui-btn-disabled');
-  //  }
-  //};
-  
-  $('.site-demo-active').on('click', function(){
-    var othis = $(this), type = othis.data('type');
-    active[type] ? active[type].call(this, othis) : '';
-  });
-  
-  //Hash地址的定位
-  var layid = location.hash.replace(/^#test=/, '');
-  element.tabChange('test', layid);
-  
-  element.on('tab(test)', function(elem){
-    location.hash = 'test='+ $(this).attr('lay-id');
-  });
-  
-});
-*/
 var domain=baseDomain();
 
 var active = {
@@ -631,7 +564,27 @@ var active = {
       error: function() {
           console.log('ajax请求失败！');
       }
-   });}
+   });},
+    //置顶
+     topInit: function(othis,Id){
+      //切换到指定Tab项
+      layui.jquery.ajax({
+      url:domain+"api/ForumTopic/GetForumTopics",
+      data: {"channleId":Id},
+      type: 'get',
+      dataType: 'json',
+      success: function(obj) {
+          var data = obj.Data;
+            var topicTpl=document.getElementById('topicTpl').innerHTML;
+            var topView=document.getElementById('topView');
+            layui.laytpl(topicTpl).render(data,function(html){
+              topView.innerHTML=html;
+            });
+      },
+      error: function() {
+          console.log('ajax请求失败！');
+      }
+   });},
 }
 
 layui.use(['jquery','element'], function(){
@@ -639,6 +592,7 @@ layui.use(['jquery','element'], function(){
   ,element = layui.element
   active.channelInit();
   active.tabChange(null,4);
+  topInit.topInit(null,4);
 });
 </script>
 

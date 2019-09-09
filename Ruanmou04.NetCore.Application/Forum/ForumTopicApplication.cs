@@ -40,6 +40,8 @@ namespace Ruanmou04.NetCore.Application.Forum
         }
 
 
+
+
         public IEnumerable<ForumTopicDto> GetForumTopics(int channelId)
         {
             IEnumerable<ForumTopic> topics = forumTopicService.Query<ForumTopic>
@@ -52,6 +54,15 @@ namespace Ruanmou04.NetCore.Application.Forum
         {
             IEnumerable<ForumTopic> forumTopics = forumTopicService.Query<ForumTopic>
                 (m => m.ChannelId == channelId);
+
+            return forumTopics.ToDtos();
+
+        }
+
+        public IEnumerable<ForumTopicDto> GetTopicsByUserId(int userId)
+        {
+            IEnumerable<ForumTopic> forumTopics = forumTopicService.Query<ForumTopic>
+                (m => m.CreatedId == userId);
 
             return forumTopics.ToDtos();
 

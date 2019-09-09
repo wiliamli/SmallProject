@@ -32,6 +32,12 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
             return StandardAction(() => forumTopicApplication.GetTopicsByChannelId(channleId));
         }
 
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumTopicDto>> GetForumTopicsByUserId(int userId)
+        {
+            return StandardAction(() => forumTopicApplication.GetTopicsByUserId(userId));
+        }
+
         // GET: api/ForumTopic/5
         [HttpGet]
         public StandardJsonResult<ForumTopicDto> GetTopic(int topicId)

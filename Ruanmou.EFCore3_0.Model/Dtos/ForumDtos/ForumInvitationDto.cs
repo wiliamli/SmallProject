@@ -16,6 +16,11 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public int TopicId { get; set; }
 
         /// <summary>
+        /// 主题名称
+        /// </summary>
+        public string TopicName { get; set; }
+
+        /// <summary>
         /// 帖子父ID
         /// </summary>
         public int ParentId { get; set; }

@@ -25,6 +25,12 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
             return StandardAction(()=> forumInvitationApplication.GetForumInvitation(topicId));
         }
 
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitationsbyUserId(int userId)
+        {
+            return StandardAction(() => forumInvitationApplication.GetForumInvitationByUserId(userId));
+        }
+
         /// <summary>
         /// 只看楼主
         /// </summary>

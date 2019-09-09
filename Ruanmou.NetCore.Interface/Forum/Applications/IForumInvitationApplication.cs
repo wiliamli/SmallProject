@@ -15,6 +15,8 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
         IEnumerable<ForumInvitationDto> GetForumInvitation(int topicId);
 
 
+        IEnumerable<ForumInvitationDto> GetForumInvitationByUserId(int userId);
+
         ForumInvitationDto GetOnlyForumInvitation(int id);
 
         void DeleteForumInvitation(int id);
