@@ -62,7 +62,7 @@
                 var numkey = Math.random();
                 document.getElementById("Img1").src = "/Login/GetLoginVerCode?NumKey=" + numkey;
             }
-
+ 
             //登录事务处理
             form.on("submit(formSubmit)", function (obj) {
                 //假登录
@@ -72,9 +72,7 @@
                 parent.document.getElementsByClassName("rm-header-right")[0].innerHTML = common.WebLoginHtml;
                 parent.layer.close(curIndex);
                 return false;
-				*/
-				 
-				  
+				*/ 
 				console.log("api:" + config.apiUrl);
 				
                 /*** 校验图片验证码 ***/
@@ -95,9 +93,8 @@
                         console.log(result);
                         if(result.success)
                         {
-						
                            var apiTiket= result.data; 
-                           sessionStorage.setItem("apiTicket",apiTiket)
+                           localStorage.setItem("RuanmouNetToken",apiTiket)
 						   
                             parent.layer.msg("登录成功", { icon: 1 }); 
                             // 头部写入 用户中心和退出
@@ -119,35 +116,7 @@
 					 
 				 
 				return false; 
-			 
-				/*
-                $.ajax({
-                    type: 'POST',
-                    dataType: "json",
-                    //url: config.apiUrl + '/Login/LoginSystemManager',
-                    url: config.apiUrl + '/Login/LoginTest',
-                    data: loginInput,
-                    cache: false,
-                    success: function (result) {
-                        console.log(result);
-                        if (result.success) {
-                            var apiTicket = result.data;
-                            localStorage.setItem("RuanmouNetToken", apiTiket);//JSON字符串
-                            parent.layer.msg("登录成功", { icon: 1 }); 
-                            // 头部写入 用户中心和退出
-                            parent.$(".rm-header-right").html(this.WebLoginHtml);  
-                        } else {
-                            parent.layer.msg(jsonResult.Message, { icon: 2 });
-                        }
-                        parent.layer.close(curIndex);
-                    },
-                    error: function (XMLHttpResponse) {
-                        console.log("error: api request failed");
-                        console.log(XMLHttpResponse);
-                    }
-                })
-
-                return false; */
+			  
             })
             
 
