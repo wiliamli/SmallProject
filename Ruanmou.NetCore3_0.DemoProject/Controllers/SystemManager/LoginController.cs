@@ -43,16 +43,16 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
         #endregion
         [HttpPostAttribute]
-        public async Task< AjaxResult> LoginSystemManager(LoginInputDto loginInput)
+        public async Task<AjaxResult> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
             if (ajax.success)
             {
 
-                var sysuserdto =  ajax.data as SysUserOutputDto;
+                var sysuserdto = ajax.data as SysUserOutputDto;
                 //var generatedto =
-                var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
-                ajax= await _tokenService.GenerateTokenAsync(generatedto);
+                var generatedto = sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
+                ajax = await _tokenService.GenerateTokenAsync(generatedto);
             }
 
 
@@ -62,8 +62,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         [HttpGet]
         public async Task<AjaxResult> TokenConfirm(string token)
         {
-            var ajax =await _tokenService.ConfirmVerificationAsync(token);
-           
+            var ajax = await _tokenService.ConfirmVerificationAsync(token);
+
 
 
             return ajax;

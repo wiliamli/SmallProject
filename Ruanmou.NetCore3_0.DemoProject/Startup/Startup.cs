@@ -15,6 +15,8 @@ using IdentityServer4.Test;
 using IdentityServer4.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using YJ.PlatFormCore.Web.Startup;
+using Ruanmou04.NetCore.Project.Utility.Middleware;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -65,7 +67,6 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 var xmlPath = Path.Combine(basePath, "Ruanmou.Web.xml");
                 c.IncludeXmlComments(xmlPath);
             });
-            //    services.AddSession();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -73,11 +74,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie(options => options.Cookie.Path = "/");
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddInMemoryApiResources(InMemoryConfiguration.GetApiResources())
-                .AddInMemoryClients(InMemoryConfiguration.GetClients())
-                .AddTestUsers(InMemoryConfiguration.GetUsers().ToList());
+            AuthConfigurer.Configure(services, _Configuration);
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -225,6 +222,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             #endregion
 
             app.UseMiddleware<AuthorizeMiddleware>();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

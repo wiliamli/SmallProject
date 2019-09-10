@@ -19,18 +19,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _logger = logger;
             _currentUserInfo = currentUserInfo;
         }
-        [HttpGet]
+        [HttpPost]
         public AjaxResult GetMenuList()
         {
 
-            return new AjaxResult { data= _currentUserInfo.CurrentUser.Name};
+            return new AjaxResult { data = _currentUserInfo.CurrentUser.Name };
         }
-[HttpGet]
+        [HttpGet]
         public AjaxResult GetNavigationBarList()
         {
 
-            return new AjaxResult { data= _currentUserInfo.CurrentUser.Name};
+            return new AjaxResult { data = _currentUserInfo.CurrentUser.Name };
         }
-        
+
     }
 }
