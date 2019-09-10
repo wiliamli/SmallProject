@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,7 +12,7 @@
     <!-- form -->
     <div class="rm-body-white rm-poplogin"> 
         <div class="layui-container">
-            <form id="formLogin" class="layui-form"> 
+            <div id="formLogin" class="layui-form"> 
                 <div class="blank15"></div>
                 <div class="layui-form-item">
                     <label class="user-login-icon layui-icon layui-icon-username" for="UserName"></label>
@@ -26,7 +26,7 @@
                     <div class="layui-row">
                         <div class="layui-col-xs7">
                             <label class="user-login-icon layui-icon layui-icon-vercode" for="VerCode"></label>
-                            <input type="text" name="VerCode" id="VerCode" autocomplete="off" lay-verType="tips" lay-verify="required" placeholder="请输入验证码" class="layui-input">
+                            <input type="text" name="VerCode" id="VerCode" autocomplete="off" lay-verType="tips" lay-verify="required" placeholder="验证码随便填" class="layui-input">
                         </div>
                         <div class="layui-col-xs5">
                             <div class="ver-code-wrap">
@@ -38,7 +38,7 @@
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-fluid btnLogin" lay-submit lay-filter="formSubmit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>  
 
@@ -56,7 +56,7 @@
             var form = layui.form;
             var config = layui.config;
             var $ = layui.jquery;
-            $.support.cors = true;
+            //$.support.cors = true;
 
             function ShowValidImage() {
                 var numkey = Math.random();
@@ -66,22 +66,66 @@
             //登录事务处理
             form.on("submit(formSubmit)", function (obj) {
                 //假登录
+				/*
                 localStorage.setItem("RuanmouNetToken", "1234567890");
                 parent.layer.msg("登录成功", { icon: 1 }); 
                 parent.document.getElementsByClassName("rm-header-right")[0].innerHTML = common.WebLoginHtml;
                 parent.layer.close(curIndex);
                 return false;
-             
-
+				*/
+				 
+				  
+				console.log("api:" + config.apiUrl);
+				
                 /*** 校验图片验证码 ***/
                 var loginInput = {
                     Account: obj.field.UserName,
                     Password: obj.field.Password
-                };
+                }; 
+				var LoadIndex = parent.layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+				$.ajax({
+                    type:'POST',
+					dataType: "json",
+                    data:JSON.stringify(loginInput),
+                    contentType:'application/json',
+                    url:config.apiUrl +'/Login/LoginSystemManager',
+                    success:function (result)
+                    {  
+						parent.layer.close(LoadIndex);
+                        console.log(result);
+                        if(result.success)
+                        {
+						
+                           var apiTiket= result.data; 
+                           sessionStorage.setItem("apiTicket",apiTiket)
+						   
+                            parent.layer.msg("登录成功", { icon: 1 }); 
+                            // 头部写入 用户中心和退出
+                            parent.$(".rm-header-right").html(common.WebLoginHtml);  
+							
+							parent.layer.close(curIndex);
+                        }
+                        else
+                        {  
+                            parent.layer.msg(result.msg, { icon: 2 });
+                        } 
+                    },
+                    error: function (XMLHttpResponse) {
+						parent.layer.close(LoadIndex);
+                        console.log("error: api request failed");
+                        console.log(XMLHttpResponse);
+                    }
+                })
+					 
+				 
+				return false; 
+			 
+				/*
                 $.ajax({
                     type: 'POST',
                     dataType: "json",
-                    url: config.apiUrl + 'api/Login/LoginSystemManager',
+                    //url: config.apiUrl + '/Login/LoginSystemManager',
+                    url: config.apiUrl + '/Login/LoginTest',
                     data: loginInput,
                     cache: false,
                     success: function (result) {
@@ -103,7 +147,7 @@
                     }
                 })
 
-                return false; 
+                return false; */
             })
             
 
