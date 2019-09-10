@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RM04.DBEntity;
 using Ruanmou04.Core.Utility.MvcResult;
 
 namespace Ruanmou04.NetCore.Project.Controllers
@@ -9,6 +12,12 @@ namespace Ruanmou04.NetCore.Project.Controllers
     /// </summary>
     public class BaseApiController : ControllerBase
     {
+        private IMemoryCache _memoryCache;
+        public BaseApiController(IMemoryCache memoryCache)
+        {
+            this._memoryCache = memoryCache;
+        }
+
         /// <summary>
         /// 标准数据返回
         /// </summary>
@@ -35,6 +44,22 @@ namespace Ruanmou04.NetCore.Project.Controllers
                 result.Data = func();
             });
             return result;
+        }
+
+        protected SysUserOutputDto GetUserInfo()
+        {
+            string key = HttpContext.Request.Headers["token"].SingleOrDefault();
+
+            if (key != null)
+            {
+                return this._memoryCache.Get(key) as SysUserOutputDto;
+            }
+            else
+            {
+                throw new Exception("未登录");
+            }
+
+            
         }
     }
 }

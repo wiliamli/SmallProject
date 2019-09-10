@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Aio.Domain.SystemManage.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Application;
@@ -27,12 +28,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ISysUserService _IUserService = null;
         private ILoginApplication _loginApplication = null;
         private ITokenService _tokenService;
+        private IMemoryCache _memoryCache;
 
         public LoginController(ILoggerFactory factory,
             ILogger<UsersController> logger,
             ISysUserService userService
             , ILoginApplication loginApplication
             , ITokenService tokenService
+            , IMemoryCache memoryCache
             )
         {
             this._Factory = factory;
@@ -40,6 +43,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             this._IUserService = userService;
             this._loginApplication = loginApplication;
             this._tokenService = tokenService;
+            this._memoryCache = memoryCache;
         }
         #endregion
         [HttpPostAttribute]
@@ -50,9 +54,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             {
 
                 var sysuserdto =  ajax.data as SysUserOutputDto;
+                //添加session,sessionId不同，cookie没跨域
+                //HttpContext.Session.Set("userInfo",
+                //    System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(sysuserdto)));
+                
                 //var generatedto =
                 var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
-                ajax= await _tokenService.GenerateTokenAsync(generatedto);
+                ajax = await _tokenService.GenerateTokenAsync(generatedto);
+                this._memoryCache.Set<SysUserOutputDto>(ajax.data, sysuserdto);
             }
 
 
@@ -63,10 +72,15 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public async Task<AjaxResult> TokenConfirm(string token)
         {
             var ajax =await _tokenService.ConfirmVerificationAsync(token);
-           
-
-
+          
             return ajax;
+        }
+
+        private void SetUserCache(SysUserOutputDto sysUser)
+        {
+    
+            string key = $"{sysUser.Id}_{sysUser.Account}_{sysUser.Password}";
+            
         }
     }
 }

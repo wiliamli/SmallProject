@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using RM04.DBEntity;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
 {
     [Route("api/[controller]/[action]")]
+    [ServiceFilter(typeof(VerifyAttribute))]
     [ApiController]
     public class ForumChannelController : BaseApiController
     {
         private IForumChannelApplication forumChannelApplication;
-
-        public ForumChannelController(IForumChannelApplication forumChannelApplication)
+        private IMemoryCache memoryCache;
+        public ForumChannelController(IForumChannelApplication forumChannelApplication,
+            IMemoryCache memoryCache) :base(memoryCache)
         {
             this.forumChannelApplication = forumChannelApplication;
         }
@@ -26,6 +31,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         [HttpGet]
         public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannelsByRoleId(int roleId)
         {
+            SysUserOutputDto sysUser = base.GetUserInfo();
             return StandardAction(() => forumChannelApplication.GetForumChannelByRoleId(roleId));
         }
 

@@ -14,6 +14,8 @@ using Autofac.Extensions.DependencyInjection;
 using System;
 using Ruanmou04.NetCore.Project;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Microsoft.AspNetCore.Http;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -38,6 +40,8 @@ namespace Ruanmou.NetCore3_0.DemoProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+
             services.AddMvc().AddRazorRuntimeCompilation();
 
             services.AddControllersWithViews();
@@ -50,6 +54,11 @@ namespace Ruanmou.NetCore3_0.DemoProject
                         .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod()
+                    //builder => {
+                    //    builder.WithOrigins("http://localhost:8808")
+                    //    .AllowAnyMethod()
+                    //    .AllowAnyHeader();
+                    //}
                 )
             );
             services.AddSwaggerGen(c =>
@@ -65,6 +74,24 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 c.IncludeXmlComments(xmlPath);
             });
 
+            #region Session内存缓存
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            //启用内存缓存(该步骤需在AddSession()调用前使用)
+            services.AddDistributedMemoryCache();//启用session之前必须先添加内存
+      
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AdventureWorks.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(2000);//设置session的过期时间
+                options.Cookie.HttpOnly = true;//设置在浏览器不能通过js获得该cookie的值
+            });
+            #endregion
+
+            services.AddSingleton<VerifyAttribute>();
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -227,7 +254,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseCookiePolicy();
             app.UseCors(_defaultCorsPolicyName);
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
            

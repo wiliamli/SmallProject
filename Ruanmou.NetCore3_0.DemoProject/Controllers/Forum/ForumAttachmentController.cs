@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
@@ -12,8 +13,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumAttachmentController : BaseApiController
     {
         private IForumAttachmentApplication forumAttachmentApplication;
-
-        public ForumAttachmentController(IForumAttachmentApplication forumAttachmentApplication)
+        private IMemoryCache memoryCache;
+        public ForumAttachmentController(IForumAttachmentApplication forumAttachmentApplication,
+            IMemoryCache memoryCache):base(memoryCache)
         {
             this.forumAttachmentApplication = forumAttachmentApplication;
         }

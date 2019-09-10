@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>论坛</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="../css/layui.css">
-  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="/css/layui.css">
+  <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
 
@@ -59,11 +59,16 @@
   {{#  } }} 
 </script>
 
+<script id="checkTpl" type="text/html">
+  签到
+  <i class="fly-mid"></i> 
+  <span class="fly-signin-days">已连续签到<cite>{{d.length}}</cite>天</span>
+</script>
 
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
-      <!--<img src="../res/images/logo.png" alt="layui">-->
+      <img src="/res/images/logo.png" alt="layui">
     </a>
     <!--
     <ul class="layui-nav fly-nav layui-hide-xs">
@@ -82,15 +87,15 @@
       
       <!-- 未登入的状态 -->
       <li class="layui-nav-item">
-        <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
+        <a class="iconfont icon-touxiang layui-hide-xs" href="/src/Forum/login.html"></a>
       </li>
       <li class="layui-nav-item">
-        <a href="user/login.html">登入</a>
+        <a href="/src/Forum/login.html">登入</a>
       </li>
+      <!--
       <li class="layui-nav-item">
         <a href="user/reg.html">注册</a>
       </li>
-      <!--
       <li class="layui-nav-item layui-hide-xs">
         <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
       </li>
@@ -140,7 +145,7 @@
     </ul> 
     
     <div class="fly-column-right layui-hide-xs"> 
-      <span class="fly-search"><i class="layui-icon"></i></span> 
+      <!--<span class="fly-search"><i class="layui-icon"></i></span>-->
       <a href="/src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
     </div> 
     <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
@@ -369,17 +374,17 @@
  -->
 
       <div class="fly-panel fly-signin">
-        <div class="fly-panel-title">
-          签到
+        <div id="checkView" class="fly-panel-title">
+          <!--签到
           <i class="fly-mid"></i> 
-          <!--
+          
           <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
           <i class="fly-mid"></i>
-          <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a> -->
-          <span class="fly-signin-days">已连续签到<cite>16</cite>天</span>
+          <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a> 
+          <span class="fly-signin-days">已连续签到<cite>16</cite>天</span>-->
         </div>
         <div class="fly-panel-main fly-signin-main">
-          <button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>
+          <button class="layui-btn layui-btn-danger" id="LAY_signin" onclick="active.clockin()" >今日签到</button>
           <!--<span>可获得<cite>5</cite>飞吻</span>-->
           
           <!-- 已签到状态 -->
@@ -528,13 +533,16 @@
 <script type="text/javascript">
 
 var domain=baseDomain();
-
+var key = getQueryVariable("key");
 var active = {
       channelInit:function(){
         layui.jquery.ajax({
+          headers: {token: key},
           url:domain+"api/ForumChannel/GetChannelsByRoleId",
           data: {"roleId":1},
           type: 'get',
+          //xhrFields: {withCredentials: true},
+          //crossDomain: true,
           dataType: 'json',
           success: function(obj) {
               var data = obj.Data;
@@ -553,8 +561,11 @@ var active = {
       //切换到指定Tab项
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
+      headers: { token: key},
       data: {"channleId":Id},
       type: 'get',
+      //xhrFields: {withCredentials: true},
+      //crossDomain: true,
       dataType: 'json',
       success: function(obj) {
           var data = obj.Data;
@@ -568,6 +579,51 @@ var active = {
           console.log('ajax请求失败！');
       }
    });}
+   ,clockin:function(){
+    var clockin={};
+    clockin.userId=1;
+
+    layui.jquery.ajax({
+      url:domain+"api/ForumCheckIn/Add",
+      data:JSON.stringify(clockin),
+      headers: {token: key},
+      type: 'post',
+      //xhrFields: {withCredentials: true},
+      //crossDomain: true,
+      dataType: 'json',
+      contentType:'application/json',
+      success: function(obj) {
+          if(obj.Success){
+            active.checkInit();
+          }
+      },
+      error: function() {
+          console.log('ajax请求失败！');
+      }
+   });
+  }
+  ,checkInit:function(){
+        layui.jquery.ajax({
+          url:domain+"api/ForumCheckIn/GetCheckIn",
+          data: {"userId":1},
+          headers: {token: key},
+          type: 'get',
+          //xhrFields: {withCredentials: true},
+          //crossDomain: true,
+          dataType: 'json',
+          success: function(obj) {
+              var data = obj.Data;
+              var checkTpl=document.getElementById('checkTpl').innerHTML;
+                var checkView=document.getElementById('checkView');
+                layui.laytpl(checkTpl).render(data,function(html){
+                  checkView.innerHTML=html;
+                });
+          },
+          error: function() {
+              console.log('ajax请求失败！');
+          }
+       });
+      },
 }
 
 layui.use(['jquery','element'], function(){
@@ -575,6 +631,8 @@ layui.use(['jquery','element'], function(){
   ,element = layui.element
   active.channelInit();
   active.tabChange(null,4);
+  active.checkInit();
+
 });
 </script>
 
