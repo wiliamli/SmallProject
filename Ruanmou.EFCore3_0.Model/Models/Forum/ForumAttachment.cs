@@ -45,7 +45,7 @@ namespace Ruanmou04.EFCore.Model.Models.Forum
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreateDate { get; set; } = DateTime.Now;
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 修改人
