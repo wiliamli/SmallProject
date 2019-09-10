@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
@@ -12,8 +13,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumTopicController : BaseApiController
     {
         private IForumTopicApplication forumTopicApplication;
-
-        public ForumTopicController(IForumTopicApplication forumTopicApplication)
+        private IMemoryCache memoryCache;
+        public ForumTopicController(IForumTopicApplication forumTopicApplication,
+            IMemoryCache memoryCache):base(memoryCache)
         {
             this.forumTopicApplication = forumTopicApplication;
         }
@@ -30,6 +32,12 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         public StandardJsonResult<IEnumerable<ForumTopicDto>> GetForumTopics(int channleId)
         {
             return StandardAction(() => forumTopicApplication.GetTopicsByChannelId(channleId));
+        }
+
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumTopicDto>> GetForumTopicsByUserId(int userId)
+        {
+            return StandardAction(() => forumTopicApplication.GetTopicsByUserId(userId));
         }
 
         // GET: api/ForumTopic/5

@@ -209,7 +209,9 @@ GO
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
-	ModifiedDate datetime NULL DEFAULT GETDATE() 
+	ModifiedDate datetime NULL DEFAULT GETDATE(),
+	CreatedBy varchar(32) NULL,
+	ModifiedBy varchar(32) NULL
 	) 
 GO
 
@@ -228,7 +230,9 @@ GO
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
-	ModifiedDate datetime NULL DEFAULT GETDATE() 
+	ModifiedDate datetime NULL DEFAULT GETDATE(),
+	CreatedBy varchar(32) NULL,
+	ModifiedBy varchar(32) NULL
 	) 
 GO
 
@@ -250,7 +254,9 @@ GO
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
-	ModifiedDate datetime NULL DEFAULT GETDATE() 
+	ModifiedDate datetime NULL DEFAULT GETDATE(),
+	CreatedBy varchar(32) NULL,
+	ModifiedBy varchar(32) NULL
 	) 
 GO
 
@@ -267,7 +273,9 @@ GO
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
-	ModifiedDate datetime NULL DEFAULT GETDATE() 
+	ModifiedDate datetime NULL DEFAULT GETDATE(),
+	CreatedBy varchar(32) NULL,
+	ModifiedBy varchar(32) NULL
 	) 
 GO
 
@@ -284,7 +292,9 @@ GO
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
-	ModifiedDate datetime NULL DEFAULT GETDATE() 
+	ModifiedDate datetime NULL DEFAULT GETDATE(),
+	CreatedBy varchar(32) NULL,
+	ModifiedBy varchar(32) NULL
 	) 
 GO
 
@@ -316,6 +326,8 @@ GO
 	CreatedId INT NULL,
 	CreatedDate datetime NULL DEFAULT GETDATE(),
 	ModifiedId INT NULL,
-	ModifiedDate datetime NULL DEFAULT GETDATE() 
+	ModifiedDate datetime NULL DEFAULT GETDATE(),
+	CreatedBy varchar(32) NULL,
+	ModifiedBy varchar(32) NULL
 	) 
 GO

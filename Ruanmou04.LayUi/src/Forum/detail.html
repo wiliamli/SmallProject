@@ -4,10 +4,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Fly Template v3.0，基于 layui 的极简社区页面模版</title>
+  <title>论坛主题</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <link rel="stylesheet" href="/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -35,14 +33,14 @@
                 <!-- <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">-->
               </a>
               <div class="fly-detail-user">
-                <a href="../user/home.html" class="fly-link">
+                <a href="/src/Forum/user.html" class="fly-link">
                   <cite>{{d.ModifiedId}}</cite>
                 </a>
                 <span>{{d.ModifiedDate}}</span>
               </div>
               <div class="detail-hits" id="LAY_jieAdmin" data-id="{{d.Id}}">
                 <!--span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>-->
-                <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="add.html">编辑此贴</a></span>
+                <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/src/Forum/addTopic.html?id={{d.Id}}">编辑此贴</a></span>
               </div>
             </div>
             <div class="detail-body photos">
@@ -95,10 +93,11 @@
 <div class="fly-header layui-bg-black">
 
   <div class="layui-container">
-    <!--
+    
     <a class="fly-logo" href="/">
-      <img src="../../res/images/logo.png" alt="layui">
+      <img src="/res/images/logo.png" alt="layui">
     </a>
+    <!--
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this">
         <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
@@ -134,18 +133,21 @@
       
       <!-- 登入后的状态 -->
       <li class="layui-nav-item">
-          <!--
+         
         <a class="fly-nav-avatar" href="javascript:;">
-          <cite class="layui-hide-xs">贤心</cite>
+          <cite class="layui-hide-xs">william</cite>
+          <!--
           <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
           <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
           <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+          -->
         </a>
-        -->
+       
         <dl class="layui-nav-child">
-          <dd><a href="../user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+          <!--<dd><a href="../user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
           <dd><a href="../user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-          <dd><a href="../user/home.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+          -->
+          <dd><a href="src/forum/user.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
           <hr style="margin: 5px 0;">
           <dd><a href="" style="text-align: center;">退出</a></dd>
         </dl>
@@ -158,17 +160,17 @@
   <div class="fly-panel fly-column">
     <div class="layui-container">
       <ul class="layui-clear">
-        <!-- 用户登入后显示 -->
+        <!-- 用户登入后显示
         <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html">我发表的贴</a></li> 
-        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html#collection">我收藏的贴</a></li> 
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html#collection">我收藏的贴</a></li>-->
       </ul> 
       
       <div class="fly-column-right layui-hide-xs"> 
-        <span class="fly-search"><i class="layui-icon"></i></span> 
-        <a href="add.html" class="layui-btn">发表新帖</a> 
+        <!--<span class="fly-search"><i class="layui-icon"></i></span>-->
+        <a href="/src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
       </div> 
       <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
-        <a href="add.html" class="layui-btn">发表新帖</a> 
+        <a href="/src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
       </div> 
     </div>
   </div>
@@ -210,12 +212,12 @@
 <script src="/layui.js" charset="utf-8"></script>
 <script src="/lay/modules/laytpl.js" charset="utf-8"></script>
 <script type="text/javascript">
-layui.use(['jquery','laytpl','config','form'], function(){
+layui.use(['jquery','laytpl','form'], function(){
   var $ = layui.jquery
   ,element = layui.element
   ,form = layui.form
 
-  var topicParam= getQueryVariable("topic");
+  var topicParam = getQueryVariable("topic");
   var domain=baseDomain();
   var active={
      topicShow:function(){
@@ -262,13 +264,16 @@ layui.use(['jquery','laytpl','config','form'], function(){
    active.replyShow();
     //监听提交
     form.on('submit(reply)', function(data){
-        debugger;
         var replyData={};
-        replyData.TopicId=topicParam;
-        replyData.ParentId=0;
-        replyData.Content=data.field.content;
-        replyData.CreatedId=data.field.userId;
-        replyData.ModifiedId=data.field.userId;
+        replyData.topicId=parseInt(topicParam);
+        replyData.parentId=0;
+        replyData.content=data.field.content;
+        replyData.accept=false;
+        replyData.conssensus=0;
+        replyData.oppose=0;
+        replyData.childInvitation=null;
+        replyData.createdId=parseInt(data.field.userId);
+        replyData.modifiedId=parseInt(data.field.userId);
         $.ajax({
           url:domain+"api/ForumInvitation/Add",
           data: JSON.stringify(replyData),
@@ -276,16 +281,11 @@ layui.use(['jquery','laytpl','config','form'], function(){
           dataType: 'json',
           contentType:'application/json',
           success: function(obj) {
-            debugger;
-            if(obj.success){
+            if(obj.Success){
+                document.getElementById("L_content").value="";
                 active.replyShow();
             }
           }
-          //error: function() {
-          //  debugger;
-          //  layer.alert(JSON.stringify(data.field), {
-          //    title: 'ajax请求失败！'});
-          //}
        });
     });
 });

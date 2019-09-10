@@ -12,9 +12,12 @@ namespace Ruanmou04.NetCore.Application.Forum
     {
         private IForumInvitationService forumInvitationService;
 
-        public ForumInvitationApplication(IForumInvitationService forumInvitationService)
+        private IForumTopicService forumTopicService;
+
+        public ForumInvitationApplication(IForumInvitationService forumInvitationService, IForumTopicService forumTopicService)
         {
             this.forumInvitationService = forumInvitationService;
+            this.forumTopicService = forumTopicService;
         }
 
         public int AddForumInvitation(ForumInvitationDto forumInvitationDto)
@@ -39,6 +42,21 @@ namespace Ruanmou04.NetCore.Application.Forum
             return forumInvitations.ToDtos();
         }
 
+        public IEnumerable<ForumInvitationDto> GetForumInvitationByUserId(int userId)
+        {
+            var forumInvitations = forumInvitationService.Query<ForumInvitation>(m => m.CreatedId == userId).ToDtos().ToList();
+
+            forumInvitations.ForEach(m =>
+            {
+                var topic = forumTopicService.Query<ForumTopic>(n => n.Id == m.TopicId).FirstOrDefault();
+                if (topic != null)
+                {
+                    m.TopicName = topic.Name;
+                }
+            });
+            return forumInvitations;
+        }
+
         public ForumInvitationDto GetOnlyForumInvitation(int id)
         {
             return forumInvitationService.Find<ForumInvitation>(id).ToDto();
@@ -53,7 +71,7 @@ namespace Ruanmou04.NetCore.Application.Forum
         {
             //
             var childInvitations = forumInvitationDtos.Where(m => m.ParentId == parant.Id);
-            parant.ChildInvitation.AddRange(childInvitations);
+            //parant.ChildInvitation.AddRange(childInvitations);
 
             foreach (var item in childInvitations)
             {

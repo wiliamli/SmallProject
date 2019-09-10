@@ -16,6 +16,11 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public int TopicId { get; set; }
 
         /// <summary>
+        /// 主题名称
+        /// </summary>
+        public string TopicName { get; set; }
+
+        /// <summary>
         /// 帖子父ID
         /// </summary>
         public int ParentId { get; set; }
@@ -46,6 +51,11 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         public int CreatedId { get; set; }
 
         /// <summary>
+        /// 创建人名称
+        /// </summary>
+        public string CreatedBy { get; set; }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
@@ -54,6 +64,12 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// 修改人
         /// </summary>
         public int ModifiedId { get; set; }
+
+        /// <summary>
+        /// 修改人名称
+        /// </summary>
+        public string ModifiedBy { get; set; }
+
 
         /// <summary>
         /// 修改时间

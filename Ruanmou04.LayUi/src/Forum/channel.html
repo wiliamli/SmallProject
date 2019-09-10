@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>论坛</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="../css/layui.css">
-  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="/css/layui.css">
+  <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
 
@@ -43,17 +43,11 @@
          <a href="../src/Forum/detail.html?topic={{item.Id}}" target="_blank" >{{item.Name}}</a>
       </h2>
       <div class="fly-list-info">
-              <a href="user/home.html" link>
-                <cite>{{item.CreatedId}}</cite>
-                <!--
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
+              <a href="/src/Forum/user.html" link>
+                <cite>{{item.CreatedBy}}</cite>
               </a>
               <span>{{item.ModifiedDate}}</span>
-              
               <span class="fly-list-kiss layui-hide-xs" title="点赞"><i class="iconfont icon-kiss"></i>{{item.Conssensus}}</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回帖"></i> {{item.Conssensus}}
               </span>
@@ -61,14 +55,20 @@
     </li>
   {{#  }); }}
   {{#  if(d.length === 0){ }}
-    无数据
+  <li><div class="fly-list-info">无数据</div></li>
   {{#  } }} 
+</script>
+
+<script id="checkTpl" type="text/html">
+  签到
+  <i class="fly-mid"></i> 
+  <span class="fly-signin-days">已连续签到<cite>{{d.length}}</cite>天</span>
 </script>
 
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
-      <!--<img src="../res/images/logo.png" alt="layui">-->
+      <img src="/res/images/logo.png" alt="layui">
     </a>
     <!--
     <ul class="layui-nav fly-nav layui-hide-xs">
@@ -87,15 +87,15 @@
       
       <!-- 未登入的状态 -->
       <li class="layui-nav-item">
-        <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
+        <a class="iconfont icon-touxiang layui-hide-xs" href="/src/Forum/login.html"></a>
       </li>
       <li class="layui-nav-item">
-        <a href="user/login.html">登入</a>
+        <a href="/src/Forum/login.html">登入</a>
       </li>
+      <!--
       <li class="layui-nav-item">
         <a href="user/reg.html">注册</a>
       </li>
-      <!--
       <li class="layui-nav-item layui-hide-xs">
         <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
       </li>
@@ -138,30 +138,35 @@
       <li><a href="jie/index.html">动态</a></li> 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li> 
       -->
-      <!-- 用户登入后显示 -->
+      <!-- 用户登入后显示 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="user/index.html">我发表的贴</a></li> 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="user/index.html#collection">我收藏的贴</a></li> 
+      -->
     </ul> 
     
     <div class="fly-column-right layui-hide-xs"> 
-      <span class="fly-search"><i class="layui-icon"></i></span> 
-      <a href="jie/add.html" class="layui-btn">发表新帖</a> 
+      <!--<span class="fly-search"><i class="layui-icon"></i></span>-->
+      <a href="/src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
     </div> 
     <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
-      <a href="jie/add.html" class="layui-btn">发表新帖</a> 
+      <a href="/src/forum/addTopic.html" class="layui-btn">发表新帖</a> 
     </div> 
   </div>
 </div>
 
 <div class="layui-container">
-  <div class="layui-row layui-col-space15">
+  <div class="layui-row">
     <div class="layui-col-md8">
+      <!---->
       <div class="fly-panel">
         <div class="fly-panel-title fly-filter">
           <a>置顶</a>
           <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
         </div>
-        <ul class="fly-list">
+        <ul id="topView" class="fly-list">
+            <li>
+              <div class="fly-list-info">没有置顶主题</div></li>
+          <!--
           <li>
             <a href="user/home.html" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
@@ -185,10 +190,10 @@
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
+              
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
+      
             </div>
           </li>
           <li>
@@ -202,24 +207,24 @@
             <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>贤心</cite>
-                <!--
+               
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
+              
               </a>
               <span>2017-11-30</span>
               
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
+             
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
+             
             </div>
           </li>
           <li>
@@ -233,24 +238,19 @@
             <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>贤心</cite>
-                <!--
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
               </a>
               <span>刚刚</span>
-              
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
             </div>
           </li>
           <li>
@@ -264,29 +264,25 @@
             <div class="fly-list-info">
               <a href="user/home.html" link>
                 <cite>贤心</cite>
-                <!--
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
-                -->
               </a>
               <span>刚刚</span>
-              
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>
             </div>
             <div class="fly-list-badge">
-              <!--
               <span class="layui-badge layui-bg-black">置顶</span>
               <span class="layui-badge layui-bg-red">精帖</span>
-              -->
             </div>
           </li>
+        -->
         </ul>
       </div>
-
+           
       <div class="fly-panel" style="margin-bottom: 0;">
         
         <div id="channelMenu" class="fly-panel-title fly-filter">
@@ -378,17 +374,17 @@
  -->
 
       <div class="fly-panel fly-signin">
-        <div class="fly-panel-title">
-          签到
+        <div id="checkView" class="fly-panel-title">
+          <!--签到
           <i class="fly-mid"></i> 
-          <!--
+          
           <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
           <i class="fly-mid"></i>
-          <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a> -->
-          <span class="fly-signin-days">已连续签到<cite>16</cite>天</span>
+          <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a> 
+          <span class="fly-signin-days">已连续签到<cite>16</cite>天</span>-->
         </div>
         <div class="fly-panel-main fly-signin-main">
-          <button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>
+          <button class="layui-btn layui-btn-danger" id="LAY_signin" onclick="active.clockin()" >今日签到</button>
           <!--<span>可获得<cite>5</cite>飞吻</span>-->
           
           <!-- 已签到状态 -->
@@ -530,80 +526,23 @@
 -->
 
 
-<script src="../src/Forum/api/base.js" charset="utf-8"></script>
-<script src="../layui.js" charset="utf-8"></script>
-<script src="../lay/modules/laytpl.js" charset="utf-8"></script>
+<script src="/src/Forum/api/base.js" charset="utf-8"></script>
+<script src="/layui.js" charset="utf-8"></script>
+<script src="/lay/modules/laytpl.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script type="text/javascript">
-/*
-layui.use('element', function(){
-  var $ = layui.jquery
-  ,element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
-  //,getTopic = topicData.innerHTML
-  //,topicView=document.getElementById("topic");
-  
-   
-    
-  
-   $.ajax({
-      url:baseDomain()+"api/ForumTopic/GetForumTopics",
-      data: {"channleId":4},
-      type: 'get',
-      dataType: 'json',
-      success: function(obj) {
-          var data = obj.Data;
-            var topicTpl=document.getElementById('topicTpl').innerHTML;
-            var topicMenu=document.getElementById('topicMenu');
-            layui.laytpl(topicTpl).render(data,function(html){
-              topicMenu.innerHTML=html;
-            });
-      },
-      error: function() {
-          console.log('ajax请求失败！');
-      }
-   });
 
-  //触发事件
-  //var active = {
-  //  tabAdd: function(){
-      //新增一个Tab项
-  //    element.tabAdd('channel', {
-  //      title: '新选项'+ (Math.random()*1000|0) //用于演示
-  //      ,content: "<div class='layui-tab-item'><div class='layui-row'><div class='layui-col-sm3'><div class='grid-demo grid-demo-bg1'>"+(Math.random()*1000|0)+"</div></div></div></div>"
-        //'内容'+ (Math.random()*1000|0)
-  //      ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
-  //    })
-  //  }
-  //  ,tabDelete: function(othis){
-      //删除指定Tab项
-  //    element.tabDelete('channel', '44'); //删除：“商品管理”
-  //    othis.addClass('layui-btn-disabled');
-  //  }
-  //};
-  
-  $('.site-demo-active').on('click', function(){
-    var othis = $(this), type = othis.data('type');
-    active[type] ? active[type].call(this, othis) : '';
-  });
-  
-  //Hash地址的定位
-  var layid = location.hash.replace(/^#test=/, '');
-  element.tabChange('test', layid);
-  
-  element.on('tab(test)', function(elem){
-    location.hash = 'test='+ $(this).attr('lay-id');
-  });
-  
-});
-*/
 var domain=baseDomain();
-
+var key = getQueryVariable("key");
 var active = {
       channelInit:function(){
         layui.jquery.ajax({
+          headers: {token: key},
           url:domain+"api/ForumChannel/GetChannelsByRoleId",
           data: {"roleId":1},
           type: 'get',
+          //xhrFields: {withCredentials: true},
+          //crossDomain: true,
           dataType: 'json',
           success: function(obj) {
               var data = obj.Data;
@@ -618,13 +557,15 @@ var active = {
           }
        });
       },
-
       tabChange: function(othis,Id){
       //切换到指定Tab项
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
+      headers: { token: key},
       data: {"channleId":Id},
       type: 'get',
+      //xhrFields: {withCredentials: true},
+      //crossDomain: true,
       dataType: 'json',
       success: function(obj) {
           var data = obj.Data;
@@ -638,6 +579,51 @@ var active = {
           console.log('ajax请求失败！');
       }
    });}
+   ,clockin:function(){
+    var clockin={};
+    clockin.userId=1;
+
+    layui.jquery.ajax({
+      url:domain+"api/ForumCheckIn/Add",
+      data:JSON.stringify(clockin),
+      headers: {token: key},
+      type: 'post',
+      //xhrFields: {withCredentials: true},
+      //crossDomain: true,
+      dataType: 'json',
+      contentType:'application/json',
+      success: function(obj) {
+          if(obj.Success){
+            active.checkInit();
+          }
+      },
+      error: function() {
+          console.log('ajax请求失败！');
+      }
+   });
+  }
+  ,checkInit:function(){
+        layui.jquery.ajax({
+          url:domain+"api/ForumCheckIn/GetCheckIn",
+          data: {"userId":1},
+          headers: {token: key},
+          type: 'get',
+          //xhrFields: {withCredentials: true},
+          //crossDomain: true,
+          dataType: 'json',
+          success: function(obj) {
+              var data = obj.Data;
+              var checkTpl=document.getElementById('checkTpl').innerHTML;
+                var checkView=document.getElementById('checkView');
+                layui.laytpl(checkTpl).render(data,function(html){
+                  checkView.innerHTML=html;
+                });
+          },
+          error: function() {
+              console.log('ajax请求失败！');
+          }
+       });
+      },
 }
 
 layui.use(['jquery','element'], function(){
@@ -645,6 +631,8 @@ layui.use(['jquery','element'], function(){
   ,element = layui.element
   active.channelInit();
   active.tabChange(null,4);
+  active.checkInit();
+
 });
 </script>
 

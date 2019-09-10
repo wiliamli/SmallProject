@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
@@ -11,8 +12,10 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumInvitationController : BaseApiController
     {
         private IForumInvitationApplication forumInvitationApplication;
+        private IMemoryCache memoryCache;
 
-        public ForumInvitationController(IForumInvitationApplication forumInvitationApplication)
+        public ForumInvitationController(IForumInvitationApplication forumInvitationApplication, IMemoryCache memoryCache)
+            :base(memoryCache)
         {
             this.forumInvitationApplication = forumInvitationApplication;
         }
@@ -23,6 +26,12 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitations(int topicId)
         {
             return StandardAction(()=> forumInvitationApplication.GetForumInvitation(topicId));
+        }
+
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitationsByUserId(int userId)
+        {
+            return StandardAction(() => forumInvitationApplication.GetForumInvitationByUserId(userId));
         }
 
         /// <summary>

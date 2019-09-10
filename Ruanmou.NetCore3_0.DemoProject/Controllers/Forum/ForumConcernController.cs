@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
@@ -10,7 +11,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumConcernController : BaseApiController
     {
         private IForumConcernApplication forumConcernApplication;
-        public ForumConcernController(IForumConcernApplication forumConcernApplication)
+        private IMemoryCache memoryCache;
+        public ForumConcernController(IForumConcernApplication forumConcernApplication, IMemoryCache memoryCache)
+            :base(memoryCache)
         {
             this.forumConcernApplication = forumConcernApplication;
         }

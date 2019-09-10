@@ -25,17 +25,18 @@ namespace Ruanmou04.EFCore.Model.Models.Forum
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 修改人
         /// </summary>
         public int ModifiedId { get; set; }
 
+
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime? ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
     }
 }
