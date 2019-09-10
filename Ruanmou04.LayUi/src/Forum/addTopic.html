@@ -107,33 +107,7 @@
                   </div>
                 </div>
               </div>
-              <div class="layui-row layui-col-space15 layui-form-item layui-hide" id="LAY_quiz">
-                <div class="layui-col-md3">
-                  <label class="layui-form-label">所属产品</label>
-                  <div class="layui-input-block">
-                    <select name="project">
-                      <option></option>
-                      <option value="layui">layui</option>
-                      <option value="独立版layer">独立版layer</option>
-                      <option value="独立版layDate">独立版layDate</option>
-                      <option value="LayIM">LayIM</option>
-                      <option value="Fly社区模板">Fly社区模板</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="layui-col-md3">
-                  <label class="layui-form-label" for="L_version">版本号</label>
-                  <div class="layui-input-block">
-                    <input type="text" id="L_version" value="" name="version" autocomplete="off" class="layui-input">
-                  </div>
-                </div>
-                <div class="layui-col-md6">
-                  <label class="layui-form-label" for="L_browser">浏览器</label>
-                  <div class="layui-input-block">
-                    <input type="text" id="L_browser"  value="" name="browser" placeholder="浏览器名称及版本，如：IE 11" autocomplete="off" class="layui-input">
-                  </div>
-                </div>
-              </div>
+            
               <div class="layui-form-item layui-form-text">
                 <div class="layui-input-block">
                   <textarea id="L_content" name="content" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
@@ -205,6 +179,7 @@
                 layui.laytpl(channelSelTpl).render(data,function(html){
                   channelSelView.innerHTML=html;
                 });
+                layui.form.render('select');
           },
           error: function() {
               layer.alert(JSON.stringify(data.field), {
@@ -213,6 +188,13 @@
        });
      }
   }
+
+layui.config({
+  version: "3.0.0"
+  ,base:'/src/Forum/api/'
+}).extend({
+  fly: 'index'
+}).use('fly');
 
 layui.use(['jquery','laytpl','form'], function(){
   var $ = layui.jquery
