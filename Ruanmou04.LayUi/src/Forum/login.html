@@ -155,8 +155,8 @@ layui.use(['jquery','laytpl','form'], function(){
               document.getElementById("L_pass").value="";
               layer.alert("登录成功!", {
               title: '登录成功'});
-
-              window.location.href="/src/Forum/channel.html?key="+obj.data;
+              sessionStorage.setItem("token",obj.data);
+              window.location.href="/src/Forum/channel.html";
             }
             else{
               layer.alert(obj.msg, {

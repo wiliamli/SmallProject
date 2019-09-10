@@ -40,7 +40,7 @@
      <a href="javascript:;" class="fly-avatar">{{item.Conssensus}}</a>
      <h2>
          <!--<a class="layui-badge">分享</a>-->
-         <a href="../src/Forum/detail.html?topic={{item.Id}}" target="_blank" >{{item.Name}}</a>
+         <a href="/src/Forum/detail.html?topic={{item.Id}}" target="_blank" >{{item.Name}}</a>
       </h2>
       <div class="fly-list-info">
               <a href="/src/Forum/user.html" link>
@@ -64,7 +64,31 @@
   <i class="fly-mid"></i> 
   <span class="fly-signin-days">已连续签到<cite>{{d.length}}</cite>天</span>
 </script>
+ 
+<script id="loginTpl" type="text/html">
+    <!-- 未登入的状态 
+    <li class="layui-nav-item">
+      <a class="iconfont icon-touxiang layui-hide-xs" href="/src/Forum/login.html"></a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="/src/Forum/login.html">登入</a>
+    </li>
+-->
+     
+    <li class="layui-nav-item">
+      <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
+        <cite class="layui-hide-xs">{{d.Account}}</cite>
+      </a>
+      <dl class="layui-nav-child">
+        <dd><a href="/src/forum/user.html?userId={{d.Id}}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+        <hr style="margin: 5px 0;">
+        <dd><a href="/user/logout/" style="text-align: center;">退出</a></dd>
+      </dl>
+    </li>
 
+</script>
+
+  
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
@@ -83,15 +107,16 @@
       </li>
     </ul>
     -->
-    <ul class="layui-nav fly-nav-user">
+    <ul id="loginView" class="layui-nav fly-nav-user">
       
-      <!-- 未登入的状态 -->
+      <!-- 未登入的状态 
       <li class="layui-nav-item">
         <a class="iconfont icon-touxiang layui-hide-xs" href="/src/Forum/login.html"></a>
       </li>
       <li class="layui-nav-item">
         <a href="/src/Forum/login.html">登入</a>
       </li>
+      -->
       <!--
       <li class="layui-nav-item">
         <a href="user/reg.html">注册</a>
@@ -533,7 +558,7 @@
 <script type="text/javascript">
 
 var domain=baseDomain();
-var key = getQueryVariable("key");
+var key = sessionStorage.getItem("token");
 var active = {
       channelInit:function(){
         layui.jquery.ajax({
@@ -541,8 +566,6 @@ var active = {
           url:domain+"api/ForumChannel/GetChannelsByRoleId",
           data: {"roleId":1},
           type: 'get',
-          //xhrFields: {withCredentials: true},
-          //crossDomain: true,
           dataType: 'json',
           success: function(obj) {
               var data = obj.Data;
@@ -564,8 +587,6 @@ var active = {
       headers: { token: key},
       data: {"channleId":Id},
       type: 'get',
-      //xhrFields: {withCredentials: true},
-      //crossDomain: true,
       dataType: 'json',
       success: function(obj) {
           var data = obj.Data;
@@ -580,16 +601,16 @@ var active = {
       }
    });}
    ,clockin:function(){
+
+    var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     var clockin={};
-    clockin.userId=1;
+    clockin.userId=userInfo.Id;
 
     layui.jquery.ajax({
       url:domain+"api/ForumCheckIn/Add",
       data:JSON.stringify(clockin),
       headers: {token: key},
       type: 'post',
-      //xhrFields: {withCredentials: true},
-      //crossDomain: true,
       dataType: 'json',
       contentType:'application/json',
       success: function(obj) {
@@ -603,32 +624,57 @@ var active = {
    });
   }
   ,checkInit:function(){
+        var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
-          data: {"userId":1},
+          data: {"userId":userInfo.Id},
           headers: {token: key},
           type: 'get',
-          //xhrFields: {withCredentials: true},
-          //crossDomain: true,
           dataType: 'json',
           success: function(obj) {
               var data = obj.Data;
               var checkTpl=document.getElementById('checkTpl').innerHTML;
-                var checkView=document.getElementById('checkView');
-                layui.laytpl(checkTpl).render(data,function(html){
+              var checkView=document.getElementById('checkView');
+              layui.laytpl(checkTpl).render(data,function(html){
                   checkView.innerHTML=html;
-                });
+              });
           },
           error: function() {
               console.log('ajax请求失败！');
           }
        });
-      },
+  }
+  ,loginInit:function(){
+    layui.jquery.ajax({
+          url:domain+"api/ForumLogin/GetLoginInfo",
+          data: null,
+          headers: {token: key},
+          type: 'get',
+          dataType: 'json',
+          success: function(obj) {
+              if(obj.Success && obj.Data!=null){
+                var data=obj.Data;
+                sessionStorage.setItem("userInfo",JSON.stringify(data));
+                var loginTpl=document.getElementById('loginTpl').innerHTML;
+                var loginView=document.getElementById('loginView');
+                layui.laytpl(loginTpl).render(data,function(html){
+                  loginView.innerHTML=html;
+                });
+             }else{
+              window.location.href="/src/Forum/login.html";
+             }
+          },
+          error: function() {
+              console.log('ajax请求失败！');
+          }
+       });
+    }
 }
 
 layui.use(['jquery','element'], function(){
   var $ = layui.jquery
   ,element = layui.element
+  active.loginInit();
   active.channelInit();
   active.tabChange(null,4);
   active.checkInit();

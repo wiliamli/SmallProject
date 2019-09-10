@@ -146,7 +146,16 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var userId = getQueryVariable("userId");
   var domain = baseDomain();
-  var loginInfo={};
+
+   var loginInfo=function(data){
+          debugger;
+          var loginInfoTpl=document.getElementById('loginInfoTpl').innerHTML;
+          var loginView=document.getElementById('loginView');
+          layui.laytpl(loginInfoTpl).render(data,function(html){
+          loginView.innerHTML=html;
+      });
+  }
+
   var active={
      topicShow:function(){
      $.ajax({
@@ -171,6 +180,7 @@ layui.use(['jquery','laytpl','form'], function(){
        $.ajax({
           url:baseDomain()+"api/ForumInvitation/GetInvitationsByUserId",
           data: {"userId":userId},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -191,15 +201,16 @@ layui.use(['jquery','laytpl','form'], function(){
       $.ajax({
           url:baseDomain()+"api/Users/GetUserByID",
           data: {"userId":userId},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(data) {
-            loginInfo=data;
             var userInfoTpl=document.getElementById('userInfoTpl').innerHTML;
             var userInfoView=document.getElementById('userInfoView');
             layui.laytpl(userInfoTpl).render(data,function(html){
               userInfoView.innerHTML=html;
             });
+            loginInfo(data);
           },
           error: function() {
             layer.alert(JSON.stringify(data.field), {
@@ -207,19 +218,10 @@ layui.use(['jquery','laytpl','form'], function(){
           }
        });
     }
-    ,loginInfo:function(data){
-          debugger;
-          var loginInfoTpl=document.getElementById('loginInfoTpl').innerHTML;
-          var loginView=document.getElementById('loginView');
-          layui.laytpl(loginInfoTpl).render(data,function(html){
-          loginView.innerHTML=html;
-      });
-    }
    }
    active.topicShow();
    active.replyShow();  
    active.userInfo(); 
-   active.loginInfo(loginInfo);
 });
 </script>
 

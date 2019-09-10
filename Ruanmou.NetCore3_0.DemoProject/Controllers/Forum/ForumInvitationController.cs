@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
+using Ruanmou04.NetCore.Project.Models;
 using System.Collections.Generic;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
@@ -22,6 +23,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
 
 
         // GET: api/ForumInvitation
+        [ServiceFilter(typeof(VerifyAttribute))]
         [HttpGet]
         public StandardJsonResult<IEnumerable<ForumInvitationDto>> GetInvitations(int topicId)
         {

@@ -49,17 +49,21 @@ namespace Ruanmou04.NetCore.Project.Controllers
         protected SysUserOutputDto GetUserInfo()
         {
             string key = HttpContext.Request.Headers["token"].SingleOrDefault();
-
+            SysUserOutputDto sysUser = null;
             if (key != null)
             {
-                return this._memoryCache.Get(key) as SysUserOutputDto;
+                sysUser = this._memoryCache.Get(key) as SysUserOutputDto;
             }
-            else
-            {
-                throw new Exception("未登录");
-            }
+            return sysUser;
+        }
 
-            
+        protected void CleanUserInfo()
+        {
+            string key = HttpContext.Request.Headers["token"].SingleOrDefault();
+            if (key != null)
+            {
+                 this._memoryCache.Remove(key);
+            }
         }
     }
 }

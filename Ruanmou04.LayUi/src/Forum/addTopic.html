@@ -21,6 +21,30 @@
 </select>
 </script>
 
+<script id="loginTpl" type="text/html">
+  <!-- 未登入的状态 
+  <li class="layui-nav-item">
+    <a class="iconfont icon-touxiang layui-hide-xs" href="/src/Forum/login.html"></a>
+  </li>
+  <li class="layui-nav-item">
+    <a href="/src/Forum/login.html">登入</a>
+  </li>
+-->
+   
+  <li class="layui-nav-item">
+    <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
+      <cite class="layui-hide-xs">{{d.Account}}</cite>
+    </a>
+    <dl class="layui-nav-child">
+      <dd><a href="/src/forum/user.html?userId={{d.Id}}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+      <hr style="margin: 5px 0;">
+      <dd><a href="/user/logout/" style="text-align: center;">退出</a></dd>
+    </dl>
+  </li>
+
+</script>
+
+
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
@@ -40,7 +64,7 @@
     -->
     </ul>
     
-    <ul class="layui-nav fly-nav-user">
+    <ul id="loginView" class="layui-nav fly-nav-user">
       
       <!-- 未登入的状态 -->
       <!--
@@ -187,6 +211,19 @@
           }
        });
      }
+     ,loginInit:function(){
+             var data = sessionStorage.getItem("userInfo");
+             if(data!=null)
+             {
+                  var loginTpl=document.getElementById('loginTpl').innerHTML;
+                  var loginView=document.getElementById('loginView');
+                  layui.laytpl(loginTpl).render(JSON.parse(data),function(html){
+                    loginView.innerHTML=html;
+                  });
+              }else{
+                window.location.href="/src/Forum/login.html";
+          }
+      }
   }
 
 layui.config({
@@ -200,6 +237,8 @@ layui.use(['jquery','laytpl','form'], function(){
   var $ = layui.jquery
   ,element = layui.element
   ,form = layui.form
+
+   active.loginInit();
    active.channelSelShow();
 
    var selValue=4;
