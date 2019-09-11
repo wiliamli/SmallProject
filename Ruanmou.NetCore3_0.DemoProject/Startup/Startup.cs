@@ -222,14 +222,15 @@ namespace Ruanmou.NetCore3_0.DemoProject
             #endregion
 
             app.UseMiddleware<AuthorizeMiddleware>();
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+                //app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

@@ -57,6 +57,9 @@ namespace Ruanmou.Core.Utility
         public static SigningCredentials SigningCredentials { get; private set; }
         //登录过期时间
         public static TimeSpan Expiration { get; private set; }
+
+        public const string DefaultPassPhrase = "gsKxGZ012HLL3MI5";
+
         #endregion
     }
 }

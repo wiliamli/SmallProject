@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Ruanmou.NetCore3_0.DemoProject.Models;
@@ -22,7 +23,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         [HttpPost]
         public AjaxResult GetMenuList()
         {
-
+            
             return new AjaxResult { data = _currentUserInfo.CurrentUser.Name };
         }
         [HttpGet]

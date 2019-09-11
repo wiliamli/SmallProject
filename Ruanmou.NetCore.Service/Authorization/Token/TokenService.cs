@@ -209,8 +209,9 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
                 ExpiresUtc = DateTime.Now.Add(tokenExpiration),
                 IsPersistent = true
             };
-            //_httpContextAccessor.HttpContext.User = new ClaimsPrincipal(identity);
-            //await _authenticationService.SignInAsync(_httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), props);
+            var claims = new ClaimsPrincipal(identity);
+            _httpContextAccessor.HttpContext.User = claims;
+            await _authenticationService.SignInAsync(_httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, claims, props);
             return accessToken;
         }
 

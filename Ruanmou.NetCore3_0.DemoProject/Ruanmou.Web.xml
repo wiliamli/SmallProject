@@ -51,6 +51,11 @@
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
         </member>
+        <member name="T:Ruanmou04.NetCore.Project.Utility.Middleware.ExceptionHandlingMiddleware">
+            <summary>
+            错误处理中间件
+            </summary>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
             <summary>
