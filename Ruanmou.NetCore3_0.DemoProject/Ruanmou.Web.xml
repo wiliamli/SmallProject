@@ -48,12 +48,24 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:Ruanmou04.NetCore.Project.Models.ICurrentUserInfo">
+            功能描述    ：CurrentUserInfo  
+            创 建 者    ：magic
+            创建日期    ：2019/9/7 12:04:33 
+            最后修改者  ：Administrator
+            最后修改日期：2019/9/7 12:04:33 
+        </member>
         <member name="M:Ruanmou04.NetCore.Project.ProjectModule.Init(Autofac.ContainerBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             初始化配置文件
             </summary>
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
+        </member>
+        <member name="T:Ruanmou04.NetCore.Project.Utility.Middleware.ExceptionHandlingMiddleware">
+            <summary>
+            错误处理中间件
+            </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
@@ -75,6 +87,24 @@
             </summary>
             <param name="configuration"></param>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.InMemoryConfiguration.GetApiResources">
+            <summary>
+            Define which APIs will use this IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.InMemoryConfiguration.GetClients">
+            <summary>
+            Define which Apps will use thie IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.InMemoryConfiguration.GetUsers">
+            <summary>
+            Define which uses will use this IdentityServer
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacAop">
             <summary>
             自定义的Autofac的AOP扩展
@@ -85,5 +115,6 @@
             Autofac配置
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:Ruanmou.Core.Utility.Middleware.AuthorizeMiddleware" -->
     </members>
 </doc>

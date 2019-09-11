@@ -72,7 +72,7 @@
     <script src="/swagger/ui/abp.swagger.js"></script>
     <script>
         window.onload = function () {
-            
+            debugger
             var configObject = JSON.parse('%(ConfigObject)');
             // Apply mandatory parameters
             configObject.dom_id = "#swagger-ui";
@@ -92,6 +92,7 @@
                 return abp.auth.getToken() ? 'cancel' : 'authorize';
             }
             configObject.plugins = [
+                debugger
                 function (system) {
                     return {
                         components: {

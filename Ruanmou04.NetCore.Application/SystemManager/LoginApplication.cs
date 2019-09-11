@@ -7,6 +7,7 @@ using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
 using Ruanmou.NetCore.Service;
 using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
 using System;
 using System.Collections.Generic;
 
@@ -21,10 +22,21 @@ namespace Ruanmou.NetCore.Application
     {
 
         private readonly ILoginService _loginService;
-        public LoginApplication(ILoginService loginService)
+        private readonly ITokenService _tokenService;
+        public LoginApplication(ILoginService loginService, ITokenService tokenService)
         {
             _loginService = loginService;
+            _tokenService = tokenService;
         }
+        public LoginApplication()
+        {
+            _loginService = null;
+        }
+        public Task<AjaxResult> ConfirmVerificationAsync(string token)
+        {
+            return _tokenService.ConfirmVerificationAsync(token);
+        }
+
         public AjaxResult Login(LoginInputDto loginInput)
         {
             return _loginService.Login(loginInput);
