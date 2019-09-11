@@ -5,7 +5,6 @@ using Ruanmou.NetCore.Interface;
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.NetCore.Project.Controllers;
 using Ruanmou04.NetCore.Project.Models;
-using Ruanmou04.NetCore.Service.Authorization;
 using System.Threading.Tasks;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
