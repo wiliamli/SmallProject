@@ -77,7 +77,7 @@
                 <div class="main-right">
                     <div class="content-title"><span>信息管理</span></div> 
                     <div class="main-content">
-                        <form method="post" class="layui-form">
+                        <form class="layui-form">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label" for="UserName">账号</label>
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <button class="layui-btn layui-input-block" lay-submit="submitInfo">保存资料</button>
+                                <button class="layui-btn layui-input-block" lay-submit lay-filter="submitInfo">保存资料</button>
                             </div>
                         </form>
                     </div>
@@ -215,7 +215,7 @@
 						$("input[name='UserId']").val(result.id);
 						$("input[name='NickName']").val(result.name); //昵称
 						$("input[name='RealName']").val(result.name);
-						$("input[name='Mobile']").val(result.phone);
+						$("input[name='Mobile']").val(result.mobile);
 						$("input[name='QQ']").val(result.qq);
 						$("input[name='Wechat']").val(result.weChat); 
 						if(result.sex == '女')
@@ -231,6 +231,50 @@
                     console.log("error: api request failed");
                     console.log(XMLHttpResponse);
                 }
+            })
+			
+			//登录事务处理
+            form.on("submit(submitInfo)", function (obj) {
+                  
+                var user = {
+					Id: parseInt(obj.field.UserId),
+                    Name: obj.field.RealName,
+                    Mobile: parseInt(obj.field.Mobile),
+                    QQ: parseInt(obj.field.QQ),
+                    WeChat: obj.field.Wechat, 
+                    Sex: obj.field.sex,
+                }; 
+				var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+				$.ajax({
+                    type:'Post',
+					dataType: "json", 
+                    data:JSON.stringify(user),
+					contentType:'application/json',
+					headers: {token: key},
+                    url:config.apiUrl +'/PortalUser/SaveUser',
+                    success:function (result)
+                    {  
+						layer.close(LoadIndex);
+                        console.log(result);
+                        if(result.success)
+                        { 
+                            layer.msg("保存成功", { icon: 1 });  
+                        }
+                        else
+                        {    
+                            layer.msg(result.msg, { icon: 2 });
+                        } 
+                    },
+                    error: function (XMLHttpResponse) {
+						layer.close(LoadIndex);
+                        console.log("error: api request failed");
+                        console.log(XMLHttpResponse);
+                    }
+                })
+					 
+				 
+				return false; 
+			  
             })
 
         })
