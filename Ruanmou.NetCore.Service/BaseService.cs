@@ -32,7 +32,7 @@ namespace Ruanmou.NetCore.Service
         {
             return this.Context.Set<T>().Find(id);
         }
-        public T Find<T>(Expression<Func<T,bool>> func) where T : class
+        public T Find<T>(Expression<Func<T, bool>> func) where T : class
         {
             return this.Context.Set<T>().Where<T>(func).FirstOrDefault();
         }
@@ -60,7 +60,18 @@ namespace Ruanmou.NetCore.Service
             else
                 return this.Context.Set<T>().Where<T>(funcWhere);
         }
+        /// <summary>
+        /// 这才是合理的做法，上端给条件，这里查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="funcWhere"></param>
+        /// <returns></returns>
+        public IQueryable<T> Query<T>() where T : class
+        {
 
+            return this.Context.Set<T>();
+
+        }
         public PagedResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class
         {
             var list = this.Set<T>();
@@ -186,7 +197,7 @@ namespace Ruanmou.NetCore.Service
         public IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class
         {
             //return this.Context.Database.SqlQuery<T>(sql, parameters).AsQueryable();
-            return this.Context.Set<T>().FromSqlRaw<T>(sql,parameters);
+            return this.Context.Set<T>().FromSqlRaw<T>(sql, parameters);
         }
 
         [Obsolete]

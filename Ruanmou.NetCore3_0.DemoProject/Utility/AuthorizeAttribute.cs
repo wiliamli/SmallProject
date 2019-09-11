@@ -17,11 +17,10 @@ using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.Project.Utility
 {
-    public class AuthorizeAttribute : Attribute, IActionFilter
+    public class CustomAuthorizeAttribute : Attribute, IActionFilter
     {
         private  ILoginApplication _loginApplication;
-        private readonly ILogger<AuthorizeAttribute> _logger = null;
-        public AuthorizeAttribute()//(ILogger<AuthorityAttribute> logger, ILoginApplication loginApplication)
+        public CustomAuthorizeAttribute( ILoginApplication loginApplication)
         {
            
         }

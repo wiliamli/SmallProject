@@ -1,88 +1,90 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>管理后台登录</title>
-    <link href="/css/login.css" rel="stylesheet" /> 
-    <link rel="stylesheet" href="/css/layui.css">
-</head>
-<body class="layui-layout-body" style="background-color:black">
-    <div class="layui-fluid" style="padding: 0px;">
-        <canvas id="particle"></canvas>
-        <br />
-        <div class="layui-form layui-form-pane layui-admin-login">
-            <div class="layui-admin-login-header">
-                <h1>登陆</h1>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
-                <div class="layui-input-block">
-                    <input required lay-verify="required" name="account" class="layui-input" type="text" placeholder="请输入账号" autocomplete="off" />
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
-                <div class="layui-input-block">
-                    <input required lay-verify="required" name="passWord" class="layui-input" type="password" placeholder="请输入密码" autocomplete="off" />
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <input type="checkbox" pane name="remember" title="记住密码" lay-skin="primary">
-                <a href="javascript:;" style="margin-top: 10px;float: right;color: #009688;">忘记密码?</a>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="loginxxx">
-                        <i class="layui-icon layui-icon-ok-circle"></i>登陆
-                    </button>
-                </div>
-                <div class="layui-btn-container">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="register">
-                        <i class="layui-icon layui-icon-add-circle"></i>注册
-                    </button>
-                </div>
-            </div>
-            <!--底部-->
-            <!-- <div class="layui-footer"> 让编程更简单</div> -->
-        </div>
-    </div>
-    <script src="/layui.js"></script>
-    <script> 
-        // 登录 需要做表单提交给后台，  或者数据收集之后提交给后台
-        layui.use(['layer', 'form','config'], function () { 
-            var layer = layui.layer;
-            var form = layui.form,
-                $ = layui.jquery
-                config = layui.config;
-                
-                form.on("submit(loginxxx)",function(obj)
-                {
-                      var user=obj.field;
-                      $.ajax({
-                          type:'Post',
-                          data:JSON.stringify(user),
-                          contentType:'application/json',
-                          url:config.apiUrl +'/Login/LoginSystemManager',
-                          success:function (result)
-                          {
-                                // var jsonResult=JSON.parse(result);
-                                debugger
-                                if(result.success)
-                                {
-                                   var apiTiket= result.data; 
-                                   sessionStorage.setItem("apiTicket",apiTiket)
-                                   window.location.href="home.html";
-                                }
-                                else
-                                {
-                                    layer.msg(result.msg,{icon:2});
-                                } 
-                          }
-                     })
-                })
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>管理后台登录</title>
+  <link href="/css/login.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/layui.css">
+</head>
+
+<body class="layui-layout-body" style="background-color:black">
+  <div class="layui-fluid" style="padding: 0px;">
+    <canvas id="particle"></canvas>
+    <br />
+    <div class="layui-form layui-form-pane layui-admin-login">
+      <div class="layui-admin-login-header">
+        <h1>登陆</h1>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
+        <div class="layui-input-block">
+          <input required lay-verify="required" name="account" class="layui-input" type="text" placeholder="请输入账号"
+            autocomplete="off" />
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
+        <div class="layui-input-block">
+          <input required lay-verify="required" name="passWord" class="layui-input" type="password" placeholder="请输入密码"
+            autocomplete="off" />
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <input type="checkbox" pane name="remember" title="记住密码" lay-skin="primary">
+        <a href="javascript:;" style="margin-top: 10px;float: right;color: #009688;">忘记密码?</a>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-btn-container">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="loginxxx">
+            <i class="layui-icon layui-icon-ok-circle"></i>登陆
+          </button>
+        </div>
+        <div class="layui-btn-container">
+          <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="register">
+            <i class="layui-icon layui-icon-add-circle"></i>注册
+          </button>
+        </div>
+      </div>
+      <!--底部-->
+      <!-- <div class="layui-footer"> 让编程更简单</div> -->
+    </div>
+  </div>
+  <script src="/layui.js"></script>
+  <script>
+    // 登录 需要做表单提交给后台，  或者数据收集之后提交给后台
+    layui.use(['layer', 'form', 'config'], function () {
+      var layer = layui.layer;
+      var form = layui.form,
+        $ = layui.jquery
+      config = layui.config;
+      sessionStorage.setItem("apiTicket", "")
+      sessionStorage.setItem("userName", "")
+      form.on("submit(loginxxx)", function (obj) {
+        var user = obj.field;
+        $.ajax({
+          type: 'Post',
+          data: JSON.stringify(user),
+          contentType: 'application/json',
+          url: config.apiUrl + '/Login/LoginSystemManager',
+          success: function (result) {
+            // var jsonResult=JSON.parse(result);
+            if (result.success) {
+              var data = result.data;
+              sessionStorage.setItem("apiTicket", data.token)
+              sessionStorage.setItem("userName", data.name)
+              window.location.href = "home.html";
+            }
+            else {
+              layer.msg(result.msg, { icon: 2 });
+            }
+          }
         })
-    </script>
+      })
+
+    })
+  </script>
 </body>
+
 </html>
