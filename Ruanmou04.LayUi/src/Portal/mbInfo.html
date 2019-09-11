@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="mb-header-info">
-                    <div class="mb-hello">欢迎你，<span class="mb-nickname">Eleven！</span></div>
+                    <div class="mb-hello">欢迎你，<span class="mb-nickname">Eleven</span>！</div>
                     <div class="mb-lv"><i class="layui-icon layui-icon-diamond"></i>会员等级：<span class="mb-lv-sp">VIP</span></div>
                 </div>
                 <ul class="mb-header-account">
@@ -51,7 +51,7 @@
                     </li>-->
                     <li>
                         <h5>积分</h5>
-                        <p>52638</p>
+                        <p>0</p>
                     </li>
                 </ul>
             </div>
@@ -82,6 +82,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label" for="UserName">账号</label>
                                     <div class="layui-input-block cell">
+										<input type="hidden" name="UserId" name="UserId" value="" />
                                         <input type="text" id="UserName" name="UserName" autocomplete="off" value="2131231321" class="layui-input disabled" disabled="disabled">
                                     </div>
                                 </div>
@@ -106,8 +107,8 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">性别</label>
                                     <div class="layui-input-block cell">
-                                        <input type="radio" name="Gender" value="M" title="纯爷们" checked="checked">
-                                        <input type="radio" name="Gender" value="F" title="萌妹子">
+                                        <input type="radio" name="sex" value="男" title="纯爷们" checked="checked">
+                                        <input type="radio" name="sex" value="女" title="萌妹子">
                                     </div>
                                 </div>
                             </div>
@@ -182,17 +183,55 @@
     <script type="text/javascript">
         layui.use(['element', 'layer', 'form', 'config'], function () {
             //debugger;
-            var element = layui.element;
-          
+            var element = layui.element; 
 
             var layer = layui.layer;
             var form = layui.form;
             var config = layui.config;
             var $ = layui.jquery;
-
+			$.support.cors = true;
             common.Init($, layer); 
-
-          
+			
+			var key = localStorage.getItem("RuanmouNetToken");
+			console.log("key = "+key);
+			//获取用户信息
+			$.ajax({
+                type:'GET',
+				dataType: "json",
+                //contentType:'application/json',
+                url:config.apiUrl +'/PortalUser/GetUser',
+				headers: {token: key},
+                success:function (result)
+                {   
+					console.log(result);
+					if(result == null)
+					{
+						//登陆超时或没有登陆
+						localStorage.removeItem("RuanmouNetToken");
+						common.Init($, layer); 
+					}else
+					{
+						$("input[name='UserName']").val(result.account);
+						$("input[name='UserId']").val(result.id);
+						$("input[name='NickName']").val(result.name); //昵称
+						$("input[name='RealName']").val(result.name);
+						$("input[name='Mobile']").val(result.phone);
+						$("input[name='QQ']").val(result.qq);
+						$("input[name='Wechat']").val(result.weChat); 
+						if(result.sex == '女')
+						{ 
+							$(":radio[name='sex'][value='女']").prop("checked","checked"); 
+							form.render();  
+						}
+						
+						$(".mb-nickname").html(result.name);
+					} 
+                },
+                error: function (XMLHttpResponse) { 
+                    console.log("error: api request failed");
+                    console.log(XMLHttpResponse);
+                }
+            })
 
         })
     </script>
