@@ -29,6 +29,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ILoginApplication _loginApplication = null;
         private ITokenService _tokenService;
         private IMemoryCache _memoryCache;
+        private ISysRoleApplication _sysRoleApplication;
+
 
         public LoginController(ILoggerFactory factory,
             ILogger<UsersController> logger,
@@ -36,6 +38,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             , ILoginApplication loginApplication
             , ITokenService tokenService
             , IMemoryCache memoryCache
+            , ISysRoleApplication sysRoleApplication
             )
         {
             this._Factory = factory;
@@ -44,6 +47,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             this._loginApplication = loginApplication;
             this._tokenService = tokenService;
             this._memoryCache = memoryCache;
+            this._sysRoleApplication = sysRoleApplication;
         }
         #endregion
         [HttpPostAttribute]
@@ -57,7 +61,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 //添加session,sessionId不同，cookie没跨域
                 //HttpContext.Session.Set("userInfo",
                 //    System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(sysuserdto)));
-                
+
+                var curRoles =this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
+                if (curRoles != null)
+                {
+                    sysuserdto.SysRoles = curRoles;
+                }
+
                 //var generatedto =
                 var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
                 ajax = await _tokenService.GenerateTokenAsync(generatedto);
@@ -74,13 +84,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             var ajax =await _tokenService.ConfirmVerificationAsync(token);
           
             return ajax;
-        }
-
-        private void SetUserCache(SysUserOutputDto sysUser)
-        {
-    
-            string key = $"{sysUser.Id}_{sysUser.Account}_{sysUser.Password}";
-            
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Ruanmou.NetCore.Application
 {
     public interface ISysRoleApplication : IApplication
     {
-        
+        IEnumerable<SysRoleDto> GetUserRoles(int userId);
     }
 }

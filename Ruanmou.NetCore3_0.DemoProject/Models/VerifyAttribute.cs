@@ -29,11 +29,6 @@ namespace Ruanmou04.NetCore.Project.Models
             {
                 throw new Exception("请登录后使用");
             }
-            else
-            {
-               object userInfo = this._memoryCache.Get(key);
-
-            }
         }
     }
 }

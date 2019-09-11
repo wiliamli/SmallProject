@@ -48,9 +48,9 @@ namespace Ruanmou.EFCore3_0.Model
 
         public virtual DbSet<SysRoleMenuOperationMapping> SysRoleMenuOperationMapping { get; set; }
         public virtual DbSet<SysUser> SysUsers { get; set; }
-        public virtual DbSet<SysUserMenuMapping> SysUserMenuMappings { get; set; }
+        public virtual DbSet<SysUserMenuMapping> SysUserMenuMapping { get; set; }
         public virtual DbSet<SysUserMenuOperationMapping> SysUserMenuOperationMapping { get; set; }
-        public virtual DbSet<SysUserRoleMapping> SysUserRoleMappings { get; set; }
+        public virtual DbSet<SysUserRoleMapping> SysUserRoleMapping { get; set; }
 
         public virtual DbSet<SysCourse> SysCourse { get; set; }
         public virtual DbSet<SysCourseCategory> SysCourseCategory { get; set; }

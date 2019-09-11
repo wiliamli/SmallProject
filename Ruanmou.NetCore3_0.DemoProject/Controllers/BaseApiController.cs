@@ -46,6 +46,10 @@ namespace Ruanmou04.NetCore.Project.Controllers
             return result;
         }
 
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <returns></returns>
         protected SysUserOutputDto GetUserInfo()
         {
             string key = HttpContext.Request.Headers["token"].SingleOrDefault();
@@ -57,6 +61,9 @@ namespace Ruanmou04.NetCore.Project.Controllers
             return sysUser;
         }
 
+        /// <summary>
+        /// 退出
+        /// </summary>
         protected void CleanUserInfo()
         {
             string key = HttpContext.Request.Headers["token"].SingleOrDefault();

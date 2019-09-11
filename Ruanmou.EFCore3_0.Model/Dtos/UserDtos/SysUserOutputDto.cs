@@ -56,5 +56,10 @@ namespace RM04.DBEntity
         /// 最后登陆时间
         /// <summary>
         public DateTime? LastLoginTime { get; set; }
+
+        /// <summary>
+        /// 当前角色
+        /// </summary>
+        public IEnumerable<SysRoleDto> SysRoles { get; set; }
     }
 }
