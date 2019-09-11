@@ -10,7 +10,7 @@ namespace Ruanmou04.EFCore.Model.DtoHelper
         /// <summary>
         /// 是否成功
         /// </summary>
-        public bool success { get; set; } = true;
+        public bool success { get; set; }
 
         /// <summary>
         /// 数据

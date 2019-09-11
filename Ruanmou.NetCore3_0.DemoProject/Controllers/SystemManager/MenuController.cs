@@ -11,7 +11,7 @@ using Ruanmou04.NetCore.Project.Utility;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-    //[AuthorizeAttribute]
+    [CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
     public class MenuController : ControllerBase
     {
@@ -28,9 +28,10 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <param name="menuType">1后台的，2是网站，3是论坛</param>
         /// <returns></returns>
-        [HttpGet]
-        public AjaxResult GetMenuList(int menuType=1)
+        [HttpPost]
+        public AjaxResult GetMenuList()
         {
+            int menuType = 1;
             var menu = _userMenuService.GetAuthorityMenuList(_currentUserInfo.CurrentUser.Id,menuType);
             return new AjaxResult { data = menu };
         }

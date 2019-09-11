@@ -67,7 +67,7 @@
             错误处理中间件
             </summary>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenuList(System.Int32)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenuList">
             <summary>
             获取权限菜单 
             </summary>
