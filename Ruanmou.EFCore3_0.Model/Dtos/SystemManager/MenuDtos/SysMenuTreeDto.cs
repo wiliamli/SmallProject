@@ -43,6 +43,13 @@ namespace RM04.DBEntity
         //一级菜单为 root/guid
         /// <summary>
         public string SourcePath { get; set; }
-
+        /// <summary>
+        /// 角色Id
+        /// </summary>
+        public int RoleId { get; set; }
+        /// <summary>
+        /// 排序值
+        /// <summary>
+        public int? Sort { get; set; }
     }
 }

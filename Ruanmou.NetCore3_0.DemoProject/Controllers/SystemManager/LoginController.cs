@@ -71,6 +71,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 //var generatedto =
                 var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
                 ajax = await _tokenService.GenerateTokenAsync(generatedto);
+                generatedto.Token = ajax.data.ToString();
+                ajax.data = generatedto;
                 this._memoryCache.Set<SysUserOutputDto>(ajax.data, sysuserdto);
             }
 

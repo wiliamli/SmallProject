@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>layout 后台大布局 - Layui</title>
-  <link rel="stylesheet" href="/css/layui.css">
+  <link rel="stylesheet" href="../css/layui.css">
 </head>
 
 <body class="layui-layout-body">
@@ -20,14 +20,14 @@
         <li class="layui-nav-item">
           <a href="javascript:;">
             <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-            贤心
+            <span id="spUsername"></span>
           </a>
           <dl class="layui-nav-child">
             <dd><a href="">基本资料</a></dd>
             <dd><a href="">安全设置</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item"><a href="">退出</a></li>
+        <li class="layui-nav-item"><a href="login.html">退出</a></li>
       </ul>
     </div>
 
@@ -68,23 +68,10 @@
   <script id="tepMenue" type="text/html">
         {{# layui.each(d,function(index,item){ }}
         <li class="layui-nav-item left-menu">
-            <a class="" href="javascript:;" onclick="AdminPage.selectMenu(this)">
-                <i class="layui-icon {{item.Ico}}"></i>
-                {{ item.MenuName }}
-                <span class="layui-nav-more"></span>
-            </a>
-            {{# if(item.Submenu && item.Submenu.length>0){ }}
-                {{# layui.each(item.Submenu,function(cindex,xitem){ }}
-                <dl class="layui-nav-child">
-                    <dd>
-                        <a href="javascript:;" ico="{{xitem.Ico}}" alt="{{xitem.MenuName}}" dir="{{ xitem.Url }}" onclick="AdminPage.PageInit(this)">
-                            <i class="layui-icon {{xitem.Ico}}"></i>
-                            {{ xitem.MenuName }}
-                        </a>
-                    </dd>
-                </dl>
-                {{# });}}
-            {{# } }}
+            <a href="javascript:;" ico="{{item.menuIcon}}" alt="{{item.description}}" dir="{{ item.url }}" onclick="AdminPage.PageInit(this)">
+              <i class="layui-icon {{item.menuIcon}}"></i>
+              {{ item.text }}
+          </a>
         </li>
         {{# }); }}
     </script>
@@ -99,30 +86,7 @@
         </li>
     </script>
 
-  <!-- onmousemove="AdminPage.OnShowMenu(this)" onmouseout="AdminPage.OnHeadMenu(this)" -->
-  <script id="tepNavigationBar" type="text/html">
-        {{# layui.each(d,function(index,item){ }}
-        <li class="layui-nav-item" onmousemove="AdminPage.OnShowMenu(this)" onmouseout="AdminPage.OnHeadMenu(this)">
-            <a href="javascript:;">
-                {{ item.MenuName }}
-                {{# if(item.Submenu && item.Submenu.length>0){ }}
-                <span class="layui-nav-more"></span>
-                {{# } }}
-            </a>
-            {{# if(item.Submenu && item.Submenu.length>0){ }}
-            <dl class="layui-nav-child">
-
-                {{# layui.each(item.Submenu,function(xindex,xitem){ }}
-                <dd><a href="">{{xitem.MenuName}}</a></dd>
-                {{# }); }}
-
-            </dl>
-            {{# } }}
-        </li>
-        {{# }); }}
-    </script>
-
-  <script src="/layui.js"></script>
+  <script src="../layui.js"></script>
   <script type="text/javascript">
     //初始化主页
     var AdminPage = {
@@ -134,67 +98,21 @@
           beforeSend: function (XHR) {
             XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
           },
-
-          // headers: {
-          //   "Access-Control-Allow-Origin": "*",
-          //   "Access-Control-Allow-Headers": "Authorization",
-          //   "Authorization": "Bearer " + sessionStorage.getItem("apiTicket")
-          // },
           url: config.apiUrl + "/Menu/GetMenuList",
           success: function (result) {
-            var jsonData = JSON.parse(result);
-            if (jsonData.Result) {
+            if (result.success) {
+              document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
               var getTpl = document.getElementById('tepMenue').innerHTML;
               var view = document.getElementById('menuUl');
-              laytpl(getTpl).render(jsonData.Data, function (html) {
+              laytpl(getTpl).render(result.data, function (html) {
                 view.innerHTML = html;
               });
             }
             else {
-              layer.msg(jsonData.Message, { icon: 7 });
-              setInterval(function () {
-                //window.location.href="Sign.html";
-              }, 2000)
+              layer.msg(result.msg, { icon: 7 });
             }
           }
         })
-      },// 初始化 左侧列表
-      NavigationBarInit: function () {
-        $.ajax({
-          type: "get",
-          data: { nav: 1 },
-          beforeSend: function (XHR) {
-            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-          },
-          url: config.apiUrl + "/Menu/GetNavigationBarList",
-          success: function (result) {
-            var jsonData = JSON.parse(result);
-            if (jsonData.Result) {
-              var getTpl = document.getElementById('tepNavigationBar').innerHTML;
-              var view = document.getElementById('navigationBar');
-              laytpl(getTpl).render(jsonData.Data, function (html) {
-                view.innerHTML = html;
-              });
-            }
-            else {
-              layer.msg(jsonData.Message, { icon: 7 });
-              setInterval(function () {
-                // window.location.href="Sign.html";
-              }, 2000)
-            }
-          }
-        })
-      },// 初始化 左侧列表
-      selectMenu: function (event) {
-        $(".layui-nav-itemed").each(function (index, item) {
-          $(item).removeClass("layui-nav-itemed");
-        })
-        if ($(event.parentNode).hasClass("layui-nav-itemed")) {
-          $(event.parentNode).removeClass("layui-nav-itemed");
-        }
-        else {
-          $(event.parentNode).addClass("layui-nav-itemed");
-        }
       },// 选择左侧一级菜单js 处理
       PageInit: function (event) {
         $(".layui-this").each(function (index, item) {
@@ -219,22 +137,10 @@
           crmLiContent.innerHTML = html;
         });
       },
-      OnShowMenu: function (event) {
-        if ($(event).find("span").hasClass("layui-nav-mored") == false) {
-          $(event).find("span").addClass("layui-nav-mored")
-        }
-        if ($(event).find("dl").hasClass("layui-show") == false) {
-          $(event).find("dl").addClass("layui-show")
-        }
+      loginOut: function (event) {
+
+        top.location.href = "login.html";
       },
-      OnHeadMenu: function (event) {
-        if ($(event).find("span").hasClass("layui-nav-mored")) {
-          $(event).find("span").removeClass("layui-nav-mored")
-        }
-        if ($(event).find("dl").hasClass("layui-show")) {
-          $(event).find("dl").removeClass("layui-show")
-        }
-      }
     };
     //JavaScript代码区域
     layui.use(['jquery', 'layer', 'laytpl', 'config'], function () {
@@ -243,7 +149,10 @@
         config = layui.config;
       // 初始化左侧菜单
       AdminPage.LeftMenuInit();
-      AdminPage.NavigationBarInit();
+      if (!sessionStorage.getItem("apiTicket")) {
+        layer.msg("请先登录", { icon: 7 });
+        window.location.href = "login.html";
+      }
     });
   </script>
 </body>
