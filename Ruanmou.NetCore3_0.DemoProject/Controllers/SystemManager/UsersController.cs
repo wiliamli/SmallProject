@@ -15,6 +15,8 @@ using Ruanmou04.Core.Utility.Security;
 using Ruanmou04.Core.Model.DtoHelper;
 using Ruanmou04.NetCore.Project.Utility;
 using Ruanmou04.NetCore.Project.Models;
+using Newtonsoft.Json;
+using Ruanmou04.Core.Utility;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
@@ -47,35 +49,26 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public SysUserOutputDto GetUserByID(int userId)
         {
-            return _IUserService.Find<SysUser>(userId).MapTo<SysUser,SysUserOutputDto>();
+            return _IUserService.Find<SysUser>(userId).MapTo<SysUser, SysUserOutputDto>();
 
         }
-[HttpGet]
-
-        public CurrentUser GetCurrentUserByID()
-        {
-            return _currentUserInfo.CurrentUser;
-
-        }
-        //GET api/SysUser/?username=xx
-        [HttpGet]
-        //[CustomBasicAuthorizeAttribute]
-        //[CustomExceptionFilterAttribute]
-        public IEnumerable<SysUser> GetUserByName(string userName)
-        {
-
-            return _IUserService.Query<SysUser>(u=>u.Name==userName);
-        }
-
-        //GET api/SysUser/?username=xx&id=1
+        /// <summary>
+        /// 获取所有用户
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
 
-        public IEnumerable<SysUser> GetUserByNameId(string userName, int id)
+        public string GetUsers(int page,int limit)
         {
+            var userData= _IUserService.GetSysUsers();
+
+            PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex=page , PageSize=limit, Rows=userData,Total=userData.Count };
+
+            return JsonConvert.SerializeObject(pagedResult);
 
 
-            return _IUserService.Query<SysUser>(p => string.Equals(p.Name, userName, StringComparison.OrdinalIgnoreCase));
         }
+
 
         #endregion HttpGet
 
@@ -86,11 +79,11 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         //只接受一个参数的需要不给key才能拿到
         [HttpPost]
         public SysUserOutputDto Register([FromBody]int id)//可以来自FromBody   FromUri
-                                               //public SysUser Register(int id)//可以来自url
+                                                          //public SysUser Register(int id)//可以来自url
         {
             string idParam = base.HttpContext.Request.Form["id"];
 
-            
+
             return null;
         }
 
@@ -106,7 +99,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
 
 
-       
+
         #endregion HttpPost
 
         #region HttpPut
@@ -118,14 +111,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //string nameParam = base.HttpContext.Request.Form["UserName"];
             //string emailParam = base.HttpContext.Request.Form["UserEmail"];
             //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
-            var user= userInput.MapTo<SysUserInputDto, SysUser>();
+            var user = userInput.MapTo<SysUserInputDto, SysUser>();
             user.Password = Encrypt.EncryptionPassword(user.Password);
             //user.CreateId= user.LastModifyId = 1;
             //user.CreateTime=user.LastLoginTime=user.LastModifyTime = DateTime.Now;
 
             user = _IUserService.Insert<SysUser>(user);
-            
-            if (user!=null)
+
+            if (user != null)
             {
                 ajaxResult.success = true;
             }
@@ -136,7 +129,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return ajaxResult;
         }
 
-[HttpPut]
+        [HttpPut]
         public AjaxResult Registertest(SysRoleDto userInput)//可以来自FromBody   FromUri
         {
             AjaxResult ajaxResult = new AjaxResult { success = false };
@@ -148,18 +141,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //user.Password = Encrypt.EncryptionPassword(user.Password);
             var role = userInput.MapTo<SysRoleDto, SysRole>();
             _IUserService.Insert<SysRole>(role);
-            
+
             return ajaxResult;
         }
 
 
-        
+
         #endregion HttpPut
 
         #region HttpDelete
         //POST api/SysUser/RegisterNoneDelete
 
-       
+
 
         //POST api/SysUser/RegisterUserDelete
         [HttpDelete]
@@ -168,11 +161,11 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             string idParam = base.HttpContext.Request.Form["Id"];
             string nameParam = base.HttpContext.Request.Form["UserName"];
             string emailParam = base.HttpContext.Request.Form["UserEmail"];
-            return user.MapTo<SysUserInputDto,SysUserOutputDto>();
+            return user.MapTo<SysUserInputDto, SysUserOutputDto>();
         }
 
 
-       
+
         #endregion HttpDelete
     }
 }

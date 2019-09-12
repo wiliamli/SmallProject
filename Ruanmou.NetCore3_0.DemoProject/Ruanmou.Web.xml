@@ -74,6 +74,12 @@
             <param name="menuType">1后台的，2是网站，3是论坛</param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsers(System.Int32,System.Int32)">
+            <summary>
+            获取所有用户
+            </summary>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
             <summary>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>表格操作 - layui</title>
+</head>
+
+<body>
+  <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">新增</button>
+        </div>
+    </script>
+
+  <div class="layui-inline">
+    <input type="text" autocomplete="off" id="keyword" placeholder="关键字..." class="layui-input layui-btn-sm">
+  </div>
+  <div class="layui-inline">
+    <input type="text" name="date" id="starDate" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off"
+      class="layui-input">
+  </div>
+  <div class="layui-inline">
+    <input type="text" name="date" id="endDate" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off"
+      class="layui-input">
+  </div>
+  <div class="layui-btn layui-btn-normal" id="search">查询</div>
+
+  <table id="test" lay-filter="test"></table>
+
+  <!-- layer模板 -->
+  <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+  <script>
+    layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
+      var table = layui.table,
+        laydate = layui.laydate,
+        config = layui.config;
+
+      //日期  // 初始化日期
+      laydate.render({
+        elem: '#starDate'
+      });
+
+
+      //初始化日期
+      laydate.render({
+        elem: '#endDate'
+      });
+
+      //渲染
+      table.render({
+        elem: '#test'
+        , height: 700
+        , title: '用户数据表'
+        , url: config.apiUrl + '/Users/GetUsers'
+        , where: {
+          keyWord: $("#keyword").val(),
+          starData: $("#starDate").val(),
+          endDate: $("#endDate").val()
+        }
+        , loading: true
+        , limit: 10
+        , toolbar: '#toolbarDemo'
+        // , toolbar: true
+        , parseData: function (queryData) {
+          return {
+            code: '0',
+            data: queryData.Rows,
+            count: queryData.Total
+          };
+        }
+        , page: true
+        , cols: [[
+          { type: 'checkbox', fixed: 'left' }
+          , {
+            title: '序号', width: 80, fixed: 'left', templet: function (obj) {
+              return obj.LAY_INDEX;
+            }
+          }
+          , { field: 'Name', title: '用户名', width: 120 }
+          , { field: 'Sex', title: '性别', width: 120 }
+          , { field: 'Mobile', title: '手机号', width: 120, sort: true }
+          , { field: 'Email', title: '联系邮箱', width: 120, sort: true }
+          , { field: 'Phone', title: '联系电话', width: 120 }
+          , { field: 'QQ', title: 'QQ', width: 100 }
+          , { field: 'WeChat', title: '微信', width: 100 }
+          , {
+            field: 'Status', title: '用户状态', width: 100, templet: function (obj) {
+              if (obj.status) {
+                return "已冻结";
+              }
+              else {
+                return "正常";
+              }
+            }
+          }
+          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+        ]]
+      });
+
+      //工具栏事件
+      table.on('toolbar(test)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch (obj.event) {
+          case 'update':
+            layer.msg('编辑');
+            break;
+          case 'delete':
+            layer.msg('删除');
+            break;
+          case 'getCheckData':
+            var data = checkStatus.data;
+            layer.alert(JSON.stringify(data));
+            break;
+          case 'getCheckLength':
+            var data = checkStatus.data;
+            layer.msg('选中了：' + data.length + ' 个');
+            break;
+          case 'isAll':
+            layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            break;
+          case 'reload':
+            table.reload('test', {
+              page: { curr: 10 }
+            }, 'data');
+            break;
+        };
+      });
+
+      table.on('row(test)', function (obj) {
+        console.log(obj);
+      });
+
+
+      //监听表格行点击
+      table.on('tr', function (obj) {
+        console.log(obj)
+      });
+
+      //监听表格复选框选择
+      table.on('checkbox(test)', function (obj) {
+        console.log(obj)
+      });
+
+      //监听表格单选框选择
+      table.on('radio(test)', function (obj) {
+        console.log(obj)
+      });
+
+      //监听表格单选框选择
+      table.on('rowDouble(test)', function (obj) {
+        console.log(obj);
+      });
+
+
+      //监听行工具事件
+      table.on('tool(test)', function (obj) {
+        var data = obj.data;
+        //console.log(obj)
+        if (obj.event === 'del') { // 实现删除功能了 
+          layer.confirm('真的删除行么???', function (index) {
+            $.ajax({
+              type: "get",
+              data: {
+                userGuid: data.UserGuid
+              },
+              beforeSend: function (XHR) {
+                XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+              },
+              url: config.apiUrl + "api/UserManager/DeleteUser",
+              success: function (result) {
+                var jsonData = JSON.parse(result);
+                if (jsonData.Success) {
+                  layer.msg(jsonData.Message, { icon: 1 });
+                  $("#search").click();
+                }
+                else {
+                  layer.msg(jsonData.Message, { icon: 2 });
+                }
+              }
+            })
+          });
+        } else if (obj.event === 'edit') {
+          layer.open({
+            type: 2,
+            content: 'UserDetail.html',
+            title: "编辑用户",
+            area: ["700px", "450px"],
+            end: function () { // layui 关闭弹框时的回调函数
+              $("#search").click();
+            }
+          })
+        }
+      });
+
+      //监听排序
+      table.on('sort(test)', function (obj) {
+        table.reload('test', {
+          initSort: obj
+          , where: { //重新请求服务端
+            sortName: obj.field //排序字段
+            , order: obj.type //排序方式
+          }
+        });
+      });
+
+      // 重新刷新当前列表
+      $("#search").on("click", function () {
+        table.reload('test', {
+          page: { curr: 1 },
+          where: {
+            keyWord: $("#keyword").val(),
+            starData: $("#starDate").val(),
+            endDate: $("#endDate").val()
+          }
+        }, 'data');
+      })
+    });
+  </script>
+</body>
+
+</html>
