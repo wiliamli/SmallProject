@@ -1,105 +1,170 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <link href="../src/css/layui.css" rel="stylesheet" /> 
-    </head>
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link href="/css/layui.css" rel="stylesheet" />
+</head>
+
 <body>
-<div class="layui-form layui-form-pane1" action="" lay-filter="first">
+  <div class="layui-form layui-form-pane1" action="" lay-filter="first">
     <div class="layui-form-item">
-        <label class="layui-form-label"></label>
-        <div class="layui-input-inline">
-            <input type="hidden" name="UserGuid">
-        </div>
+      <label class="layui-form-label"></label>
+      <div class="layui-input-inline">
+        <input type="hidden" name="UserGuid">
+      </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
-        <div class="layui-input-inline">
-            <input type="text" name="UserName" lay-verify="required" placeholder="请输入用户名称" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Name" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">手机号</label>
-        <div class="layui-input-inline">
-            <input type="tel" name="PhoneNum" lay-verify="required|number" placeholder="请输入手机号" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写手机号</div>
+      <label class="layui-form-label">账号</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Account" lay-verify="required" placeholder="请输入账号" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">请务必填写账号</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">密码</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Password" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">办公电话</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Phone" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+          class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">手机号</label>
+      <div class="layui-input-inline">
+        <input type="tel" name="Mobile" lay-verify="required|number" placeholder="请输入手机号" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">请务必填写手机号</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">地址</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Address" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+          class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">邮箱</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Email" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">请务必填写邮箱</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">微信</label>
+      <div class="layui-input-inline">
+        <input type="text" name="WeChat" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+          class="layui-input">
+      </div>
     </div>
     <div class="layui-form-item" pane>
-        <label class="layui-form-label">是否管理员</label>
-        <div class="layui-input-block">
-            <input type="radio" name="IsAdmin" value="true" title="是">
-            <input type="radio" name="IsAdmin" value="false" title="否" checked>
-        </div>
+      <label class="layui-form-label">性别</label>
+      <div class="layui-input-block">
+        <input type="radio" name="Sex" value="1" title="男">
+        <input type="radio" name="Sex" value="0" title="女">
+      </div>
+    </div>
+    <div class="layui-form-item" pane>
+      <label class="layui-form-label">状态</label>
+      <div class="layui-input-block">
+        <input type="radio" name="Status" value="true" title="是" checked>
+        <input type="radio" name="Status" value="false" title="否">
+      </div>
     </div>
     <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
-            <button onclick="parent.layer.closeAll()" class="layui-btn layui-btn-primary">关闭</button>
-        </div>
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+        <button onclick="parent.layer.closeAll()" class="layui-btn layui-btn-primary">关闭</button>
+      </div>
     </div>
-</div>
-<script src="../src/layui.js"></script>
-<script type="text/javascript"> 
-    var userDetail={
-    userInIt:function($,config,form)
-    {  
+  </div>
+  <script src="/layui.js"></script>
+  <script type="text/javascript">
+    var userDetail = {
+      userInIt: function ($, config, form) {
+        debugger;
         $.ajax({
-                type: "Get",
-                data: {
-                    userGuid: ""
-                },
-                url:  config.apiUrl + "api/UserManager/UserDetail",
-                success: function (userInfo) {  
-                    var jsonUser = JSON.parse(userInfo); 
-
-                    if(jsonUser.IsAdmin)
-                    {
-                        jsonUser.IsAdmin="true";
-                    }
-                    else{ 
-                        jsonUser.IsAdmin="false";
-                    }
-
-                    form.val("first", jsonUser); 
-                }
-            }) 
+          type: "Get",
+          data: {
+            id: parent.layer.data
+          },
+          url: config.apiUrl + "/Users/GetEditUserById",
+          success: function (result) {
+            var jsonResult = JSON.parse(result);
+            if (jsonResult.success) {
+              if (jsonResult.data.Status) {
+                jsonResult.data.Status = "true";
+              }
+              else {
+                jsonResult.data.Status = "false";
+              }
+              if (jsonResult.data.Sex.trim() == "1") {
+                jsonResult.data.Sex = "1";
+              }
+              else {
+                jsonResult.data.Sex = "0";
+              }
+              form.val("first", jsonResult.data);
+            }
+            else {
+              layer.msg(jsonResult.msg);
+            }
+          }
+        })
+      }
     }
-    }
-    layui.use(["form","config"], function () { 
-        var form = layui.form,
-            layer = layui.layer, 
-            $ = layui.$,
-            config = layui.config; 
-            // 初始刷f
-          
-            userDetail.userInIt($,config,form); 
+    layui.use(["form", "config"], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        $ = layui.$,
+        config = layui.config;
+      // 初始刷f
+
+      userDetail.userInIt($, config, form);
 
 
-        form.on("submit(sub)", function (obj) { 
-            var user = obj.field; 
-            parent.layer.load(5, { shade: [0.5, "#5588AA"] }); 
-            $.ajax({
-                type: "POST",
-                data: {
-                    user: user
-                },
-                url:  config.apiUrl + "api/UserManager/",
-                success: function (result) {
-                    layer.closeAll("loadiing");
-                    if (result.Success) {
-                        layer.msg(result.Message, { icon: 1 });
-                        parent.layer.closeAll();
-                    }
-                    else {
-                        layer.msg(result.Message, { icon: 5 });
-                    }
-                }
-            })
-            }) 
+      form.on("submit(sub)", function (obj) {
+        var user = obj.field;
+        parent.layer.load(5, { shade: [0.5, "#5588AA"] });
+        $.ajax({
+          type: "POST",
+          data: {
+            user: user
+          },
+          url: config.apiUrl + "api/UserManager/",
+          success: function (result) {
+            layer.closeAll("loadiing");
+            if (result.Success) {
+              layer.msg(result.Message, { icon: 1 });
+              parent.layer.closeAll();
+            }
+            else {
+              layer.msg(result.Message, { icon: 5 });
+            }
+          }
+        })
+      })
     })
-</script>
+  </script>
 </body>
+
 </html>

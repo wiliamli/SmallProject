@@ -189,7 +189,8 @@
         } else if (obj.event === 'edit') {
           layer.open({
             type: 2,
-            content: 'UserDetail.html',
+            content: 'UserManager/UserDetail.html?id=' + data.Id,
+            data: data.Id,
             title: "编辑用户",
             area: ["700px", "450px"],
             end: function () { // layui 关闭弹框时的回调函数

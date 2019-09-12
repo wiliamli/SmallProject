@@ -1275,6 +1275,9 @@
     win = $(window);
     doms.html = $('html');
     layer.open = function (deliver) {
+      if (deliver.data) {
+        layer.data = deliver.data;
+      }
       var o = new Class(deliver);
       return o.index;
     };
@@ -1286,7 +1289,6 @@
     , layui.define('jquery', function (exports) { //layui加载
       layer.path = layui.cache.dir;
       ready.run(layui.$);
-
       //暴露模块
       window.layer = layer;
       exports('layer', layer);
