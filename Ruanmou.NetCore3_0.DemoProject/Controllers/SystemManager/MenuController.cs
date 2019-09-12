@@ -31,9 +31,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         [HttpPost]
         public AjaxResult GetMenuList()
         {
-            int menuType = 1;
-            var menu = _userMenuService.GetAuthorityMenuList(_currentUserInfo.CurrentUser.Id,menuType);
-            return new AjaxResult { data = menu };
+            var menu = _userMenuService.GetAuthorityMenuList(_currentUserInfo.CurrentUser.Id);
+            return new AjaxResult { success=true, data = menu };
         }
         [HttpGet]
         public AjaxResult GetNavigationBarList()

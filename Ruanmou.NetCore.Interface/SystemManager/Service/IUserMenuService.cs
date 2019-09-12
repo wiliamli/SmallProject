@@ -7,6 +7,6 @@ namespace Ruanmou04.NetCore.Interface.SystemManager.Service
 {
     public interface IUserMenuService
     {
-        List<SysMenuTreeDto> GetAuthorityMenuList(int userID, int menuType);
+        List<SysMenuTreeDto> GetAuthorityMenuList(int userID, int menuType=1);
     }
 }
