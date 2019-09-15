@@ -17,7 +17,7 @@
     </script>
 
   <div class="layui-inline">
-    <input type="text" autocomplete="off" id="Name" placeholder="输入名称查询..." class="layui-input layui-btn-sm">
+    <input type="text" autocomplete="off" id="Name" placeholder="用户名..." class="layui-input layui-btn-sm">
 
   </div>
 
@@ -37,10 +37,10 @@
         var id = data && data.Id ? data.Id : "0"
         layer.open({
           type: 2,
-          content: 'MenuManager/MenuDetail.html?id=' + id,
+          content: 'StudentManager/StudentDetail.html?id=' + id,
           data: id,
-          title: "编辑菜单",
-          area: ["700px", "500px"],
+          title: "编辑用户",
+          area: ["700px", "450px"],
           end: function () { // layui 关闭弹框时的回调函数
             $("#search").click();
           }
@@ -68,14 +68,15 @@
         elem: '#test'
         , height: 700
         , title: '用户数据表'
-        , url: config.apiUrl + '/Menu/GetMenus'
+        , url: config.apiUrl + '/Users/GetUsers?userType=2'
         , where: {
           Name: $("#Name").val(),
-          token: sessionStorage.getItem("apiTicket")
+          token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
         , limit: 10
         , toolbar: '#toolbarDemo'
+        // , toolbar: true
         , parseData: function (queryData) {
           return {
             code: '0',
@@ -91,22 +92,22 @@
               return obj.LAY_INDEX;
             }
           }
-          , { field: 'Text', title: '菜单名称', width: 120 }
-          , { field: 'MenuLevel', title: '菜单层级', width: 60 }
-          , { field: 'MenuIcon', title: '图标', width: 160, sort: true }
-
-          , { field: 'Sort', title: '排序', width: 80 }
+          , { field: 'Name', title: '用户名', width: 80 }
+          , { field: 'Account', title: '账号', width: 80 }
+          , { field: 'Sex', title: '性别', width: 60 }
+          , { field: 'Mobile', title: '手机号', width: 120, sort: true }
+          , { field: 'Email', title: '联系邮箱', width: 200, sort: true }
+          , { field: 'QQ', title: 'QQ', width: 120 }
           , {
-            field: 'Status', title: '状态', width: 110, templet: function (obj) {
+            field: 'Status', title: '用户状态', width: 110, templet: function (obj) {
               if (obj.Status) {
-                return "已冻结";
+                return "正常";
               }
               else {
-                return "正常";
+                return "已冻结";
               }
             }
           }
-          , { field: 'Description', title: '备注', width: 200, sort: true }
           , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
         ]]
       });
@@ -133,7 +134,31 @@
       //监听行工具事件
       table.on('tool(test)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'edit') {
+        //console.log(obj)
+        if (obj.event === 'del') { // 实现删除功能了 
+          layer.confirm('真的删除行么???', function (index) {
+            $.ajax({
+              type: "get",
+              data: {
+                userGuid: data.UserGuid
+              },
+              beforeSend: function (XHR) {
+                XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+              },
+              url: config.apiUrl + "api/UserManager/DeleteUser",
+              success: function (result) {
+                var jsonData = JSON.parse(result);
+                if (jsonData.Success) {
+                  layer.msg(jsonData.Message, { icon: 1 });
+                  $("#search").click();
+                }
+                else {
+                  layer.msg(jsonData.Message, { icon: 2 });
+                }
+              }
+            })
+          });
+        } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         }
       });
@@ -151,7 +176,6 @@
 
       // 重新刷新当前列表
       $("#search").on("click", function () {
-        debugger
         table.reload('test', {
           page: { curr: 1 },
           where: {

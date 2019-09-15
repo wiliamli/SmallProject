@@ -28,6 +28,7 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 
   <script>
@@ -99,10 +100,10 @@
           , {
             field: 'Status', title: '状态', width: 110, templet: function (obj) {
               if (obj.Status) {
-                return "已冻结";
+                return "正常";                
               }
               else {
-                return "正常";
+                return "已冻结";
               }
             }
           }
@@ -127,13 +128,33 @@
         };
       });
 
-
-
-
       //监听行工具事件
       table.on('tool(test)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'edit') {
+        if (obj.event === 'del') { // 实现删除功能了 
+          layer.confirm('确定删除吗???', function (index) {
+            $.ajax({
+              type: "get",
+              data: {
+                id: data.Id
+              },
+              beforeSend: function (XHR) {
+                XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+              },
+              url: config.apiUrl + "/Menu/DeleteMenuById",
+              success: function (result) {
+                var jsonResult= JSON.parse(result);
+                if (jsonResult.success) {
+                  $("#search").click();
+                  layer.msg(jsonResult.msg, { icon: 1 });
+                }
+                else {
+                  layer.msg(jsonResult.msg, { icon: 2 });
+                }
+              }
+            })
+          });
+        } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         }
       });
@@ -151,7 +172,6 @@
 
       // 重新刷新当前列表
       $("#search").on("click", function () {
-        debugger
         table.reload('test', {
           page: { curr: 1 },
           where: {

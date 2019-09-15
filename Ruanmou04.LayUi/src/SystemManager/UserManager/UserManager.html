@@ -28,12 +28,12 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 
   <script>
     userManager = {
       openUserWindow: function (data) {
-        debugger
         var id = data && data.Id ? data.Id : "0"
         layer.open({
           type: 2,
@@ -68,13 +68,13 @@
         elem: '#test'
         , height: 700
         , title: '用户数据表'
-        , url: config.apiUrl + '/Users/GetUsers'
+        , url: config.apiUrl + '/Users/GetUsers?userType=1'
         , where: {
           Name: $("#Name").val(),
           token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
-        , limit: 10
+        , limit: 20
         , toolbar: '#toolbarDemo'
         // , toolbar: true
         , parseData: function (queryData) {
@@ -134,31 +134,30 @@
       //监听行工具事件
       table.on('tool(test)', function (obj) {
         var data = obj.data;
-        //console.log(obj)
         if (obj.event === 'del') { // 实现删除功能了 
-          layer.confirm('真的删除行么???', function (index) {
+          layer.confirm('确定删除吗???', function (index) {
             $.ajax({
               type: "get",
               data: {
-                userGuid: data.UserGuid
+                id: data.Id
               },
               beforeSend: function (XHR) {
                 XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
               },
-              url: config.apiUrl + "api/UserManager/DeleteUser",
+              url: config.apiUrl + "/User/DeleteById",
               success: function (result) {
-                var jsonData = JSON.parse(result);
-                if (jsonData.Success) {
-                  layer.msg(jsonData.Message, { icon: 1 });
+                var jsonResult= JSON.parse(result);
+                if (jsonResult.success) {
                   $("#search").click();
+                  layer.msg(jsonResult.msg, { icon: 1 });
                 }
                 else {
-                  layer.msg(jsonData.Message, { icon: 2 });
+                  layer.msg(jsonResult.msg, { icon: 2 });
                 }
               }
             })
           });
-        } else if (obj.event === 'edit') {
+        } else  if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         }
       });
@@ -176,7 +175,6 @@
 
       // 重新刷新当前列表
       $("#search").on("click", function () {
-        debugger
         table.reload('test', {
           page: { curr: 1 },
           where: {

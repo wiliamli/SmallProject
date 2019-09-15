@@ -96,7 +96,6 @@
   <script type="text/javascript">
     var userDetail = {
       userInIt: function ($, config, form) {
-        debugger
         if (parent.layer.data) {
           $.ajax({
             type: "Get",
@@ -127,6 +126,7 @@
         user.Mobile=parseInt(saveData.Mobile);
         user.QQ=parseInt(saveData.QQ);
         user.Status=saveData.Status=="1";
+        user.UserType=1;
         var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         $.ajax({
           type: 'Post',

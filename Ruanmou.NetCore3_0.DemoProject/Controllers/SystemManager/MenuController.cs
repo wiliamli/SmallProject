@@ -50,7 +50,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
 
+        public string DeleteMenuById(int id)
+        {
+            _userMenuService.Delete<SysMenu>(id);
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功"});
+
+        }
 
         /// <summary>
         /// 获取所有数据
@@ -108,12 +120,16 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     //menu.ParentId = sysMenuDto.ParentId;
                     menu.Status = sysMenuDto.Status;
                     menu.Url = sysMenuDto.Url;
-
+                    menu.LastModifyTime = DateTime.Now;
+                    menu.LastModifierId = _currentUserInfo.CurrentUser.Id;
                     _userMenuService.Update<SysMenu>(menu);
                 }
                 else
                 {
                     var menu = sysMenuDto.MapTo<SysMenuDto, SysMenu>();
+                    menu.CreateTime = DateTime.Now;
+                    menu.CreatorId = _currentUserInfo.CurrentUser.Id;
+                    menu.ParentId = 0;
                     _userMenuService.Insert<SysMenu>(menu);
                 }
                 ajaxResult.msg = "保存成功";

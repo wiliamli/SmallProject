@@ -49,5 +49,9 @@ namespace RM04.DBEntity
         /// 性别 男 女
         /// <summary>
         public string Sex { get; set; }
+        /// <summary>
+        /// 用户类型(1系统管理员 2学员)
+        /// </summary>
+        public int UserType { get; set; }
     }
 }

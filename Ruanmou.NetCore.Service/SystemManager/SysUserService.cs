@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RM04.DBEntity;
 using Ruanmou.EFCore3_0.Model;
 using Ruanmou.NetCore.Interface;
+using Ruanmou04.Core.Model.DtoHelper;
 using Ruanmou04.EFCore.Model.DtoHelper;
 using System;
 using System.Collections.Generic;
@@ -34,24 +35,26 @@ namespace Ruanmou.NetCore.Service
         /// <returns></returns>
         public List<SysUserOutputDto> GetSysUsers(Expression<Func<SysUser,bool>> funcWhere)
         {
-            var users = Query<SysUser>().Where(funcWhere).Select(s => new SysUserOutputDto
-            {
-                Account = s.Account,
-                Address = s.Address,
-                Email = s.Email,
-                Id = s.Id,
-                Mobile = s.Mobile,
-                Name = s.Name,
-                Phone = s.Phone,
-                QQ = s.QQ,
-                Sex = s.Sex,
-                Status = s.Status,
-                WeChat = s.WeChat
+            var users = Query<SysUser>(funcWhere);
+            
+            var userDtolist=users.Select(s => s.MapTo<SysUser, SysUserOutputDto>()
+            //new SysUserOutputDto
+            //{
+            //    Account = s.Account,
+            //    Address = s.Address,
+            //    Email = s.Email,
+            //    Id = s.Id,
+            //    Mobile = s.Mobile,
+            //    Name = s.Name,
+            //    Phone = s.Phone,
+            //    QQ = s.QQ,
+            //    Sex = s.Sex,
+            //    Status = s.Status,
+            //    WeChat = s.WeChat
+            //}
+            ).ToList() ;
 
-
-            }).ToList() ;
-
-            return users;
+            return userDtolist;
 
         }
 

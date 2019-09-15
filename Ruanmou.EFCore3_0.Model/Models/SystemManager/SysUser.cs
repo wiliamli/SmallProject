@@ -78,5 +78,10 @@ namespace RM04.DBEntity
         /// 修改用户
         /// <summary>
         public int? LastModifyId { get; set; }
+
+        /// <summary>
+        /// 用户类型(1系统管理员 2学员)
+        /// </summary>
+        public int UserType { get; set; }
     }
 }

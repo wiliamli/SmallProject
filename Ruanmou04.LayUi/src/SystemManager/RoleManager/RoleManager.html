@@ -28,6 +28,7 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 
   <script>
@@ -37,10 +38,10 @@
         var id = data && data.Id ? data.Id : "0"
         layer.open({
           type: 2,
-          content: 'MenuManager/MenuDetail.html?id=' + id,
+          content: 'RoleManager/RoleDetail.html?id=' + id,
           data: id,
-          title: "编辑菜单",
-          area: ["700px", "500px"],
+          title: "编辑角色",
+          area: ["600px", "350px"],
           end: function () { // layui 关闭弹框时的回调函数
             $("#search").click();
           }
@@ -68,7 +69,7 @@
         elem: '#test'
         , height: 700
         , title: '用户数据表'
-        , url: config.apiUrl + '/Menu/GetMenus'
+        , url: config.apiUrl + '/Role/GetRoles'
         , where: {
           Name: $("#Name").val(),
           token: sessionStorage.getItem("apiTicket")
@@ -91,18 +92,14 @@
               return obj.LAY_INDEX;
             }
           }
-          , { field: 'Text', title: '菜单名称', width: 120 }
-          , { field: 'MenuLevel', title: '菜单层级', width: 60 }
-          , { field: 'MenuIcon', title: '图标', width: 160, sort: true }
-
-          , { field: 'Sort', title: '排序', width: 80 }
+          , { field: 'Text', title: '角色名称', width: 120 }
           , {
             field: 'Status', title: '状态', width: 110, templet: function (obj) {
               if (obj.Status) {
-                return "已冻结";
+                return "正常";                
               }
               else {
-                return "正常";
+                return "已冻结";
               }
             }
           }
@@ -127,13 +124,33 @@
         };
       });
 
-
-
-
       //监听行工具事件
       table.on('tool(test)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'edit') {
+        if (obj.event === 'del') { // 实现删除功能了 
+          layer.confirm('确定删除吗???', function (index) {
+            $.ajax({
+              type: "get",
+              data: {
+                id: data.Id
+              },
+              beforeSend: function (XHR) {
+                XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+              },
+              url: config.apiUrl + "/Role/DeleteById",
+              success: function (result) {
+                var jsonResult= JSON.parse(result);
+                if (jsonResult.success) {
+                  $("#search").click();
+                  layer.msg(jsonResult.msg, { icon: 1 });
+                }
+                else {
+                  layer.msg(jsonResult.msg, { icon: 2 });
+                }
+              }
+            })
+          });
+        } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         }
       });

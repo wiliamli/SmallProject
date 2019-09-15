@@ -28,7 +28,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     {
         #region MyRegion
         private IConfiguration _configuration = null;
-        private ISysUserService _IUserService = null;
+        private ISysUserService _userService = null;
         private ICurrentUserInfo _currentUserInfo = null;
         public UsersController(
            IConfiguration configuration,
@@ -36,7 +36,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             ISysUserService userService)
         {
             this._configuration = configuration;
-            this._IUserService = userService;
+            this._userService = userService;
             this._currentUserInfo = currentUserInfo;
         }
         #endregion
@@ -47,7 +47,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public SysUserOutputDto GetUserByID(int userId)
         {
-            return _IUserService.Find<SysUser>(userId).MapTo<SysUser, SysUserOutputDto>();
+            return _userService.Find<SysUser>(userId).MapTo<SysUser, SysUserOutputDto>();
 
         }
 
@@ -60,11 +60,22 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public string GetEditUserByID(int userId)
         {
-            var user= _IUserService.Find<SysUser>(userId)?.MapTo<SysUser, SysUserOutputDto>();
+            var user = _userService.Find<SysUser>(userId)?.MapTo<SysUser, SysUserOutputDto>();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
+        /// <summary>
+        /// 删除数据通过Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
 
+        public string DeleteById(int id)
+        {
+            _userService.Delete<SysUser>(id);
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
+        }
 
         /// <summary>
         /// 获取所有用户
@@ -72,11 +83,11 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public string GetUsers(int page,int limit,string name)
+        public string GetUsers(int page, int limit, int userType, string name)
         {
-            var userData= _IUserService.GetSysUsers(u=>(!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty());
+            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == userType);
 
-            PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex=page , PageSize=limit, Rows=userData,Total=userData.Count };
+            PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
 
             return JsonConvert.SerializeObject(pagedResult);
 
@@ -91,13 +102,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         [HttpPost]
         public AjaxResult SaveUser([FromBody]SysUserInputDto sysUserInput)
         {
-            
+
             AjaxResult ajaxResult = new AjaxResult { success = false };
+            var existsAaccountUser = _userService.Find<SysUser>(u => u.Account == sysUserInput.Account);
+            if (existsAaccountUser != null)
+            {
+                ajaxResult.msg = "账号重复,请修改账号";
+                return ajaxResult;
+            }
             if (sysUserInput != null)
             {
                 if (sysUserInput.Id > 0)
                 {
-                    var user = _IUserService.Find<SysUser>(sysUserInput.Id);
+                    var user = _userService.Find<SysUser>(sysUserInput.Id);
                     user.Mobile = sysUserInput.Mobile;
                     user.Account = sysUserInput.Account;
                     user.Email = sysUserInput.Email;
@@ -107,8 +124,10 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     user.Sex = sysUserInput.Sex;
                     user.Status = sysUserInput.Status;
                     user.WeChat = sysUserInput.WeChat;
-                    
-                    _IUserService.Update<SysUser>(user);
+                    user.UserType = sysUserInput.UserType;
+                    user.LastModifyTime = DateTime.Now;
+                    user.LastModifyId = _currentUserInfo.CurrentUser.Id;
+                    _userService.Update<SysUser>(user);
                 }
                 else
                 {
@@ -122,7 +141,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     {
                         user.Password = Encrypt.EncryptionPassword("123");
                     }
-                    _IUserService.Insert<SysUser>(user);
+                    user.CreateTime = DateTime.Now;
+                    user.CreateId = _currentUserInfo.CurrentUser.Id;
+                    _userService.Insert<SysUser>(user);
                 }
                 ajaxResult.msg = "保存成功";
                 ajaxResult.success = true;
@@ -131,6 +152,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 ajaxResult.msg = "保存失败";
             return ajaxResult;
         }
+
 
     }
 }
