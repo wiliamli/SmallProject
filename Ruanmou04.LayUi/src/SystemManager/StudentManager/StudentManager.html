@@ -99,6 +99,16 @@
           , { field: 'Email', title: '联系邮箱', width: 200, sort: true }
           , { field: 'QQ', title: 'QQ', width: 120 }
           , {
+            field: 'Status', title: '是否Vip', width: 110, templet: function (obj) {
+              if (obj.UserType=="2") {
+                return "是";
+              }
+              else {
+                return "不是";
+              }
+            }
+          }
+          , {
             field: 'Status', title: '用户状态', width: 110, templet: function (obj) {
               if (obj.Status) {
                 return "正常";

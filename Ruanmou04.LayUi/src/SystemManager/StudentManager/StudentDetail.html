@@ -79,6 +79,13 @@
       </div>
     </div>
     <div class="layui-form-item" pane>
+        <label class="layui-form-label">是否VIP</label>
+        <div class="layui-input-block">
+          <input type="radio" name="UserType" value="2" title="是"  checked>
+          <input type="radio" name="UserType" value="3" title="否">
+        </div>
+      </div>
+    <div class="layui-form-item" pane>
       <label class="layui-form-label">状态</label>
       <div class="layui-input-block">
         <input type="radio" name="Status" value="1" title="是"  checked>
@@ -127,7 +134,7 @@
         user.Mobile=parseInt(saveData.Mobile);
         user.QQ=parseInt(saveData.QQ);
         user.Status=saveData.Status=="1";
-        user.UserType=2;
+        user.UserType=parseInt(saveData.UserType);
         var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         $.ajax({
           type: 'Post',

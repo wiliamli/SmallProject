@@ -50,7 +50,7 @@ namespace RM04.DBEntity
         /// <summary>
         public string Sex { get; set; }
         /// <summary>
-        /// 用户类型(1系统管理员 2学员)
+        /// 用户类型(1系统管理员 2vip学员 3 普通学员)
         /// </summary>
         public int UserType { get; set; }
     }

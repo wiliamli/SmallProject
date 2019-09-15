@@ -85,7 +85,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public string GetUsers(int page, int limit, int userType, string name)
         {
-            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == userType);
+            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && (userType.ToString().Contains(u.UserType.ToString())));
 
             PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
 
