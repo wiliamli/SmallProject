@@ -12,7 +12,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label"></label>
       <div class="layui-input-inline">
-        <input type="hidden" name="UserGuid">
+        <input type="hidden" name="Id">
       </div>
     </div>
     <div class="layui-form-item">
@@ -32,24 +32,21 @@
       <div class="layui-form-mid layui-word-aux">请务必填写账号</div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">密码</label>
+      <label class="layui-form-label">QQ</label>
       <div class="layui-input-inline">
-        <input type="text" name="Password" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="QQ"  lay-verify="number" placeholder="请输入QQ" autocomplete="off" class="layui-input">
       </div>
-      <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">办公电话</label>
       <div class="layui-input-inline">
-        <input type="text" name="Phone" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="Phone" placeholder="请输入办公电话" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">手机号</label>
       <div class="layui-input-inline">
-        <input type="tel" name="Mobile" lay-verify="required|number" placeholder="请输入手机号" autocomplete="off"
+        <input type="tel" name="Mobile" lay-verify="required|phone" placeholder="请输入手机号" autocomplete="off"
           class="layui-input">
       </div>
       <div class="layui-form-mid layui-word-aux">请务必填写手机号</div>
@@ -57,14 +54,13 @@
     <div class="layui-form-item">
       <label class="layui-form-label">地址</label>
       <div class="layui-input-inline">
-        <input type="text" name="Address" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="Address" placeholder="请输入地址" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">邮箱</label>
       <div class="layui-input-inline">
-        <input type="text" name="Email" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
+        <input type="text" name="Email" lay-verify="required|email" placeholder="请输入邮箱" autocomplete="off"
           class="layui-input">
       </div>
       <div class="layui-form-mid layui-word-aux">请务必填写邮箱</div>
@@ -72,22 +68,21 @@
     <div class="layui-form-item">
       <label class="layui-form-label">微信</label>
       <div class="layui-input-inline">
-        <input type="text" name="WeChat" lay-verify="required" placeholder="请输入用户名称" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="WeChat" placeholder="请输入微信" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item" pane>
       <label class="layui-form-label">性别</label>
       <div class="layui-input-block">
-        <input type="radio" name="Sex" value="1" title="男">
-        <input type="radio" name="Sex" value="0" title="女">
+        <input type="radio" name="Sex" value="男" title="男">
+        <input type="radio" name="Sex" value="女" title="女">
       </div>
     </div>
     <div class="layui-form-item" pane>
       <label class="layui-form-label">状态</label>
       <div class="layui-input-block">
-        <input type="radio" name="Status" value="true" title="是" checked>
-        <input type="radio" name="Status" value="false" title="否">
+        <input type="radio" name="Status" value="1" title="是"  checked>
+        <input type="radio" name="Status" value="0" title="否">
       </div>
     </div>
     <div class="layui-form-item">
@@ -101,36 +96,65 @@
   <script type="text/javascript">
     var userDetail = {
       userInIt: function ($, config, form) {
-        debugger;
+        debugger
+        if (parent.layer.data) {
+          $.ajax({
+            type: "Get",
+            data: {
+              userId: parent.layer.data
+            },
+            beforeSend: function (XHR) {
+              XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+            },
+            url: config.apiUrl + "/Users/GetEditUserByID",
+            success: function (result) {
+              var jsonResult = JSON.parse(result);
+              jsonResult.data.Sex=jsonResult.data.Sex.trim()
+              if (jsonResult.success) {
+                form.val("first", jsonResult.data);
+              }
+              else {
+                layer.msg(jsonResult.msg);
+              }
+            }
+          })
+        }
+      },
+      saveUser:function($,config,saveData)
+      {
+        var user =saveData;
+        user.Id=saveData.Id?parseInt(saveData.Id):0;
+        user.Mobile=parseInt(saveData.Mobile);
+        user.QQ=parseInt(saveData.QQ);
+        user.Status=saveData.Status=="1";
+        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         $.ajax({
-          type: "Get",
-          data: {
-            id: parent.layer.data
-          },
-          url: config.apiUrl + "/Users/GetEditUserById",
+          type: 'Post',
+          dataType: "json",
+          data: JSON.stringify(user),
+          contentType: 'application/json',
+          headers: { Authorization: sessionStorage.getItem("apiTicket") },
+          url: config.apiUrl + '/Users/SaveUser',
           success: function (result) {
-            var jsonResult = JSON.parse(result);
-            if (jsonResult.success) {
-              if (jsonResult.data.Status) {
-                jsonResult.data.Status = "true";
-              }
-              else {
-                jsonResult.data.Status = "false";
-              }
-              if (jsonResult.data.Sex.trim() == "1") {
-                jsonResult.data.Sex = "1";
-              }
-              else {
-                jsonResult.data.Sex = "0";
-              }
-              form.val("first", jsonResult.data);
+            
+            layer.close(LoadIndex);
+            console.log(result);
+            if (result.success) {
+              layer.msg("保存成功", { icon: 1 });
             }
             else {
-              layer.msg(jsonResult.msg);
+              layer.msg(result.msg, { icon: 2 });
             }
+          },
+          error: function (XMLHttpResponse) {
+            layer.close(LoadIndex);
+            console.log("error: api request failed");
+            console.log(XMLHttpResponse);
           }
         })
+        return false;
       }
+      
     }
     layui.use(["form", "config"], function () {
       var form = layui.form,
@@ -140,28 +164,8 @@
       // 初始刷f
 
       userDetail.userInIt($, config, form);
-
-
       form.on("submit(sub)", function (obj) {
-        var user = obj.field;
-        parent.layer.load(5, { shade: [0.5, "#5588AA"] });
-        $.ajax({
-          type: "POST",
-          data: {
-            user: user
-          },
-          url: config.apiUrl + "api/UserManager/",
-          success: function (result) {
-            layer.closeAll("loadiing");
-            if (result.Success) {
-              layer.msg(result.Message, { icon: 1 });
-              parent.layer.closeAll();
-            }
-            else {
-              layer.msg(result.Message, { icon: 5 });
-            }
-          }
-        })
+        userDetail.saveUser($,config,obj.field);
       })
     })
   </script>

@@ -24,7 +24,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     {
         #region MyRegion
         private ILoggerFactory _Factory = null;
-        private ILogger<UsersController> _logger = null;
         private ISysUserService _IUserService = null;
         private ILoginApplication _loginApplication = null;
         private ITokenService _tokenService;
@@ -33,7 +32,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
 
         public LoginController(ILoggerFactory factory,
-            ILogger<UsersController> logger,
             ISysUserService userService
             , ILoginApplication loginApplication
             , ITokenService tokenService
@@ -42,7 +40,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             )
         {
             this._Factory = factory;
-            this._logger = logger;
             this._IUserService = userService;
             this._loginApplication = loginApplication;
             this._tokenService = tokenService;

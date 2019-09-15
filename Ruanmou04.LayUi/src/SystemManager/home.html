@@ -68,7 +68,7 @@
   <script id="tepMenue" type="text/html">
         {{# layui.each(d,function(index,item){ }}
         <li class="layui-nav-item left-menu">
-            <a href="javascript:;" ico="{{item.menuIcon}}" alt="{{item.description}}" dir="{{ item.url }}" onclick="AdminPage.PageInit(this)">
+            <a href="javascript:;" ico="{{item.menuIcon}}" name="{{item.text}}" alt="{{item.description}}" dir="{{ item.url }}" onclick="AdminPage.PageInit(this)">
               <i class="layui-icon {{item.menuIcon}}"></i>
               {{ item.text }}
           </a>
@@ -118,7 +118,7 @@
         $(".layui-this").each(function (index, item) {
           $(item).removeClass("layui-this");
         })
-        var name = $(event).attr("alt");
+        var name = $(event).attr("name");
         var ico = $(event).attr("ico");
         var url = $(event).attr("dir");
         $(event.parentNode).addClass("layui-this");
@@ -134,6 +134,7 @@
         var getTplCrumbs = document.getElementById('tepCrumbs').innerHTML;
         var crmLiContent = document.getElementById('crmLi');
         laytpl(getTplCrumbs).render({ name: name, ico: ico }, function (html) {
+          
           crmLiContent.innerHTML = html;
         });
       },

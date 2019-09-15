@@ -16,10 +16,6 @@ namespace RM04.DBEntity
         /// </summary>
         public string Account { get; set; }
         /// <summary>
-        /// 密码
-        /// <summary>
-        public string Password { get; set; }
-        /// <summary>
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
         /// <summary>

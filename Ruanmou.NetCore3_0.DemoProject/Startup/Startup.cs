@@ -11,8 +11,6 @@ using Ruanmou.Core.Utility;
 using Ruanmou.NetCore3_0.DemoProject.Utility;
 using Ruanmou.Core.Utility.Middleware;
 using System.Collections.Generic;
-using IdentityServer4.Test;
-using IdentityServer4.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using YJ.PlatFormCore.Web.Startup;
@@ -221,7 +219,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             ////});
             #endregion
 
-            app.UseMiddleware<AuthorizeMiddleware>();
+            //app.UseMiddleware<AuthorizeMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseMiddleware<ExceptionHandlingMiddleware>();

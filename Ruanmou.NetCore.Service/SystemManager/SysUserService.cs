@@ -32,9 +32,9 @@ namespace Ruanmou.NetCore.Service
         /// 获取所有用户
         /// </summary>
         /// <returns></returns>
-        public List<SysUserOutputDto> GetSysUsers()
+        public List<SysUserOutputDto> GetSysUsers(Expression<Func<SysUser,bool>> funcWhere)
         {
-            var users = Query<SysUser>().Select(s => new SysUserOutputDto
+            var users = Query<SysUser>().Where(funcWhere).Select(s => new SysUserOutputDto
             {
                 Account = s.Account,
                 Address = s.Address,
