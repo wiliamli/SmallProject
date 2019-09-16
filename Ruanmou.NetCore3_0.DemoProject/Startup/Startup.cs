@@ -48,6 +48,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
             services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
+            services.AddSingleton<ICurrentUserInfo, CurrentUserInfo>();
             services.AddMemoryCache();
             services.AddSingleton<VerifyAttribute>();
             services.AddCors(
@@ -238,7 +239,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseAuthorize();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

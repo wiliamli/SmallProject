@@ -29,9 +29,8 @@ namespace Ruanmou04.NetCore.Project.Models
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            string key = context.HttpContext.Request.Headers["token"].SingleOrDefault();
-
-            if (key == null)
+            string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
+            if (key == null || key == "null")
             {
                 throw new Exception("请登录后使用");
             }

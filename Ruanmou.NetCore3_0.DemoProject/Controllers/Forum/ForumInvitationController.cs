@@ -14,9 +14,10 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     {
         private IForumInvitationApplication forumInvitationApplication;
         private IMemoryCache memoryCache;
+        private ICurrentUserInfo currentUserInfo;
 
-        public ForumInvitationController(IForumInvitationApplication forumInvitationApplication, IMemoryCache memoryCache)
-            :base(memoryCache)
+        public ForumInvitationController(IForumInvitationApplication forumInvitationApplication,
+            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
         {
             this.forumInvitationApplication = forumInvitationApplication;
         }

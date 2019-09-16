@@ -18,7 +18,7 @@ namespace Ruanmou04.NetCore.Project.Models
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            string key = context.HttpContext.Request.Headers["token"].SingleOrDefault();
+            string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
 
             if (key == null)
             {

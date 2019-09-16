@@ -558,11 +558,11 @@
 <script type="text/javascript">
 
 var domain=baseDomain();
-var key = sessionStorage.getItem("token");
+var key = "Bearer " + sessionStorage.getItem("Authorization");
 var active = {
       channelInit:function(){
         layui.jquery.ajax({
-          headers: {token: key},
+          headers: {Authorization: key},
           url:domain+"api/ForumChannel/GetChannelsByRoleId",
           data: {"roleId":1},
           type: 'get',
@@ -587,7 +587,7 @@ var active = {
 
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
-      headers: { token: key},
+      headers: { Authorization: key},
       data: {"channleId":Id},
       type: 'get',
       dataType: 'json',
@@ -612,7 +612,7 @@ var active = {
     layui.jquery.ajax({
       url:domain+"api/ForumCheckIn/Add",
       data:JSON.stringify(clockin),
-      headers: {token: key},
+      headers: {Authorization: key},
       type: 'post',
       dataType: 'json',
       contentType:'application/json',
@@ -632,7 +632,7 @@ var active = {
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
           data: {"userId":userInfo.Id},
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -653,10 +653,11 @@ var active = {
     layui.jquery.ajax({
           url:domain+"api/ForumLogin/GetLoginInfo",
           data: null,
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
+            debugger;
               if(obj.Success && obj.Data!=null){
                 var data=obj.Data;
                 sessionStorage.setItem("userInfo",JSON.stringify(data));

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using RM04.DBEntity;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace Ruanmou04.NetCore.Project.Models
     public class CurrentUserInfo: ICurrentUserInfo
     {
         IHttpContextAccessor contextAccessor;
+        //IMemoryCache memoryCache;
         public CurrentUserInfo(IHttpContextAccessor contextAccessor)
         {
             this.contextAccessor = contextAccessor;
+            //this.memoryCache = memoryCache;
         }
         public CurrentUser CurrentUser
         {
@@ -25,6 +28,9 @@ namespace Ruanmou04.NetCore.Project.Models
                 {
                     users.Id =Convert.ToInt32( identity.FindFirst(ClaimTypes.PrimarySid).Value);
                     users.Name = identity.FindFirst(ClaimTypes.Name).Value;
+                    //memoryCache.Get<SysUserOutputDto>();
+                    //if ()
+
                 }
                 return users;
             }
