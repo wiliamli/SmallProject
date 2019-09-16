@@ -47,33 +47,29 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             this._sysRoleApplication = sysRoleApplication;
         }
         #endregion
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="loginInput"></param>
+        /// <returns></returns>
         [HttpPostAttribute]
         public async Task< AjaxResult> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
             if (ajax.success)
             {
-
                 var sysuserdto =  ajax.data as SysUserOutputDto;
-                //添加session,sessionId不同，cookie没跨域
-                //HttpContext.Session.Set("userInfo",
-                //    System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(sysuserdto)));
-
-                var curRoles =this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
+                var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
+                ajax = await _tokenService.GenerateTokenAsync(generatedto);
+                generatedto.Token = ajax.data.ToString();
+                var curRoles = this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
                 if (curRoles != null)
                 {
                     sysuserdto.SysRoles = curRoles;
                 }
-
-                //var generatedto =
-                var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
-                ajax = await _tokenService.GenerateTokenAsync(generatedto);
-                generatedto.Token = ajax.data.ToString();
-                ajax.data = generatedto;
+                ajax.data = generatedto;                
                 this._memoryCache.Set<SysUserOutputDto>(ajax.data, sysuserdto);
             }
-
-
             return ajax;
         }
 
@@ -81,7 +77,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public async Task<AjaxResult> TokenConfirm(string token)
         {
             var ajax =await _tokenService.ConfirmVerificationAsync(token);
-          
             return ajax;
         }
     }

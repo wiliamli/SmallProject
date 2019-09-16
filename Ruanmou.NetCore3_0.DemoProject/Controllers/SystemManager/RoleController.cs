@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
+using Ruanmou.NetCore.Service;
 using Ruanmou04.Core.Model.DtoHelper;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.Extensions;
@@ -19,9 +20,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     public class RoleController : ControllerBase
     {
         private readonly ICurrentUserInfo _currentUserInfo;
-        private readonly ISysRoleService _sysRoleService;
+        private readonly ISysUsersRoleService _sysRoleService;
 
-        public RoleController(ICurrentUserInfo currentUserInfo, ISysRoleService sysRoleService)
+        public RoleController(ICurrentUserInfo currentUserInfo, ISysUsersRoleService sysRoleService)
         {
             _currentUserInfo = currentUserInfo;
             _sysRoleService = sysRoleService;
@@ -40,8 +41,20 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
+        [HttpGet]
+        public string GetUserSetRoles()
+        {
+            var userData = _sysRoleService.
+               Query<SysRole>(u => u.Status)
+               .Select(m => new SysRoleDto
+               {
+                   Id = m.Id,
+                   Description = m.Description,
+                   Text = m.Text,
 
-
+               }).ToList();
+            return JsonConvert.SerializeObject(userData);
+        }
         /// <summary>
         /// 获取所有数据
         /// </summary>

@@ -184,7 +184,7 @@ namespace Ruanmou.NetCore.Service
         public void Delete<T>(Expression<Func<T,bool>> funWhere) where T : class
         {
             var listt = this.Query<T>(funWhere);//也可以附加
-            if (listt.Count()==0) throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
+            if (listt.Count() == 0) return;//throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
             this.Context.Set<T>().RemoveRange(listt);
             this.Commit();
         }

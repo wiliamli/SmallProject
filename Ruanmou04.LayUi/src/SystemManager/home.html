@@ -134,12 +134,10 @@
         var getTplCrumbs = document.getElementById('tepCrumbs').innerHTML;
         var crmLiContent = document.getElementById('crmLi');
         laytpl(getTplCrumbs).render({ name: name, ico: ico }, function (html) {
-          
           crmLiContent.innerHTML = html;
         });
       },
       loginOut: function (event) {
-
         top.location.href = "login.html";
       },
     };

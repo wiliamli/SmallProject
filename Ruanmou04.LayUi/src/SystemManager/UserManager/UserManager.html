@@ -29,6 +29,7 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="userRole">角色</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 
@@ -38,8 +39,20 @@
         var id = data && data.Id ? data.Id : "0"
         layer.open({
           type: 2,
-          content: 'UserManager/UserDetail.html?id=' + id,
+          content: 'UserManager/UserDetail.html',
           data: id,
+          title: "编辑用户",
+          area: ["700px", "450px"],
+          end: function () { // layui 关闭弹框时的回调函数
+            $("#search").click();
+          }
+        })
+      },
+      openUserRoleWindow: function (data) {
+        layer.open({
+          type: 2,
+          content: 'UserManager/UserRoleAssign.html',
+          data: data,
           title: "编辑用户",
           area: ["700px", "450px"],
           end: function () { // layui 关闭弹框时的回调函数
@@ -109,18 +122,17 @@
               }
             }
           }
-          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
+          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180 }
         ]]
       });
 
       //工具栏事件
       table.on('toolbar(test)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id);
+
         switch (obj.event) {
           case 'addNew':
             userManager.openUserWindow();
             break;
-
           case 'reload':
             table.reload('test', {
               page: { curr: 10 }
@@ -190,6 +202,9 @@
               }
             })
           });
+        }
+        else if (obj.event === 'userRole') {
+          userManager.openUserRoleWindow(data);
         } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         }
