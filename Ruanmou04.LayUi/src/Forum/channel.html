@@ -568,6 +568,7 @@ var active = {
           type: 'get',
           dataType: 'json',
           success: function(obj) {
+            debugger;
               var data = obj.Data;
               var channelTpl=document.getElementById('channelTpl').innerHTML;
                 var channelMenu=document.getElementById('channelMenu');
@@ -582,6 +583,8 @@ var active = {
       },
       tabChange: function(othis,Id){
       //切换到指定Tab项
+      var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
       headers: { token: key},
@@ -625,6 +628,7 @@ var active = {
   }
   ,checkInit:function(){
         var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        if(userInfo!=null){
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
           data: {"userId":userInfo.Id},
@@ -643,6 +647,7 @@ var active = {
               console.log('ajax请求失败！');
           }
        });
+     }
   }
   ,loginInit:function(){
     layui.jquery.ajax({

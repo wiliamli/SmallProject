@@ -17,6 +17,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using YJ.PlatFormCore.Web.Startup;
 using Ruanmou04.NetCore.Project.Utility.Middleware;
+using Microsoft.Extensions.Caching.Memory;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -46,6 +48,8 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
             services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
+            services.AddMemoryCache();
+            services.AddSingleton<VerifyAttribute>();
             services.AddCors(
                 options => options.AddPolicy(
                     _defaultCorsPolicyName,
@@ -221,10 +225,10 @@ namespace Ruanmou.NetCore3_0.DemoProject
             ////});
             #endregion
 
-            app.UseMiddleware<AuthorizeMiddleware>();
+            //app.UseMiddleware<AuthorizeMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseMiddleware<ExceptionHandlingMiddleware>();
+                //app.UseMiddleware<ExceptionHandlingMiddleware>();
 
                 //app.UseDeveloperExceptionPage();
             }
@@ -242,7 +246,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseRouting();
 
             //app.UseAuthorize();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(

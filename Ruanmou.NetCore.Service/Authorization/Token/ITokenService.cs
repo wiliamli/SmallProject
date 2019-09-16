@@ -33,6 +33,11 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         /// <returns></returns>
         Task<AjaxResult> LoginOutTokenAsync(LoginOutTokenDto loginOutTokenDto);
 
-
+        /// <summary>
+        /// 同步验证token
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>AjaxResult</returns>
+        AjaxResult ConfirmVerification(string token);
     }
 }
