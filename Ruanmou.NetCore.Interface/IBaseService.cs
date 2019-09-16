@@ -112,7 +112,12 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="tList"></param>
         void Delete<T>(IEnumerable<T> tList) where T : class;
         #endregion
-
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Id"></param>
+        void Delete<T>(Expression<Func<T, bool>> funWhere) where T : class;
         #region Other
         /// <summary>
         /// 立即保存全部修改

@@ -34,7 +34,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">QQ</label>
       <div class="layui-input-inline">
-        <input type="text" name="QQ"  lay-verify="number" placeholder="请输入QQ" autocomplete="off" class="layui-input">
+        <input type="text" name="QQ" lay-verify="number" placeholder="请输入QQ" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
@@ -79,16 +79,16 @@
       </div>
     </div>
     <div class="layui-form-item" pane>
-        <label class="layui-form-label">是否VIP</label>
-        <div class="layui-input-block">
-          <input type="radio" name="UserType" value="2" title="是"  checked>
-          <input type="radio" name="UserType" value="3" title="否">
-        </div>
+      <label class="layui-form-label">是否VIP</label>
+      <div class="layui-input-block">
+        <input type="radio" name="UserType" value="2" title="是" checked>
+        <input type="radio" name="UserType" value="3" title="否">
       </div>
+    </div>
     <div class="layui-form-item" pane>
       <label class="layui-form-label">状态</label>
       <div class="layui-input-block">
-        <input type="radio" name="Status" value="1" title="是"  checked>
+        <input type="radio" name="Status" value="1" title="是" checked>
         <input type="radio" name="Status" value="0" title="否">
       </div>
     </div>
@@ -111,12 +111,12 @@
               userId: parent.layer.data
             },
             beforeSend: function (XHR) {
-              XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+              XHR.setRequestHeader("Authorization", sessionStorage.getItem("apiTicket"));
             },
             url: config.apiUrl + "/Users/GetEditUserByID",
             success: function (result) {
               var jsonResult = JSON.parse(result);
-              jsonResult.data.Sex=jsonResult.data.Sex.trim()
+              jsonResult.data.Sex = jsonResult.data.Sex.trim()
               if (jsonResult.success) {
                 form.val("first", jsonResult.data);
               }
@@ -127,24 +127,23 @@
           })
         }
       },
-      saveUser:function($,config,saveData)
-      {
-        var user =saveData;
-        user.Id=saveData.Id?parseInt(saveData.Id):0;
-        user.Mobile=parseInt(saveData.Mobile);
-        user.QQ=parseInt(saveData.QQ);
-        user.Status=saveData.Status=="1";
-        user.UserType=parseInt(saveData.UserType);
+      saveUser: function ($, config, saveData) {
+        var user = saveData;
+        user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
+        user.Mobile = parseInt(saveData.Mobile);
+        user.QQ = parseInt(saveData.QQ);
+        user.Status = saveData.Status == "1";
+        user.UserType = parseInt(saveData.UserType);
         var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         $.ajax({
           type: 'Post',
           dataType: "json",
           data: JSON.stringify(user),
           contentType: 'application/json',
-          headers: { Authorization: sessionStorage.getItem("apiTicket") },
+          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
           url: config.apiUrl + '/Users/SaveUser',
           success: function (result) {
-            
+
             layer.close(LoadIndex);
             console.log(result);
             if (result.success) {
@@ -162,7 +161,7 @@
         })
         return false;
       }
-      
+
     }
     layui.use(["form", "config"], function () {
       var form = layui.form,
@@ -173,7 +172,7 @@
 
       userDetail.userInIt($, config, form);
       form.on("submit(sub)", function (obj) {
-        userDetail.saveUser($,config,obj.field);
+        userDetail.saveUser($, config, obj.field);
       })
     })
   </script>

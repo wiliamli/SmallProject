@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Ruanmou04.Core.Utility;
 using Microsoft.Extensions.Configuration;
 using Ruanmou04.Core.Utility.Extensions;
+using System.Linq.Expressions;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
@@ -76,7 +77,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _userService.Delete<SysUser>(id);
             return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
         }
+        /// <summary>
+        /// 批量删除数据通过Id
+        /// </summary>
+        /// <param name="ids">id列表</param>
+        /// <returns></returns>
+        [HttpGet]
 
+        public string DeleteBatchById(string ids)
+        {
+            _userService.Delete<SysUser>(u => ids.Contains(u.Id.ToString()));
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
+        }
         /// <summary>
         /// 获取所有用户
         /// </summary>
@@ -85,8 +97,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public string GetUsers(int page, int limit, int userType, string name)
         {
-            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && (userType.ToString().Contains(u.UserType.ToString())));
 
+            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == userType);
+
+            //List<SysUserOutputDto> userData;
+            ////Expression<Func<SysUser, bool>> expression = u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty());
+            //if (userType == 1)
+            //{
+            //    userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == 1);
+            //}
+            //else if (userType == 2 || userType==3)
+            //{                
+            //    userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == 2);   
+            //}
             PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
 
             return JsonConvert.SerializeObject(pagedResult);
@@ -104,7 +127,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         {
 
             AjaxResult ajaxResult = new AjaxResult { success = false };
-            var existsAaccountUser = _userService.Find<SysUser>(u => u.Account == sysUserInput.Account);
+            var existsAaccountUser = _userService.Find<SysUser>(u => u.Account == sysUserInput.Account && (sysUserInput.Id == 0 ||(sysUserInput.Id>0 && sysUserInput.Id!=u.Id)));
             if (existsAaccountUser != null)
             {
                 ajaxResult.msg = "账号重复,请修改账号";
