@@ -23,7 +23,7 @@ namespace Ruanmou04.NetCore.Service.SystemManager
         /// <returns></returns>
         public List<SysMenuTreeDto> GetAuthorityMenuList(int userID, int menuType)
         {
-            var menuTree = from m in Query<SysMenu>(m => m.MenuType == menuType)
+            var menuTree = from m in Query<SysMenu>(m => m.MenuType == menuType && m.Status)
                            join r in Query<SysRoleMenuMapping>() on m.Id equals r.SysMenuId
                            join ur in Query<SysUserRoleMapping>(u => u.SysUserId == userID) on r.SysRoleId equals ur.SysRoleId
                            select new SysMenuTreeDto
@@ -38,7 +38,7 @@ namespace Ruanmou04.NetCore.Service.SystemManager
                                Sort = m.Sort
                            };
 
-            return menuTree.ToList();
+            return menuTree.Distinct().OrderBy(m=>m.Sort).ToList();
         }
         //public List<SysMenuTreeDto> GetAuthorityMenuList(int userID)
         //{

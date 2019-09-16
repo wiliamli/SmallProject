@@ -41,6 +41,10 @@ namespace Ruanmou04.NetCore.Project.Utility
             _tokenConfirmService = container.Resolve<ITokenConfirmService>();
             
             var token = context.HttpContext.Request.Headers["Authorization"];
+            if(token.IsNullOrEmpty())
+            {
+                token = context.HttpContext.Request.Query["token"];
+            }
             AjaxResult ajaxResult = null;
             if (token.IsNullOrEmpty())
             {

@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>文件上传模块 - layui</title>
+</head>
+<body>
+    <div class="layui-upload-drag" id="test9">
+
+        <i class="layui-icon">&#xe67c;</i>
+        <p>点击上传，或将文件拖拽到此处</p>
+    </div>
+    <hr><br>
+    <!--绑定原始文件域：<input type="file" name="file" id="test8">-->
+
+    <script type="text/html" id="imgTemp">
+        {{# layui.each(d,function(index,item){ }}
+        <div class="layui-upload-drag" style="width: 195px;">
+            {{# if(item.IsImage){ }}
+            <img width="80px" height="55px" src="{{layui.config.fileUrl}}{{ item.StorageName }}">
+            {{# }else{ }}
+            <i class="layui-icon layui-icon-template"></i>
+            {{# } }}
+            <p> 
+                <div>
+                    <a target="_blank" href="{{layui.config.fileUrl}}{{ item.StorageName }}">{{ item.OldFileName }}</a>
+                </div> 
+            </p>
+        </div>
+        {{# }) }}
+    </script>
+
+    <script type="text/javascript">
+
+        var fileOption = {
+            ImgInit: function (layui) { // 初始化图片列表
+                $.ajax({
+                    type: "get",
+                    data: {},
+                    url: layui.config.apiUrl + "api/File/GetFileList",
+                    success: function (strResult) { 
+                        var result = JSON.parse(strResult);  
+                        var getTpl = document.getElementById('imgTemp').innerHTML;
+                        laytpl(getTpl).render(result, function (html) {
+                            $("#test9").before(html);
+                        });
+                    }
+                })
+            }
+        };
+
+        layui.use(['upload', 'config','laytpl'], function () {
+            var $ = layui.jquery
+                , upload = layui.upload
+                , config = layui.config;
+
+            fileOption.ImgInit(layui);
+
+            // 拖拽上传文件
+            upload.render({
+                  elem: '#test9'
+                , url: config.apiUrl + 'api/File/SaveFile'
+                , accept: "file"
+                , done: function (res) {  
+                    debugger;
+                    var strHtml = ' <div class="layui-upload-drag" style="width: 195px;">';
+                    if (res.IsImage) {
+                        strHtml += '<img  width="80px" height="55px" src= "' + config.fileUrl + res.StorageName + '" />';
+                    }
+                    else {
+                        strHtml += '<i class="layui-icon layui-icon-template"></i>';
+                    }
+                    strHtml += ' <p><a target="_blank" href="' + config.fileUrl + res.StorageName + '">' + res.OldFileName + '</a></p>';
+                    strHtml += '</div >';
+                    $("#test9").before(strHtml);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

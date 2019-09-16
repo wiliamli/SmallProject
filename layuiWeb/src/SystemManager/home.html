@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>layout 后台大布局 - Layui</title>
+  <link href="../css/layui.css" rel="stylesheet" />
+    <link href="../css/login.css" rel="stylesheet" /> 
+</head>
+
+<body class="layui-layout-body">
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo">layui 后台布局</div>
+      <!-- 头部区域（可配合layui已有的水平导航） -->
+      <ul class="layui-nav layui-layout-left" id="navigationBar">
+
+      </ul>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+            <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+            <span id="spUsername"></span>
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="">基本资料</a></dd>
+            <dd><a href="">安全设置</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="login.html">退出</a></li>
+      </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test" id="menuUl">
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="layui-body layui-bg-gray">
+      <!--选项卡-->
+      <div class="layui-admin-pagetabs" style="height:100%">
+        <div class="layui-tab layui-tab-brief" lay-allowClose="true" lay-filter="pagetabs" style="height:100%">
+          <ul class="layui-tab-title layui-bg-white" id="crmLi">
+            <li class="" lay-id="../../Home/Index">
+              <i class="layui-icon layui-icon-home">首页</i>
+            </li>
+          </ul>
+          <div class="layui-tab-content" style="height:100%">
+            <div class="layui-tab-item layui-show" id="content" style="height:100%">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-footer">
+      <!-- 底部固定区域 -->
+      © layui.com - 底部固定区域
+    </div>
+  </div>
+
+  <!-- onclick="AdminPage.selectMenu(this)" -->
+  <!--左侧菜单模板-->
+  <script id="tepMenue" type="text/html">
+        {{# layui.each(d,function(index,item){ }}
+        <li class="layui-nav-item left-menu">
+            <a href="javascript:;" ico="{{item.menuIcon}}" alt="{{item.description}}" dir="{{ item.url }}" onclick="AdminPage.PageInit(this)">
+              <i class="layui-icon {{item.menuIcon}}"></i>
+              {{ item.text }}
+          </a>
+        </li>
+        {{# }); }}
+    </script>
+
+  <!--面包屑模板-->
+  <script id="tepCrumbs" type="text/html">
+        <li class="" lay-id="../../Home/Index">
+            <i class="layui-icon layui-icon-home">首页</i>
+        </li>
+        <li class="layui-this" lay-id="../../Home/Index">
+            <i class="layui-icon {{d.ico}}">{{d.name}}</i>
+        </li>
+    </script>
+
+  <script src="../layui.js"></script>
+  <script type="text/javascript">
+    //初始化主页
+    var AdminPage = {
+      LeftMenuInit: function () {
+        var config = layui.config;
+        $.ajax({
+          type: "post",
+          data: {},
+          beforeSend: function (XHR) {
+            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          },
+          url: config.apiUrl + "Menu/GetMenuList",
+          success: function (result) {
+            if (result.success) {
+              document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
+              var getTpl = document.getElementById('tepMenue').innerHTML;
+              var view = document.getElementById('menuUl');
+              laytpl(getTpl).render(result.data, function (html) {
+                view.innerHTML = html;
+              });
+            }
+            else {
+              layer.msg(result.msg, { icon: 7 });
+            }
+          }
+        })
+      },// 选择左侧一级菜单js 处理
+      PageInit: function (event) {
+        $(".layui-this").each(function (index, item) {
+          $(item).removeClass("layui-this");
+        })
+        var name = $(event).attr("alt");
+        var ico = $(event).attr("ico");
+        var url = $(event).attr("dir");
+        $(event.parentNode).addClass("layui-this");
+        $.ajax({
+          type: "get",
+          url: url,
+          success: function (result) {
+            $("#content").html(result);
+          }
+        })
+        // 初始化 面包屑
+        var laytpl = layui.laytpl;
+        var getTplCrumbs = document.getElementById('tepCrumbs').innerHTML;
+        var crmLiContent = document.getElementById('crmLi');
+        laytpl(getTplCrumbs).render({ name: name, ico: ico }, function (html) {
+          crmLiContent.innerHTML = html;
+        });
+      },
+      loginOut: function (event) {
+
+        top.location.href = "login.html";
+      },
+    };
+    //JavaScript代码区域
+    layui.use(['jquery', 'layer', 'laytpl', 'config'], function () {
+      $ = layui.$,
+        laytpl = layui.laytpl,
+        config = layui.config;
+      // 初始化左侧菜单
+      AdminPage.LeftMenuInit();
+      if (!sessionStorage.getItem("apiTicket")) {
+        layer.msg("请先登录", { icon: 7 });
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
+
+</html>

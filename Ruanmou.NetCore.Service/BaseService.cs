@@ -172,11 +172,22 @@ namespace Ruanmou.NetCore.Service
         public void Delete<T>(int Id) where T : class
         {
             T t = this.Find<T>(Id);//也可以附加
-            if (t == null) throw new Exception("t is null");
+            if (t == null) throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
             this.Context.Set<T>().Remove(t);
             this.Commit();
         }
-
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Id"></param>
+        public void Delete<T>(Expression<Func<T,bool>> funWhere) where T : class
+        {
+            var listt = this.Query<T>(funWhere);//也可以附加
+            if (listt.Count()==0) throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
+            this.Context.Set<T>().RemoveRange(listt);
+            this.Commit();
+        }
         public void Delete<T>(IEnumerable<T> tList) where T : class
         {
             foreach (var t in tList)

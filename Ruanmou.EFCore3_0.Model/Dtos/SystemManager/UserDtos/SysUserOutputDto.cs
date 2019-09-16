@@ -16,10 +16,6 @@ namespace RM04.DBEntity
         /// </summary>
         public string Account { get; set; }
         /// <summary>
-        /// 密码
-        /// <summary>
-        public string Password { get; set; }
-        /// <summary>
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
         /// <summary>
@@ -62,5 +58,10 @@ namespace RM04.DBEntity
         /// 当前角色
         /// </summary>
         public IEnumerable<SysRoleDto> SysRoles { get; set; }
+
+        /// <summary>
+        /// 用户类型(1系统管理员 2学员)
+        /// </summary>
+        public int UserType { get; set; }
     }
 }

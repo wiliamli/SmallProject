@@ -24,6 +24,6 @@ namespace Ruanmou.NetCore.Interface
         /// 获取所有用户
         /// </summary>
         /// <returns></returns>
-        List<SysUserOutputDto> GetSysUsers();
+        List<SysUserOutputDto> GetSysUsers(Expression<Func<SysUser, bool>> funcWhere);
     }
 }

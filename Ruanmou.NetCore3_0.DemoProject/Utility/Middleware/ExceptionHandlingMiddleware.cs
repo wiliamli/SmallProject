@@ -36,9 +36,14 @@ namespace Ruanmou04.NetCore.Project.Utility.Middleware
         }
         private Task HandleExceptionAsync(HttpContext context, Exception exp)
         {
-            AjaxResult ajaxResult = new AjaxResult { success=false,msg= "请求出错,请联系管理员" };
-            _logger.LogError(exp, "请求出错");
-            return context.Response.WriteAsync(JsonConvert.SerializeObject(ajaxResult));
+            AjaxResult ajaxResult = new AjaxResult { success = false, msg = "请求出错,请联系管理员" };
+            _logger.LogError(exp, context.Request.Path + "---请求出错");
+
+            var result = JsonConvert.SerializeObject(ajaxResult);
+            byte[] tempBytes = System.Text.Encoding.UTF8.GetBytes(result);
+            string res = System.Text.Encoding.UTF8.GetString(tempBytes);
+
+            return context.Response.WriteAsync(res);
         }
     }
 }
