@@ -52,6 +52,7 @@ namespace RM04.DBEntity
         /// 性别 男 女
         /// <summary>
         public string Sex { get; set; }
+
         /// <summary>
         /// 最后登陆时间
         /// <summary>

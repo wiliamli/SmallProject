@@ -41,6 +41,14 @@ namespace Ruanmou.NetCore.Interface
         /// <returns></returns>
         IQueryable<T> Query<T>(Expression<Func<T, bool>> funcWhere) where T : class;
 
+
+        /// <summary>
+        /// 这才是合理的做法，上端给条件，这里查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="funcWhere"></param>
+        /// <returns></returns>
+        IQueryable<T> Query<T>() where T : class;
         /// <summary>
         /// 分页查询
         /// </summary>

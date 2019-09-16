@@ -67,6 +67,19 @@
             错误处理中间件
             </summary>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenuList">
+            <summary>
+            获取权限菜单 
+            </summary>
+            <param name="menuType">1后台的，2是网站，3是论坛</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsers(System.Int32,System.Int32)">
+            <summary>
+            获取所有用户
+            </summary>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
             <summary>
@@ -86,24 +99,6 @@
             自有妙用
             </summary>
             <param name="configuration"></param>
-        </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.InMemoryConfiguration.GetApiResources">
-            <summary>
-            Define which APIs will use this IdentityServer
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.InMemoryConfiguration.GetClients">
-            <summary>
-            Define which Apps will use thie IdentityServer
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.InMemoryConfiguration.GetUsers">
-            <summary>
-            Define which uses will use this IdentityServer
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacAop">
             <summary>
