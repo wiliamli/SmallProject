@@ -16,53 +16,23 @@
       </div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">名称</label>
+      <label class="layui-form-label">资源名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="Text" lay-verify="required" placeholder="请输入名称" autocomplete="off"
+        <input type="text" name="Name" lay-verify="required" style="width: 300px" placeholder="请输入名称" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">班级</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Classes" lay-verify="required" style="width: 300px" placeholder="请输入班级" autocomplete="off"
           class="layui-input">
       </div>
-      <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">Url地址</label>
-        <div class="layui-input-inline">
-          <input type="text" name="Url" lay-verify="required" style="width:400px;" placeholder="请输入Url地址" autocomplete="off"
-            class="layui-input">
-        </div>
-      </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">菜单层级</label>
-      <div class="layui-input-inline">
-        <input type="text" name="MenuLevel" lay-verify="required|number" placeholder="请输入菜单层级" autocomplete="off"
-          class="layui-input">
-      </div>
-      <div class="layui-form-mid layui-word-aux">请务必填写菜单层级</div>
+      <label class="layui-form-label">资源内容</label>
+      <textarea id="Content"  style="display: none;width:400px;"></textarea>
     </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">图标</label>
-      <div class="layui-input-inline">
-        <input type="text" name="MenuIcon"  placeholder="请输入图标" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">排序</label>
-      <div class="layui-input-inline">
-        <input type="text" name="Sort" lay-verify="number" placeholder="请输入排序" autocomplete="off" class="layui-input">
-      </div>
-    </div>
-    <div class="layui-form-item" pane>
-      <label class="layui-form-label">状态</label>
-      <div class="layui-input-block">
-        <input type="radio" name="Status" value="1" title="是"  checked>
-        <input type="radio" name="Status" value="0" title="否">
-      </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-inline">
-          <input type="text" name="Description"  placeholder="请输入备注" autocomplete="off" style="width:400px;" class="layui-input">
-        </div>
-      </div>
     <div class="layui-form-item">
       <div class="layui-input-block">
         <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
@@ -73,8 +43,8 @@
   <script src="/layui.js"></script>
   <script type="text/javascript">
     var userDetail = {
-      userInIt: function ($, config, form) {
-        debugger
+      userInIt: function ($, config, form,layedit,editorindex) {
+        
         if (parent.layer.data) {
           $.ajax({
             type: "Get",
@@ -84,11 +54,14 @@
             beforeSend: function (XHR) {
               XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
             },
-            url: config.apiUrl + "/Menu/GetEditMenuByID",
+            url: config.apiUrl + "/Resource/GetEditResouceByID",
             success: function (result) {
               var jsonResult = JSON.parse(result);
+              //var newscontent = utf16to8(jsonResult.data.Content);//解码
+             
               if (jsonResult.success) {
                 form.val("first", jsonResult.data);
+                layedit.setContent(editorindex,jsonResult.data.Content);
               }
               else {
                 layer.msg(jsonResult.msg);
@@ -97,23 +70,26 @@
           })
         }
       },
-      saveUser:function($,config,saveData)
-      {
-        var user =saveData;
-        user.Id=saveData.Id?parseInt(saveData.Id):0;
-        user.MenuLevel=parseInt(saveData.MenuLevel);
-        user.Sort=parseInt(saveData.Sort);
-        user.Status=saveData.Status=="1";
+      saveData: function ($, config, saveData,layedit,editorindex) {
+        debugger
+        var user = saveData;
+        user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
+        user.Content=layedit.getContent(editorindex);
+        if(!user.Content)
+        {
+          layer.msg("请输入资源内容", { icon: 2 });
+          return;
+        }
         var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         $.ajax({
           type: 'Post',
           dataType: "json",
           data: JSON.stringify(user),
           contentType: 'application/json',
-          headers: { Authorization: sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/Menu/SaveData',
+          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+          url: config.apiUrl + '/Resource/SaveData',
           success: function (result) {
-            
+
             layer.close(LoadIndex);
             console.log(result);
             if (result.success) {
@@ -131,18 +107,19 @@
         })
         return false;
       }
-      
+
     }
-    layui.use(["form", "config"], function () {
+    layui.use(["form", "config", "layedit"], function () {
       var form = layui.form,
         layer = layui.layer,
+        layedit = layui.layedit,
         $ = layui.$,
         config = layui.config;
       // 初始刷f
-
-      userDetail.userInIt($, config, form);
+      var editorindex= layedit.build('Content');
+      userDetail.userInIt($, config, form,layedit,editorindex);
       form.on("submit(sub)", function (obj) {
-        userDetail.saveUser($,config,obj.field);
+        userDetail.saveData($, config, obj.field,layedit,editorindex);
       })
     })
   </script>

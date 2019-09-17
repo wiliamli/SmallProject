@@ -108,27 +108,20 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.GetMenuList">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetEditResouceByID(System.Int32)">
             <summary>
-            获取权限菜单 
-            </summary>
-            <param name="menuType">1后台的，2是网站，3是论坛</param>
-            <returns></returns>
-        </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.GetEditMenuByID(System.Int32)">
-            <summary>
-            获取编辑用户
+            获取编辑资源
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.GetMenus(System.Int32,System.Int32,System.String)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetResouces(System.Int32,System.Int32,System.String)">
             <summary>
             获取所有数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.SaveData(RM04.DBEntity.SysMenuDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(RM04.DBEntity.SysResourceInputDto)">
             <summary>
             新增或修改数据
             </summary>

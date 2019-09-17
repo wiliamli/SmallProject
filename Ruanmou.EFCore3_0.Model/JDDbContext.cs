@@ -42,6 +42,7 @@ namespace Ruanmou.EFCore3_0.Model
         }
 
         public virtual DbSet<SysMenu> SysMenu { get; set; }
+        public virtual DbSet<SysResource> SysResource { get; set; }
         public virtual DbSet<SysMenuOperation> SysMenuOperation { get; set; }
         public virtual DbSet<SysRole> SysRole { get; set; }
         public virtual DbSet<SysRoleMenuMapping> SysRoleMenuMapping { get; set; }

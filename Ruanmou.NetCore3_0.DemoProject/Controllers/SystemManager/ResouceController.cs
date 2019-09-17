@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RM04.DBEntity;
+using Ruanmou.NetCore.Interface;
 using Ruanmou04.Core.Model.DtoHelper;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.Extensions;
@@ -15,38 +16,28 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     //[CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
-    public class ResouceController : ControllerBase
+    public class ResourceController : ControllerBase
     {
         private readonly ICurrentUserInfo _currentUserInfo;
-        private readonly IUserMenuService _userMenuService;
+        private readonly ISysResourceService _resourceService;
 
-        public ResouceController(ICurrentUserInfo currentUserInfo, IUserMenuService userMenuService)
+        public ResourceController(ICurrentUserInfo currentUserInfo, ISysResourceService resourceService)
         {
             _currentUserInfo = currentUserInfo;
-            _userMenuService = userMenuService;
-        }
-        /// <summary>
-        /// 获取权限菜单 
-        /// </summary>
-        /// <param name="menuType">1后台的，2是网站，3是论坛</param>
-        /// <returns></returns>
-        [HttpPost]
-        public AjaxResult GetMenuList()
-        {
-            var menu = _userMenuService.GetAuthorityMenuList(_currentUserInfo.CurrentUser.Id);
-            return new AjaxResult { success = true, data = menu };
+            _resourceService = resourceService;
         }
 
+
         /// <summary>
-        /// 获取编辑用户
+        /// 获取编辑资源
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
 
-        public string GetEditMenuByID(int userId)
+        public string GetEditResouceByID(int userId)
         {
-            var user = _userMenuService.Find<SysMenu>(userId)?.MapTo<SysMenu, SysMenuDto>();
+            var user = _resourceService.Find<SysResource>(userId)?.MapTo<SysResource, SysResourceDto>();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
@@ -58,25 +49,28 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public string GetMenus(int page, int limit, string name)
+        public string GetResouces(int page, int limit, string name)
         {
-            var userData = _userMenuService.
-                Query<SysMenu>(u => (!name.IsNullOrEmpty() && u.Text.Contains(name)) || name.IsNullOrEmpty())
-                .Select(m => new SysMenuDto
-                {
-                    Id = m.Id,
-                    Description = m.Description,
-                    MenuIcon = m.MenuIcon,
-                    Text = m.Text,
-                    MenuLevel = m.MenuLevel,
-                    MenuType = m.MenuType,
-                    Sort = m.Sort,
-                    ParentId = m.ParentId,
-                    Status = m.Status,
-                    Url = m.Url
-                }).ToList() ;
+            var userData =
+                (from r in _resourceService.
+                Query<SysResource>(u => (!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty())
+                 join ul in _resourceService.Query<SysUser>() on r.LastModifierId equals ul.Id into ul
+                 from ulc in ul.DefaultIfEmpty()
+                 join uc in _resourceService.Query<SysUser>() on r.CreatorId equals uc.Id into uc
+                 from ucc in uc.DefaultIfEmpty()
+                 select new SysResourceDto
+                 {
+                     Id = r.Id,
+                     Name = r.Name,
+                     Classes = r.Classes,
+                     BrowseCount = r.BrowseCount,
+                     Content = r.Content,
+                     LastModifyTime = r.LastModifyTime,
+                     LastModifier = ulc.Name,
+                     Creator = ucc.Name
+                 }).ToList();
 
-            PagedResult<SysMenuDto> pagedResult = new PagedResult<SysMenuDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
+            PagedResult<SysResourceDto> pagedResult = new PagedResult<SysResourceDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
 
             return JsonConvert.SerializeObject(pagedResult);
 
@@ -89,7 +83,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <param name="sysMenuDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public AjaxResult SaveData([FromBody]SysMenuDto sysMenuDto)
+        public AjaxResult SaveData([FromBody]SysResourceInputDto sysMenuDto)
         {
 
             AjaxResult ajaxResult = new AjaxResult { success = false };
@@ -97,24 +91,21 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             {
                 if (sysMenuDto.Id > 0)
                 {
-                    var menu = _userMenuService.Find<SysMenu>(sysMenuDto.Id);
+                    var menu = _resourceService.Find<SysResource>(sysMenuDto.Id);
                     menu.Id = sysMenuDto.Id;
-                    menu.Description = sysMenuDto.Description;
-                    menu.MenuIcon = sysMenuDto.MenuIcon;
-                    menu.Text = sysMenuDto.Text;
-                    menu.MenuLevel = sysMenuDto.MenuLevel;
-                    //menu.MenuType = sysMenuDto.MenuType;
-                    menu.Sort = sysMenuDto.Sort;
-                    //menu.ParentId = sysMenuDto.ParentId;
-                    menu.Status = sysMenuDto.Status;
-                    menu.Url = sysMenuDto.Url;
-
-                    _userMenuService.Update<SysMenu>(menu);
+                    menu.Name = sysMenuDto.Name;
+                    menu.Classes = sysMenuDto.Classes;
+                    menu.Content = sysMenuDto.Content;
+                    menu.LastModifyTime = DateTime.Now;
+                    menu.LastModifierId = _currentUserInfo.CurrentUser.Id;
+                    _resourceService.Update<SysResource>(menu);
                 }
                 else
                 {
-                    var menu = sysMenuDto.MapTo<SysMenuDto, SysMenu>();
-                    _userMenuService.Insert<SysMenu>(menu);
+                    var model = sysMenuDto.MapTo<SysResourceInputDto, SysResource>();
+                    model.CreateTime = DateTime.Now;
+                    model.CreatorId = _currentUserInfo.CurrentUser.Id;
+                    _resourceService.Insert<SysResource>(model);
                 }
                 ajaxResult.msg = "保存成功";
                 ajaxResult.success = true;
