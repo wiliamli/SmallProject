@@ -107,6 +107,7 @@
             },
             url: config.apiUrl + "/Users/GetEditUserByID",
             success: function (result) {
+              debugger
               var jsonResult = JSON.parse(result);
               jsonResult.data.Sex = jsonResult.data.Sex.trim()
               if (jsonResult.success) {

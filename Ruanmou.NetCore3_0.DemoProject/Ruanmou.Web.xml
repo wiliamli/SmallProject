@@ -67,6 +67,13 @@
             错误处理中间件
             </summary>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Aio.Domain.SystemManage.Dtos.LoginInputDto)">
+            <summary>
+            登录
+            </summary>
+            <param name="loginInput"></param>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenuList">
             <summary>
             获取权限菜单 

@@ -22,7 +22,7 @@ namespace Ruanmou.NetCore.Service
         {
             AjaxResult ajaxResult = new AjaxResult() { success = false };
 
-            var user = base.Find<SysUser>(u => u.Name == loginInput.Account && u.UserType == 1);
+            var user = base.Find<SysUser>(u => u.Name == loginInput.Account);
             if (user == null)
             {
                 ajaxResult.msg = "用户名或密码不正确,请检查！";
