@@ -22,7 +22,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public PortalUserController(ISysUserService userService,
             ICurrentUserInfo currentUser,
-            IMemoryCache memoryCache) : base(memoryCache)
+            IMemoryCache memoryCache) : base(memoryCache, currentUser)
         {
             this._IUserService = userService;
             this._memoryCache = memoryCache;

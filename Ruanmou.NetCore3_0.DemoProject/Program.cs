@@ -136,5 +136,6 @@ namespace Ruanmou.NetCore3_0.DemoProject
                     webBuilder.UseStartup<Startup>();
                 })
              .UseServiceProviderFactory(new AutofacServiceProviderFactory());
+        
     }
 }

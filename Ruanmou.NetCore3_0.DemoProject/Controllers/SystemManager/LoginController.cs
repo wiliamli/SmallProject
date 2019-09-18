@@ -68,7 +68,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     sysuserdto.SysRoles = curRoles;
                 }
                 ajax.data = generatedto;                
-                this._memoryCache.Set<SysUserOutputDto>(ajax.data, sysuserdto);
+                this._memoryCache.Set<SysUserOutputDto>(generatedto.Token, sysuserdto);
             }
             return ajax;
         }

@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Caching.Memory;
-using RM04.DBEntity;
-using Ruanmou04.EFCore.Model.DtoHelper;
+﻿
+using Microsoft.AspNetCore.Mvc.Filters;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,41 +8,30 @@ using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.Project.Models
 {
-    public class VerifyAttribute : Attribute, IActionFilter
+    public class AsyncVerifyAttribute : Attribute, IAsyncActionFilter
     {
-        //private IMemoryCache _memoryCache;
-       // private ICurrentUserInfo _currentUserInfo;
         private ITokenService _tokenService;
-        public VerifyAttribute(ITokenService tokenService)
+        public AsyncVerifyAttribute(ITokenService tokenService)
         {
-            //this._memoryCache = memoryCache;
-            //this._currentUserInfo = currentUserInfo;
             this._tokenService = tokenService;
         }
 
-        public void OnActionExecuted(ActionExecutedContext context)
-        {
-           
-        }
-
-        public void OnActionExecuting(ActionExecutingContext context)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
+
             if (key == null)
             {
                 throw new Exception("请登录后使用");
             }
             else
             {
-                AjaxResult result = this._tokenService.ConfirmVerification(key);
+                var result = await this._tokenService.ConfirmVerificationAsync(key);
                 if (!result.success)
                 {
                     throw new Exception("请登录后使用");
                 }
             }
         }
-
-        
-
     }
 }

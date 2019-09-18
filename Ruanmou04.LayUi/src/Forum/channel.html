@@ -558,11 +558,11 @@
 <script type="text/javascript">
 
 var domain=baseDomain();
-var key = sessionStorage.getItem("token");
+var key = "Bearer " + sessionStorage.getItem("Authorization");
 var active = {
       channelInit:function(){
         layui.jquery.ajax({
-          headers: {token: key},
+          headers: {Authorization: key},
           url:domain+"api/ForumChannel/GetChannelsByRoleId",
           data: {"roleId":1},
           type: 'get',
@@ -582,9 +582,11 @@ var active = {
       },
       tabChange: function(othis,Id){
       //切换到指定Tab项
+      var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
-      headers: { token: key},
+      headers: { Authorization: key},
       data: {"channleId":Id},
       type: 'get',
       dataType: 'json',
@@ -609,7 +611,7 @@ var active = {
     layui.jquery.ajax({
       url:domain+"api/ForumCheckIn/Add",
       data:JSON.stringify(clockin),
-      headers: {token: key},
+      headers: {Authorization: key},
       type: 'post',
       dataType: 'json',
       contentType:'application/json',
@@ -625,10 +627,11 @@ var active = {
   }
   ,checkInit:function(){
         var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        if(userInfo!=null){
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
           data: {"userId":userInfo.Id},
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -643,12 +646,13 @@ var active = {
               console.log('ajax请求失败！');
           }
        });
+     }
   }
   ,loginInit:function(){
     layui.jquery.ajax({
           url:domain+"api/ForumLogin/GetLoginInfo",
           data: null,
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
