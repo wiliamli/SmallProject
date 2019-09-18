@@ -568,7 +568,6 @@ var active = {
           type: 'get',
           dataType: 'json',
           success: function(obj) {
-            debugger;
               var data = obj.Data;
               var channelTpl=document.getElementById('channelTpl').innerHTML;
                 var channelMenu=document.getElementById('channelMenu');
@@ -657,7 +656,6 @@ var active = {
           type: 'get',
           dataType: 'json',
           success: function(obj) {
-            debugger;
               if(obj.Success && obj.Data!=null){
                 var data=obj.Data;
                 sessionStorage.setItem("userInfo",JSON.stringify(data));

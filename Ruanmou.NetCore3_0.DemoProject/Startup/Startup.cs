@@ -17,6 +17,8 @@ using YJ.PlatFormCore.Web.Startup;
 using Ruanmou04.NetCore.Project.Utility.Middleware;
 using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.NetCore.Project.Models;
+using Microsoft.AspNetCore.Http;
+using IdentityServer4.Models;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -46,6 +48,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
             services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
+            services.AddHttpContextAccessor();
             services.AddSingleton<ICurrentUserInfo, CurrentUserInfo>();
             services.AddMemoryCache();
             services.AddSingleton<VerifyAttribute>();
@@ -82,6 +85,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+           
             containerBuilder.RegisterModule<CustomAutofacModule>();
             //ProjectModule.Init(containerBuilder, _Configuration);
             //var token= provider.GetService(typeof(TokenAuthConfiguration));
@@ -224,7 +228,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             ////});
             #endregion
 
-            //app.UseMiddleware<AuthorizeMiddleware>();
+            app.UseMiddleware<AuthorizeMiddleware>();
             if (env.IsDevelopment())
             {
                 //app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -267,5 +271,61 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             });
         }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+           {
+               new ApiResource("inventoryapi", "this is inventory api"),
+               new ApiResource("orderapi", "this is order api"),
+               new ApiResource("productapi", "this is product api")
+           };
+        }
+
+        // clients want to access resources (aka scopes)
+        public static IEnumerable<Client> GetClients()
+        {
+            // client credentials client
+            return new List<Client>
+           {
+               new Client
+               {
+                   ClientId = "inventory",
+                   AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                   ClientSecrets =
+                   {
+                       new Secret("inventorysecret".Sha256())
+                   },
+
+                   AllowedScopes = { "inventoryapi" }
+               },
+                new Client
+               {
+                   ClientId = "order",
+                   AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                   ClientSecrets =
+                   {
+                       new Secret("ordersecret".Sha256())
+                   },
+
+                   AllowedScopes = { "orderapi" }
+               },
+                new Client
+               {
+                   ClientId = "product",
+                   AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                   ClientSecrets =
+                   {
+                       new Secret("productsecret".Sha256())
+                   },
+
+                   AllowedScopes = { "productapi" }
+               }
+           };
+        }
+
     }
 }

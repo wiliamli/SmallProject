@@ -59,9 +59,9 @@ namespace Ruanmou04.NetCore.Project.Controllers
 
             string key = HttpContext.Request.Headers["Authorization"].SingleOrDefault();
             SysUserOutputDto sysUser = null;
-            if (key != null)
+            if (key != null && user.Name != null)
             {
-                sysUser = this._memoryCache.Get(key.Split(new string[] {" "},StringSplitOptions.RemoveEmptyEntries)[1]) as SysUserOutputDto;
+                sysUser = this._memoryCache.Get(key.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[1]) as SysUserOutputDto;
             }
             return sysUser;
         }

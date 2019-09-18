@@ -146,17 +146,14 @@ layui.use(['jquery','laytpl','form'], function(){
           data: JSON.stringify(login),
           type: 'post',
           dataType: 'json',
-          //xhrFields: {withCredentials: true},
-          //crossDomain: true,
           contentType:'application/json',
           success: function(obj) {
-            debugger;
             if(obj.success){
               document.getElementById("L_username").value="";
               document.getElementById("L_pass").value="";
               layer.alert("登录成功!", {
               title: '登录成功'});
-              sessionStorage.setItem("Authorization",obj.data);
+              sessionStorage.setItem("Authorization",obj.data.token);
               window.location.href="/src/Forum/channel.html";
             }
             else{

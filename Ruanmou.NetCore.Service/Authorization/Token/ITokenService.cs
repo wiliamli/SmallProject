@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.NetCore.Interface;
+using System.Security.Claims;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {
@@ -39,5 +40,12 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         /// <param name="dto"></param>
         /// <returns>AjaxResult</returns>
         AjaxResult ConfirmVerification(string token);
+
+        /// <summary>
+        /// 根据token获取当前身份
+        /// </summary>
+        /// <param name="token">token</param>
+        /// <returns></returns>
+        ClaimsPrincipal GetClaims(string token);
     }
 }

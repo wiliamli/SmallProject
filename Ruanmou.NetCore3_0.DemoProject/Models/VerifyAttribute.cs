@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.Project.Models
 {
-    public class VerifyAttribute : Attribute, IActionFilter//,IAsyncActionFilter
+    public class VerifyAttribute : Attribute, IActionFilter
     {
         //private IMemoryCache _memoryCache;
        // private ICurrentUserInfo _currentUserInfo;

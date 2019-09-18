@@ -157,6 +157,21 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             return result;
         }
 
+        public ClaimsPrincipal GetClaims(string token)
+        {
+            token = token.Replace("Bearer ", "");
+            var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+            ClaimsPrincipal claimsPrincipal = null;
+            if (jwtSecurityToken.Claims.Any())
+            {
+                ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                identity.AddClaims(jwtSecurityToken.Claims);
+                claimsPrincipal = new ClaimsPrincipal(identity);
+            }
+            return claimsPrincipal;
+        }
+
+
         /// <summary>
         /// 创建系统与令牌关联数据 TokenInformationDetail
         /// </summary>
@@ -251,6 +266,7 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             };
             var claims = new ClaimsPrincipal(identity);
             _httpContextAccessor.HttpContext.User = claims;
+            
             await _authenticationService.SignInAsync(_httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, claims, props);
             return accessToken;
         }
