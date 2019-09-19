@@ -8,15 +8,13 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Ruanmou.Core.Utility;
-using Ruanmou.NetCore3_0.DemoProject.Utility;
-using Ruanmou.Core.Utility.Middleware;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using YJ.PlatFormCore.Web.Startup;
 using Ruanmou04.NetCore.Project.Models;
 using IdentityServer4.Models;
-using Ruanmou04.NetCore.Project.Utility.Middleware;
-using Ruanmou.Core.Utility.Filters;
+using Ruanmou04.NetCore.AOP.Filter;
+using Ruanmou04.NetCore.AOP.IOC;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {

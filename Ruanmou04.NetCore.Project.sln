@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.NetCore.Service",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.EFCore.Model", "Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj", "{7D67A89E-CE7D-4B69-8A9C-DCF408A85529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou04.NetCore.Application", "Ruanmou04.NetCore.Application\Ruanmou04.NetCore.Application.csproj", "{3FD0D9DC-C7EE-4DEA-BEA6-8F1F48194D6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ruanmou04.NetCore.Application", "Ruanmou04.NetCore.Application\Ruanmou04.NetCore.Application.csproj", "{3FD0D9DC-C7EE-4DEA-BEA6-8F1F48194D6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruanmou04.NetCore.AOP", "Ruanmou04.NetCore.AOP\Ruanmou04.NetCore.AOP.csproj", "{F635FA25-2549-4751-B39E-3DFA765A9D17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{3FD0D9DC-C7EE-4DEA-BEA6-8F1F48194D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FD0D9DC-C7EE-4DEA-BEA6-8F1F48194D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD0D9DC-C7EE-4DEA-BEA6-8F1F48194D6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F635FA25-2549-4751-B39E-3DFA765A9D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F635FA25-2549-4751-B39E-3DFA765A9D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F635FA25-2549-4751-B39E-3DFA765A9D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F635FA25-2549-4751-B39E-3DFA765A9D17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

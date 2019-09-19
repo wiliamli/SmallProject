@@ -62,11 +62,6 @@
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
         </member>
-        <member name="T:Ruanmou04.NetCore.Project.Utility.Middleware.ExceptionHandlingMiddleware">
-            <summary>
-            错误处理中间件
-            </summary>
-        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Aio.Domain.SystemManage.Dtos.LoginInputDto)">
             <summary>
             登录
@@ -202,16 +197,5 @@
             </summary>
             <param name="configuration"></param>
         </member>
-        <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacAop">
-            <summary>
-            自定义的Autofac的AOP扩展
-            </summary>
-        </member>
-        <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacModule">
-            <summary>
-            Autofac配置
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "T:Ruanmou.Core.Utility.Middleware.AuthorizeMiddleware" -->
     </members>
 </doc>
