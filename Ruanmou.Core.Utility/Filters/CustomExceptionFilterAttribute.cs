@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
@@ -21,13 +23,8 @@ namespace Ruanmou.Core.Utility.Filters
         /// </summary>
         /// <param name="hostingEnvironment"></param>
         /// <param name="modelMetadataProvider"></param>
-        public CustomExceptionFilterAttribute(
-            //IHostingEnvironment hostingEnvironment,
-            //IModelMetadataProvider modelMetadataProvider,
-            Logger<CustomExceptionFilterAttribute> logger)
+        public CustomExceptionFilterAttribute(ILogger<CustomExceptionFilterAttribute> logger)
         {
-            //_hostingEnvironment = hostingEnvironment;
-            //_modelMetadataProvider = modelMetadataProvider;
             _logger = logger;
         }
 
@@ -40,11 +37,20 @@ namespace Ruanmou.Core.Utility.Filters
             if (!filterContext.ExceptionHandled)//异常有没有被处理过
             {
                 _logger.LogError(filterContext.Exception, filterContext.HttpContext.Request.Path + "---请求出错");
-                var ajaxResult = new { success = false,msg= "请求出错,请联系管理员" };
-                var result = JsonConvert.SerializeObject(ajaxResult);
-                byte[] tempBytes = System.Text.Encoding.UTF8.GetBytes(result);
-                string res = System.Text.Encoding.UTF8.GetString(tempBytes);
-                filterContext.HttpContext.Response.WriteAsync(res);
+
+                var ajaxResult = new { success = false, msg = "请求出错,请联系管理员" };
+                if (this.IsAjaxRequest(filterContext.HttpContext.Request))//检查请求头
+                {
+                    filterContext.Result = new JsonResult(ajaxResult);
+                }
+                else
+                {
+                    var result = JsonConvert.SerializeObject(ajaxResult);
+                    byte[] tempBytes = System.Text.Encoding.UTF8.GetBytes(result);
+                    string res = System.Text.Encoding.UTF8.GetString(tempBytes);
+                    filterContext.HttpContext.Response.WriteAsync(res);
+                    //filterContext.Result = result;
+                }
             }
         }
 

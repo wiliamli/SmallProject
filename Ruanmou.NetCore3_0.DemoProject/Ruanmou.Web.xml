@@ -212,24 +212,6 @@
             Autofac配置
             </summary>
         </member>
-        <member name="T:Ruanmou.Core.Utility.Filters.CustomExceptionFilterAttribute">
-            <summary>
-            异常处理的Filter
-            </summary>
-        </member>
-        <member name="M:Ruanmou.Core.Utility.Filters.CustomExceptionFilterAttribute.#ctor(Microsoft.Extensions.Logging.ILogger{Ruanmou.Core.Utility.Filters.CustomExceptionFilterAttribute})">
-            <summary>
-            ioc来的
-            </summary>
-            <param name="hostingEnvironment"></param>
-            <param name="modelMetadataProvider"></param>
-        </member>
-        <member name="M:Ruanmou.Core.Utility.Filters.CustomExceptionFilterAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
-            <summary>
-            没有处理的异常，就会进来
-            </summary>
-            <param name="filterContext"></param>
-        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.Core.Utility.Middleware.AuthorizeMiddleware" -->
     </members>
 </doc>
