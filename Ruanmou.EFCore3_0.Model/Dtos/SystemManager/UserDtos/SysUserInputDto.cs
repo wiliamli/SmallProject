@@ -15,10 +15,7 @@ namespace RM04.DBEntity
         /// 账号
         /// </summary>
         public string Account { get; set; }
-        /// <summary>
-        /// 密码
-        /// <summary>
-        public string Password { get; set; }
+
         /// <summary>
         /// 用户状态   1 正常 0 删除
         /// <summary>
@@ -52,5 +49,9 @@ namespace RM04.DBEntity
         /// 性别 男 女
         /// <summary>
         public string Sex { get; set; }
+        /// <summary>
+        /// 用户类型(1系统管理员 2vip学员 3 普通学员)
+        /// </summary>
+        public int UserType { get; set; }
     }
 }

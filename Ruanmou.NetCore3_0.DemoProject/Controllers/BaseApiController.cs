@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using RM04.DBEntity;
 using Ruanmou04.Core.Utility.MvcResult;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou04.NetCore.Project.Controllers
 {
@@ -13,9 +14,11 @@ namespace Ruanmou04.NetCore.Project.Controllers
     public class BaseApiController : ControllerBase
     {
         private IMemoryCache _memoryCache;
-        public BaseApiController(IMemoryCache memoryCache)
+        private ICurrentUserInfo _currentUserInfo;
+        public BaseApiController(IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo)
         {
             this._memoryCache = memoryCache;
+            this._currentUserInfo = currentUserInfo;
         }
 
         /// <summary>
@@ -52,11 +55,13 @@ namespace Ruanmou04.NetCore.Project.Controllers
         /// <returns></returns>
         protected SysUserOutputDto GetUserInfo()
         {
-            string key = HttpContext.Request.Headers["token"].SingleOrDefault();
+            var user = _currentUserInfo.CurrentUser;
+
+            string key = HttpContext.Request.Headers["Authorization"].SingleOrDefault();
             SysUserOutputDto sysUser = null;
-            if (key != null)
+            if (key != null && user.Name != null)
             {
-                sysUser = this._memoryCache.Get(key) as SysUserOutputDto;
+                sysUser = this._memoryCache.Get(key.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[1]) as SysUserOutputDto;
             }
             return sysUser;
         }

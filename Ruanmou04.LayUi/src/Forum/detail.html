@@ -232,14 +232,14 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var topicParam = getQueryVariable("topic");
   var domain=baseDomain();
-  var key = sessionStorage.getItem("token");
+  var key = "Bearer " +sessionStorage.getItem("Authorization");
 
   var active={
      topicShow:function(){
      $.ajax({
           url:baseDomain()+"api/ForumTopic/GetTopic",
           data: {"topicId":topicParam},
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -259,7 +259,7 @@ layui.use(['jquery','laytpl','form'], function(){
        $.ajax({
           url:baseDomain()+"api/ForumInvitation/GetInvitations",
           data: {"topicId":topicParam},
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {

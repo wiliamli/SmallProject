@@ -32,7 +32,7 @@ namespace Ruanmou.NetCore.Service
         {
             return this.Context.Set<T>().Find(id);
         }
-        public T Find<T>(Expression<Func<T,bool>> func) where T : class
+        public T Find<T>(Expression<Func<T, bool>> func) where T : class
         {
             return this.Context.Set<T>().Where<T>(func).FirstOrDefault();
         }
@@ -60,7 +60,18 @@ namespace Ruanmou.NetCore.Service
             else
                 return this.Context.Set<T>().Where<T>(funcWhere);
         }
+        /// <summary>
+        /// 这才是合理的做法，上端给条件，这里查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="funcWhere"></param>
+        /// <returns></returns>
+        public IQueryable<T> Query<T>() where T : class
+        {
 
+            return this.Context.Set<T>();
+
+        }
         public PagedResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class
         {
             var list = this.Set<T>();
@@ -161,11 +172,22 @@ namespace Ruanmou.NetCore.Service
         public void Delete<T>(int Id) where T : class
         {
             T t = this.Find<T>(Id);//也可以附加
-            if (t == null) throw new Exception("t is null");
+            if (t == null) throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
             this.Context.Set<T>().Remove(t);
             this.Commit();
         }
-
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Id"></param>
+        public void Delete<T>(Expression<Func<T,bool>> funWhere) where T : class
+        {
+            var listt = this.Query<T>(funWhere);//也可以附加
+            if (listt.Count() == 0) return;//throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
+            this.Context.Set<T>().RemoveRange(listt);
+            this.Commit();
+        }
         public void Delete<T>(IEnumerable<T> tList) where T : class
         {
             foreach (var t in tList)
@@ -186,7 +208,7 @@ namespace Ruanmou.NetCore.Service
         public IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class
         {
             //return this.Context.Database.SqlQuery<T>(sql, parameters).AsQueryable();
-            return this.Context.Set<T>().FromSqlRaw<T>(sql,parameters);
+            return this.Context.Set<T>().FromSqlRaw<T>(sql, parameters);
         }
 
         [Obsolete]

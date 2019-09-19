@@ -14,10 +14,10 @@ namespace Ruanmou.NetCore.Application
 {
     public class SysRoleApplication : ISysRoleApplication
     {
-        private ISysRoleService sysRoleService;
+        private ISysUsersRoleService sysRoleService;
         private ISysUserRoleMappingService sysUserRoleMappingService;
 
-        public SysRoleApplication(ISysRoleService sysRoleService,
+        public SysRoleApplication(ISysUsersRoleService sysRoleService,
             ISysUserRoleMappingService sysUserRoleMappingService)
         {
             this.sysRoleService = sysRoleService;

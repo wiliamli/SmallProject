@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore.Interface
 {
-    public interface ISysRoleService : IBaseService
+    public interface ISysUsersRoleService : IBaseService
     {
         
     }

@@ -9,6 +9,7 @@ using RM04.DBEntity;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
 {
@@ -17,8 +18,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumLoginController : BaseApiController
     {
         private IMemoryCache memoryCache;
+        private ICurrentUserInfo currentUserInfo;
 
-        public ForumLoginController(IMemoryCache memoryCache):base(memoryCache)
+        public ForumLoginController(IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
         {
         }
 

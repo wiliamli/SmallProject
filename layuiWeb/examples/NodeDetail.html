@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>表单模块 - layui</title>
+    <link rel="stylesheet" href="../src/css/layui.css">
+</head>
+<body>
+    <form class="layui-form layui-form-pane1">
+        <br />
+        <br />
+        <div class="layui-form-item">
+            <label class="layui-form-label">节点名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Node" lay-verify="required|title" lay-reqText="节点名称不能为空" required placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <br><br><br>
+
+    <script src="../src/layui.js"></script>
+
+    <script type="text/javascript">
+
+        layui.use(['form', 'layedit', 'config'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , $ = layui.$
+                , config = layui.config;
+
+
+            //自定义验证规则
+            form.verify({
+                title: function (value) {
+                    if (value.length < 5) {
+                        return '节点名称字数必须大于5';
+                    }
+                }
+                , pass: [/(.+){6,12}$/, '密码必须6到12位']
+                , money: [
+                    /^\d+\.\b\d{2}\b$/
+                    , '金额必须为小数保留两位'
+                ]
+            });
+            //监听提交
+            form.on('submit(sub)', function (data) {
+                var parentid = parent.layer.NodeId;
+                var field = data.field;
+                $.ajax({
+                    url: config.apiUrl + "api/Menu?parentid=" + parentid + "&nodeName=" + field.Node,
+                    data: {},
+                    type: "POST",
+                    beforeSend: function (XHR) {
+                        XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                    },
+                    success: function (result) {
+                        var jsonRe = JSON.parse(result);
+                        if (jsonRe.Success) {
+                            parent.layer.closeAll();
+                            parent.layer.msg(jsonRe.Message, { icon: 1 });
+                        }
+                        else {
+                            layer.msg(jsonRe.Message, { icon: 1 });
+                        }
+                    }
+                })
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>

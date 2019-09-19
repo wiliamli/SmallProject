@@ -11,12 +11,14 @@ using Ruanmou.Core.Utility;
 using Ruanmou.NetCore3_0.DemoProject.Utility;
 using Ruanmou.Core.Utility.Middleware;
 using System.Collections.Generic;
-using IdentityServer4.Test;
-using IdentityServer4.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using YJ.PlatFormCore.Web.Startup;
 using Ruanmou04.NetCore.Project.Utility.Middleware;
+using Microsoft.Extensions.Caching.Memory;
+using Ruanmou04.NetCore.Project.Models;
+using Microsoft.AspNetCore.Http;
+using IdentityServer4.Models;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -46,6 +48,10 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
             services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<ICurrentUserInfo, CurrentUserInfo>();
+            services.AddMemoryCache();
+            services.AddSingleton<VerifyAttribute>();
             services.AddCors(
                 options => options.AddPolicy(
                     _defaultCorsPolicyName,
@@ -79,6 +85,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+           
             containerBuilder.RegisterModule<CustomAutofacModule>();
             //ProjectModule.Init(containerBuilder, _Configuration);
             //var token= provider.GetService(typeof(TokenAuthConfiguration));
@@ -224,7 +231,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseMiddleware<AuthorizeMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseMiddleware<ExceptionHandlingMiddleware>();
+                //app.UseMiddleware<ExceptionHandlingMiddleware>();
 
                 //app.UseDeveloperExceptionPage();
             }
@@ -234,7 +241,6 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -242,7 +248,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             app.UseRouting();
 
             //app.UseAuthorize();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
@@ -265,84 +271,61 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             });
         }
-    }
 
-    public class InMemoryConfiguration
-    {
-        public static IConfiguration Configuration { get; set; }
-        /// <summary>
-        /// Define which APIs will use this IdentityServer
-        /// </summary>
-        /// <returns></returns>
         public static IEnumerable<ApiResource> GetApiResources()
         {
-            return new[]
-            {
-                new ApiResource("clientservice", "CAS Client Service"),
-                new ApiResource("productservice", "CAS Product Service"),
-                new ApiResource("agentservice", "CAS Agent Service")
-            };
+            return new List<ApiResource>
+           {
+               new ApiResource("inventoryapi", "this is inventory api"),
+               new ApiResource("orderapi", "this is order api"),
+               new ApiResource("productapi", "this is product api")
+           };
         }
 
-        /// <summary>
-        /// Define which Apps will use thie IdentityServer
-        /// </summary>
-        /// <returns></returns>
+        // clients want to access resources (aka scopes)
         public static IEnumerable<Client> GetClients()
         {
-            return new[]
-            {
+            // client credentials client
+            return new List<Client>
+           {
+               new Client
+               {
+                   ClientId = "inventory",
+                   AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                   ClientSecrets =
+                   {
+                       new Secret("inventorysecret".Sha256())
+                   },
+
+                   AllowedScopes = { "inventoryapi" }
+               },
                 new Client
-                {
-                    ClientId = "client.api.service",
-                    ClientSecrets = new [] { new Secret("clientsecret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-                    AllowedScopes = new [] { "clientservice" }
-                },
+               {
+                   ClientId = "order",
+                   AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                   ClientSecrets =
+                   {
+                       new Secret("ordersecret".Sha256())
+                   },
+
+                   AllowedScopes = { "orderapi" }
+               },
                 new Client
-                {
-                    ClientId = "product.api.service",
-                    ClientSecrets = new [] { new Secret("productsecret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-                    AllowedScopes = new [] { "clientservice", "productservice" }
-                },
-                new Client
-                {
-                    ClientId = "agent.api.service",
-                    ClientSecrets = new [] { new Secret("agentsecret".Sha256()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-                    AllowedScopes = new [] { "agentservice", "clientservice", "productservice" }
-                }
-            };
+               {
+                   ClientId = "product",
+                   AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                   ClientSecrets =
+                   {
+                       new Secret("productsecret".Sha256())
+                   },
+
+                   AllowedScopes = { "productapi" }
+               }
+           };
         }
 
-        /// <summary>
-        /// Define which uses will use this IdentityServer
-        /// </summary>
-        /// <returns></returns>
-        public static IList<TestUser> GetUsers()
-        {
-            return new[]
-            {
-                new TestUser
-                {
-                    SubjectId = "10001",
-                    Username = "edison@hotmail.com",
-                    Password = "edisonpassword"
-                },
-                new TestUser
-                {
-                    SubjectId = "10002",
-                    Username = "andy@hotmail.com",
-                    Password = "andypassword"
-                },
-                new TestUser
-                {
-                    SubjectId = "10003",
-                    Username = "leo@hotmail.com",
-                    Password = "leopassword"
-                }
-            };
-        }
     }
 }

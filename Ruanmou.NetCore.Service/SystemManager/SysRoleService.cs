@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore.Service
 {
-    public class SysRoleService : BaseService, ISysRoleService
+    public class SysRoleService : BaseService, ISysUsersRoleService
     {
         public SysRoleService(DbContext context) : base(context)
         {

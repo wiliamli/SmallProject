@@ -24,7 +24,10 @@ namespace Ruanmou04.NetCore.Service.Core.Tokens.Dtos
         /// 用户ID
         /// </summary>
         public int Id { get; set; }
-
+        /// <summary>
+        /// 登录令牌
+        /// <summary>
+        public string Token { get; set; }
         /// <summary>
         /// 过期时间
         /// </summary>
