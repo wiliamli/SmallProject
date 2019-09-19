@@ -18,20 +18,21 @@
     <div class="layui-form-item">
       <label class="layui-form-label">资源名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="Name" lay-verify="required" style="width: 300px" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        <input type="text" name="Name" lay-verify="required" style="width: 300px" placeholder="请输入名称" autocomplete="off"
+          class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">班级</label>
       <div class="layui-input-inline">
-        <input type="text" name="Classes" lay-verify="required" style="width: 300px" placeholder="请输入班级" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="Classes" lay-verify="required" style="width: 300px" placeholder="请输入班级"
+          autocomplete="off" class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">资源内容</label>
-      <textarea id="Content"  style="display: none;width:400px;"></textarea>
+      <textarea id="Content" style="display: none;width:400px;"></textarea>
     </div>
     <div class="layui-form-item">
       <div class="layui-input-block">
@@ -43,8 +44,8 @@
   <script src="/layui.js"></script>
   <script type="text/javascript">
     var userDetail = {
-      userInIt: function ($, config, form,layedit,editorindex) {
-        
+      userInIt: function ($, config, form, layedit, editorindex) {
+
         if (parent.layer.data) {
           $.ajax({
             type: "Get",
@@ -58,10 +59,10 @@
             success: function (result) {
               var jsonResult = JSON.parse(result);
               //var newscontent = utf16to8(jsonResult.data.Content);//解码
-             
+
               if (jsonResult.success) {
                 form.val("first", jsonResult.data);
-                layedit.setContent(editorindex,jsonResult.data.Content);
+                layedit.setContent(editorindex, jsonResult.data.Content);
               }
               else {
                 layer.msg(jsonResult.msg);
@@ -70,13 +71,12 @@
           })
         }
       },
-      saveData: function ($, config, saveData,layedit,editorindex) {
+      saveData: function ($, config, saveData, layedit, editorindex) {
         debugger
         var user = saveData;
         user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
-        user.Content=layedit.getContent(editorindex);
-        if(!user.Content)
-        {
+        user.Content = layedit.getContent(editorindex);
+        if (!user.Content) {
           layer.msg("请输入资源内容", { icon: 2 });
           return;
         }
@@ -116,10 +116,10 @@
         $ = layui.$,
         config = layui.config;
       // 初始刷f
-      var editorindex= layedit.build('Content');
-      userDetail.userInIt($, config, form,layedit,editorindex);
+      var editorindex = layedit.build('Content');
+      userDetail.userInIt($, config, form, layedit, editorindex);
       form.on("submit(sub)", function (obj) {
-        userDetail.saveData($, config, obj.field,layedit,editorindex);
+        userDetail.saveData($, config, obj.field, layedit, editorindex);
       })
     })
   </script>

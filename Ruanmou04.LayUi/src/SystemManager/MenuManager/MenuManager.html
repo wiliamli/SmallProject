@@ -72,7 +72,7 @@
         , url: config.apiUrl + '/Menu/GetMenus'
         , where: {
           Name: $("#Name").val(),
-          token: sessionStorage.getItem("apiTicket")
+          token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
         , limit: 10
@@ -100,7 +100,7 @@
           , {
             field: 'Status', title: '状态', width: 110, templet: function (obj) {
               if (obj.Status) {
-                return "正常";                
+                return "正常";
               }
               else {
                 return "已冻结";
@@ -143,7 +143,7 @@
               },
               url: config.apiUrl + "/Menu/DeleteMenuById",
               success: function (result) {
-                var jsonResult= JSON.parse(result);
+                var jsonResult = JSON.parse(result);
                 if (jsonResult.success) {
                   $("#search").click();
                   layer.msg(jsonResult.msg, { icon: 1 });

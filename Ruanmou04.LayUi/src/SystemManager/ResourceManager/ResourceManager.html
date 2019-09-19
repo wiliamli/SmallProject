@@ -70,7 +70,7 @@
         , url: config.apiUrl + '/Resource/GetResouces'
         , where: {
           Name: $("#Name").val(),
-          token: sessionStorage.getItem("apiTicket")
+          token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
         , limit: 10
