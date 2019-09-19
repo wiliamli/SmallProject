@@ -6,18 +6,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.NetCore.Interface.Tokens;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
-//using Ruanmou.NetCore.Application;
-//using Ruanmou.NetCore.Service;
-//using Ruanmou04.Core.Utility.Extensions;
-//using Ruanmou04.EFCore.Model.DtoHelper;
-//using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
-
-//using System.Collections.Generic;
-//using System.IdentityModel.Tokens.Jwt;
-//using System.Linq;
-//using System.Reflection.Metadata;
-//using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.AOP.Filter
 {

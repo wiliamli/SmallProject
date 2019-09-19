@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Ruanmou.Core.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading;
+using Ruanmou04.NetCore.Interface.Tokens;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Ruanmou04.NetCore.Project</name>
+        <name>Ruanmou04.NetCore.Web</name>
     </assembly>
     <members>
         <member name="T:Ruanmou04.NetCore.Project.Controllers.BaseApiController">
@@ -47,13 +47,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-        </member>
-        <member name="T:Ruanmou04.NetCore.Project.Models.ICurrentUserInfo">
-            功能描述    ：CurrentUserInfo  
-            创 建 者    ：magic
-            创建日期    ：2019/9/7 12:04:33 
-            最后修改者  ：Administrator
-            最后修改日期：2019/9/7 12:04:33 
         </member>
         <member name="M:Ruanmou04.NetCore.Project.ProjectModule.Init(Autofac.ContainerBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
