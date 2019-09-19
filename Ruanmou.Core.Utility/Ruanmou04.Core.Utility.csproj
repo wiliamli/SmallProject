@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Filters\CustomExceptionFilterAttribute.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="log4net.AspNetCore" Version="1.0.0" />

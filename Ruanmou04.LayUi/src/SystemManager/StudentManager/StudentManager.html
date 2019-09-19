@@ -91,13 +91,13 @@
         , title: '用户数据表'
         , url: config.apiUrl + '/Users/GetUsers?userType=2'
         , where: {
-          Name: $("#Name").val(),
+          name: $("#Name").val(),
+          userType: $("#uesrType").val(),
           token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
         , limit: 10
         , toolbar: '#toolbarDemo'
-        // , toolbar: true
         , parseData: function (queryData) {
           return {
             code: '0',
