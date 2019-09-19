@@ -20,10 +20,12 @@ using Ruanmou04.Core.Utility;
 using Microsoft.Extensions.Configuration;
 using Ruanmou04.Core.Utility.Extensions;
 using System.Linq.Expressions;
+using Ruanmou.Core.Utility.Filters;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-    //[CustomAuthorize]
+    //[TypeFilter(typeof( CustomExceptionFilterAttribute))]
+    [CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : ControllerBase
     {
@@ -100,18 +102,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
             var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == userType);
 
-            //List<SysUserOutputDto> userData;
-            ////Expression<Func<SysUser, bool>> expression = u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty());
-            //if (userType == 1)
-            //{
-            //    userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == 1);
-            //}
-            //else if (userType == 2 || userType==3)
-            //{                
-            //    userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == 2);   
-            //}
             PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
-
+            //throw new Exception("errortest");
             return JsonConvert.SerializeObject(pagedResult);
 
 

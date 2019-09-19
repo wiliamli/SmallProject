@@ -31,7 +31,7 @@ namespace Ruanmou.Core.Utility.Middleware
             {
                 execpetApiInterfaceAry = execpetApiInterface.Split(",");
             }
-            var exceptResult = execpetApiInterfaceAry.Where(s => context.Request.Path.Value.IndexOf($"/{s}/") > -1);
+            var exceptResult = execpetApiInterfaceAry.Where(s => context.Request.Path.Value.IndexOf($"/{s}/") > -1 || context.Request.Path.Value.IndexOf($"/{s}") > -1);
             if (context.Request.Method == "OPTIONS" || (context.Request.Path.HasValue && exceptResult.Count() > 0))
             {
                 await _next.Invoke(context);
@@ -40,6 +40,10 @@ namespace Ruanmou.Core.Utility.Middleware
             {
                 var token = context.Request.Headers["Authorization"];
                 AjaxResult ajaxResult = null;
+                if (token.IsNullOrEmpty())
+                {
+                    token = context.Request.Query["token"];
+                }
                 if (token.IsNullOrEmpty())
                 {
                     ajaxResult = new AjaxResult { msg = "token为空", success = false };

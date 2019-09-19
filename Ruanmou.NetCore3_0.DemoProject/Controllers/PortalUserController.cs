@@ -5,10 +5,6 @@ using Ruanmou.NetCore.Interface;
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.NetCore.Project.Controllers;
 using Ruanmou04.NetCore.Project.Models;
-<<<<<<< HEAD
-using System.Threading.Tasks;
-=======
->>>>>>> d217a75b42dc07b037588035b9f28f71f37e6935
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
