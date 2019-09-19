@@ -19,6 +19,9 @@ namespace RM04.DBEntity
         /// 状态：0 正常 1 冻结 2 删除
         /// <summary>
         public bool Status { get; set; }
-
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateTime { get; set; }
     }
 }

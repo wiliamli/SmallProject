@@ -20,22 +20,22 @@ namespace Ruanmou.NetCore.Service
         }
         public AjaxResult Login(LoginInputDto loginInput)
         {
-            AjaxResult ajaxResult = new AjaxResult() { success=false};
+            AjaxResult ajaxResult = new AjaxResult() { success = false };
 
-            var user =base.Find<SysUser>(u => u.Name == loginInput.Account) ;
+            var user = base.Find<SysUser>(u => u.Name == loginInput.Account);
             if (user == null)
             {
                 ajaxResult.msg = "用户名或密码不正确,请检查！";
             }
             var password = Encrypt.EncryptionPassword(loginInput.Password);
-            if(user.Password!=password)
+            if (user.Password != password)
             {
                 ajaxResult.msg = "用户名或密码不正确,请检查！";
             }
 
             else//MapTo
             {
-                ajaxResult.data = user.MapTo<SysUser,SysUserOutputDto>();// DataMapping<SysUser, SysUserOutputDto>.Trans(user);
+                ajaxResult.data = user.MapTo<SysUser, SysUserOutputDto>();// DataMapping<SysUser, SysUserOutputDto>.Trans(user);
                 ajaxResult.success = true;
                 ajaxResult.msg = "登录成功";
             }

@@ -1,0 +1,163 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>树组件 - layui</title>
+</head>
+<body>
+    <div class="layui-btn-container">
+        <button type="button" class="layui-btn" lay-demo="getChecked">获取选中数据</button>
+        <button type="button" class="layui-btn" lay-demo="setChecked">设置节点勾选</button>
+        <button type="button" class="layui-btn" lay-demo="reloadRichard">重载实例</button>
+        <button type="button" class="layui-btn" lay-demo="aaa">重载实例</button>
+        <button type="button" class="layui-btn" lay-demo="bbb">重载实例</button>
+    </div>
+
+    <div class="layui-form"> 
+        <div id="test1"></div>    <!--绑定渲染树的容器 -->
+        <div id="test2"></div>    <!--绑定渲染树的容器 -->
+        <div id="test3"></div>    <!--绑定渲染树的容器 -->
+    </div>
+
+    <script type="text/javascript">
+
+        var menuOption = {
+
+            getTreeData: function (layui) {
+                $.ajax({
+                    type: "get"
+                    , data: {}
+                    , url: layui.config.apiUrl + "api/System/GetTreeList?random=menue"
+                    , beforeSend: function (XHR) {
+                        XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                    }
+                    , success: function (result) {
+
+                        var jsonResult=JSON.parse(result);
+
+                        debugger;
+                        if(jsonResult.Result==false)
+                        {
+                            window.location.href="Sign.html";//  如果状态为False 就跳转到登录页
+                            return;
+                        }  
+                        debugger;
+                        menuOption.TreeInit(jsonResult.Data);
+                    }
+                })
+            },
+            TreeInit:function(data)
+            {
+                layui.tree.render({
+                              elem: '#test1'
+                            , data: data
+                            , id: 'demoId1'
+                            , click: function (obj) { 
+                                debugger;
+                                layer.msg(JSON.stringify(obj.data));
+                                console.log(obj);
+                            }
+                            , oncheck: function (obj) {
+                                debugger;
+                                console.log(obj);
+                            } 
+                            , showCheckbox: true  //是否显示复选框
+                            , accordion: false  //是否开启手风琴模式
+                            , onlyIconControl: true //是否仅允许节点左侧图标控制展开收缩
+                            , isJump: true  //// 不设置默认为false  如果设置为True  单击节点以后，浏览器弹出新页签 访问指定的Url 对应的地址
+                            , edit: ['update', 'del', 'add'] //操作节点图标  
+                            , operate: function (obj) {  // 开启Edit 以后呢  点击按钮后触发
+                                debugger;
+                                var type = obj.type;
+                                var data = obj.data;
+                                if (type == 'add') {
+                                    //ajax操作，返回key值
+                                    console.log("add");
+                                    console.log(obj);
+                                    layer.NodeId = data.id;
+                                    layui.layer.open({
+                                       type: 2,
+                                       content: 'NodeDetail.html?id=' + data.id,
+                                       title: "新增节点",
+                                       area: ["500px", "250px"],
+                                       end: function () { // layui 关闭弹框时的回调函数
+                                           menuOption.getTreeData(layui);
+                                       }
+                                    })
+                                } else if (type == 'update') {
+
+                                    debugger;
+                                    //console.log("update");
+                                    //console.log(obj.elem.find('.layui-tree-txt').html());
+                                    console.log(obj);
+                                    $.ajax({
+                                        type: "get",
+                                        data: {},
+                                        url: layui.config.apiUrl + "api/Menu?parentGuid=" + obj.data.id + "&title=" + obj.data.title + "&random=" + parseInt(Math.random() * 100 + 1),
+                                        beforeSend: function (XHR) {
+                                            XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                                        },
+                                        success: function (result) {
+                                            var jsonResult = JSON.parse(result);
+                                            if (jsonResult.Success) {
+                                                layer.msg(jsonResult.Message, { icon: 1 });
+                                                //menuOption.getTreeData(layui);
+                                            }
+                                            else {
+                                                layer.msg(jsonResult.Message, { icon: 5 });
+                                            }
+                                        }
+                                    })
+
+                                } else if (type == 'del') {
+
+                                        debugger;
+                                };
+                            }
+                        });
+
+            }
+        };
+
+        layui.use(['tree', 'layer', 'util'], function () {
+            var $ = layui.$
+                , tree = layui.tree
+                , layer = layui.layer
+                , util = layui.util
+                , index = 100;
+
+            // 初始化 树机构
+            menuOption.getTreeData(layui);
+
+
+
+            //按钮事件
+            util.event('lay-demo', {
+                getChecked: function (othis) {
+                    debugger;
+                    var checkedData = tree.getChecked('demoId1');
+                    layer.alert(JSON.stringify(checkedData), { shade: 0 });
+                    console.log(checkedData);
+                }
+                , setChecked: function () {
+                    debugger;
+                    tree.setChecked('demoId1', ["eed37c8f-50a7-4a3c-a894-67f159e05a58", "142319c8-b427-4d03-8546-146d4b76b5e1"]);
+                }
+                , reloadRichard: function () {
+                    debugger;
+                    tree.reload('demoId1', {
+
+                    });
+                }
+                ,bbb:function()
+                {
+                    debugger;
+
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

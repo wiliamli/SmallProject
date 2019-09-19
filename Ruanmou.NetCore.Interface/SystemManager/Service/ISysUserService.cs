@@ -19,5 +19,11 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="user"></param>
 
         void UpdateLastLogin(SysUser user);
+
+        /// <summary>
+        /// 获取所有用户
+        /// </summary>
+        /// <returns></returns>
+        List<SysUserOutputDto> GetSysUsers(Expression<Func<SysUser, bool>> funcWhere);
     }
 }

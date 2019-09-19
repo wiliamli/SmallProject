@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
+using Ruanmou04.NetCore.Project.Models;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
 {
@@ -12,8 +13,10 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     {
         private IForumConcernApplication forumConcernApplication;
         private IMemoryCache memoryCache;
-        public ForumConcernController(IForumConcernApplication forumConcernApplication, IMemoryCache memoryCache)
-            :base(memoryCache)
+        private ICurrentUserInfo currentUserInfo;
+
+        public ForumConcernController(IForumConcernApplication forumConcernApplication,
+            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
         {
             this.forumConcernApplication = forumConcernApplication;
         }

@@ -15,164 +15,167 @@ using Ruanmou04.Core.Utility.Security;
 using Ruanmou04.Core.Model.DtoHelper;
 using Ruanmou04.NetCore.Project.Utility;
 using Ruanmou04.NetCore.Project.Models;
+using Newtonsoft.Json;
+using Ruanmou04.Core.Utility;
+using Microsoft.Extensions.Configuration;
+using Ruanmou04.Core.Utility.Extensions;
+using System.Linq.Expressions;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-
+    //[CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : ControllerBase
     {
         #region MyRegion
-        private ILoggerFactory _Factory = null;
-        private ILogger<UsersController> _logger = null;
-        private ISysUserService _IUserService = null;
+        private IConfiguration _configuration = null;
+        private ISysUserService _userService = null;
         private ICurrentUserInfo _currentUserInfo = null;
-        public UsersController(ILoggerFactory factory,
-            ILogger<UsersController> logger,
+        public UsersController(
+           IConfiguration configuration,
             ICurrentUserInfo currentUserInfo,
             ISysUserService userService)
         {
-            this._Factory = factory;
-            this._logger = logger;
-            this._IUserService = userService;
+            this._configuration = configuration;
+            this._userService = userService;
             this._currentUserInfo = currentUserInfo;
         }
         #endregion
 
-
-        #region HttpGet
 
         // GET api/SysUser/5
         [HttpGet]
 
         public SysUserOutputDto GetUserByID(int userId)
         {
-            return _IUserService.Find<SysUser>(userId).MapTo<SysUser,SysUserOutputDto>();
+            return _userService.Find<SysUser>(userId).MapTo<SysUser, SysUserOutputDto>();
 
         }
-[HttpGet]
 
-        public CurrentUser GetCurrentUserByID()
-        {
-            return _currentUserInfo.CurrentUser;
-
-        }
-        //GET api/SysUser/?username=xx
-        [HttpGet]
-        //[CustomBasicAuthorizeAttribute]
-        //[CustomExceptionFilterAttribute]
-        public IEnumerable<SysUser> GetUserByName(string userName)
-        {
-
-            return _IUserService.Query<SysUser>(u=>u.Name==userName);
-        }
-
-        //GET api/SysUser/?username=xx&id=1
+        /// <summary>
+        /// 获取编辑用户
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpGet]
 
-        public IEnumerable<SysUser> GetUserByNameId(string userName, int id)
+        public string GetEditUserByID(int userId)
+        {
+            var user = _userService.Find<SysUser>(userId)?.MapTo<SysUser, SysUserOutputDto>();
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
+
+        }
+        /// <summary>
+        /// 删除数据通过Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+
+        public string DeleteById(int id)
+        {
+            _userService.Delete<SysUser>(id);
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
+        }
+        /// <summary>
+        /// 批量删除数据通过Id
+        /// </summary>
+        /// <param name="ids">id列表</param>
+        /// <returns></returns>
+        [HttpGet]
+
+        public string DeleteBatchById(string ids)
+        {
+            _userService.Delete<SysUser>(u => ids.Contains(u.Id.ToString()));
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
+        }
+        /// <summary>
+        /// 获取所有用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+
+        public string GetUsers(int page, int limit, int userType, string name)
         {
 
+            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == userType);
 
-            return _IUserService.Query<SysUser>(p => string.Equals(p.Name, userName, StringComparison.OrdinalIgnoreCase));
+            //List<SysUserOutputDto> userData;
+            ////Expression<Func<SysUser, bool>> expression = u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty());
+            //if (userType == 1)
+            //{
+            //    userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == 1);
+            //}
+            //else if (userType == 2 || userType==3)
+            //{                
+            //    userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == 2);   
+            //}
+            PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
+
+            return JsonConvert.SerializeObject(pagedResult);
+
+
         }
 
-        #endregion HttpGet
-
-        #region HttpPost
-
-
-        //POST api/SysUser/register
-        //只接受一个参数的需要不给key才能拿到
+        /// <summary>
+        /// 新增或修改用户 DefaultPassword
+        /// </summary>
+        /// <param name="sysUserInput"></param>
+        /// <returns></returns>
         [HttpPost]
-        public SysUserOutputDto Register([FromBody]int id)//可以来自FromBody   FromUri
-                                               //public SysUser Register(int id)//可以来自url
+        public AjaxResult SaveUser([FromBody]SysUserInputDto sysUserInput)
         {
-            string idParam = base.HttpContext.Request.Form["id"];
 
-            
-            return null;
-        }
-
-        //POST api/SysUser/RegisterUser
-        [HttpPost]
-        public AjaxResult RegisterUser(SysUserInputDto user)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["Id"];
-            string nameParam = base.HttpContext.Request.Form["UserName"];
-            string emailParam = base.HttpContext.Request.Form["UserEmail"];
-
-            return null;
-        }
-
-
-       
-        #endregion HttpPost
-
-        #region HttpPut
-        [HttpPut]
-        public AjaxResult RegisterUserPut(SysUserInputDto userInput)//可以来自FromBody   FromUri
-        {
             AjaxResult ajaxResult = new AjaxResult { success = false };
-            //string idParam = base.HttpContext.Request.Form["Id"];
-            //string nameParam = base.HttpContext.Request.Form["UserName"];
-            //string emailParam = base.HttpContext.Request.Form["UserEmail"];
-            //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
-            var user= userInput.MapTo<SysUserInputDto, SysUser>();
-            user.Password = Encrypt.EncryptionPassword(user.Password);
-            //user.CreateId= user.LastModifyId = 1;
-            //user.CreateTime=user.LastLoginTime=user.LastModifyTime = DateTime.Now;
-
-            user = _IUserService.Insert<SysUser>(user);
-            
-            if (user!=null)
+            var existsAaccountUser = _userService.Find<SysUser>(u => u.Account == sysUserInput.Account && (sysUserInput.Id == 0 ||(sysUserInput.Id>0 && sysUserInput.Id!=u.Id)));
+            if (existsAaccountUser != null)
             {
+                ajaxResult.msg = "账号重复,请修改账号";
+                return ajaxResult;
+            }
+            if (sysUserInput != null)
+            {
+                if (sysUserInput.Id > 0)
+                {
+                    var user = _userService.Find<SysUser>(sysUserInput.Id);
+                    user.Mobile = sysUserInput.Mobile;
+                    user.Account = sysUserInput.Account;
+                    user.Email = sysUserInput.Email;
+                    user.Name = sysUserInput.Name;
+                    user.Phone = sysUserInput.Phone;
+                    user.QQ = sysUserInput.QQ;
+                    user.Sex = sysUserInput.Sex;
+                    user.Status = sysUserInput.Status;
+                    user.WeChat = sysUserInput.WeChat;
+                    user.UserType = sysUserInput.UserType;
+                    user.LastModifyTime = DateTime.Now;
+                    user.LastModifyId = _currentUserInfo.CurrentUser.Id;
+                    _userService.Update<SysUser>(user);
+                }
+                else
+                {
+                    var user = sysUserInput.MapTo<SysUserInputDto, SysUser>();
+                    var defaultPassword = _configuration["DefaultPassword"];
+                    if (defaultPassword.IsNullOrWhiteSpace())
+                    {
+                        user.Password = Encrypt.EncryptionPassword(defaultPassword);
+                    }
+                    else
+                    {
+                        user.Password = Encrypt.EncryptionPassword("123");
+                    }
+                    user.CreateTime = DateTime.Now;
+                    user.CreateId = _currentUserInfo.CurrentUser.Id;
+                    _userService.Insert<SysUser>(user);
+                }
+                ajaxResult.msg = "保存成功";
                 ajaxResult.success = true;
             }
             else
-            {
-                ajaxResult.msg = "添加失败";
-            }
-            return ajaxResult;
-        }
-
-[HttpPut]
-        public AjaxResult Registertest(SysRoleDto userInput)//可以来自FromBody   FromUri
-        {
-            AjaxResult ajaxResult = new AjaxResult { success = false };
-            //string idParam = base.HttpContext.Request.Form["Id"];
-            //string nameParam = base.HttpContext.Request.Form["UserName"];
-            //string emailParam = base.HttpContext.Request.Form["UserEmail"];
-            //var user= DataMapping<SysUserInputDto, SysUser>.Trans(userInput);
-            //var user= userInput.MapTo<SysUserInputDto, SysUser>();
-            //user.Password = Encrypt.EncryptionPassword(user.Password);
-            var role = userInput.MapTo<SysRoleDto, SysRole>();
-            _IUserService.Insert<SysRole>(role);
-            
+                ajaxResult.msg = "保存失败";
             return ajaxResult;
         }
 
 
-        
-        #endregion HttpPut
-
-        #region HttpDelete
-        //POST api/SysUser/RegisterNoneDelete
-
-       
-
-        //POST api/SysUser/RegisterUserDelete
-        [HttpDelete]
-        public SysUserOutputDto RegisterUserDelete(SysUserInputDto user)//可以来自FromBody   FromUri
-        {
-            string idParam = base.HttpContext.Request.Form["Id"];
-            string nameParam = base.HttpContext.Request.Form["UserName"];
-            string emailParam = base.HttpContext.Request.Form["UserEmail"];
-            return user.MapTo<SysUserInputDto,SysUserOutputDto>();
-        }
-
-
-       
-        #endregion HttpDelete
     }
 }

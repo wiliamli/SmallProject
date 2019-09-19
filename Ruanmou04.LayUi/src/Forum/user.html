@@ -146,9 +146,8 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var userId = getQueryVariable("userId");
   var domain = baseDomain();
-
+  var key = "Bearer " +sessionStorage.getItem("Authorization");
    var loginInfo=function(data){
-          debugger;
           var loginInfoTpl=document.getElementById('loginInfoTpl').innerHTML;
           var loginView=document.getElementById('loginView');
           layui.laytpl(loginInfoTpl).render(data,function(html){
@@ -180,7 +179,7 @@ layui.use(['jquery','laytpl','form'], function(){
        $.ajax({
           url:baseDomain()+"api/ForumInvitation/GetInvitationsByUserId",
           data: {"userId":userId},
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -201,7 +200,7 @@ layui.use(['jquery','laytpl','form'], function(){
       $.ajax({
           url:baseDomain()+"api/Users/GetUserByID",
           data: {"userId":userId},
-          headers: {token: key},
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(data) {

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link href="/css/layui.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="layui-form layui-form-pane1" action="" lay-filter="first">
+    <div class="layui-form-item">
+      <label class="layui-form-label"></label>
+      <div class="layui-input-inline">
+        <input type="hidden" name="userId" id="userId">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">姓名</label>
+      <div class="layui-input-inline">
+        <input type="text" id="Name" name="Name" readonly autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">账号</label>
+      <div class="layui-input-inline">
+        <input type="text" id="Account" name="Account" readonly autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item" pane>
+      <label class="layui-form-label">角色</label>
+      <div class="layui-input-block" id="userRole">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+        <button onclick="parent.layer.closeAll()" class="layui-btn layui-btn-primary">关闭</button>
+      </div>
+    </div>
+  </div>
+  <script id="tepMenue" type="text/html">
+    {{# layui.each(d,function(index,item){ }}
+    <input type="checkbox" name="roleIds" value="{{item.Id}}" title="{{item.Text}}" >
+    {{# }); }}
+  </script>
+  <script src="/layui.js"></script>
+
+  <script type="text/javascript">
+    var userDetail = {
+      userInIt: function ($, config, form) {
+
+        $.ajax({
+          type: "Get",
+          beforeSend: function (XHR) {
+            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          },
+          url: config.apiUrl + "/Role/GetUserSetRoles",
+          success: function (result) {
+            if (parent.layer.data) {
+              $("#userId").val(parent.layer.data.Id);
+              $("#Name").val(parent.layer.data.Name);
+              $("#Account").val(parent.layer.data.Account);
+            }
+            var jsonResult = JSON.parse(result);
+            if (jsonResult) {
+              var laytpl = layui.laytpl;
+              var getTpl = document.getElementById('tepMenue').innerHTML;
+              var view = document.getElementById('userRole');
+              laytpl(getTpl).render(jsonResult, function (html) {
+                view.innerHTML = html;
+                form.render();
+              });
+            }
+            else {
+              layer.msg(jsonResult.msg);
+            }
+          }
+        })
+
+      },
+      saveUser: function ($, config, saveData) {
+        var user = saveData;
+        debugger;
+        var userId = saveData.userId ? parseInt(saveData.userId) : 0;
+        
+
+        var result  = [];
+        $("[name='roleIds']:checkbox").each(function () {
+          if ($(this).is(":checked")) {
+            result.push($(this).attr("value"));
+          }
+        });
+         var roleIds= result.join(",");
+        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        $.ajax({
+          type: 'get',
+          dataType: "json",
+          data: { userId: userId, roleIds: roleIds },
+          contentType: 'application/json',
+          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+          url: config.apiUrl + '/UserRole/SaveData',
+          success: function (result) {
+            layer.close(LoadIndex);
+            console.log(result);
+            if (result.success) {
+              layer.msg("保存成功", { icon: 1 });
+            }
+            else {
+              layer.msg(result.msg, { icon: 2 });
+            }
+          },
+          error: function (XMLHttpResponse) {
+            layer.close(LoadIndex);
+            console.log("error: api request failed");
+            console.log(XMLHttpResponse);
+          }
+        })
+        return false;
+      },
+
+    }
+    layui.use(["form", "config", 'laytpl'], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        $ = layui.$,
+        config = layui.config;
+      // 初始刷f
+      userDetail.userInIt($, config, form);
+      form.on("submit(sub)", function (obj) {
+        userDetail.saveUser($, config, obj.field);
+      })
+    })
+  </script>
+</body>
+
+</html>
