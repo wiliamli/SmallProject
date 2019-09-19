@@ -15,7 +15,7 @@ using Ruanmou04.NetCore.Project.Utility;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
     public class RoleController : ControllerBase
     {

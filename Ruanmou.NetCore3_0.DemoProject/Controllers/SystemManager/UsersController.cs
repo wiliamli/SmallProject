@@ -100,10 +100,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string GetUsers(int page, int limit, int userType, string name)
         {
 
-            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && u.UserType == userType);
+            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && (userType==0 || u.UserType == userType));
 
             PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
-            //throw new Exception("errortest");
             return JsonConvert.SerializeObject(pagedResult);
 
 

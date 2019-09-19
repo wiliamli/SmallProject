@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
@@ -33,18 +34,23 @@ namespace Ruanmou.Core.Utility.Filters
         /// <param name="filterContext"></param>
         public override void OnException(ExceptionContext filterContext)
         {
-            ContainerBuilder containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterType<Logger<CustomActionFilterAttribute>>().As<ILogger<CustomExceptionFilterAttribute>>();
-            var build = containerBuilder.Build();
-            _logger= build.Resolve<ILogger<CustomExceptionFilterAttribute>>();
             if (!filterContext.ExceptionHandled)//异常有没有被处理过
             {
                 _logger.LogError(filterContext.Exception, filterContext.HttpContext.Request.Path + "---请求出错");
-                var ajaxResult = new { success = false,msg= "请求出错,请联系管理员" };
-                var result = JsonConvert.SerializeObject(ajaxResult);
-                byte[] tempBytes = System.Text.Encoding.UTF8.GetBytes(result);
-                string res = System.Text.Encoding.UTF8.GetString(tempBytes);
-                filterContext.HttpContext.Response.WriteAsync(res);
+
+                var ajaxResult = new { success = false, msg = "请求出错,请联系管理员" };
+                if (this.IsAjaxRequest(filterContext.HttpContext.Request))//检查请求头
+                {
+                    filterContext.Result = new JsonResult( ajaxResult);
+                }
+                else
+                {
+                    var result = JsonConvert.SerializeObject(ajaxResult);
+                    byte[] tempBytes = System.Text.Encoding.UTF8.GetBytes(result);
+                    string res = System.Text.Encoding.UTF8.GetString(tempBytes);
+                    filterContext.HttpContext.Response.WriteAsync(res);
+                    //filterContext.Result = result;
+                }
             }
         }
 
