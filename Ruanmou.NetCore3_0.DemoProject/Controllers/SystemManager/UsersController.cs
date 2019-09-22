@@ -85,6 +85,20 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _userService.Delete<SysUser>(u => ids.Contains(u.Id.ToString()));
             return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
         }
+
+        /// <summary>
+        /// 根据用户类型获取用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetUsersByType(int userType)
+        {
+
+            var userData = _userService.GetSysUsers(u => userType == 0 || u.UserType == userType);
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, data= userData } );
+
+
+        }
         /// <summary>
         /// 获取所有用户
         /// </summary>

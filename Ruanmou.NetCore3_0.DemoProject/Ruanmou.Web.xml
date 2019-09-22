@@ -156,6 +156,20 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.GetUserRoleUserID(System.Int32)">
+            <summary>
+            获取编辑用户
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.SaveData(RM04.DBEntity.SysUserRoleDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetEditUserByID(System.Int32)">
             <summary>
             获取编辑用户
@@ -175,6 +189,12 @@
             批量删除数据通过Id
             </summary>
             <param name="ids">id列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsersByType(System.Int32)">
+            <summary>
+            根据用户类型获取用户
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsers(System.Int32,System.Int32,System.Int32,System.String)">
