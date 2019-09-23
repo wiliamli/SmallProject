@@ -550,7 +550,6 @@
 </div>
 -->
 
-
 <script src="/src/Forum/api/base.js" charset="utf-8"></script>
 <script src="/layui.js" charset="utf-8"></script>
 <script src="/lay/modules/laytpl.js" charset="utf-8"></script>
@@ -560,11 +559,11 @@
 var domain=baseDomain();
 var key = "Bearer " + sessionStorage.getItem("Authorization");
 var active = {
-      channelInit:function(){
+      channelInit:function(roleIds){
         layui.jquery.ajax({
           headers: {Authorization: key},
-          url:domain+"api/ForumChannel/GetChannelsByRoleId",
-          data: {"roleId":1},
+          url:domain+"api/ForumChannel/GetChannels",
+          data: null,
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -664,6 +663,7 @@ var active = {
                 layui.laytpl(loginTpl).render(data,function(html){
                   loginView.innerHTML=html;
                 });
+                active.channelInit();
              }else{
               window.location.href="/src/Forum/login.html";
              }
@@ -679,7 +679,6 @@ layui.use(['jquery','element'], function(){
   var $ = layui.jquery
   ,element = layui.element
   active.loginInit();
-  active.channelInit();
   active.tabChange(null,4);
   active.checkInit();
 

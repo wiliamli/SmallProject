@@ -69,14 +69,14 @@ namespace Ruanmou04.NetCore.Application.Forum
             return forumChannelService.Find<ForumChannel>(id).ToDto();
         }
 
-        public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId)
+        public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(IList<int> roleIds)
         {
             // dbContext 没有单例
             // sql 脚本执行提示异常
             // TODO：
             var forumChannels = forumChannelService.Query<ForumChannel>(null).ToList();
 
-            var forumRoleChannels = forumRoleChannelService.Query<ForumRoleChannel>(m => m.SysRoleId == roleId).ToList();
+            var forumRoleChannels = forumRoleChannelService.Query<ForumRoleChannel>(m => roleIds.Contains(m.SysRoleId)).ToList();
 
             var forumTopics = forumTopicService.Query<ForumTopic>(m => m.Status).ToList();
 
@@ -90,6 +90,21 @@ namespace Ruanmou04.NetCore.Application.Forum
 
             return query;
 ;
+        }
+
+        public IEnumerable<ForumChannelDto> GetForumChannels()
+        {
+            var forumChannels = forumChannelService.Query<ForumChannel>(null).ToList();
+            var forumTopics = forumTopicService.Query<ForumTopic>(m => m.Status).ToList();
+
+            var query = forumChannels.ToDtos().ToList();
+
+            query.ForEach(m =>
+            {
+                m.ForumTopics = forumTopics.Where(n => n.ChannelId == m.Id).ToDtos();
+            });
+
+            return query;
         }
     }
 }

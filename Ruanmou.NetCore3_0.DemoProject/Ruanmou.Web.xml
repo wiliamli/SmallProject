@@ -35,9 +35,15 @@
             退出
             </summary>
         </member>
-        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsByRoleId(System.Int32)">
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsByRoleId(System.Collections.Generic.IList{System.Int32})">
             <summary>
             根据角色获取所有频道
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannels">
+            <summary>
+            获取所有频道
             </summary>
             <returns></returns>
         </member>

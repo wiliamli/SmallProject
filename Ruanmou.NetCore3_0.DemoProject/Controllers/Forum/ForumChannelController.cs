@@ -31,11 +31,22 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannelsByRoleId(int roleId)
+        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannelsByRoleId(IList<int> roleIds)
         {
-            SysUserOutputDto sysUser = base.GetUserInfo();
-            return StandardAction(() => forumChannelApplication.GetForumChannelByRoleId(roleId));
+            return StandardAction(() => forumChannelApplication.GetForumChannelByRoleId(roleIds));
         }
+
+
+        /// <summary>
+        /// 获取所有频道
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannels()
+        {
+            return StandardAction(() => forumChannelApplication.GetForumChannels());
+        }
+
 
         // GET: api/ForumChannel/5
         [HttpGet("{id}", Name = "Get")]

@@ -8,16 +8,18 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
     public interface IForumChannelApplication:IApplication
     {
 
-        public int AddForumChannel(ForumChannelDto forumChannelDto);
+        int AddForumChannel(ForumChannelDto forumChannelDto);
 
-        public void EditForumChannel(ForumChannelDto forumChannelDto);
+        void EditForumChannel(ForumChannelDto forumChannelDto);
 
-        public void DeleteForumChannel(int id);
+        void DeleteForumChannel(int id);
 
-        public ForumChannelDto GetForumChannelById(int id);
+        ForumChannelDto GetForumChannelById(int id);
 
-        public IEnumerable<ForumChannelDto> GetForumChannelByCreatedId(int createdId);
+        IEnumerable<ForumChannelDto> GetForumChannelByCreatedId(int createdId);
 
-        public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(int roleId);
+        IEnumerable<ForumChannelDto> GetForumChannelByRoleId(IList<int> roleIds);
+
+        IEnumerable<ForumChannelDto> GetForumChannels();
     }
 }
