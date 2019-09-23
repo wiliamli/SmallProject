@@ -1,19 +1,9 @@
 ﻿
 
 using Aio.Domain.SystemManage.Dtos;
-using Microsoft.EntityFrameworkCore;
-using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
-using Ruanmou.NetCore.Interface;
 using Ruanmou.NetCore.Service;
 using Ruanmou04.EFCore.Model.DtoHelper;
-using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
-using System;
-using System.Collections.Generic;
-
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+using Ruanmou04.NetCore.Interface.Tokens;
 using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore.Application

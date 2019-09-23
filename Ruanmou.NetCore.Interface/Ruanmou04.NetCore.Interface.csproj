@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
+    <ProjectReference Include="..\Ruanmou04.NetCore.Dtos\Ruanmou04.NetCore.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

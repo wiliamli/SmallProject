@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Ruanmou04.NetCore.Project</name>
+        <name>Ruanmou04.NetCore.Web</name>
     </assembly>
     <members>
         <member name="T:Ruanmou04.NetCore.Project.Controllers.BaseApiController">
@@ -54,24 +54,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:Ruanmou04.NetCore.Project.Models.ICurrentUserInfo">
-            功能描述    ：CurrentUserInfo  
-            创 建 者    ：magic
-            创建日期    ：2019/9/7 12:04:33 
-            最后修改者  ：Administrator
-            最后修改日期：2019/9/7 12:04:33 
-        </member>
         <member name="M:Ruanmou04.NetCore.Project.ProjectModule.Init(Autofac.ContainerBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             初始化配置文件
             </summary>
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
-        </member>
-        <member name="T:Ruanmou04.NetCore.Project.Utility.Middleware.ExceptionHandlingMiddleware">
-            <summary>
-            错误处理中间件
-            </summary>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Aio.Domain.SystemManage.Dtos.LoginInputDto)">
             <summary>
@@ -114,27 +102,20 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.GetMenuList">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetEditResouceByID(System.Int32)">
             <summary>
-            获取权限菜单 
-            </summary>
-            <param name="menuType">1后台的，2是网站，3是论坛</param>
-            <returns></returns>
-        </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.GetEditMenuByID(System.Int32)">
-            <summary>
-            获取编辑用户
+            获取编辑资源
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.GetMenus(System.Int32,System.Int32,System.String)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetResouces(System.Int32,System.Int32,System.String)">
             <summary>
             获取所有数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResouceController.SaveData(RM04.DBEntity.SysMenuDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(RM04.DBEntity.SysResourceInputDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -215,16 +196,5 @@
             </summary>
             <param name="configuration"></param>
         </member>
-        <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacAop">
-            <summary>
-            自定义的Autofac的AOP扩展
-            </summary>
-        </member>
-        <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacModule">
-            <summary>
-            Autofac配置
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "T:Ruanmou.Core.Utility.Middleware.AuthorizeMiddleware" -->
     </members>
 </doc>

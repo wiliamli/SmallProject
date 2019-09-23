@@ -16,23 +16,32 @@
             <button class="layui-btn layui-btn-sm" lay-event="reload">刷新数据</button>
         </div>
     </script>
-  <div class="layui-inline">
+  <div class="layui-form layui-form-pane1" action="" lay-filter="first">
+    <div class="layui-inline">
 
-    <label class="layui-form-label">单选框</label>
-  </div>
-  <div class="layui-inline" style="width:120px">
-    <select name="userType" lay-verify="required">
-      <option value="0" checked>所有学员</option>
-      <option value="2">Vip学员</option>
-      <option value="3">普通学员</option>
-    </select>
-  </div>
-  <div class="layui-inline">
-    <input type="text" autocomplete="off" id="Name" placeholder="用户名..." class="layui-input layui-btn-sm">
-  </div>
+      <label class="layui-form-label">学员类型</label>
+    </div>
+    <div class="layui-inline" style="width:120px">
+      <select name="userType" lay-verify="required">
+        <option value="0" checked>所有学员</option>
+        <option value="2">Vip学员</option>
+        <option value="3">普通学员</option>
+      </select>
 
-  <div class="layui-btn layui-btn-normal" id="search">查询</div>
+      <!-- <input type="userType" name="sex" value="0" title="所有学员" checked="">
+        <input type="userType" name="sex" value="2" title="Vip学员">
+        <input type="userType" name="sex" value="3" title="普通学员" disabled=""> -->
 
+    </div>
+    <div class="layui-inline">
+      <label class="layui-form-label">用户名/昵称</label>
+    </div>
+    <div class="layui-inline">
+      <input type="text" autocomplete="off" id="Name" placeholder="用户名..." class="layui-input layui-btn-sm">
+    </div>
+
+    <div class="layui-btn layui-btn-normal" id="search">查询</div>
+  </div>
   <table id="test" lay-filter="test"></table>
 
   <!-- layer模板 -->
@@ -58,9 +67,10 @@
         })
       }
     }
-    layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
+    layui.use(['form', 'table', 'laytpl', 'laydate', 'config'], function () {
       var table = layui.table,
         laydate = layui.laydate,
+        form = layui.form,
         config = layui.config;
 
       //日期  // 初始化日期
@@ -73,7 +83,7 @@
       laydate.render({
         elem: '#endDate'
       });
-
+      form.render();
       //渲染
       table.render({
         elem: '#test'
@@ -81,13 +91,13 @@
         , title: '用户数据表'
         , url: config.apiUrl + '/Users/GetUsers?userType=2'
         , where: {
-          Name: $("#Name").val(),
+          name: $("#Name").val(),
+          userType: $("#uesrType").val(),
           token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
         , limit: 10
         , toolbar: '#toolbarDemo'
-        // , toolbar: true
         , parseData: function (queryData) {
           return {
             code: '0',

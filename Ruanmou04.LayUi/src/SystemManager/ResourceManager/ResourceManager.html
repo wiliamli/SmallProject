@@ -33,14 +33,13 @@
   <script>
     userManager = {
       openUserWindow: function (data) {
-        debugger
         var id = data && data.Id ? data.Id : "0"
         layer.open({
           type: 2,
-          content: 'MenuManager/MenuDetail.html?id=' + id,
+          content: 'ResourceManager/ResourceDetail.html',
           data: id,
           title: "编辑菜单",
-          area: ["700px", "500px"],
+          area: ["900px", "600px"],
           end: function () { // layui 关闭弹框时的回调函数
             $("#search").click();
           }
@@ -67,11 +66,11 @@
       table.render({
         elem: '#test'
         , height: 700
-        , title: '用户数据表'
-        , url: config.apiUrl + '/Menu/GetMenus'
+        , title: '资源数据表'
+        , url: config.apiUrl + '/Resource/GetResouces'
         , where: {
           Name: $("#Name").val(),
-          token: sessionStorage.getItem("apiTicket")
+          token: "Bearer " + sessionStorage.getItem("apiTicket")
         }
         , loading: true
         , limit: 10
@@ -91,22 +90,12 @@
               return obj.LAY_INDEX;
             }
           }
-          , { field: 'Text', title: '菜单名称', width: 120 }
-          , { field: 'MenuLevel', title: '菜单层级', width: 60 }
-          , { field: 'MenuIcon', title: '图标', width: 160, sort: true }
-
-          , { field: 'Sort', title: '排序', width: 80 }
-          , {
-            field: 'Status', title: '状态', width: 110, templet: function (obj) {
-              if (obj.Status) {
-                return "已冻结";
-              }
-              else {
-                return "正常";
-              }
-            }
-          }
-          , { field: 'Description', title: '备注', width: 200, sort: true }
+          , { field: 'Name', title: '资源名称', width: 300 }
+          , { field: 'Classes', title: '班级', width: 80 }
+          , { field: 'BrowseCount', title: '浏览量', width: 80 }
+          , { field: 'Creator', title: '创建人', width: 100, sort: true }
+          , { field: 'LastModifier', title: '最后修改人', width: 100 }
+          , { field: 'LastModifyTime', title: '最后修改时间', width: 160, sort: true }
           , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
         ]]
       });
@@ -126,9 +115,6 @@
             break;
         };
       });
-
-
-
 
       //监听行工具事件
       table.on('tool(test)', function (obj) {
@@ -151,7 +137,6 @@
 
       // 重新刷新当前列表
       $("#search").on("click", function () {
-        debugger
         table.reload('test', {
           page: { curr: 1 },
           where: {

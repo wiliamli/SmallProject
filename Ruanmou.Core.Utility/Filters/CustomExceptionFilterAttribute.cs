@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Ruanmou.NetCore2.MVC6.Unitility;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Ruanmou.Core.Utility.Filters
 {
@@ -15,19 +16,16 @@ namespace Ruanmou.Core.Utility.Filters
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IModelMetadataProvider _modelMetadataProvider;
-        //private Logger logger = Logger.CreateLogger(typeof(CustomExceptionFilterAttribute));
+        private ILogger<CustomExceptionFilterAttribute> _logger = null;
 
         /// <summary>
         /// ioc来的
         /// </summary>
         /// <param name="hostingEnvironment"></param>
         /// <param name="modelMetadataProvider"></param>
-        public CustomExceptionFilterAttribute(
-            IHostingEnvironment hostingEnvironment,
-            IModelMetadataProvider modelMetadataProvider)
+        public CustomExceptionFilterAttribute(ILogger<CustomExceptionFilterAttribute> logger)
         {
-            _hostingEnvironment = hostingEnvironment;
-            _modelMetadataProvider = modelMetadataProvider;
+            _logger = logger;
         }
 
         /// <summary>
@@ -38,29 +36,21 @@ namespace Ruanmou.Core.Utility.Filters
         {
             if (!filterContext.ExceptionHandled)//异常有没有被处理过
             {
-                string controllerName = (string)filterContext.RouteData.Values["controller"];
-                string actionName = (string)filterContext.RouteData.Values["action"];
-                string msgTemplate = "在执行 controller[{0}] 的 action[{1}] 时产生异常";
-                //logger.Error(string.Format(msgTemplate, controllerName, actionName), filterContext.Exception);
+                _logger.LogError(filterContext.Exception, filterContext.HttpContext.Request.Path + "---请求出错");
+
+                var ajaxResult = new { success = false, msg = "请求出错,请联系管理员" };
                 if (this.IsAjaxRequest(filterContext.HttpContext.Request))//检查请求头
                 {
-                    filterContext.Result = new JsonResult(
-                         new
-                         {
-                             Result = false,
-                             PromptMsg = "系统出现异常，请联系管理员",
-                             DebugMessage = filterContext.Exception.Message
-                         }//这个就是返回的结果
-                    );
+                    filterContext.Result = new JsonResult(ajaxResult);
                 }
                 else
                 {
-                    var result = new ViewResult { ViewName = "~/Views/Shared/Error.cshtml" };
-                    result.ViewData = new ViewDataDictionary(_modelMetadataProvider, filterContext.ModelState);
-                    result.ViewData.Add("Exception", filterContext.Exception);
-                    filterContext.Result = result;
+                    var result = JsonConvert.SerializeObject(ajaxResult);
+                    byte[] tempBytes = System.Text.Encoding.UTF8.GetBytes(result);
+                    string res = System.Text.Encoding.UTF8.GetString(tempBytes);
+                    filterContext.HttpContext.Response.WriteAsync(res);
+                    //filterContext.Result = result;
                 }
-                filterContext.ExceptionHandled = true;
             }
         }
 
