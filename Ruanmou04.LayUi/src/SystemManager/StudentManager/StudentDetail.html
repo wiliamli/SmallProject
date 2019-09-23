@@ -111,7 +111,7 @@
               userId: parent.layer.data
             },
             beforeSend: function (XHR) {
-              XHR.setRequestHeader("Authorization", sessionStorage.getItem("apiTicket"));
+              XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
             },
             url: config.apiUrl + "/Users/GetEditUserByID",
             success: function (result) {

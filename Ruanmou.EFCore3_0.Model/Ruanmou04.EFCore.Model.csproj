@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Dtos\DtoHelper\PagedResult.cs" />
-    <Compile Remove="Dtos\DtoHelper\PagingInput.cs" />
+    <Compile Remove="Dtos\**" />
+    <EmbeddedResource Remove="Dtos\**" />
+    <None Remove="Dtos\**" />
   </ItemGroup>
 
   <ItemGroup>

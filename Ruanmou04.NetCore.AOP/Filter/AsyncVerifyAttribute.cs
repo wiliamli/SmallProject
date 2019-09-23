@@ -1,8 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.Filters;
-using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Ruanmou04.NetCore.Interface.Tokens;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

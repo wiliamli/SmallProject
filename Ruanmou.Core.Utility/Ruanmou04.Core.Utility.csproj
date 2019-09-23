@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Filters\CustomExceptionFilterAttribute.cs" />
+    <Compile Remove="Filters\**" />
+    <EmbeddedResource Remove="Filters\**" />
+    <None Remove="Filters\**" />
   </ItemGroup>
 
   <ItemGroup>
