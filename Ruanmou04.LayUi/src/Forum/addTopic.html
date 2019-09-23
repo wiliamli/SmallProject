@@ -188,12 +188,13 @@
 <script src="/layui.js" charset="utf-8"></script>
 <script>
  var domain=baseDomain();
-
+ var key = "Bearer " +sessionStorage.getItem("Authorization");
  var active={
      channelSelShow:function(){
       layui.jquery.ajax({
-          url:domain+"api/ForumChannel/GetChannelsByRoleId",
-          data: {"roleId":1},
+          url:domain+"api/ForumChannel/GetChannels",
+          data: null,
+          headers: {Authorization: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
