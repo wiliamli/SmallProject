@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
-using Ruanmou04.EFCore.Model.DtoHelper;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Ruanmou04.Core.Utility.Security;
-using Ruanmou04.Core.Model.DtoHelper;
 using Ruanmou04.NetCore.Project.Models;
 using Newtonsoft.Json;
 using Ruanmou04.Core.Utility;
 using Microsoft.Extensions.Configuration;
 using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.NetCore.AOP.Filter;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.Core.Dtos.DtoHelper;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {

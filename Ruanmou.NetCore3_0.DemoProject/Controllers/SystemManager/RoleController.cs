@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
-using Ruanmou.NetCore.Service;
-using Ruanmou04.Core.Model.DtoHelper;
+using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.Extensions;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.Project.Models;
 

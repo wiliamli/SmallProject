@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Project.Controllers;
 using Ruanmou04.NetCore.Project.Models;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;

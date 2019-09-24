@@ -6,8 +6,8 @@ using Microsoft.Extensions.Logging;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Application;
 using Ruanmou.NetCore.Interface;
-using Ruanmou04.Core.Model.DtoHelper;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Tokens;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
@@ -52,7 +52,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <param name="loginInput"></param>
         /// <returns></returns>
         [HttpPostAttribute]
-        public async Task< AjaxResult> LoginSystemManager(LoginInputDto loginInput)
+        public async Task<AjaxResult> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
             if (ajax.success)

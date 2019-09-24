@@ -1,6 +1,6 @@
 ﻿
 
-namespace Ruanmou04.EFCore.Model.DtoHelper
+namespace Ruanmou04.EFCore.Dtos.DtoHelper
 {
     /// <summary>
     /// ajax返回结果

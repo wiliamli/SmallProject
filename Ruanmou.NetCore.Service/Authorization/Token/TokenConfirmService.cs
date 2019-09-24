@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Ruanmou04.EFCore.Model.DtoHelper;
 using System.IdentityModel.Tokens.Jwt;
 using Ruanmou.Core.Utility;
 using System.Threading;
 using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Interface;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.Project.Models;
 

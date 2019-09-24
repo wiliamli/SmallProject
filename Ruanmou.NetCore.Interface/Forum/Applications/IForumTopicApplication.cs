@@ -1,5 +1,5 @@
 ﻿using Ruanmou04.Core.Utility;
-using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
+using Ruanmou04.EFCore.Dtos.ForumDtos;
 using System.Collections.Generic;
 
 namespace Ruanmou04.NetCore.Interface.Forum.Applications

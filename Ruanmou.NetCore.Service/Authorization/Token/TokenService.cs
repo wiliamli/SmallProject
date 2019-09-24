@@ -6,7 +6,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
-using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.EFCore.Model.Token.Dtos;
 using Ruanmou.NetCore.Interface;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,6 +13,7 @@ using Ruanmou.Core.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading;
 using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 
 namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {

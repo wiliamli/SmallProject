@@ -3,11 +3,10 @@
 using Aio.Domain.SystemManage.Dtos;
 using Microsoft.EntityFrameworkCore;
 using RM04.DBEntity;
-
-using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.Core.Utility.Security;
 using AutoMapper;
-using Ruanmou04.Core.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.Core.Dtos.DtoHelper;
 
 namespace Ruanmou.NetCore.Service
 {

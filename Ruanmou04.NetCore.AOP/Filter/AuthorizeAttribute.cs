@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Ruanmou04.Core.Utility.Extensions;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Tokens;
 using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
 
