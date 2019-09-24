@@ -24,9 +24,9 @@
       <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
     </div>
     <div class="layui-form-item">
-      <label class="layui-form-label">授权菜单</label>
-      <div class="layui-input-block" id="menuSelect">
-        <!-- <select id="selRoleMenu" lay-filter="aihao"></select> -->
+      <label class="layui-form-label">角色用户</label>
+      <div class="layui-input-block" id="userSelect">
+
       </div>
     </div>
     <div class="layui-form-item">
@@ -36,9 +36,9 @@
       </div>
     </div>
   </div>
-  <script type="text/html" id="menuTpl">
+  <script type="text/html" id="userTpl">
       {{# layui.each(d,function(index,item){ }}
-        <input type="checkbox" name="SysMenuIds" value="{{item.Id}}" title="{{item.Text}}" >
+        <input type="checkbox" name="UserIds" value="{{item.Id}}" title="{{item.Name}}" >
       {{# }); }}
   </script>
   <script src="/layui.js"></script>
@@ -50,20 +50,20 @@
           $("#Name").val(parent.layer.data.Text);
         }
         $.ajax({
-          url: config.apiUrl + '/Menu/GetRoleMenu',
+          url: config.apiUrl + '/Users/GetUsersByType',
           type: 'get',
-          data: { token: "Bearer " + sessionStorage.getItem("apiTicket") },
+          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), userType: 1 },
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
             var data = obj.data;
-            var meunTpl = document.getElementById('menuTpl').innerHTML;
-            var menuSelect = document.getElementById('menuSelect');
+            var meunTpl = document.getElementById('userTpl').innerHTML;
+            var menuSelect = document.getElementById('userSelect');
             layui.laytpl(meunTpl).render(data, function (html) {
               menuSelect.innerHTML = html;
-              // $("#selRoleMenu").append(html);
               form.render("checkbox");
             });
+            userDetail.selectUser($, config, form);
           },
           error: function () {
             layer.alert(JSON.stringify(data.msg), {
@@ -71,19 +71,44 @@
             });
           }
         });
-
+      },
+      selectUser: function ($, config, form) {
+        $.ajax({
+          url: config.apiUrl + '/RoleUser/GetUserRoleByRoleID',
+          type: 'get',
+          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), roleId: parent.layer.data.Id },
+          dataType: 'json',
+          contentType: 'application/json',
+          success: function (obj) {
+            var data = obj.data;
+            var unitTypeCheckbox = $("input[name='UserIds']");
+            for (var j = 0; j < data.length; j++) {
+              for (var i = 0; i < unitTypeCheckbox.length; i++) {
+                if (unitTypeCheckbox[i].value == data[j].userid) {
+                  unitTypeCheckbox[i].checked = true;
+                }
+              }
+            }
+            form.render("checkbox");
+          },
+          error: function () {
+            layer.alert(JSON.stringify(data.msg), {
+              title: 'ajax请求失败！'
+            });
+          }
+        });
       },
       saveUser: function ($, config, saveData) {
         var user = saveData;
         user.SysRoleId = parseInt(saveData.SysRoleId);
-        var result  = [];
-        $("[name='SysMenuIds']:checkbox").each(function () {
+        var result = [];
+        $("[name='UserIds']:checkbox").each(function () {
           if ($(this).is(":checked")) {
             result.push($(this).attr("value"));
           }
         });
         var meunIds = result.join(",");
-        user.SysMenuIds = meunIds;
+        user.UserIds = meunIds;
         var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         $.ajax({
           type: 'Post',
@@ -91,7 +116,7 @@
           data: JSON.stringify(user),
           contentType: 'application/json',
           headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/SysRoleMenu/SaveData',
+          url: config.apiUrl + '/RoleUser/SaveData',
           success: function (result) {
             layer.close(LoadIndex);
             console.log(result);
@@ -121,14 +146,15 @@
 
       userDetail.userInIt($, config, form);
       form.on("submit(sub)", function (obj) {
-        if (!obj.field.SysMenuIds) {
-          layer.msg('您还未选择菜单', {
+        if (!obj.field.UserIds) {
+          layer.msg('您还未选择用户', {
             time: 10000
           });
           return false;
         }
         userDetail.saveUser($, config, obj.field);
       })
+
     })
   </script>
 </body>

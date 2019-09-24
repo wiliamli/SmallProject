@@ -37,6 +37,11 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
             return StandardAction(() => forumChannelApplication.GetForumChannelByRoleId(roleId));
         }
 
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetAllChannel()
+        {
+            return StandardAction(() => forumChannelApplication.GetAllForumChannel());
+        }
         // GET: api/ForumChannel/5
         [HttpGet("{id}", Name = "Get")]
         public StandardJsonResult<ForumChannelDto> GetChannel(int id)

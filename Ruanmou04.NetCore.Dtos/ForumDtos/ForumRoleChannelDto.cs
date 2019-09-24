@@ -42,6 +42,11 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// </summary>
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
+
+        /// <summary>
+        /// 系统角色Id字符串，接收保存返回数据
+        /// </summary>
+        public string ForumIds { get; set; }
     }
 
     public static class ForumRoleChannelDtoExt

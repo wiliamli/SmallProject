@@ -64,6 +64,7 @@
               // $("#selRoleMenu").append(html);
               form.render("checkbox");
             });
+            userDetail.selectMenu($, config, form);
           },
           error: function () {
             layer.alert(JSON.stringify(data.msg), {
@@ -71,12 +72,37 @@
             });
           }
         });
-
+      },
+      selectMenu: function ($, config, form) {
+        $.ajax({
+          url: config.apiUrl + '/SysRoleMenu/GetRoleMenuByRoleID',
+          type: 'get',
+          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), roleId: parent.layer.data.Id },
+          dataType: 'json',
+          contentType: 'application/json',
+          success: function (obj) {
+            var data = obj.data;
+            var unitTypeCheckbox = $("input[name='SysMenuIds']");
+            for (var j = 0; j < data.length; j++) {
+              for (var i = 0; i < unitTypeCheckbox.length; i++) {
+                if (unitTypeCheckbox[i].value == data[j]) {
+                  unitTypeCheckbox[i].checked = true;
+                }
+              }
+            }
+            form.render("checkbox");
+          },
+          error: function () {
+            layer.alert(JSON.stringify(data.msg), {
+              title: 'ajax请求失败！'
+            });
+          }
+        });
       },
       saveUser: function ($, config, saveData) {
         var user = saveData;
         user.SysRoleId = parseInt(saveData.SysRoleId);
-        var result  = [];
+        var result = [];
         $("[name='SysMenuIds']:checkbox").each(function () {
           if ($(this).is(":checked")) {
             result.push($(this).attr("value"));
