@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Ruanmou04.Core.Utility;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore.Interface
 {
     public interface IBaseService : IDisposable//是为了释放Context
     {
+        public abstract DbContext Context { get; set; }
+
         #region Query
         /// <summary>
         /// 根据id查询实体
@@ -17,7 +19,13 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="id"></param>
         /// <returns></returns>
         T Find<T>(int id) where T : class;
-
+        /// <summary>
+        /// 根据条件查询一个实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        T Find<T>(Expression<Func<T, bool>> func) where T : class;
         /// <summary>
         /// 提供对单表的查询
         /// </summary>
@@ -33,6 +41,14 @@ namespace Ruanmou.NetCore.Interface
         /// <returns></returns>
         IQueryable<T> Query<T>(Expression<Func<T, bool>> funcWhere) where T : class;
 
+
+        /// <summary>
+        /// 这才是合理的做法，上端给条件，这里查询
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="funcWhere"></param>
+        /// <returns></returns>
+        IQueryable<T> Query<T>() where T : class;
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -44,7 +60,7 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="funcOrderby"></param>
         /// <param name="isAsc"></param>
         /// <returns></returns>
-        PageResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class;
+        PagedResult<T> QueryPage<T, S>(Expression<Func<T, bool>> funcWhere, int pageSize, int pageIndex, Expression<Func<T, S>> funcOrderby, bool isAsc = true) where T : class;
         #endregion
 
         #region Add
@@ -96,7 +112,12 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="tList"></param>
         void Delete<T>(IEnumerable<T> tList) where T : class;
         #endregion
-
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Id"></param>
+        void Delete<T>(Expression<Func<T, bool>> funWhere) where T : class;
         #region Other
         /// <summary>
         /// 立即保存全部修改
@@ -111,6 +132,13 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="parameters"></param>
         /// <returns></returns>
         IQueryable<T> ExcuteQuery<T>(string sql, SqlParameter[] parameters) where T : class;
+
+        /// <summary>
+        /// 执行sql 返回集合
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        IQueryable<T> ExcuteQuery<T>(string sql) where T : class;
 
         /// <summary>
         /// 执行sql，无返回

@@ -6,13 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Areas.System.Controllers
 {
+   
     [Area("System")]
-    [Route("System/[controller]/[action]")]
-    public class HomeController : Controller
+    [Route("System/[controller]/[action]"), ApiController]
+    public class HomeController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpGet]
+        public string Index()
         {
-            return View();
+            return null;
         }
     }
 }

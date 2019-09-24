@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link href="/css/layui.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="layui-form layui-form-pane1" action="" lay-filter="first">
+    <div class="layui-form-item">
+      <label class="layui-form-label"></label>
+      <div class="layui-input-inline">
+        <input type="hidden" name="Id">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">资源名称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Name" lay-verify="required" style="width: 300px" placeholder="请输入名称" autocomplete="off"
+          class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">班级</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Classes" lay-verify="required" style="width: 300px" placeholder="请输入班级"
+          autocomplete="off" class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">资源内容</label>
+      <textarea id="Content" style="display: none;width:400px;"></textarea>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+        <button onclick="parent.layer.closeAll()" class="layui-btn layui-btn-primary">关闭</button>
+      </div>
+    </div>
+  </div>
+  <script src="/layui.js"></script>
+  <script type="text/javascript">
+    var userDetail = {
+      userInIt: function ($, config, form, layedit, editorindex) {
+
+        if (parent.layer.data) {
+          $.ajax({
+            type: "Get",
+            data: {
+              userId: parent.layer.data
+            },
+            beforeSend: function (XHR) {
+              XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+            },
+            url: config.apiUrl + "/Resource/GetEditResouceByID",
+            success: function (result) {
+              var jsonResult = JSON.parse(result);
+              //var newscontent = utf16to8(jsonResult.data.Content);//解码
+
+              if (jsonResult.success) {
+                form.val("first", jsonResult.data);
+                layedit.setContent(editorindex, jsonResult.data.Content);
+              }
+              else {
+                layer.msg(jsonResult.msg);
+              }
+            }
+          })
+        }
+      },
+      saveData: function ($, config, saveData, layedit, editorindex) {
+        debugger
+        var user = saveData;
+        user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
+        user.Content = layedit.getContent(editorindex);
+        if (!user.Content) {
+          layer.msg("请输入资源内容", { icon: 2 });
+          return;
+        }
+        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        $.ajax({
+          type: 'Post',
+          dataType: "json",
+          data: JSON.stringify(user),
+          contentType: 'application/json',
+          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+          url: config.apiUrl + '/Resource/SaveData',
+          success: function (result) {
+
+            layer.close(LoadIndex);
+            console.log(result);
+            if (result.success) {
+              layer.msg("保存成功", { icon: 1 });
+            }
+            else {
+              layer.msg(result.msg, { icon: 2 });
+            }
+          },
+          error: function (XMLHttpResponse) {
+            layer.close(LoadIndex);
+            console.log("error: api request failed");
+            console.log(XMLHttpResponse);
+          }
+        })
+        return false;
+      }
+
+    }
+    layui.use(["form", "config", "layedit"], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        layedit = layui.layedit,
+        $ = layui.$,
+        config = layui.config;
+      // 初始刷f
+      var editorindex = layedit.build('Content');
+      userDetail.userInIt($, config, form, layedit, editorindex);
+      form.on("submit(sub)", function (obj) {
+        userDetail.saveData($, config, obj.field, layedit, editorindex);
+      })
+    })
+  </script>
+</body>
+
+</html>

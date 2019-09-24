@@ -1,20 +1,179 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Ruanmou04.NetCore.Project</name>
+        <name>Ruanmou04.NetCore.Web</name>
     </assembly>
     <members>
-        <member name="F:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController._userList">
+        <member name="T:Ruanmou04.NetCore.Project.Controllers.BaseApiController">
             <summary>
-            User Data List
+            WebApi基类
             </summary>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.NoGetUserByModelSerializeWithoutGet(System.String)">
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.StandardAction(System.Action)">
             <summary>
-            方法名以Get开头，WebApi会自动默认这个请求就是get请求，而如果你以其他名称开头而又不标注方法的请求方式，那么这个时候服务器虽然找到了这个方法，但是由于请求方式不确定，所以直接返回给你405——方法不被允许的错误。
-            最后结论：所有的WebApi方法最好是加上请求的方式（[HttpGet]/[HttpPost]/[HttpPut]/[HttpDelete]），不要偷懒，这样既能防止类似的错误，也有利于方法的维护，别人一看就知道这个方法是什么请求。
+            标准数据返回
             </summary>
-            <param name="userString"></param>
+            <param name="action">action</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.StandardAction``1(System.Func{``0})">
+            <summary>
+            标准数据返回
+            </summary>
+            <typeparam name="T">返回参数</typeparam>
+            <param name="func">func</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.GetUserInfo">
+            <summary>
+            获取用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.CleanUserInfo">
+            <summary>
+            退出
+            </summary>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsByRoleId(System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            根据角色获取所有频道
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannels">
+            <summary>
+            获取所有频道
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumInvitationController.GetOnlyInvitation(System.Int32)">
+            <summary>
+            只看楼主
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou04.NetCore.Project.ProjectModule.Init(Autofac.ContainerBuilder,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            初始化配置文件
+            </summary>
+            <param name="containerBuilder"></param>
+            <param name="_appConfiguration"></param>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Aio.Domain.SystemManage.Dtos.LoginInputDto)">
+            <summary>
+            登录
+            </summary>
+            <param name="loginInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenuList">
+            <summary>
+            获取权限菜单 
+            </summary>
+            <param name="menuType">1后台的，2是网站，3是论坛</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetEditMenuByID(System.Int32)">
+            <summary>
+            获取编辑用户
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.DeleteMenuById(System.Int32)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenus(System.Int32,System.Int32,System.String)">
+            <summary>
+            获取所有数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.SaveData(RM04.DBEntity.SysMenuDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetEditResouceByID(System.Int32)">
+            <summary>
+            获取编辑资源
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetResouces(System.Int32,System.Int32,System.String)">
+            <summary>
+            获取所有数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(RM04.DBEntity.SysResourceInputDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetEditRoleByID(System.Int32)">
+            <summary>
+            获取编辑用户
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetRoles(System.Int32,System.Int32,System.String)">
+            <summary>
+            获取所有数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.SaveData(RM04.DBEntity.SysRoleDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetEditUserByID(System.Int32)">
+            <summary>
+            获取编辑用户
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.DeleteById(System.Int32)">
+            <summary>
+            删除数据通过Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.DeleteBatchById(System.String)">
+            <summary>
+            批量删除数据通过Id
+            </summary>
+            <param name="ids">id列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsers(System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            获取所有用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(RM04.DBEntity.SysUserInputDto)">
+            <summary>
+            新增或修改用户 DefaultPassword
+            </summary>
+            <param name="sysUserInput"></param>
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
@@ -36,11 +195,6 @@
             自有妙用
             </summary>
             <param name="configuration"></param>
-        </member>
-        <member name="T:Ruanmou.NetCore3_0.DemoProject.Utility.CustomAutofacAop">
-            <summary>
-            自定义的Autofac的AOP扩展
-            </summary>
         </member>
     </members>
 </doc>

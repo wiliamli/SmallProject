@@ -9,6 +9,7 @@ namespace Ruanmou.EFCore3_0.Model
     using RM04.DBEntity;
     using Ruanmou.Core.Utility;
     using Ruanmou.EFCore3_0.Model.SqlLog;
+    using Ruanmou04.EFCore.Model.Models.Forum;
 
     /// <summary>
     /// 日志问题
@@ -40,26 +41,34 @@ namespace Ruanmou.EFCore3_0.Model
 
         }
 
-   
-    
-
-        public virtual DbSet<SysMenu> SysMenus { get; set; }
+        public virtual DbSet<SysMenu> SysMenu { get; set; }
+        public virtual DbSet<SysResource> SysResource { get; set; }
         public virtual DbSet<SysMenuOperation> SysMenuOperation { get; set; }
-        public virtual DbSet<SysRole> SysRoles { get; set; }
-        public virtual DbSet<SysRoleMenuMapping> SysRoleMenuMappings { get; set; }
+        public virtual DbSet<SysRole> SysRole { get; set; }
+        public virtual DbSet<SysRoleMenuMapping> SysRoleMenuMapping { get; set; }
 
         public virtual DbSet<SysRoleMenuOperationMapping> SysRoleMenuOperationMapping { get; set; }
-
         public virtual DbSet<SysUser> SysUsers { get; set; }
-        public virtual DbSet<SysUserMenuMapping> SysUserMenuMappings { get; set; }
+        public virtual DbSet<SysUserMenuMapping> SysUserMenuMapping { get; set; }
         public virtual DbSet<SysUserMenuOperationMapping> SysUserMenuOperationMapping { get; set; }
-        public virtual DbSet<SysUserRoleMapping> SysUserRoleMappings { get; set; }
+        public virtual DbSet<SysUserRoleMapping> SysUserRoleMapping { get; set; }
+
+        public virtual DbSet<SysCourse> SysCourse { get; set; }
+        public virtual DbSet<SysCourseCategory> SysCourseCategory { get; set; }
 
 
+        public virtual DbSet<ForumAttachment> ForumAttachment { get; set; }
+        public virtual DbSet<ForumChannel> ForumChannel { get; set; }
+        public virtual DbSet<ForumCheckIn> ForumCheckIn { get; set; }
+        public virtual DbSet<ForumConcern> ForumConcern { get; set; }
+        public virtual DbSet<ForumInvitation> ForumInvitation { get; set; }
+        public virtual DbSet<ForumPersonal> ForumPersonal { get; set; }
+        public virtual DbSet<ForumRoleChannel> ForumRoleChannel { get; set; }
+        public virtual DbSet<ForumTopic> ForumTopic { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+
             modelBuilder.Entity<SysMenu>()
                 .Property(e => e.Url)
                 .IsUnicode(false);
@@ -71,6 +80,9 @@ namespace Ruanmou.EFCore3_0.Model
             modelBuilder.Entity<SysMenu>()
                 .Property(e => e.SourcePath)
                 .IsUnicode(false);
+            modelBuilder.Entity<SysMenu>()
+                .Property(e => e.Status)
+                .HasDefaultValue(1);
 
             modelBuilder.Entity<SysUser>()
                 .Property(e => e.Phone)
@@ -88,7 +100,13 @@ namespace Ruanmou.EFCore3_0.Model
                 .Property(e => e.WeChat)
                 .IsUnicode(false);
 
-            
+            modelBuilder.Entity<SysUser>()
+                .Property(e => e.Status)
+                .HasDefaultValue(1);
+
+            modelBuilder.Entity<SysRole>()
+                .Property(e => e.Status)
+                .HasDefaultValue(1);
         }
     }
 }
