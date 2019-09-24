@@ -135,6 +135,11 @@ namespace Ruanmou.NetCore3_0.DemoProject
                 {
                     webBuilder.UseStartup<Startup>();
                 })
+             .ConfigureLogging(loggingBuilder=> {
+                 loggingBuilder.AddFilter("System",LogLevel.Warning);
+                 loggingBuilder.AddFilter("Microsoft",LogLevel.Warning);
+                 loggingBuilder.AddLog4Net("Config/log4netcore.Config");
+             })
              .UseServiceProviderFactory(new AutofacServiceProviderFactory());
         
     }
