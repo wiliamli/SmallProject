@@ -6,14 +6,12 @@ using RM04.DBEntity;
 
 using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.Core.Utility.Security;
-using AutoMapper;
 using Ruanmou04.Core.Model.DtoHelper;
 
 namespace Ruanmou.NetCore.Service
 {
     public class LoginService : BaseService, ILoginService
     {
-        private readonly IObjectMapper _objectMapper;
         public LoginService(DbContext context) : base(context)
         {
 

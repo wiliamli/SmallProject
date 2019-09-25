@@ -1,5 +1,4 @@
-﻿using Abp.AutoMapper;
-using RM04.DBEntity;
+﻿using RM04.DBEntity;
 
 namespace Aio.Domain.SystemManage.Dtos
 {
