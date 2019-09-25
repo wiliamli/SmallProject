@@ -1,7 +1,7 @@
 using Abp.Application.Services.Dto;
 using Ruanmou.Core.Utility;
 
-namespace Ruanmou04.EFCore.Model.DtoHelper
+namespace Ruanmou04.EFCore.Dtos.DtoHelper
 {
     public class PagedAndSortedInputDto : PagedInputDto, ISortedResultRequest
     {

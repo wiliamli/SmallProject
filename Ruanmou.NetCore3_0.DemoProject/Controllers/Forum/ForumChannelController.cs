@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using RM04.DBEntity;
 using Ruanmou04.Core.Utility.MvcResult;
-using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
+using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Project.Models;
 

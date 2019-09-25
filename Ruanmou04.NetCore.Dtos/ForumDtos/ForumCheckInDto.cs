@@ -1,10 +1,10 @@
-﻿using Ruanmou04.Core.Model.DtoHelper;
+﻿using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
+namespace Ruanmou04.EFCore.Dtos.ForumDtos
 {
     public class ForumCheckInDto
     {

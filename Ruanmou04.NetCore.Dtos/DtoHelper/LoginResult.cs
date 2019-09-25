@@ -2,7 +2,7 @@
 using RM04.DBEntity;
 using System;
 
-namespace Ruanmou04.EFCore.Model.DtoHelper
+namespace Ruanmou04.EFCore.Dtos.DtoHelper
 {
     /// <summary>
     /// ajax返回结果

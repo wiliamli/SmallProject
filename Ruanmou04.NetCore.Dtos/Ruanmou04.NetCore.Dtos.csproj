@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Abp" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ruanmou.EFCore3_0.Model\Ruanmou04.EFCore.Model.csproj" />
   </ItemGroup>
 

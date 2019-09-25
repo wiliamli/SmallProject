@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Ruanmou.NetCore.Application;
 using Ruanmou04.Core.Utility.Extensions;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using System.Linq;
 using System.Threading.Tasks;
 

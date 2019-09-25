@@ -1,4 +1,4 @@
-﻿using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
+﻿using Ruanmou04.EFCore.Dtos.ForumDtos;
 using System;
 using System.Collections.Generic;
 using System.Text;

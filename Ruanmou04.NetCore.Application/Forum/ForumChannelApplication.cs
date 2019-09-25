@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
+using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Interface.Forum.Service;
