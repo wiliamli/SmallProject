@@ -1,17 +1,14 @@
-﻿using Abp.Domain.Entities;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ruanmou04.EFCore.Model.Token.Dtos
 {
     /// <summary>
     /// 令牌信息明细
     /// </summary>
-    [Table("B_TokenInformationDetail")]
-    public partial class TokenInformationDetail : Entity<Guid>
+    public partial class TokenInformationDetail
     {
-
+        public Guid Id { get; set; }
         /// <summary>
         /// 系统ID
         /// </summary>
