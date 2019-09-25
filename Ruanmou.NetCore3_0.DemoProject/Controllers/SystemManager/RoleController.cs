@@ -33,9 +33,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public string GetEditRoleByID(int userId)
+        public string GetEditRoleByID(int id)
         {
-            var user = _sysRoleService.Find<SysRole>(userId)?.MapTo<SysRole, SysRoleDto>();
+            var user = _sysRoleService.Find<SysRole>(id)?.MapTo<SysRole, SysRoleDto>();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }

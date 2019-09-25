@@ -65,6 +65,12 @@ namespace Ruanmou.NetCore.Interface
 
         #region Add
         /// <summary>
+        /// 新增数据，不Commit
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns>返回带主键的实体</returns>
+        T InsertNotCommit<T>(T t) where T : class;
+        /// <summary>
         /// 新增数据，即时Commit
         /// </summary>
         /// <param name="t"></param>
@@ -81,6 +87,11 @@ namespace Ruanmou.NetCore.Interface
 
         #region Update
         /// <summary>
+        /// 更新数据，不Commit
+        /// </summary>
+        /// <param name="t"></param>
+        void UpdateNotCommit<T>(T t) where T : class;
+        /// <summary>
         /// 更新数据，即时Commit
         /// </summary>
         /// <param name="t"></param>
@@ -94,6 +105,23 @@ namespace Ruanmou.NetCore.Interface
         #endregion
 
         #region Delete
+        /// <summary>
+        /// 根据主键删除数据，不即时Commit
+        /// </summary>
+        /// <param name="t"></param>
+        void DeleteNotCommit<T>(int Id) where T : class;
+
+        /// <su+mary>
+        /// 删除数据，不即时Commit
+        /// </summary>
+        /// <param name="t"></param>
+        void DeleteNotCommit<T>(T t) where T : class;
+
+        /// <summary>
+        /// 删除数据，不即时Commit
+        /// </summary>
+        /// <param name="tList"></param>
+        void DeleteNotCommit<T>(Expression<Func<T, bool>> funWhere) where T : class;
         /// <summary>
         /// 根据主键删除数据，即时Commit
         /// </summary>

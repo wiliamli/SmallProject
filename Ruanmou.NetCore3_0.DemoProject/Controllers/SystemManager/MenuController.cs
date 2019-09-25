@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RM04.DBEntity;
+using Ruanmou.NetCore.Interface;
 using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.Extensions;
@@ -19,11 +20,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     {
         private readonly ICurrentUserInfo _currentUserInfo;
         private readonly IUserMenuService _userMenuService;
+        private readonly ISysRoleMenuMappingService _roleMenuMappingService;
 
-        public MenuController(ICurrentUserInfo currentUserInfo, IUserMenuService userMenuService)
+        public MenuController(ICurrentUserInfo currentUserInfo, IUserMenuService userMenuService, ISysRoleMenuMappingService roleMenuMappingService)
         {
             _currentUserInfo = currentUserInfo;
             _userMenuService = userMenuService;
+            _roleMenuMappingService = roleMenuMappingService;
         }
         /// <summary>
         /// 获取权限菜单 
@@ -59,11 +62,31 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         public string DeleteMenuById(int id)
         {
-            _userMenuService.Delete<SysMenu>(id);
+            _roleMenuMappingService.DeleteNotCommit<SysRoleMenuMapping>(rm => rm.SysMenuId == id);
+            _userMenuService.DeleteNotCommit<SysMenu>(id);
+            _roleMenuMappingService.Commit();
+            _userMenuService.Commit();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功"});
 
         }
+        /// <summary>
+        /// 获取所有菜单数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
 
+        public string GetRoleMenu()
+        {
+            var menuData = _userMenuService.
+                 Query<SysMenu>(u => (u.Status))
+                 .Select(m => new SysMenuDto
+                 {
+                     Id = m.Id,
+                     Text = m.Text
+                 });
+
+            return JsonConvert.SerializeObject(new AjaxResult { data = menuData, success = true, msg = "删除成功" });
+        }
         /// <summary>
         /// 获取所有数据
         /// </summary>
@@ -73,7 +96,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string GetMenus(int page, int limit, string name)
         {
             var userData = _userMenuService.
-                Query<SysMenu>(u => (!name.IsNullOrEmpty() && u.Text.Contains(name)) || name.IsNullOrEmpty())
+                Query<SysMenu>(u => u.Status && (!name.IsNullOrEmpty() && u.Text.Contains(name)) || name.IsNullOrEmpty())
                 .Select(m => new SysMenuDto
                 {
                     Id = m.Id,

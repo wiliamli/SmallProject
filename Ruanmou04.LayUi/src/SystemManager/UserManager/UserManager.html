@@ -29,7 +29,7 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs" lay-event="userRole">角色</a>
+        <a class="layui-btn layui-btn-xs" lay-event="RoleUser">用户角色</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 
@@ -49,6 +49,18 @@
         })
       },
       openUserRoleWindow: function (data) {
+        layer.open({
+          type: 2,
+          content: 'UserManager/UserRoleAssign.html',
+          data: data,
+          title: "编辑用户",
+          area: ["700px", "450px"],
+          end: function () { // layui 关闭弹框时的回调函数
+            $("#search").click();
+          }
+        })
+      },
+      openRoleMenuWindow: function (data) {
         layer.open({
           type: 2,
           content: 'UserManager/UserRoleAssign.html',
@@ -122,7 +134,7 @@
               }
             }
           }
-          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180 }
+          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 220 }
         ]]
       });
 
@@ -203,8 +215,10 @@
             })
           });
         }
-        else if (obj.event === 'userRole') {
+        else if (obj.event === 'RoleUser') {
           userManager.openUserRoleWindow(data);
+        } else if (obj.event === 'RoleMenu') {
+          userManager.openUserMenuWindow(data);
         } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         }

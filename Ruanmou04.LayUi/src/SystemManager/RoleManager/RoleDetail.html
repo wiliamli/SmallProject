@@ -47,12 +47,11 @@
   <script type="text/javascript">
     var userDetail = {
       userInIt: function ($, config, form) {
-        debugger
         if (parent.layer.data) {
           $.ajax({
             type: "Get",
             data: {
-              userId: parent.layer.data
+              id: parent.layer.data
             },
             beforeSend: function (XHR) {
               XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));

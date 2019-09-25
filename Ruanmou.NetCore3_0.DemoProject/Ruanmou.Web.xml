@@ -89,6 +89,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetRoleMenu">
+            <summary>
+            获取所有菜单数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenus(System.Int32,System.Int32,System.String)">
             <summary>
             获取所有数据
@@ -142,6 +148,69 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.GetEditChannelByRoleID(System.Int32)">
+            <summary>
+            获取编辑用户
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.GetRoleChannelByRoleID(System.Int32)">
+            <summary>
+            获取已经设置角色频道
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.SaveData(Ruanmou04.EFCore.Dtos.ForumDtos.ForumRoleChannelDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.GetEditRoleMenuByRoleID(System.Int32)">
+            <summary>
+            获取编辑角色菜单
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.GetRoleMenuByRoleID(System.Int32)">
+            <summary>
+            根据角色Id获取已授权的菜单
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.SaveData(RM04.DBEntity.SysRoleMenuDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.GetUserRoleByRoleID(System.Int32)">
+            <summary>
+            根据角色Id获取已有的用户
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.GetUserRoleByUserID(System.Int32)">
+            <summary>
+            根据用户Id获取已有的角色
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.SaveData(RM04.DBEntity.SysUserRoleDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetEditUserByID(System.Int32)">
             <summary>
             获取编辑用户
@@ -161,6 +230,12 @@
             批量删除数据通过Id
             </summary>
             <param name="ids">id列表</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsersByType(System.Int32)">
+            <summary>
+            根据用户类型获取用户
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsers(System.Int32,System.Int32,System.Int32,System.String)">

@@ -30,8 +30,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             for (int i = 0; i < roleIdAry.Length; i++)
             {
                 var model = new SysUserRoleMapping() { SysUserId = userId, SysRoleId = Convert.ToInt32(roleIdAry[i]) };
-                _sysRoleService.Insert<SysUserRoleMapping>(model);
+                _sysRoleService.InsertNotCommit<SysUserRoleMapping>(model);
             }
+            _sysRoleService.Commit();
             ajaxResult.msg = "保存成功";
             ajaxResult.success = true;
 
