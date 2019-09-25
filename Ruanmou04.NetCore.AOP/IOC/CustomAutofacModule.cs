@@ -29,7 +29,7 @@ namespace Ruanmou04.NetCore.AOP.IOC
 
 
 
-            containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
+            containerBuilder.RegisterType<RunmouDbContext>().As<DbContext>();
             containerBuilder.RegisterType<JwtSecurityTokenHandler>().As<JwtSecurityTokenHandler>();
 
 

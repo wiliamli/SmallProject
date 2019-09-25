@@ -169,7 +169,7 @@
                   ids: dataIds.join(',')
                 },
                 beforeSend: function (XHR) {
-                  XHR.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("apiTicket"));
+                  XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
                 },
                 url: config.apiUrl + "/Users/DeleteBatchById",
                 success: function (result) {
@@ -199,7 +199,7 @@
                 id: data.Id
               },
               beforeSend: function (XHR) {
-                XHR.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("apiTicket"));
+                XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
               },
               url: config.apiUrl + "/Users/DeleteById",
               success: function (result) {

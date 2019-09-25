@@ -67,7 +67,7 @@
             form.on("submit(formSubmit)", function (obj) {
                 //假登录
 				/*
-                localStorage.setItem("RuanmouNetToken", "1234567890");
+                sessionStorage.setItem("RuanmouNetToken", "1234567890");
                 parent.layer.msg("登录成功", { icon: 1 }); 
                 parent.document.getElementsByClassName("rm-header-right")[0].innerHTML = common.WebLoginHtml;
                 parent.layer.close(curIndex);
@@ -94,7 +94,7 @@
                         if(result.success)
                         {
                            var apiTiket= result.data; 
-                           localStorage.setItem("RuanmouNetToken",apiTiket)
+                           sessionStorage.setItem("RuanmouNetToken",apiTiket)
 						   
                             parent.layer.msg("登录成功", { icon: 1 }); 
                             // 头部写入 用户中心和退出

@@ -36,6 +36,10 @@ namespace Ruanmou.NetCore.Service
         {
             return this.Context.Set<T>().Where<T>(func).FirstOrDefault();
         }
+        public bool Exists<T>(Expression<Func<T, bool>> func) where T : class
+        {
+            return this.Context.Set<T>().Where<T>(func).Count()>0;
+        }
         /// <summary>
         /// 不应该暴露给上端使用者，尽量少用
         /// </summary>

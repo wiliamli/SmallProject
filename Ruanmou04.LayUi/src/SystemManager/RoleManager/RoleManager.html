@@ -176,10 +176,11 @@
                 id: data.Id
               },
               beforeSend: function (XHR) {
-                XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
               },
-              url: config.apiUrl + "/Role/DeleteById",
+              url: config.apiUrl + "/Role/DeleteRoleById",
               success: function (result) {
+                debugger
                 var jsonResult = JSON.parse(result);
                 if (jsonResult.success) {
                   $("#search").click();
@@ -191,13 +192,13 @@
               }
             })
           });
-        } 
+        }
         else if (obj.event === 'menu') {
           userManager.openRoleMenuWindow(data);
         }
         else if (obj.event === 'user') {
           userManager.openRoleUserWindow(data);
-        }else if (obj.event === 'forum') {
+        } else if (obj.event === 'forum') {
           userManager.openRoleForumWindow(data);
         }
         else if (obj.event === 'edit') {

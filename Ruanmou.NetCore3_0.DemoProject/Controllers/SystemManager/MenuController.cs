@@ -60,13 +60,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public string DeleteMenuById(int id)
+        public AjaxResult RemoveMenuById(int id)
         {
-            _roleMenuMappingService.DeleteNotCommit<SysRoleMenuMapping>(rm => rm.SysMenuId == id);
-            _userMenuService.DeleteNotCommit<SysMenu>(id);
-            _roleMenuMappingService.Commit();
-            _userMenuService.Commit();
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功"});
+            if( _roleMenuMappingService.Exists<SysRoleMenuMapping>(rm => rm.SysMenuId == id))
+            {
+                return new AjaxResult { success = false, msg = "菜单数据已存在角色授权，请先移除授权再删除" };
+            }
+            _userMenuService.Delete<SysMenu>(id);
+            return new AjaxResult { success = true, msg="删除成功"};
 
         }
         /// <summary>

@@ -38,7 +38,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
                 token = context.HttpContext.Request.Query["token"];
             }
             AjaxResult ajaxResult = null;
-            if (token.IsNullOrEmpty())
+            if (token.IsNullOrEmpty() || token.ToString().Replace("Bearer ","").Trim().IsNullOrEmpty())
             {
                 ajaxResult = new AjaxResult { msg = "token为空", success = false };
             }

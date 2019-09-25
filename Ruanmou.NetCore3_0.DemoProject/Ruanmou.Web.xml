@@ -82,7 +82,7 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.DeleteMenuById(System.Int32)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.RemoveMenuById(System.Int32)">
             <summary>
             删除
             </summary>
@@ -126,6 +126,13 @@
             新增或修改数据
             </summary>
             <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.DeleteRoleById(System.Int32)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetEditRoleByID(System.Int32)">

@@ -7,10 +7,13 @@
   <ItemGroup>
     <Compile Remove="Authorization\Token\ITokenConfirmService.cs" />
     <Compile Remove="Authorization\Token\ITokenService.cs" />
+    <Compile Remove="JDDbContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0-preview7.19362.9" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
