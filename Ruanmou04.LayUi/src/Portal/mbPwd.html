@@ -158,7 +158,7 @@
 
             common.Init($, layer); 
 
-			var key = localStorage.getItem("RuanmouNetToken"); 			 
+			var key = sessionStorage.getItem("RuanmouNetToken"); 			 
 			//获取用户信息
 			$.ajax({
                 type:'GET',
@@ -171,7 +171,7 @@
 					if(result == null)
 					{
 						//登陆超时或没有登陆
-						localStorage.removeItem("RuanmouNetToken");
+						sessionStorage.removeItem("RuanmouNetToken");
 						common.Init($, layer); 
 					}else
 					{ 

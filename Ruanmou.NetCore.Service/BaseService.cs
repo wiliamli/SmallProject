@@ -36,6 +36,10 @@ namespace Ruanmou.NetCore.Service
         {
             return this.Context.Set<T>().Where<T>(func).FirstOrDefault();
         }
+        public bool Exists<T>(Expression<Func<T, bool>> func) where T : class
+        {
+            return this.Context.Set<T>().Where<T>(func).Count()>0;
+        }
         /// <summary>
         /// 不应该暴露给上端使用者，尽量少用
         /// </summary>
@@ -111,7 +115,17 @@ namespace Ruanmou.NetCore.Service
             this.Commit();//写在这里  就不需要单独commit  不写就需要
             return t;
         }
-
+        /// <summary>
+        /// 即使保存  需要再Commit
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public T InsertNotCommit<T>(T t) where T : class
+        {
+            this.Context.Set<T>().Add(t);
+            return t;
+        }
         public IEnumerable<T> Insert<T>(IEnumerable<T> tList) where T : class
         {
             this.Context.Set<T>().AddRange(tList);
@@ -136,7 +150,23 @@ namespace Ruanmou.NetCore.Service
             this.Context.Entry<T>(t).State = EntityState.Modified;
             this.Commit();//保存 然后重置为UnChanged
         }
+        /// <summary>
+        /// 更新，需要Commit
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        public void UpdateNotCommit<T>(T t) where T : class
+        {
+            if (t == null) throw new Exception("t is null");
 
+            this.Context.Set<T>().Attach(t);//将数据附加到上下文，支持实体修改和新实体，重置为UnChanged
+            this.Context.Entry<T>(t).State = EntityState.Modified;
+        }
+        /// <summary>
+        /// 批量更新
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tList"></param>
         public void Update<T>(IEnumerable<T> tList) where T : class
         {
             foreach (var t in tList)
@@ -150,6 +180,41 @@ namespace Ruanmou.NetCore.Service
         #endregion
 
         #region Delete
+        /// <summary>
+        /// 先附加 再删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        public void DeleteNotCommit<T>(T t) where T : class
+        {
+            if (t == null) throw new Exception("t is null");
+            this.Context.Set<T>().Attach(t);
+            this.Context.Set<T>().Remove(t);
+        }
+
+        /// <summary>
+        /// 还可以增加非即时commit版本的，
+        /// 做成protected
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Id"></param>
+        public void DeleteNotCommit<T>(int Id) where T : class
+        {
+            T t = this.Find<T>(Id);//也可以附加
+            if (t == null) throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
+            this.Context.Set<T>().Remove(t);
+        }
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Id"></param>
+        public void DeleteNotCommit<T>(Expression<Func<T, bool>> funWhere) where T : class
+        {
+            var listt = this.Query<T>(funWhere);//也可以附加
+            if (listt.Count() == 0) return;//throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");
+            this.Context.Set<T>().RemoveRange(listt);
+        }
         /// <summary>
         /// 先附加 再删除
         /// </summary>
@@ -181,7 +246,7 @@ namespace Ruanmou.NetCore.Service
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="Id"></param>
-        public void Delete<T>(Expression<Func<T,bool>> funWhere) where T : class
+        public void Delete<T>(Expression<Func<T, bool>> funWhere) where T : class
         {
             var listt = this.Query<T>(funWhere);//也可以附加
             if (listt.Count() == 0) return;//throw new Exception("没找到要删除的数据，请确认id是否正确或数据是否存在");

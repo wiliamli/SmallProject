@@ -69,15 +69,15 @@
           contentType: 'application/json',
           url: config.apiUrl + '/Login/LoginSystemManager',
           success: function (result) {
-            // var jsonResult=JSON.parse(result);
+            debugger
+            result = JSON.parse(result);
             if (result.success) {
               var data = result.data;
-              sessionStorage.setItem("apiTicket", data.token)
-              sessionStorage.setItem("userName", data.name)
+              sessionStorage.setItem("apiTicket", data.Token)
+              sessionStorage.setItem("userName", data.Name)
               window.location.href = "home.html";
             }
             else {
-              debugger
               layer.msg(result.msg, { icon: 2 });
             }
           }

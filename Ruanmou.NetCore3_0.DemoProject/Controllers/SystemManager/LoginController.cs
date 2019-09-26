@@ -3,6 +3,7 @@ using Aio.Domain.SystemManage.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RM04.DBEntity;
 using Ruanmou.NetCore.Application;
 using Ruanmou.NetCore.Interface;
@@ -52,7 +53,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <param name="loginInput"></param>
         /// <returns></returns>
         [HttpPostAttribute]
-        public async Task<AjaxResult> LoginSystemManager(LoginInputDto loginInput)
+        public async Task<string> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
             if (ajax.success)
@@ -69,14 +70,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 ajax.data = generatedto;                
                 this._memoryCache.Set<SysUserOutputDto>(generatedto.Token, sysuserdto);
             }
-            return ajax;
+            return JsonConvert.SerializeObject( ajax);
         }
 
-        [HttpGet]
-        public async Task<AjaxResult> TokenConfirm(string token)
-        {
-            var ajax =await _tokenService.ConfirmVerificationAsync(token);
-            return ajax;
-        }
+        //[HttpGet]
+        //public async Task<AjaxResult> TokenConfirm(string token)
+        //{
+        //    var ajax =await _tokenService.ConfirmVerificationAsync(token);
+        //    return ajax;
+        //}
     }
 }

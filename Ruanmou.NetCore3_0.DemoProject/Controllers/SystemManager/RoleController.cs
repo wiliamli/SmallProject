@@ -25,7 +25,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _currentUserInfo = currentUserInfo;
             _sysRoleService = sysRoleService;
         }
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
 
+        public string DeleteRoleById(int id)
+        {
+            _sysRoleService.Delete<SysRole>(id);
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功" });
+
+        }
         /// <summary>
         /// 获取编辑用户
         /// </summary>
@@ -33,9 +45,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public string GetEditRoleByID(int userId)
+        public string GetEditRoleByID(int id)
         {
-            var user = _sysRoleService.Find<SysRole>(userId)?.MapTo<SysRole, SysRoleDto>();
+            var user = _sysRoleService.Find<SysRole>(id)?.MapTo<SysRole, SysRoleDto>();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
@@ -107,7 +119,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 {
                     var model = sysMenuDto.MapTo<SysRoleDto, SysRole>();
                     model.CreateTime = DateTime.Now;
-                    model.CreateId= _currentUserInfo.CurrentUser.Id;
+                    model.CreateId = _currentUserInfo.CurrentUser.Id;
                     _sysRoleService.Insert<SysRole>(model);
                 }
                 ajaxResult.msg = "保存成功";

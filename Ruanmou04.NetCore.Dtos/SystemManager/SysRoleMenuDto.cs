@@ -4,20 +4,19 @@ using System.Text;
 
 namespace RM04.DBEntity
 {
-    public class SysUserRoleDto : BaseEntity
+    public class SysRoleMenuDto : BaseEntity
     {
-        /// <summary>
-        /// 用户Id
-        /// <summary>
-        public int? SysUserId { get; set; }
         /// <summary>
         /// 角色Id
         /// <summary>
         public int? SysRoleId { get; set; }
-
         /// <summary>
-        /// 用户Ids
+        /// 菜单Id
         /// <summary>
-        public string UserIds { get; set; }
+        public int? SysMenuId { get; set; }
+        /// <summary>
+        /// 菜单Id
+        /// <summary>
+        public string SysMenuIds { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Ruanmou04.NetCore.Interface.Forum.Applications
         void DeleteForumChannel(int id);
 
         ForumChannelDto GetForumChannelById(int id);
-
+        public IEnumerable<ForumChannelDto> GetAllForumChannel();
         IEnumerable<ForumChannelDto> GetForumChannelByCreatedId(int createdId);
 
         IEnumerable<ForumChannelDto> GetForumChannelByRoleId(IList<int> roleIds);
