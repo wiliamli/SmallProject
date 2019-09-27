@@ -34,19 +34,61 @@
     </script>
 
   <script>
+    // userManager = {
+    //   openUserWindow: function (data) {
+    //     var id = data && data.Id ? data.Id : "0"
+    //     layer.open({
+    //       type: 2,
+    //       content: 'UserManager/UserDetail.html',
+    //       data: id,
+    //       title: "编辑用户",
+    //       area: ["700px", "450px"],
+    //       end: function () { // layui 关闭弹框时的回调函数
+    //         $("#search").click();
+    //       }
+    //     })
+    //   },
+    //   openUserRoleWindow: function (data) {
+    //     layer.open({
+    //       type: 2,
+    //       content: 'UserManager/UserRoleAssign.html',
+    //       data: data,
+    //       title: "编辑用户",
+    //       area: ["700px", "450px"],
+    //       end: function () { // layui 关闭弹框时的回调函数
+    //         $("#search").click();
+    //       }
+    //     })
+    //   },
+    //   openRoleMenuWindow: function (data) {
+    //     layer.open({
+    //       type: 2,
+    //       content: 'UserManager/UserRoleAssign.html',
+    //       data: data,
+    //       title: "编辑用户",
+    //       area: ["700px", "450px"],
+    //       end: function () { // layui 关闭弹框时的回调函数
+    //         $("#search").click();
+    //       }
+    //     })
+    //   }
+    // }
+
     userManager = {
       openUserWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'UserManager/UserDetail.html',
-          data: id,
-          title: "编辑用户",
-          area: ["700px", "450px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+        var id = data && data.Id ? data.Id : "0";
+        //title, url, w, h,data
+        pageShow('编辑用户','UserManager/UserDetail.html',900, 450,id);
+        // layer.open({
+        //   type: 2,
+        //   content: 'UserManager/UserDetail.html',
+        //   data: id,
+        //   title: "编辑用户",
+        //   area: ["700px", "450px"],
+        //   end: function () { // layui 关闭弹框时的回调函数
+        //     $("#search").click();
+        //   }
+        // })
       },
       openUserRoleWindow: function (data) {
         layer.open({
@@ -73,6 +115,7 @@
         })
       }
     }
+
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
       var table = layui.table,
         laydate = layui.laydate,
@@ -103,7 +146,7 @@
         , limit: 20
         , toolbar: '#toolbarDemo'
         // , toolbar: true
-        , parseData: function (queryData) {
+        , parseData: function (queryData) {          
           return {
             code: '0',
             data: queryData.Rows,
@@ -173,7 +216,7 @@
                 },
                 url: config.apiUrl + "/Users/DeleteBatchById",
                 success: function (result) {
-                  var jsonData = JSON.parse(result);
+                  var jsonData =result; //JSON.parse(result);
                   if (jsonData.success) {
                     layer.msg(jsonData.msg, { icon: 1 });
                     $("#search").click();

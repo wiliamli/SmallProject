@@ -38,10 +38,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
         #endregion
 
-
         // GET api/SysUser/5
         [HttpGet]
-
         public SysUserOutputDto GetUserByID(int userId)
         {
             return _userService.Find<SysUser>(userId).MapTo<SysUser, SysUserOutputDto>();
@@ -54,36 +52,38 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
-
-        public string GetEditUserByID(int userId)
+        public AjaxResult GetEditUserByID(int userId)
         {
             var user = _userService.Find<SysUser>(userId)?.MapTo<SysUser, SysUserOutputDto>();
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
+            return AjaxResult.Success("操作成功", user);
+            // return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
+        
         /// <summary>
         /// 删除数据通过Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-
-        public string DeleteById(int id)
+        public AjaxResult DeleteById(int id)
         {
             _userService.Delete<SysUser>(id);
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
+            return AjaxResult.Success("删除成功");
+            // return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
         }
+      
         /// <summary>
         /// 批量删除数据通过Id
         /// </summary>
         /// <param name="ids">id列表</param>
         /// <returns></returns>
         [HttpGet]
-
-        public string DeleteBatchById(string ids)
+        public AjaxResult DeleteBatchById(string ids)
         {
             _userService.Delete<SysUser>(u => ids.Contains(u.Id.ToString()));
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
+            return AjaxResult.Success("删除成功");
+            //return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
         }
 
         /// <summary>
@@ -91,29 +91,25 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string GetUsersByType(int userType)
+        public AjaxResult GetUsersByType(int userType)
         {
-
             var userData = _userService.GetSysUsers(u => userType == 0 || u.UserType == userType);
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, data= userData } );
-
-
+            return AjaxResult.Success("操作成功", userData);
+            //return JsonConvert.SerializeObject(new AjaxResult { success = true, data= userData } );
         }
+
         /// <summary>
         /// 获取所有用户
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-
-        public string GetUsers(int page, int limit, int userType, string name)
+        public IActionResult GetUsers(int page, int limit, int userType, string name)
         {
-
-            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && (userType==0 || u.UserType == userType));
+            var userData = _userService.GetSysUsers(u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()) && (userType == 0 || u.UserType == userType));
 
             PagedResult<SysUserOutputDto> pagedResult = new PagedResult<SysUserOutputDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
-            return JsonConvert.SerializeObject(pagedResult);
-
-
+            return Ok(pagedResult);
+            // return JsonConvert.SerializeObject(pagedResult);
         }
 
         /// <summary>
@@ -124,57 +120,62 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         [HttpPost]
         public AjaxResult SaveUser([FromBody]SysUserInputDto sysUserInput)
         {
+            if (sysUserInput == null)
+            {
+                return AjaxResult.Failure("参数有误");
+            }
 
-            AjaxResult ajaxResult = new AjaxResult { success = false };
-            var existsAaccountUser = _userService.Find<SysUser>(u => u.Account == sysUserInput.Account && (sysUserInput.Id == 0 ||(sysUserInput.Id>0 && sysUserInput.Id!=u.Id)));
+            //AjaxResult ajaxResult = new AjaxResult { success = false };
+            var existsAaccountUser = _userService.Find<SysUser>(u => u.Account == sysUserInput.Account && (sysUserInput.Id == 0 || (sysUserInput.Id > 0 && sysUserInput.Id != u.Id)));
             if (existsAaccountUser != null)
             {
-                ajaxResult.msg = "账号重复,请修改账号";
-                return ajaxResult;
+                //ajaxResult.msg = "账号重复,请修改账号";
+                //return ajaxResult;
+                return AjaxResult.Failure("账号重复,请修改账号");
             }
-            if (sysUserInput != null)
+
+            //if (sysUserInput != null)
+            //{
+            if (sysUserInput.Id > 0)
             {
-                if (sysUserInput.Id > 0)
+                var user = _userService.Find<SysUser>(sysUserInput.Id);
+                user.Mobile = sysUserInput.Mobile;
+                user.Account = sysUserInput.Account;
+                user.Email = sysUserInput.Email;
+                user.Name = sysUserInput.Name;
+                user.Phone = sysUserInput.Phone;
+                user.QQ = sysUserInput.QQ;
+                user.Sex = sysUserInput.Sex;
+                user.Status = sysUserInput.Status;
+                user.WeChat = sysUserInput.WeChat;
+                user.UserType = sysUserInput.UserType;
+                user.LastModifyTime = DateTime.Now;
+                user.LastModifyId = _currentUserInfo.CurrentUser.Id;
+                _userService.Update<SysUser>(user);
+            }
+            else
+            {
+                var user = sysUserInput.MapTo<SysUserInputDto, SysUser>();
+                var defaultPassword = _configuration["DefaultPassword"];
+                if (defaultPassword.IsNullOrWhiteSpace())
                 {
-                    var user = _userService.Find<SysUser>(sysUserInput.Id);
-                    user.Mobile = sysUserInput.Mobile;
-                    user.Account = sysUserInput.Account;
-                    user.Email = sysUserInput.Email;
-                    user.Name = sysUserInput.Name;
-                    user.Phone = sysUserInput.Phone;
-                    user.QQ = sysUserInput.QQ;
-                    user.Sex = sysUserInput.Sex;
-                    user.Status = sysUserInput.Status;
-                    user.WeChat = sysUserInput.WeChat;
-                    user.UserType = sysUserInput.UserType;
-                    user.LastModifyTime = DateTime.Now;
-                    user.LastModifyId = _currentUserInfo.CurrentUser.Id;
-                    _userService.Update<SysUser>(user);
+                    user.Password = Encrypt.EncryptionPassword(defaultPassword);
                 }
                 else
                 {
-                    var user = sysUserInput.MapTo<SysUserInputDto, SysUser>();
-                    var defaultPassword = _configuration["DefaultPassword"];
-                    if (defaultPassword.IsNullOrWhiteSpace())
-                    {
-                        user.Password = Encrypt.EncryptionPassword(defaultPassword);
-                    }
-                    else
-                    {
-                        user.Password = Encrypt.EncryptionPassword("123");
-                    }
-                    user.CreateTime = DateTime.Now;
-                    user.CreateId = _currentUserInfo.CurrentUser.Id;
-                    _userService.Insert<SysUser>(user);
+                    user.Password = Encrypt.EncryptionPassword("123");
                 }
-                ajaxResult.msg = "保存成功";
-                ajaxResult.success = true;
+                user.CreateTime = DateTime.Now;
+                user.CreateId = _currentUserInfo.CurrentUser.Id;
+                _userService.Insert<SysUser>(user);
             }
-            else
-                ajaxResult.msg = "保存失败";
-            return ajaxResult;
+            return AjaxResult.Success("保存成功");
+            //ajaxResult.msg = "保存成功";
+            //ajaxResult.success = true;
+            // }
+            //else
+            //    ajaxResult.msg = "保存失败";
+            //  return ajaxResult;
         }
-
-
     }
 }

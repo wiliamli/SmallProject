@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>后台管理 - Layui</title>
-  <link rel="stylesheet" href="/css/layui.css">
+  <link rel="stylesheet" href="/css/layui.css">  
 </head>
 
 <body class="layui-layout-body">
@@ -68,9 +68,9 @@
   <script id="tepMenue" type="text/html">
         {{# layui.each(d,function(index,item){ }}
         <li class="layui-nav-item left-menu">
-            <a href="javascript:;" ico="{{item.menuIcon}}" name="{{item.text}}" alt="{{item.description}}" dir="{{ item.url }}" onclick="AdminPage.PageInit(this)">
-              <i class="layui-icon {{item.menuIcon}}"></i>
-              {{ item.text }}
+            <a href="javascript:;" ico="{{item.MenuIcon}}" name="{{item.Text}}" alt="{{item.Description}}" dir="{{ item.Url }}" onclick="AdminPage.PageInit(this)">
+              <i class="layui-icon {{item.MenuIcon}}"></i>
+              {{ item.Text }}
           </a>
         </li>
         {{# }); }}
@@ -87,6 +87,7 @@
     </script>
 
   <script src="/layui.js"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     //初始化主页
     var AdminPage = {

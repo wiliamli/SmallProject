@@ -47,7 +47,7 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         /// </summary>
         public string msg { get; set; }
          
-        public static AjaxResult Success(string msg,object data)
+        public static AjaxResult Success(string msg,object data=null)
         {
             return new AjaxResult()
             {

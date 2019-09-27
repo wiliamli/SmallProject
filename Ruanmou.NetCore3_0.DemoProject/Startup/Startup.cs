@@ -15,6 +15,9 @@ using Ruanmou04.NetCore.Project.Models;
 using IdentityServer4.Models;
 using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.AOP.IOC;
+using Newtonsoft.Json;
+using System.Text.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Ruanmou.NetCore3_0.DemoProject
 {
@@ -48,8 +51,14 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddMemoryCache();
             services.AddSingleton<VerifyAttribute>();
             services.AddSingleton<CustomExceptionFilterAttribute>();
-
-            services.AddMvc(opts=>opts.Filters.Add<CustomExceptionFilterAttribute>()).AddRazorRuntimeCompilation();
+            //services.AddControllers().AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            //});  //设置json序列化时使用默认属性，而不是转换为小写，要添加 Microsoft.AspNetCore.Mvc.NewtonsoftJson   
+            services.AddMvc(opts=>opts.Filters.Add<CustomExceptionFilterAttribute>())
+                    .AddNewtonsoftJson(options => {
+                                       options.SerializerSettings.ContractResolver = new DefaultContractResolver(); })  //设置json序列化时使用默认属性，而不是转换为小写，要添加 Microsoft.AspNetCore.Mvc.NewtonsoftJson
+                    .AddRazorRuntimeCompilation();
 
             services.AddCors(
                 options => options.AddPolicy(
