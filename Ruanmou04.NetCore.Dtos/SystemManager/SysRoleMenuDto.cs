@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager
 {
-    public class SysRoleMenuDto : BaseEntity
+    public class SysRoleMenuDto : BaseDto
     {
         /// <summary>
         /// 角色Id

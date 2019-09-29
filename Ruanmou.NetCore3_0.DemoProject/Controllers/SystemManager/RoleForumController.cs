@@ -8,8 +8,8 @@ using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using Ruanmou04.NetCore.AOP.Filter;
-using Ruanmou04.NetCore.Interface.Forum.Service;
-using Ruanmou04.NetCore.Project.Models;
+using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.Forum.Service; 
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {

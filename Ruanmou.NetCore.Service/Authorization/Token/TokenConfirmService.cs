@@ -8,7 +8,7 @@ using System.Threading;
 using Ruanmou04.NetCore.Interface.Tokens;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 
-namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
+namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 {
     /// <summary>
     /// 令牌实现

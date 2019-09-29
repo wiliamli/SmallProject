@@ -1,5 +1,4 @@
-﻿
-using RM04.DBEntity;
+﻿using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using System;
 
 namespace Ruanmou04.EFCore.Dtos.DtoHelper

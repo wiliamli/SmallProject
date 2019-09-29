@@ -61,7 +61,7 @@
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Aio.Domain.SystemManage.Dtos.LoginInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos.LoginInputDto)">
             <summary>
             登录
             </summary>
@@ -101,7 +101,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.SaveData(RM04.DBEntity.SysMenuDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.MenuDtos.SysMenuDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -121,7 +121,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(RM04.DBEntity.SysResourceInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos.SysResourceInputDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -148,7 +148,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.SaveData(RM04.DBEntity.SysRoleDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos.SysRoleDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -190,7 +190,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.SaveData(RM04.DBEntity.SysRoleMenuDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.SysRoleMenuDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -211,7 +211,7 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.SaveData(RM04.DBEntity.SysUserRoleDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.SysUserRoleDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -251,7 +251,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(RM04.DBEntity.SysUserInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.SysUserInputDto)">
             <summary>
             新增或修改用户 DefaultPassword
             </summary>

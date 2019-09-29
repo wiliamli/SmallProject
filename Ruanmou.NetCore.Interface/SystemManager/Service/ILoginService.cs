@@ -1,15 +1,12 @@
-﻿using Aio.Domain.SystemManage.Dtos;
-using Ruanmou.NetCore.Interface;
+﻿
 using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
+using Ruanmou04.NetCore.Interface;
 
-namespace Ruanmou.NetCore.Service
+namespace Ruanmou04.NetCore.Interface.SystemManager.Service
 {
     public interface ILoginService : IBaseService
     {
-
         AjaxResult Login(LoginInputDto loginInput);
-
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.Core.Utility;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿
-using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
+
+
 using Ruanmou04.NetCore.Interface;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ruanmou.NetCore.Application
+namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
 {
     public interface ISysRoleMenuMappingApplication : IApplication
     {

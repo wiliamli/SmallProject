@@ -1,4 +1,5 @@
 ﻿using Ruanmou04.Core.Utility;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
@@ -29,7 +30,7 @@ namespace Ruanmou04.NetCore.Application.Forum
            return forumTopicService.Find<ForumTopic>(topicId).ToDto();
         }
 
-        public PagedResult<ForumTopicDto> GetPagedResult(int channelId, PagingInput pagingInput)
+        public PagedResult<ForumTopicDto> GetPagedResult(int channelId,  PagingInput pagingInput)
         {
             PagedResult<ForumTopic> pagedResult = forumTopicService.QueryPage<ForumTopic, DateTime>
                 (m => m.ChannelId == channelId, pagingInput.PageIndex,
@@ -38,9 +39,6 @@ namespace Ruanmou04.NetCore.Application.Forum
             return pagedResult.ToPaged();
 
         }
-
-
-
 
         public IEnumerable<ForumTopicDto> GetForumTopics(int channelId)
         {

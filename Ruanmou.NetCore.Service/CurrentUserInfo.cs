@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using RM04.DBEntity;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.Tokens;
 using System;
 using System.Security.Claims;
 
-namespace Ruanmou04.NetCore.Project.Models
+namespace Ruanmou04.NetCore.Service
 {
     public class CurrentUserInfo: ICurrentUserInfo
     {

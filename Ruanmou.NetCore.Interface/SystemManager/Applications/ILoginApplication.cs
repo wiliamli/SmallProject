@@ -1,11 +1,9 @@
-﻿
-
-using Aio.Domain.SystemManage.Dtos;
-using Ruanmou04.EFCore.Dtos.DtoHelper;
+﻿using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Interface;
 using System.Threading.Tasks;
 
-namespace Ruanmou.NetCore.Application
+namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
 {
     public interface ILoginApplication : IApplication
     {

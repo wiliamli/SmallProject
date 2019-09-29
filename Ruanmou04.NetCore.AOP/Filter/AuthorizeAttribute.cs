@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Tokens;
-using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Ruanmou04.NetCore.Service.Authorization.Tokens;
 
 namespace Ruanmou04.NetCore.AOP.Filter
 {

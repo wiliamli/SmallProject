@@ -1,5 +1,5 @@
 ﻿
-namespace Ruanmou04.NetCore.Project.Dtos
+namespace Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos
 {
     public class LoginOutDto
     {

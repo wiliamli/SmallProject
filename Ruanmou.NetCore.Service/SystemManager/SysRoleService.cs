@@ -1,9 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
-using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
-using Ruanmou.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using System;
 using System.Collections.Generic;
 

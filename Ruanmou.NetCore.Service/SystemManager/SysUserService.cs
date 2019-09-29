@@ -1,9 +1,12 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
-using RM04.DBEntity;
-using Ruanmou.NetCore.Interface;
+
+
 using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.EFCore.Model.Models.SystemManager;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using System;
 using System.Collections.Generic;
 

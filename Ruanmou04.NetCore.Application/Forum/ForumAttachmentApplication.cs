@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ruanmou04.NetCore.Application
+namespace Ruanmou04.NetCore.Application.Forum
 {
     public class ForumAttachmentApplication : IForumAttachmentApplication
     {

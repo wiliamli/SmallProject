@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ruanmou04.NetCore.Service
+namespace Ruanmou04.NetCore.Service.Authorization
 {
 	/// <summary>
 	/// 52abp定义的默认权限变量名称

@@ -1,16 +1,13 @@
-namespace Ruanmou.EFCore3_0.Model
-{
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.IO;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using RM04.DBEntity;
-    using Ruanmou.Core.Utility;
-    using Ruanmou.EFCore3_0.Model.SqlLog;
-    using Ruanmou04.EFCore.Model.Models.Forum;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Ruanmou.Core.Utility;
+using Ruanmou04.EFCore.Model.Models;
+using Ruanmou04.EFCore.Model.Models.Forum;
+using Ruanmou04.EFCore.Model.Models.SystemManager;
+using Ruanmou04.EFCore.Model.SqlLog;
 
+namespace Ruanmou04.NetCore.Service
+{  
     /// <summary>
     /// 日志问题
     /// </summary>

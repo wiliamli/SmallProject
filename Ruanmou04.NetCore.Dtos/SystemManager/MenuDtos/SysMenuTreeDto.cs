@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager.MenuDtos
 {
-   public class SysMenuTreeDto: BaseEntity
+   public class SysMenuTreeDto: BaseDto
     {
         /// <summary>
         /// 上级菜单：根目录id为0

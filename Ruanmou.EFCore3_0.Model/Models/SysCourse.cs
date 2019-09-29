@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.EFCore.Model.Models
 {
     public class SysCourse : BaseEntity
     {

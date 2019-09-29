@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyPageResult= Ruanmou04.Core.Utility.DtoUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace Ruanmou04.Core.Utility.Extensions
 {
@@ -96,7 +97,7 @@ namespace Ruanmou04.Core.Utility.Extensions
         /// <param name="input">分页数据</param>
         /// <param name="selectFunc">查询转换函数</param>
         /// <returns></returns>
-        public static PagedResult<TDto> Paging<TModel, TDto>(this IQueryable<TModel> query, PagingInput input, Func<TModel, TDto> selectFunc)
+        public static MyPageResult.PagedResult<TDto> Paging<TModel, TDto>(this IQueryable<TModel> query, MyPageResult.PagingInput input, Func<TModel, TDto> selectFunc)
         {
             int count = query.Count();
             string sort = input.GetSortOrder();
@@ -108,7 +109,7 @@ namespace Ruanmou04.Core.Utility.Extensions
                  .Take(input.PageSize)
                  .Select(selectFunc)
                  .ToList();
-            return new PagedResult<TDto>
+            return new MyPageResult.PagedResult<TDto>
             {
                 Total = count,
                 Rows = rows
@@ -124,7 +125,7 @@ namespace Ruanmou04.Core.Utility.Extensions
         /// <param name="input">分页数据</param>
         /// <param name="selectFunc">查询转换函数</param>
         /// <returns></returns>
-        public static async Task<PagedResult<TDto>> PagingAsync<TModel, TDto>(this IQueryable<TModel> query, PagingInput input, Func<TModel, TDto> selectFunc)
+        public static async Task<MyPageResult.PagedResult<TDto>> PagingAsync<TModel, TDto>(this IQueryable<TModel> query, MyPageResult.PagingInput input, Func<TModel, TDto> selectFunc)
         {
             int count = query.Count();
             string sort = input.GetSortOrder();
@@ -137,7 +138,7 @@ namespace Ruanmou04.Core.Utility.Extensions
                  .Select(selectFunc)
                  .AsQueryable()
                  .ToListAsync();
-            return new PagedResult<TDto>
+            return new MyPageResult.PagedResult<TDto>
             {
                 Total = count,
                 Rows = rows
@@ -153,7 +154,7 @@ namespace Ruanmou04.Core.Utility.Extensions
         /// <param name="input">分页数据</param>
         /// <param name="selectFunc">查询转换函数</param> 
         /// <returns></returns>
-        public static PagedResult<TModel> Paging<TModel>(this IQueryable<TModel> query, PagingInput input)
+        public static MyPageResult.PagedResult<TModel> Paging<TModel>(this IQueryable<TModel> query, MyPageResult.PagingInput input)
         {
             int count = query.Count();
 
@@ -165,7 +166,7 @@ namespace Ruanmou04.Core.Utility.Extensions
                  .Skip((input.PageIndex - 1) * input.PageSize)
                  .Take(input.PageSize)
                  .ToList();
-            return new PagedResult<TModel>
+            return new MyPageResult.PagedResult<TModel>
             {
                 Total = count,
                 Rows = rows
@@ -181,7 +182,7 @@ namespace Ruanmou04.Core.Utility.Extensions
         /// <param name="input">分页数据</param>
         /// <param name="selectFunc">查询转换函数</param> 
         /// <returns></returns>
-        public static async Task<PagedResult<TModel>> PagingAsync<TModel>(this IQueryable<TModel> query, PagingInput input)
+        public static async Task<MyPageResult.PagedResult<TModel>> PagingAsync<TModel>(this IQueryable<TModel> query, MyPageResult.PagingInput input)
         {
             int count = query.Count();
 
@@ -193,7 +194,7 @@ namespace Ruanmou04.Core.Utility.Extensions
                  .Skip((input.PageIndex - 1) * input.PageSize)
                  .Take(input.PageSize)
                  .ToListAsync();
-            return new PagedResult<TModel>
+            return new MyPageResult.PagedResult<TModel>
             {
                 Total = count,
                 Rows = rows
@@ -209,7 +210,7 @@ namespace Ruanmou04.Core.Utility.Extensions
         /// <param name="input">分页数据</param>
         /// <param name="selectFunc">查询转换函数</param> 
         /// <returns>IQueryable<TModel></returns>
-        public static IQueryable<TModel> PagingNonQuery<TModel>(this IQueryable<TModel> query, PagingInput input)
+        public static IQueryable<TModel> PagingNonQuery<TModel>(this IQueryable<TModel> query, MyPageResult.PagingInput input)
         {
             string sort = input.GetSortOrder();
 

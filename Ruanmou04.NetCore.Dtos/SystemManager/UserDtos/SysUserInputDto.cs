@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
 {
-    public class SysUserInputDto: BaseEntity
+    public class SysUserInputDto: BaseDto
     {
         /// <summary>
         /// 用户名

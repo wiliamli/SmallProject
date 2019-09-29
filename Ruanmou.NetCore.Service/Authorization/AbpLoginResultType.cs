@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace YJ.PlatFormCore.Authorization
+namespace Ruanmou04.NetCore.Service.Authorization
 {
     public enum LoginResultType : byte
     {

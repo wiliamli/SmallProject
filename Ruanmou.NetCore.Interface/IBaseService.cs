@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ruanmou04.Core.Utility;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Ruanmou.NetCore.Interface
+namespace Ruanmou04.NetCore.Interface
 {
     public interface IBaseService : IDisposable//是为了释放Context
     {

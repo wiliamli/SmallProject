@@ -1,4 +1,6 @@
-﻿using RM04.DBEntity;
+﻿
+using Ruanmou04.EFCore.Model.Models;
+using Ruanmou04.NetCore.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -55,7 +57,7 @@ namespace Ruanmou04.Core.Dtos.DtoHelper
     {
         //private Func<TOut> FUNC<TOut>(this object source)= null;
 
-        public static TOut MapTo<TIn,TOut>(this TIn source) where TIn :BaseEntity
+        public static TOut MapTo<TIn,TOut>(this TIn source)  //where TIn : BaseDto
         {
             Type tin= source.GetType();
             ParameterExpression parameterExpression = Expression.Parameter(tin, "p");

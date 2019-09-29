@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System;
 
-namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
+namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 {
     public class TokenAuthConfiguration
     {

@@ -1,9 +1,9 @@
 using System;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
 {
 
-    public class CurrentUser:BaseEntity
+    public class CurrentUser: BaseDto
     {
         /// <summary>
         /// 用户名

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.EFCore.Model.Models
 {
     public abstract class BaseEntity
     {

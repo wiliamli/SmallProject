@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos
 {
-    public class SysRoleDto : BaseEntity
+    public class SysRoleDto : BaseDto
     {
         /// <summary>
         /// 角色名称

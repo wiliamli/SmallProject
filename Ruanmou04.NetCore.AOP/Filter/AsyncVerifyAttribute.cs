@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ruanmou04.NetCore.Project.Models
+namespace Ruanmou04.NetCore.AOP.Filter
 {
     public class AsyncVerifyAttribute : Attribute, IAsyncActionFilter
     {

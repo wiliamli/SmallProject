@@ -1,6 +1,6 @@
 ﻿using Ruanmou04.Core.Utility.Extensions;
 
-namespace Ruanmou04.Core.Utility
+namespace Ruanmou04.Core.Utility.DtoUtilities
 {
     /// <summary>
     /// 分页输入,注意前端页面传过来时,sort和order为空的情况,需要给定sort和order一个默认值,否则无法分页查询
