@@ -59,7 +59,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             // return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
-        
+
         /// <summary>
         /// 删除数据通过Id
         /// </summary>
@@ -72,7 +72,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return AjaxResult.Success("删除成功");
             // return JsonConvert.SerializeObject(new AjaxResult { success = true, msg = "删除成功" });
         }
-      
+
         /// <summary>
         /// 批量删除数据通过Id
         /// </summary>
@@ -139,6 +139,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             if (sysUserInput.Id > 0)
             {
                 var user = _userService.Find<SysUser>(sysUserInput.Id);
+                //user = DataMapping<SysUserInputDto, SysUser>.Trans(sysUserInput);
                 user.Mobile = sysUserInput.Mobile;
                 user.Account = sysUserInput.Account;
                 user.Email = sysUserInput.Email;
@@ -149,8 +150,10 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 user.Status = sysUserInput.Status;
                 user.WeChat = sysUserInput.WeChat;
                 user.UserType = sysUserInput.UserType;
+                user.Address = sysUserInput.Address;  
                 user.LastModifyTime = DateTime.Now;
                 user.LastModifyId = _currentUserInfo.CurrentUser.Id;
+
                 _userService.Update<SysUser>(user);
             }
             else

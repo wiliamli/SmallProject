@@ -20,23 +20,33 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _currentUserInfo = currentUserInfo;
             _sysRoleService = sysRoleService;
         }
+
         [HttpGet]
+       // [HttpPost]
         public AjaxResult SaveData(int userId, string roleIds)
         {
-
-            AjaxResult ajaxResult = new AjaxResult { success = false };
-            _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
-            var roleIdAry = roleIds.Split(",");
-            for (int i = 0; i < roleIdAry.Length; i++)
+            if (userId<=0)
             {
-                var model = new SysUserRoleMapping() { SysUserId = userId, SysRoleId = Convert.ToInt32(roleIdAry[i]) };
-                _sysRoleService.InsertNotCommit<SysUserRoleMapping>(model);
+                return AjaxResult.Failure("请求参数有误");
             }
+            _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
+            if (!string.IsNullOrEmpty(roleIds))
+            {
+                var roleIdAry = roleIds.Split(",");
+                for (int i = 0; i < roleIdAry.Length; i++)
+                {
+                    var model = new SysUserRoleMapping() { SysUserId = userId, SysRoleId = Convert.ToInt32(roleIdAry[i]) };
+                    _sysRoleService.InsertNotCommit<SysUserRoleMapping>(model);
+                }
+            }
+           // AjaxResult ajaxResult = new AjaxResult { success = false };
+           // _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
+          
             _sysRoleService.Commit();
-            ajaxResult.msg = "保存成功";
-            ajaxResult.success = true;
+            //ajaxResult.msg = "保存成功";
+            //ajaxResult.success = true;
 
-            return ajaxResult;
+            return AjaxResult.Success("保存成功");
         }
     }
 }

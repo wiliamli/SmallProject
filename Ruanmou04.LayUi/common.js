@@ -36,6 +36,9 @@ function pageShow(title, url, w, h,data) {
     });
 } 
 
+/**
+ * 初始化编辑或者新增页面数据
+ */
 function initData($,url,config,form){
     $.ajax({
         type: "Get",
@@ -47,6 +50,7 @@ function initData($,url,config,form){
         },
         url: config.apiUrl + url,
         success: function (result) { 
+            debugger;
           if (result.success) {
             form.val("first", result.data); //默认都放在first下面
           }
@@ -57,20 +61,32 @@ function initData($,url,config,form){
       })
 }
 
-function saveDataWay($,data,config,url){  
+/**
+ * 保存数据
+ * @param {*} $ 
+ * @param {*} data:要保存的数据 
+ * @param {*} config:配置文件 
+ * @param {*} url:保存的地址
+ */
+function saveDataWay($,data,config,url,type){  
     //var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
     var index= parent.layer.load(5, { shade: [0.5, "#5588AA"] }); 
+    if(!type){
+        type="POST";
+    }
     $.ajax({
-        type: "POST",
-        data: JSON.stringify(data),
+        type: type,
+        // data: JSON.stringify(data),
+        data: data,
         contentType: 'application/json',
         headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
         url:config.apiUrl +url,
         success: function (result) {
         var jsonData=result;//JSON.parse(result);
             layer.closeAll("loadiing");
+            parent.layer.close(index);
             if (jsonData.success) {	
-             parent.layer.close(index);
+            // parent.layer.close(index);
                 layer.msg(jsonData.msg, { icon: 1, time: 2000 },//默认是3s
                 function(){ //关闭之后弹出的框
                             parent.$('#search').click(); //得到父窗体的控件 
@@ -78,7 +94,7 @@ function saveDataWay($,data,config,url){
                 });						
             }
             else {
-                layer.msg(jsonData.msg, { icon: 5 });
+                layer.msg(jsonData.msg, { icon: 5 , time: 2000});
             }
         },
         error: function (XMLHttpResponse) {
@@ -88,28 +104,71 @@ function saveDataWay($,data,config,url){
           }
     })
 }
-// var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-// $.ajax({
-//     type: 'Post',
-//     dataType: "json",
-//     data: JSON.stringify(user),
-//     contentType: 'application/json',
-//     headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-//     url: config.apiUrl + '/Users/SaveUser',
-//     success: function (result) {
 
-//       layer.close(LoadIndex);
-//       console.log(result);
-//       if (result.success) {
-//         layer.msg("保存成功", { icon: 1 });
-//       }
-//       else {
-//         layer.msg(result.msg, { icon: 2 });
-//       }
-//     },
-//     error: function (XMLHttpResponse) {
-//       layer.close(LoadIndex);
-//       console.log("error: api request failed");
-//       console.log(XMLHttpResponse);
-//     }
-//   })
+/**
+ * 
+ * @param {* jQuery} $ 
+ * @param {* layer} layer 
+ * @param {* 要删除的ID} id 
+ * @param {* 要请求的地址} url 
+ */
+function deleteOne($,layer,id,url){
+    layer.confirm('确定要删除吗???', function (index) {
+        $.ajax({
+          type: "get",
+          data: {
+            id: id
+          },
+          beforeSend: function (XHR) {
+            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          },
+          url: config.apiUrl + url,
+          success: function (jsonData) {
+            // var jsonData = JSON.parse(result);
+            if (jsonData.success) {
+              layer.msg(jsonData.msg, { icon: 1 });
+              $("#search").click();
+            }
+            else {
+              layer.msg(jsonData.msg, { icon: 2 });
+            }
+          }
+        })
+      });
+}
+
+function deleteMulity($,layer,table,obj,url){
+    // 实现批量删除功能了 
+    layer.confirm('确定要删除选中的数据吗???', function (index) {
+        debugger
+        var checkStatus = table.checkStatus(obj.config.id);
+
+        if (checkStatus.data.length == 0) {
+          layer.msg("没有选中数据", { icon: 2 });
+          return
+        }
+        var dataIds = checkStatus.data.map(function (item) {
+          return item['Id'];
+        });
+        $.ajax({
+          type: "get",
+          data: {
+            ids: dataIds.join(',')
+          },
+          beforeSend: function (XHR) {
+            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          },
+          url: config.apiUrl +url,
+          success: function (jsonData) {
+            //var jsonData =result; //JSON.parse(result);
+            if (jsonData.success) {
+              layer.msg(jsonData.msg, { icon: 1 });
+              $("#search").click();
+            }
+            else {
+              layer.msg(jsonData.msg, { icon: 2 });
+            }
+          }
+        })
+      });
+}

@@ -123,13 +123,15 @@
         }
       },
       saveUser: function ($, config, saveData) {
+        debugger;
         var user = saveData;
         user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
         user.Mobile = parseInt(saveData.Mobile);
         user.QQ = parseInt(saveData.QQ);
         user.Status = saveData.Status == "1";
         user.UserType = 1;
-        saveDataWay($,user,config,'/Users/SaveUser');
+        var data=JSON.stringify(user);
+        saveDataWay($,data,config,'/Users/SaveUser');
         // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         // $.ajax({
         //   type: 'Post',
@@ -166,7 +168,8 @@
         config = layui.config;
       // 初始刷f
 
-      userDetail.userInIt($, config, form);
+      userDetail.userInIt($, config, form); //修改时初始化用户信息
+
       form.on("submit(sub)", function (obj) {
         userDetail.saveUser($, config, obj.field);
       })
