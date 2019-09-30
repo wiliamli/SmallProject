@@ -28,7 +28,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _resourceService = resourceService;
         }
 
-
         /// <summary>
         /// 获取编辑资源
         /// </summary>
@@ -40,9 +39,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         {
             var user = _resourceService.Find<SysResource>(userId)?.MapTo<SysResource, SysResourceDto>();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
-
         }
-
 
         /// <summary>
         /// 获取所有数据

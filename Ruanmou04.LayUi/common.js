@@ -1,12 +1,11 @@
-	
-/*弹出层*/
-/*
-    参数解释：
-    title   标题
-    url     请求的url
-    w       弹出层宽度（缺省调默认值）
-    h       弹出层高度（缺省调默认值）
-*/
+/**
+ * 弹出层
+ * @param {*标题} title 
+ * @param {*请求的url} url 
+ * @param {*弹出层宽度（缺省调默认值）} w 
+ * @param {*弹出层高度（缺省调默认值）} h 
+ * @param {请求的数据，可以为空} data 
+ */
 function pageShow(title, url, w, h,data) {
     // debugger;
     if (title == null || title == '') {
@@ -49,13 +48,12 @@ function initData($,url,config,form){
           XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
         },
         url: config.apiUrl + url,
-        success: function (result) { 
-            debugger;
-          if (result.success) {
-            form.val("first", result.data); //默认都放在first下面
+        success: function (result) {            
+          if (result.Success) {
+            form.val("first", result.Data); //默认都放在first下面
           }
           else {
-            layer.msg(result.msg);
+            layer.msg(result.Message);
           }
         }
       })
@@ -85,16 +83,16 @@ function saveDataWay($,data,config,url,type){
         var jsonData=result;//JSON.parse(result);
             layer.closeAll("loadiing");
             parent.layer.close(index);
-            if (jsonData.success) {	
+            if (jsonData.Success) {	
             // parent.layer.close(index);
-                layer.msg(jsonData.msg, { icon: 1, time: 2000 },//默认是3s
+                layer.msg(jsonData.Message, { icon: 1, time: 2000 },//默认是3s
                 function(){ //关闭之后弹出的框
                             parent.$('#search').click(); //得到父窗体的控件 
                             parent.layer.closeAll();
                 });						
             }
             else {
-                layer.msg(jsonData.msg, { icon: 5 , time: 2000});
+                layer.msg(jsonData.Message, { icon: 5 , time: 2000});
             }
         },
         error: function (XMLHttpResponse) {
@@ -106,7 +104,7 @@ function saveDataWay($,data,config,url,type){
 }
 
 /**
- * 
+ * 单条删除 
  * @param {* jQuery} $ 
  * @param {* layer} layer 
  * @param {* 要删除的ID} id 
@@ -125,18 +123,26 @@ function deleteOne($,layer,id,url){
           url: config.apiUrl + url,
           success: function (jsonData) {
             // var jsonData = JSON.parse(result);
-            if (jsonData.success) {
-              layer.msg(jsonData.msg, { icon: 1 });
+            if (jsonData.Success) {
+              layer.msg(jsonData.Message, { icon: 1 });
               $("#search").click();
             }
             else {
-              layer.msg(jsonData.msg, { icon: 2 });
+              layer.msg(jsonData.Message, { icon: 2 });
             }
           }
         })
       });
 }
 
+/**
+ * 批量删除
+ * @param {*} $ 
+ * @param {*} layer 
+ * @param {*} table 
+ * @param {*} obj 
+ * @param {*} url 
+ */
 function deleteMulity($,layer,table,obj,url){
     // 实现批量删除功能了 
     layer.confirm('确定要删除选中的数据吗???', function (index) {
@@ -161,12 +167,12 @@ function deleteMulity($,layer,table,obj,url){
           url: config.apiUrl +url,
           success: function (jsonData) {
             //var jsonData =result; //JSON.parse(result);
-            if (jsonData.success) {
-              layer.msg(jsonData.msg, { icon: 1 });
+            if (jsonData.Success) {
+              layer.msg(jsonData.Message, { icon: 1 });
               $("#search").click();
             }
             else {
-              layer.msg(jsonData.msg, { icon: 2 });
+              layer.msg(jsonData.Message, { icon: 2 });
             }
           }
         })

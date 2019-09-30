@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Interface.Tokens;

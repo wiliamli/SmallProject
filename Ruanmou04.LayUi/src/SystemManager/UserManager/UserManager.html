@@ -148,11 +148,12 @@
         , limit: 20
         , toolbar: '#toolbarDemo'
         // , toolbar: true
-        , parseData: function (queryData) {          
+        , parseData: function (queryData) {  
+          debugger;        
           return {
             code: '0',
-            data: queryData.Rows,
-            count: queryData.Total
+            data: queryData.Data.Rows,
+            count: queryData.Data.Total
           };
         }
         , page: true
@@ -192,7 +193,7 @@
             break;
           case 'reload':
             table.reload('test', {
-              page: { curr: 10 }
+              page: { curr: 1 }
             }, 'data');
             break;
           case 'delbatch':

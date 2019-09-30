@@ -5,6 +5,7 @@ using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 
 namespace Ruanmou.NetCore.Service
