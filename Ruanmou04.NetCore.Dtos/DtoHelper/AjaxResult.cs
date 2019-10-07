@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace Ruanmou04.EFCore.Dtos.DtoHelper
 {
     /// <summary>
@@ -29,7 +31,7 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
             this.msg = errorMsg;
         }
         public AjaxResult()
-        {   
+        {
         }
 
         /// <summary>
@@ -46,14 +48,14 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         /// 返回消息
         /// </summary>
         public string msg { get; set; }
-         
-        public static AjaxResult Success(string msg,object data=null)
+
+        public static AjaxResult Success(string msg, object data = null)
         {
             return new AjaxResult()
             {
-                success = true,  
+                success = true,
                 msg = msg,
-                data=data
+                data = data
             };
         }
 
@@ -61,9 +63,52 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         {
             return new AjaxResult()
             {
-                success = false,   
+                success = false,
                 msg = msg,
             };
         }
+
+        public void ExecuteAction(DataOperateType dataOperateType, Action action)
+        {
+            msg = GetOperateName(dataOperateType);
+            try
+            {
+                action();
+                success = true;
+                msg += "成功";
+            }
+            catch (Exception exp)
+            {
+                success = false;
+                msg += "失败";
+                throw exp;
+            }
+        }
+        private string GetOperateName(DataOperateType dataOperateType)
+        {
+            string operName = "操作";
+            switch (dataOperateType)
+            {
+                case DataOperateType.Save:
+                    operName = "保存";
+                    break;
+                case DataOperateType.Delete:
+                    operName = "删除";
+                    break;
+                case DataOperateType.Query:
+                    operName = "查询";
+                    break;
+            }
+            return operName;
+        }
+    }
+    /// <summary>
+    /// 数据操作类型
+    /// </summary>
+    public enum DataOperateType
+    {
+        Save = 1,
+        Delete = 2,
+        Query = 3
     }
 }
