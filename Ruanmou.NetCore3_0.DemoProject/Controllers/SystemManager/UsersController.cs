@@ -130,14 +130,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
             if (sysUserInput.Id > 0)
             {
-                var sysUserEditInputDto = DataMapping<SysUserInputDto, SysUserEditInputDto>.Trans(sysUserInput);
+                var sysUserEditInputDto = sysUserInput.MapTo<SysUserInputDto, SysUserEditInputDto>();
                 sysUserEditInputDto.LastModifyTime = DateTime.Now;
                 sysUserEditInputDto.LastModifyId = _currentUserInfo.CurrentUser.Id;
                 return StandardAction(() => _userApplication.EditUser(sysUserEditInputDto));
             }
             else
             {
-                var sysUserAddInputDto = DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);
+                var sysUserAddInputDto = sysUserInput.MapTo<SysUserInputDto, SysUserAddInputDto>(); //DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);
                 var defaultPassword = _configuration[StaticConstraint.DefaultPwd];
                 sysUserAddInputDto.Password = Encrypt.EncryptionPassword(defaultPassword);
                 sysUserAddInputDto.CreateId = _currentUserInfo.CurrentUser.Id;

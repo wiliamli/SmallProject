@@ -34,7 +34,7 @@ namespace Ruanmou04.NetCore.AOP.Middleware
         }
         private Task HandleExceptionAsync(HttpContext context, Exception exp)
         {
-            AjaxResult ajaxResult = new AjaxResult { success = false, msg = "请求出错,请联系管理员" };
+            AjaxResult ajaxResult = new AjaxResult { Success = false, Message = "请求出错,请联系管理员" };
             _logger.LogError(exp, context.Request.Path + "---请求出错");
 
             var result = JsonConvert.SerializeObject(ajaxResult);

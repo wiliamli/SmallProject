@@ -46,13 +46,13 @@ namespace Ruanmou04.NetCore.AOP.Middleware
                 }
                 if (token.IsNullOrEmpty())
                 {
-                    ajaxResult = new AjaxResult { msg = "token为空", success = false };
+                    ajaxResult = new AjaxResult { Message = "token为空", Success = false };
                 }
                 else
                 {
                     ajaxResult = await _loginApplication.ConfirmVerificationAsync(token);
                 }
-                if (!ajaxResult.success)
+                if (!ajaxResult.Success)
                 {
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(ajaxResult));
                 }

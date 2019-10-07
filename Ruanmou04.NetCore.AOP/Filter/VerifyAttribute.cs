@@ -33,7 +33,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
             else
             {
                 AjaxResult result = this._tokenService.ConfirmVerification(key);
-                if (!result.success)
+                if (!result.Success)
                 {
                     throw new Exception("请登录后使用");
                 }

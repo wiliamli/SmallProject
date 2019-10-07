@@ -115,11 +115,11 @@
 
             layer.close(LoadIndex);
             console.log(result);
-            if (result.success) {
-              layer.msg(result.msg, { icon: 1 });
+            if (result.Success) {
+              layer.msg(result.Message, { icon: 1 });
             }
             else {
-              layer.msg(result.msg, { icon: 2 });
+              layer.msg(result.Message, { icon: 2 });
             }
           },
           error: function (XMLHttpResponse) {

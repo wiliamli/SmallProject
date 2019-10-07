@@ -57,8 +57,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
             return new AjaxResult()
             {
-                success = true,
-                msg = "ok",
+                Success = true,
+                Message = "ok",
             };
         }
 
@@ -76,8 +76,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //_IUserService.Update(user);
             return new AjaxResult()
             {
-                success = true,
-                msg = "ok",
+                Success = true,
+                Message = "ok",
             };
         }
 

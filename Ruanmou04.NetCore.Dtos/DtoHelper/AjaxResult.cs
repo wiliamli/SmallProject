@@ -12,13 +12,13 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         public AjaxResult(string errorMsg)
         {
             //this.success = false;
-            msg = errorMsg;
+            Message = errorMsg;
         }
 
         public AjaxResult(string successMsg, object result)
         {
             //this.success = true;
-            msg = successMsg;
+            Message = successMsg;
             data = result;
         }
         public AjaxResult(object result)
@@ -27,8 +27,8 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         }
         public AjaxResult(string errorMsg, bool isSuccess)
         {
-            this.success = isSuccess;
-            this.msg = errorMsg;
+            this.Success = isSuccess;
+            this.Message = errorMsg;
         }
         public AjaxResult()
         {
@@ -37,7 +37,7 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         /// <summary>
         /// 是否成功
         /// </summary>
-        public bool success { get; set; }
+        public bool Success { get; set; }
 
         /// <summary>
         /// 数据
@@ -47,14 +47,14 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         /// <summary>
         /// 返回消息
         /// </summary>
-        public string msg { get; set; }
+        public string Message { get; set; }
 
-        public static AjaxResult Success(string msg, object data = null)
+        public static AjaxResult SuccessResult(string msg, object data = null)
         {
             return new AjaxResult()
             {
-                success = true,
-                msg = msg,
+                Success = true,
+                Message = msg,
                 data = data
             };
         }
@@ -63,24 +63,24 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         {
             return new AjaxResult()
             {
-                success = false,
-                msg = msg,
+                Success = false,
+                Message = msg,
             };
         }
 
         public void ExecuteAction(DataOperateType dataOperateType, Action action)
         {
-            msg = GetOperateName(dataOperateType);
+            Message = GetOperateName(dataOperateType);
             try
             {
                 action();
-                success = true;
-                msg += "成功";
+                Success = true;
+                Message += "成功";
             }
             catch (Exception exp)
             {
-                success = false;
-                msg += "失败";
+                Success = false;
+                Message += "失败";
                 throw exp;
             }
         }

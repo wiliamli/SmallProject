@@ -30,7 +30,7 @@ namespace Ruanmou.NetCore.Service
             }
 
             var data = DataMapping<SysUser, SysUserOutputDto>.Trans(user);
-            return AjaxResult.Success("登录成功", data);
+            return AjaxResult.SuccessResult("登录成功", data);
         }
     }
 }

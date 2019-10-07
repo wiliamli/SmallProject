@@ -81,19 +81,19 @@ function saveDataWay($,data,config,url,type){
         url:config.apiUrl +url,
         success: function (result) {
           debugger
-        var jsonData=result.hasOwnProperty('success')?result:JSON.parse(result);
+        var jsonData=result.hasOwnProperty('Success')?result:JSON.parse(result);
             layer.closeAll("loadiing");
             parent.layer.close(index);
-            if (jsonData.success) {	
+            if (jsonData.Success) {	
             // parent.layer.close(index);
-                layer.msg(jsonData.msg, { icon: 1, time: 2000 },//默认是3s
+                layer.msg(jsonData.Message, { icon: 1, time: 2000 },//默认是3s
                 function(){ //关闭之后弹出的框
                             parent.$('#search').click(); //得到父窗体的控件 
                             parent.layer.closeAll();
                 });						
             }
             else {
-                layer.msg(jsonData.msg, { icon: 5 , time: 2000});
+                layer.msg(jsonData.Message, { icon: 5 , time: 2000});
             }
         },
         error: function (XMLHttpResponse) {
