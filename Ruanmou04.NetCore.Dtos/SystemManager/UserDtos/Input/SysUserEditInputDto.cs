@@ -22,10 +22,11 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input
         /// <summary>
         public string Phone { get; set; }
 
-        /// <summary>
+         /// <summary>
         /// 手机号
         /// <summary>
-        public Int64? Mobile { get; set; }
+        public long? Mobile { get; set; }
+
 
         /// <summary>
         /// 联系地址
@@ -35,12 +36,13 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input
         /// <summary>
         /// 联系邮箱
         /// <summary>
+        /// <summary>
         public string Email { get; set; }
 
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public Int64? QQ { get; set; }
+        public long? QQ { get; set; }
 
         /// <summary>
         /// 微信号

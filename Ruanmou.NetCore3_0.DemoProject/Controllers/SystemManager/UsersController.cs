@@ -97,7 +97,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public StandardJsonResult<PagedResult<SysUserListOutput>> GetUsers(int page, int limit, int userType, string name)
+        public StandardJsonResult<PagedResult<SysUserListOutputDto>> GetUsers(int page, int limit, int userType, string name)
         {
             var param = new SysUserListInputDto()
             {
@@ -130,17 +130,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
             if (sysUserInput.Id > 0)
             {
-                var sysUserEditInputDto = sysUserInput.MapTo<SysUserInputDto, SysUserEditInputDto>();
+                var sysUserEditInputDto = DataMapping<SysUserInputDto, SysUserEditInputDto>.Trans(sysUserInput);//sysUserInput.MapTo<SysUserInputDto, SysUserEditInputDto>();
                 sysUserEditInputDto.LastModifyTime = DateTime.Now;
                 sysUserEditInputDto.LastModifyId = _currentUserInfo.CurrentUser.Id;
                 return StandardAction(() => _userApplication.EditUser(sysUserEditInputDto));
             }
             else
             {
-                var sysUserAddInputDto = sysUserInput.MapTo<SysUserInputDto, SysUserAddInputDto>(); //DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);
+                var sysUserAddInputDto = DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);  //DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);
                 var defaultPassword = _configuration[StaticConstraint.DefaultPwd];
                 sysUserAddInputDto.Password = Encrypt.EncryptionPassword(defaultPassword);
                 sysUserAddInputDto.CreateId = _currentUserInfo.CurrentUser.Id;
+               
                 return StandardAction(() => _userApplication.AddUser(sysUserAddInputDto));
             }
         }

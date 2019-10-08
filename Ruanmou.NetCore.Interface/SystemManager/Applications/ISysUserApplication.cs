@@ -28,7 +28,7 @@ namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
 
         List<SysUserDto> GetUsers(Expression<Func<SysUser, bool>> funcWhere);
 
-        PagedResult<SysUserListOutput> GetPagedResult(SysUserListInputDto userListInputDto);
+        PagedResult<SysUserListOutputDto> GetPagedResult(SysUserListInputDto userListInputDto);
 
         void AddUser(SysUserAddInputDto userDto);
 

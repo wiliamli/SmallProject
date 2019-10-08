@@ -28,7 +28,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// <summary>
         /// 手机号
         /// <summary>
-        public Int64? Mobile { get; set; }
+        public long? Mobile { get; set; }
         /// <summary>
         /// 联系地址
         /// <summary>
@@ -40,7 +40,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public Int64? QQ { get; set; }
+        public long? QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>
