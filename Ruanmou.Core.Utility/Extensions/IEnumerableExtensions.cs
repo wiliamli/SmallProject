@@ -47,6 +47,17 @@ namespace Ruanmou04.Core.Utility.Extensions
         public static bool HasRepeat<T>(this IEnumerable<T> list, Func<T, object> selectProperty)
         {
             return list.GroupBy(selectProperty).Any(g => g.Count() > 1);
-        } 
+        }
+
+        /// <summary>
+        /// 是否有效，即至少有一个元素
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <param name="source">源对象集合</param>
+        /// <returns>成功或失败</returns>
+        public static bool HasAny<TSource>(this IEnumerable<TSource> source)
+        {
+            return (source != null && source.Any());
+        }
     }
 }

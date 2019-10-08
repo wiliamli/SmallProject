@@ -4,6 +4,7 @@ using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Project.Controllers; 
@@ -56,8 +57,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
             return new AjaxResult()
             {
-                success = true,
-                msg = "ok",
+                Success = true,
+                Message = "ok",
             };
         }
 
@@ -75,8 +76,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //_IUserService.Update(user);
             return new AjaxResult()
             {
-                success = true,
-                msg = "ok",
+                Success = true,
+                Message = "ok",
             };
         }
 

@@ -1,4 +1,5 @@
 ﻿using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using System;
 
 namespace Ruanmou04.EFCore.Dtos.DtoHelper

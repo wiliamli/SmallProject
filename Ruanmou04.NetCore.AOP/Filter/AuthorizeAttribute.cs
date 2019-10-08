@@ -40,13 +40,13 @@ namespace Ruanmou04.NetCore.AOP.Filter
             AjaxResult ajaxResult = null;
             if (token.IsNullOrEmpty() || token.ToString().Replace("Bearer ","").Trim().IsNullOrEmpty())
             {
-                ajaxResult = new AjaxResult { msg = "token为空", success = false };
+                ajaxResult = new AjaxResult { Message = "token为空", Success = false };
             }
             else
             {
                 ajaxResult = _tokenConfirmService.ConfirmVerificationAsync(token).GetAwaiter().GetResult();
             }
-            if (!ajaxResult.success)
+            if (!ajaxResult.Success)
             {
                 context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(ajaxResult));
             }

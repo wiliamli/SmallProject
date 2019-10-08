@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
+namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output
 {
     public class SysUserOutputDto: BaseDto
     {
@@ -58,6 +58,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// 用户类型(1系统管理员 2学员)
         /// </summary>
         public int UserType { get; set; }
+
         /// <summary>
         /// 当前角色
         /// </summary>

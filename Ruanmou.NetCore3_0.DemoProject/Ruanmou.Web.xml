@@ -251,7 +251,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.SysUserInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input.SysUserInputDto)">
             <summary>
             新增或修改用户 DefaultPassword
             </summary>

@@ -45,7 +45,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //ajaxResult.msg = "保存成功";
             //ajaxResult.success = true;
 
-            return AjaxResult.Success("保存成功");
+            return AjaxResult.SuccessResult("保存成功");
         }
     }
 }

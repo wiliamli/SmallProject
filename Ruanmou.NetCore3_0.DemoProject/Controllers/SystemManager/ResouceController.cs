@@ -28,7 +28,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _resourceService = resourceService;
         }
 
-
         /// <summary>
         /// 获取编辑资源
         /// </summary>
@@ -39,10 +38,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string GetEditResouceByID(int userId)
         {
             var user = _resourceService.Find<SysResource>(userId)?.MapTo<SysResource, SysResourceDto>();
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
-
+            return JsonConvert.SerializeObject(new AjaxResult { Success = true, data = user });
         }
-
 
         /// <summary>
         /// 获取所有数据
@@ -87,7 +84,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public AjaxResult SaveData([FromBody]SysResourceInputDto sysMenuDto)
         {
 
-            AjaxResult ajaxResult = new AjaxResult { success = false };
+            AjaxResult ajaxResult = new AjaxResult { Success = false };
             if (sysMenuDto != null)
             {
                 if (sysMenuDto.Id > 0)
@@ -108,11 +105,11 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     model.CreatorId = _currentUserInfo.CurrentUser.Id;
                     _resourceService.Insert<SysResource>(model);
                 }
-                ajaxResult.msg = "保存成功";
-                ajaxResult.success = true;
+                ajaxResult.Message = "保存成功";
+                ajaxResult.Success = true;
             }
             else
-                ajaxResult.msg = "保存失败";
+                ajaxResult.Message = "保存失败";
             return ajaxResult;
         }
     }

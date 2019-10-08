@@ -5,6 +5,7 @@ using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 
 namespace Ruanmou.NetCore.Service
@@ -29,7 +30,7 @@ namespace Ruanmou.NetCore.Service
             }
 
             var data = DataMapping<SysUser, SysUserOutputDto>.Trans(user);
-            return AjaxResult.Success("登录成功", data);
+            return AjaxResult.SuccessResult("登录成功", data);
         }
     }
 }

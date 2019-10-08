@@ -35,7 +35,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string GetUserRoleByRoleID(int roleId)
         {
             var user = _sysRoleService.Query<SysUserRoleMapping>(ur => ur.SysRoleId == roleId).Select(u => new { userid = u.SysUserId }) ;
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
+            return JsonConvert.SerializeObject(new AjaxResult { Success = true, data = user });
 
         }
 
@@ -49,7 +49,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string GetUserRoleByUserID(int userId)
         {
             var user = _sysRoleService.Query<SysUserRoleMapping>(ur => ur.SysUserId == userId).Select(u =>  u.SysRoleId );
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
+            return JsonConvert.SerializeObject(new AjaxResult { Success = true, data = user });
 
         }
 
@@ -62,7 +62,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public AjaxResult SaveData([FromBody]SysUserRoleDto sysMenuDto)
         {
 
-            AjaxResult ajaxResult = new AjaxResult { success = false };
+            AjaxResult ajaxResult = new AjaxResult { Success = false };
             if (sysMenuDto != null)
             {
                 if (!sysMenuDto.UserIds.IsNullOrWhiteSpace())
@@ -77,11 +77,11 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     }
                     _sysRoleService.Commit();
                 }
-                ajaxResult.msg = "保存成功";
-                ajaxResult.success = true;
+                ajaxResult.Message = "保存成功";
+                ajaxResult.Success = true;
             }
             else
-                ajaxResult.msg = "保存失败";
+                ajaxResult.Message = "保存失败";
             return ajaxResult;
         }
     }
