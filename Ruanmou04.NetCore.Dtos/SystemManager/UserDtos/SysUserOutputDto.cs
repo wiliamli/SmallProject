@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
+namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output
 {
     public class SysUserOutputDto: BaseDto
     {
@@ -27,7 +27,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// <summary>
         /// 手机号
         /// <summary>
-        public Int64? Mobile { get; set; }
+        public long? Mobile { get; set; }
         /// <summary>
         /// 联系地址
         /// <summary>
@@ -39,7 +39,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public Int64? QQ { get; set; }
+        public long? QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>
@@ -58,6 +58,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// 用户类型(1系统管理员 2学员)
         /// </summary>
         public int UserType { get; set; }
+
         /// <summary>
         /// 当前角色
         /// </summary>
