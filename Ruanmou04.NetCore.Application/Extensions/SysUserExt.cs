@@ -74,15 +74,15 @@ namespace Ruanmou04.NetCore.Application.Extensions
         }
 
 
-        public static PagedResult<SysUserListOutput> ToPaged(this PagedResult<SysUser> param)
+        public static PagedResult<SysUserListOutputDto> ToPaged(this PagedResult<SysUser> param)
         {
-            PagedResult<SysUserListOutput> pagedResult = new PagedResult<SysUserListOutput>();
+            PagedResult<SysUserListOutputDto> pagedResult = new PagedResult<SysUserListOutputDto>();
             if (param == null)
             {
                 return pagedResult;
             }
 
-            pagedResult.Rows = param.Rows.Select(u => DataMapping<SysUser, SysUserListOutput>.Trans(u)).ToList();
+            pagedResult.Rows = param.Rows.Select(u => DataMapping<SysUser, SysUserListOutputDto>.Trans(u)).ToList();
             pagedResult.PageIndex = param.PageIndex;
             pagedResult.PageSize = param.PageSize;
             pagedResult.Total = param.Total;

@@ -58,7 +58,7 @@ namespace Ruanmou04.NetCore.Application.SystemManager
             sysUserService.Update<SysUser>(sysUserEntity);
         }
 
-        public PagedResult<SysUserListOutput> GetPagedResult(SysUserListInputDto param)
+        public PagedResult<SysUserListOutputDto> GetPagedResult(SysUserListInputDto param)
         {
             if (param == null)
             {

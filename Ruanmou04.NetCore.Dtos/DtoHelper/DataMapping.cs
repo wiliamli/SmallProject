@@ -20,7 +20,9 @@ namespace Ruanmou04.Core.Dtos.DtoHelper
         {
             ParameterExpression parameterExpression = Expression.Parameter(typeof(TIn), "p");
             List<MemberBinding> memberBindingList = new List<MemberBinding>();
-            foreach (var item in typeof(TOut).GetProperties())
+
+            var properties = typeof(TOut).GetProperties();
+            foreach (var item in properties)
             {
                 if (typeof(TIn).GetProperty(item.Name) == null)
                     continue;
@@ -28,7 +30,9 @@ namespace Ruanmou04.Core.Dtos.DtoHelper
                 MemberBinding memberBinding = Expression.Bind(item, property);
                 memberBindingList.Add(memberBinding);
             }
-            foreach (var item in typeof(TOut).GetFields())
+
+            var fields = typeof(TOut).GetFields();
+            foreach (var item in fields)
             {
                 if (typeof(TIn).GetField(item.Name) == null)
                     continue;
@@ -45,7 +49,8 @@ namespace Ruanmou04.Core.Dtos.DtoHelper
         }
         public static TOut Trans(TIn t)
         {
-            return _FUNC(t);
+            var outPut = _FUNC(t);
+            return outPut;
         }
     }
     /// <summary>
