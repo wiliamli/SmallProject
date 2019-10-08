@@ -1,10 +1,11 @@
+using Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
 {
-    public class SysUserOutputDto:BaseEntity
+    public class SysUserOutputDto: BaseDto
     {
         /// <summary>
         /// 用户名/姓名

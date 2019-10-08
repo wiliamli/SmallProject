@@ -1,4 +1,4 @@
-namespace Ruanmou04.EFCore.Model.DtoHelper
+namespace Ruanmou04.EFCore.Dtos.DtoHelper
 {
     public class PagedSortedAndFilteredInputDto : PagedAndSortedInputDto
     {

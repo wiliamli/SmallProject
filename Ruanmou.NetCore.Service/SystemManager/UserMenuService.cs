@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
+
+
 using Ruanmou.NetCore.Service;
+using Ruanmou04.EFCore.Model.Models.SystemManager;
+using Ruanmou04.NetCore.Dtos.SystemManager.MenuDtos;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using System;
 using System.Collections.Generic;

@@ -192,7 +192,7 @@
 			$.support.cors = true;
             common.Init($, layer); 
 			
-			var key = localStorage.getItem("RuanmouNetToken");
+			var key = sessionStorage.getItem("RuanmouNetToken");
 			console.log("key = "+key);
 			//获取用户信息
 			$.ajax({
@@ -207,7 +207,7 @@
 					if(result == null)
 					{
 						//登陆超时或没有登陆
-						localStorage.removeItem("RuanmouNetToken");
+						sessionStorage.removeItem("RuanmouNetToken");
 						common.Init($, layer); 
 					}else
 					{

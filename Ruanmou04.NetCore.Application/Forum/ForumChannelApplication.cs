@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
+using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Interface.Forum.Service;
 using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
+using Ruanmou04.Core.Dtos.DtoHelper;
 
 namespace Ruanmou04.NetCore.Application.Forum
 {
@@ -68,7 +68,10 @@ namespace Ruanmou04.NetCore.Application.Forum
         {
             return forumChannelService.Find<ForumChannel>(id).ToDto();
         }
-
+        public IEnumerable<ForumChannelDto> GetAllForumChannel()
+        {
+            return forumChannelService.Query< ForumChannel>(fc=>fc.Status).Select(fc=>fc.MapTo<ForumChannel, ForumChannelDto>());
+        }
         public IEnumerable<ForumChannelDto> GetForumChannelByRoleId(IList<int> roleIds)
         {
             // dbContext 没有单例

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 
 namespace Ruanmou04.NetCore.Interface.Tokens
 {

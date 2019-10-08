@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-namespace RM04.DBEntity
+namespace Ruanmou04.EFCore.Model.Models.SystemManager
 {
-using System;
+
     public class SysUserMenuMapping : BaseEntity
     {
         /// <summary>

@@ -1,11 +1,12 @@
 ﻿using Autofac;
 using Microsoft.EntityFrameworkCore;
-using Ruanmou.EFCore3_0.Model;
-using Ruanmou.NetCore.Interface;
+
+
 using Ruanmou04.NetCore.Interface;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using Ruanmou04.NetCore.Service;
 
 namespace Ruanmou04.NetCore.AOP.IOC
 {
@@ -29,7 +30,7 @@ namespace Ruanmou04.NetCore.AOP.IOC
 
 
 
-            containerBuilder.RegisterType<JDDbContext>().As<DbContext>();
+            containerBuilder.RegisterType<RunmouDbContext>().As<DbContext>();
             containerBuilder.RegisterType<JwtSecurityTokenHandler>().As<JwtSecurityTokenHandler>();
 
 

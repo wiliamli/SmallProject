@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RM04.DBEntity;
-using Ruanmou.NetCore.Interface;
+using Ruanmou04.EFCore.Model.Models;
+using Ruanmou04.NetCore.Interface;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 

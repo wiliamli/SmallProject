@@ -28,17 +28,19 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="menu">角色菜单</a>
+        <a class="layui-btn layui-btn-xs" lay-event="user">角色用户</a>
+        <a class="layui-btn layui-btn-xs" lay-event="forum">角色频道</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 
   <script>
     userManager = {
-      openUserWindow: function (data) {
-        debugger
+      openRoleWindow: function (data) {
         var id = data && data.Id ? data.Id : "0"
         layer.open({
           type: 2,
-          content: 'RoleManager/RoleDetail.html?id=' + id,
+          content: 'RoleManager/RoleDetail.html',
           data: id,
           title: "编辑角色",
           area: ["600px", "350px"],
@@ -46,13 +48,52 @@
             $("#search").click();
           }
         })
-      }
+      },
+      openRoleMenuWindow: function (data) {
+        var id = data && data.Id ? data.Id : "0"
+        layer.open({
+          type: 2,
+          content: 'RoleManager/RoleMenu.html',
+          data: data,
+          title: "编辑角色",
+          area: ["600px", "350px"],
+          end: function () { // layui 关闭弹框时的回调函数
+            $("#search").click();
+          }
+        })
+      },
+      openRoleUserWindow: function (data) {
+        var id = data && data.Id ? data.Id : "0"
+        layer.open({
+          type: 2,
+          content: 'RoleManager/RoleUser.html',
+          data: data,
+          title: "编辑角色",
+          area: ["600px", "350px"],
+          end: function () { // layui 关闭弹框时的回调函数
+            $("#search").click();
+          }
+        })
+      },
+      openRoleForumWindow: function (data) {
+        var id = data && data.Id ? data.Id : "0"
+        layer.open({
+          type: 2,
+          content: 'RoleManager/RoleForum.html',
+          data: data,
+          title: "编辑角色",
+          area: ["600px", "350px"],
+          end: function () { // layui 关闭弹框时的回调函数
+            $("#search").click();
+          }
+        })
+      },
     }
+
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
       var table = layui.table,
         laydate = layui.laydate,
         config = layui.config;
-
       //日期  // 初始化日期
       laydate.render({
         elem: '#starDate'
@@ -96,7 +137,7 @@
           , {
             field: 'Status', title: '状态', width: 110, templet: function (obj) {
               if (obj.Status) {
-                return "正常";                
+                return "正常";
               }
               else {
                 return "已冻结";
@@ -104,7 +145,7 @@
             }
           }
           , { field: 'Description', title: '备注', width: 200, sort: true }
-          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
+          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 380 }
         ]]
       });
 
@@ -113,7 +154,7 @@
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
           case 'addNew':
-            userManager.openUserWindow();
+            userManager.openRoleWindow();
             break;
 
           case 'reload':
@@ -135,11 +176,12 @@
                 id: data.Id
               },
               beforeSend: function (XHR) {
-                XHR.setRequestHeader("Authorization", "BasicAuth " + localStorage.getItem("apiTicket"));
+                XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
               },
-              url: config.apiUrl + "/Role/DeleteById",
+              url: config.apiUrl + "/Role/DeleteRoleById",
               success: function (result) {
-                var jsonResult= JSON.parse(result);
+                debugger
+                var jsonResult = JSON.parse(result);
                 if (jsonResult.success) {
                   $("#search").click();
                   layer.msg(jsonResult.msg, { icon: 1 });
@@ -150,8 +192,17 @@
               }
             })
           });
-        } else if (obj.event === 'edit') {
-          userManager.openUserWindow(data);
+        }
+        else if (obj.event === 'menu') {
+          userManager.openRoleMenuWindow(data);
+        }
+        else if (obj.event === 'user') {
+          userManager.openRoleUserWindow(data);
+        } else if (obj.event === 'forum') {
+          userManager.openRoleForumWindow(data);
+        }
+        else if (obj.event === 'edit') {
+          userManager.openRoleWindow(data);
         }
       });
 
@@ -168,7 +219,6 @@
 
       // 重新刷新当前列表
       $("#search").on("click", function () {
-        debugger
         table.reload('test', {
           page: { curr: 1 },
           where: {
@@ -176,6 +226,7 @@
           }
         }, 'data');
       })
+
     });
   </script>
 </body>

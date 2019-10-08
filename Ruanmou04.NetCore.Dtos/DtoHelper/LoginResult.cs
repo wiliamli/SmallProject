@@ -1,8 +1,7 @@
-﻿
-using RM04.DBEntity;
+﻿using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using System;
 
-namespace Ruanmou04.EFCore.Model.DtoHelper
+namespace Ruanmou04.EFCore.Dtos.DtoHelper
 {
     /// <summary>
     /// ajax返回结果

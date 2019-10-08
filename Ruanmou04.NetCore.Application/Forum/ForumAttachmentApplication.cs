@@ -1,4 +1,4 @@
-﻿using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
+﻿using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using Ruanmou04.NetCore.Interface.Forum.Applications;
 using Ruanmou04.NetCore.Interface.Forum.Service;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ruanmou04.NetCore.Application
+namespace Ruanmou04.NetCore.Application.Forum
 {
     public class ForumAttachmentApplication : IForumAttachmentApplication
     {

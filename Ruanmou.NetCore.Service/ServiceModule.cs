@@ -3,9 +3,6 @@ using Autofac;
 
 namespace Ruanmou04.NetCore.Service
 {
-
-
-
     /// <summary>
     /// 模块父类,执行顺序:PreInit->系统注册程序集->Inited->ConfigAutoMap
     /// </summary>

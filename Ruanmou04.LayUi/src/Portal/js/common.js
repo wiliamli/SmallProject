@@ -30,7 +30,7 @@ var common = {
     },
     Logout: function ($, layer) { 
         $(".rm-header").delegate(".a-logout", "click", function () {
-            localStorage.removeItem("RuanmouNetToken");
+            sessionStorage.removeItem("RuanmouNetToken");
             common.CheckLogin($, layer);
         });
     },
@@ -39,7 +39,7 @@ var common = {
             layer.alert("对不起，本站不支持该浏览器，请切换别的浏览器访问", { title: "系统提示" });
             return;
         } 
-        var apiTicket = localStorage.getItem("RuanmouNetToken");
+        var apiTicket = sessionStorage.getItem("RuanmouNetToken");
         var $HeaderInfo = $(".rm-header-right");
         var IsMemberPage = $HeaderInfo.attr("member"); 
         if (apiTicket == null) {

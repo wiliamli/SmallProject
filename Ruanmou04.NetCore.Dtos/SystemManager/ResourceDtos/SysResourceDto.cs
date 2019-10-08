@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos
 {
-    public class SysResourceDto : BaseEntity
+    public class SysResourceDto : BaseDto
     {
         /// <summary>
         /// 资源名称

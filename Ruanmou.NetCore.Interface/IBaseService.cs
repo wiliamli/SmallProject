@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ruanmou04.Core.Utility;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Ruanmou.NetCore.Interface
+namespace Ruanmou04.NetCore.Interface
 {
     public interface IBaseService : IDisposable//是为了释放Context
     {
@@ -26,6 +26,14 @@ namespace Ruanmou.NetCore.Interface
         /// <param name="func"></param>
         /// <returns></returns>
         T Find<T>(Expression<Func<T, bool>> func) where T : class;
+
+        /// <summary>
+        /// 根据条件查询一个实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        bool Exists<T>(Expression<Func<T, bool>> func) where T : class;
         /// <summary>
         /// 提供对单表的查询
         /// </summary>
@@ -65,6 +73,12 @@ namespace Ruanmou.NetCore.Interface
 
         #region Add
         /// <summary>
+        /// 新增数据，不Commit
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns>返回带主键的实体</returns>
+        T InsertNotCommit<T>(T t) where T : class;
+        /// <summary>
         /// 新增数据，即时Commit
         /// </summary>
         /// <param name="t"></param>
@@ -81,6 +95,11 @@ namespace Ruanmou.NetCore.Interface
 
         #region Update
         /// <summary>
+        /// 更新数据，不Commit
+        /// </summary>
+        /// <param name="t"></param>
+        void UpdateNotCommit<T>(T t) where T : class;
+        /// <summary>
         /// 更新数据，即时Commit
         /// </summary>
         /// <param name="t"></param>
@@ -94,6 +113,23 @@ namespace Ruanmou.NetCore.Interface
         #endregion
 
         #region Delete
+        /// <summary>
+        /// 根据主键删除数据，不即时Commit
+        /// </summary>
+        /// <param name="t"></param>
+        void DeleteNotCommit<T>(int Id) where T : class;
+
+        /// <su+mary>
+        /// 删除数据，不即时Commit
+        /// </summary>
+        /// <param name="t"></param>
+        void DeleteNotCommit<T>(T t) where T : class;
+
+        /// <summary>
+        /// 删除数据，不即时Commit
+        /// </summary>
+        /// <param name="tList"></param>
+        void DeleteNotCommit<T>(Expression<Func<T, bool>> funWhere) where T : class;
         /// <summary>
         /// 根据主键删除数据，即时Commit
         /// </summary>

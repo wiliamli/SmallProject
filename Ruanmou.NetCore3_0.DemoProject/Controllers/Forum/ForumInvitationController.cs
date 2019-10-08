@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.MvcResult;
-using Ruanmou04.EFCore.Model.Dtos.ForumDtos;
-using Ruanmou04.NetCore.Interface.Forum.Applications;
-using Ruanmou04.NetCore.Project.Models;
+using Ruanmou04.EFCore.Dtos.ForumDtos;
+using Ruanmou04.NetCore.AOP.Filter;
+using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.Forum.Applications; 
 using System.Collections.Generic;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum

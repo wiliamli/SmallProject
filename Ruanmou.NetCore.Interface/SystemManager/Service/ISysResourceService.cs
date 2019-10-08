@@ -1,5 +1,4 @@
-﻿
-namespace Ruanmou.NetCore.Interface
+﻿namespace Ruanmou04.NetCore.Interface.SystemManager.Service
 {
     public interface ISysResourceService : IBaseService
     {

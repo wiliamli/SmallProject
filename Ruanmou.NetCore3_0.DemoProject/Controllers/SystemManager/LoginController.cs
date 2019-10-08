@@ -1,23 +1,20 @@
-﻿using System.Threading.Tasks;
-using Aio.Domain.SystemManage.Dtos;
+﻿using System.Threading.Tasks;   
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using RM04.DBEntity;
-using Ruanmou.NetCore.Application;
-using Ruanmou.NetCore.Interface;
-using Ruanmou04.Core.Model.DtoHelper;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Newtonsoft.Json;  
+using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Interface.SystemManager.Applications;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Interface.Tokens;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
-{
-
-
-
+{    
     [Route("api/[controller]/[action]"), ApiController]
     public class LoginController : ControllerBase
     {
@@ -52,7 +49,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <param name="loginInput"></param>
         /// <returns></returns>
         [HttpPostAttribute]
-        public async Task< AjaxResult> LoginSystemManager(LoginInputDto loginInput)
+        public async Task<string> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
             if (ajax.success)
@@ -69,14 +66,14 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 ajax.data = generatedto;                
                 this._memoryCache.Set<SysUserOutputDto>(generatedto.Token, sysuserdto);
             }
-            return ajax;
+            return JsonConvert.SerializeObject( ajax);
         }
 
-        [HttpGet]
-        public async Task<AjaxResult> TokenConfirm(string token)
-        {
-            var ajax =await _tokenService.ConfirmVerificationAsync(token);
-            return ajax;
-        }
+        //[HttpGet]
+        //public async Task<AjaxResult> TokenConfirm(string token)
+        //{
+        //    var ajax =await _tokenService.ConfirmVerificationAsync(token);
+        //    return ajax;
+        //}
     }
 }

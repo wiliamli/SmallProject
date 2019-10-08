@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using System.Security.Claims;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 

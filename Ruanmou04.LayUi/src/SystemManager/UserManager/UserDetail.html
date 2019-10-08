@@ -93,66 +93,71 @@
     </div>
   </div>
   <script src="/layui.js"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     var userDetail = {
-      userInIt: function ($, config, form) {
+      userInIt: function ($, config, form) {       
         if (parent.layer.data) {
-          $.ajax({
-            type: "Get",
-            data: {
-              userId: parent.layer.data
-            },
-            beforeSend: function (XHR) {
-              XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-            },
-            url: config.apiUrl + "/Users/GetEditUserByID",
-            success: function (result) {
-              debugger
-              var jsonResult = JSON.parse(result);
-              jsonResult.data.Sex = jsonResult.data.Sex.trim()
-              if (jsonResult.success) {
-                form.val("first", jsonResult.data);
-              }
-              else {
-                layer.msg(jsonResult.msg);
-              }
-            }
-          })
+          var url="/Users/GetEditUserByID?userId="+parent.layer.data;//取的是layer.open的data的值
+          initData($,url,config,form);
+          // $.ajax({
+          //   type: "Get",
+          //   data: {
+          //     userId: parent.layer.data //取的是layer.open的data的值
+          //   },
+          //   beforeSend: function (XHR) {
+          //     XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          //   },
+          //   url: config.apiUrl + "/Users/GetEditUserByID",
+          //   success: function (result) { 
+          //     var jsonResult = JSON.parse(result);
+          //     jsonResult.data.Sex = jsonResult.data.Sex.trim()
+          //     if (jsonResult.success) {
+          //       form.val("first", jsonResult.data);
+          //     }
+          //     else {
+          //       layer.msg(jsonResult.msg);
+          //     }
+          //   }
+          // })
         }
       },
       saveUser: function ($, config, saveData) {
+        debugger;
         var user = saveData;
         user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
         user.Mobile = parseInt(saveData.Mobile);
         user.QQ = parseInt(saveData.QQ);
         user.Status = saveData.Status == "1";
         user.UserType = 1;
-        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        $.ajax({
-          type: 'Post',
-          dataType: "json",
-          data: JSON.stringify(user),
-          contentType: 'application/json',
-          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/Users/SaveUser',
-          success: function (result) {
+        var data=JSON.stringify(user);
+        saveDataWay($,data,config,'/Users/SaveUser');
+        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        // $.ajax({
+        //   type: 'Post',
+        //   dataType: "json",
+        //   data: JSON.stringify(user),
+        //   contentType: 'application/json',
+        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+        //   url: config.apiUrl + '/Users/SaveUser',
+        //   success: function (result) {
 
-            layer.close(LoadIndex);
-            console.log(result);
-            if (result.success) {
-              layer.msg("保存成功", { icon: 1 });
-            }
-            else {
-              layer.msg(result.msg, { icon: 2 });
-            }
-          },
-          error: function (XMLHttpResponse) {
-            layer.close(LoadIndex);
-            console.log("error: api request failed");
-            console.log(XMLHttpResponse);
-          }
-        })
-        return false;
+        //     layer.close(LoadIndex);
+        //     console.log(result);
+        //     if (result.success) {
+        //       layer.msg("保存成功", { icon: 1 });
+        //     }
+        //     else {
+        //       layer.msg(result.msg, { icon: 2 });
+        //     }
+        //   },
+        //   error: function (XMLHttpResponse) {
+        //     layer.close(LoadIndex);
+        //     console.log("error: api request failed");
+        //     console.log(XMLHttpResponse);
+        //   }
+        // })
+        // return false;
       }
 
     }
@@ -163,7 +168,8 @@
         config = layui.config;
       // 初始刷f
 
-      userDetail.userInIt($, config, form);
+      userDetail.userInIt($, config, form); //修改时初始化用户信息
+
       form.on("submit(sub)", function (obj) {
         userDetail.saveUser($, config, obj.field);
       })

@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Ruanmou04.Core.Utility.Extensions;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Tokens;
-using Ruanmou04.NetCore.Service.Core.Authorization.Tokens;
+using Ruanmou04.NetCore.Service.Authorization.Tokens;
 
 namespace Ruanmou04.NetCore.AOP.Filter
 {
@@ -38,7 +38,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
                 token = context.HttpContext.Request.Query["token"];
             }
             AjaxResult ajaxResult = null;
-            if (token.IsNullOrEmpty())
+            if (token.IsNullOrEmpty() || token.ToString().Replace("Bearer ","").Trim().IsNullOrEmpty())
             {
                 ajaxResult = new AjaxResult { msg = "token为空", success = false };
             }

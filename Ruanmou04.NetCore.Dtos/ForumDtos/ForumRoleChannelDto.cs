@@ -1,10 +1,10 @@
-﻿using Ruanmou04.Core.Model.DtoHelper;
+﻿using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
+namespace Ruanmou04.EFCore.Dtos.ForumDtos
 {
     public class ForumRoleChannelDto
     {
@@ -42,6 +42,11 @@ namespace Ruanmou04.EFCore.Model.Dtos.ForumDtos
         /// </summary>
         public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
+
+        /// <summary>
+        /// 系统角色Id字符串，接收保存返回数据
+        /// </summary>
+        public string ForumIds { get; set; }
     }
 
     public static class ForumRoleChannelDtoExt

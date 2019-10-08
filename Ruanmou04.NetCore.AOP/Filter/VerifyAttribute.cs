@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Tokens;
 using System;
 using System.Linq;
 
-namespace Ruanmou04.NetCore.Project.Models
+namespace Ruanmou04.NetCore.AOP.Filter
 {
     public class VerifyAttribute : Attribute, IActionFilter
     {

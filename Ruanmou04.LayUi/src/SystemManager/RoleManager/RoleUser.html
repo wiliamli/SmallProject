@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link href="/css/layui.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="layui-form layui-form-pane1" action="" lay-filter="first">
+    <div class="layui-form-item">
+      <label class="layui-form-label"></label>
+      <div class="layui-input-inline">
+        <input type="hidden" Name="SysRoleId" Id="SysRoleId">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">角色名称</label>
+      <div class="layui-input-inline">
+        <input type="text" name="Name" id="Name" lay-verify="required" placeholder="请输入名称" autocomplete="off"
+          class="layui-input">
+      </div>
+      <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">角色用户</label>
+      <div class="layui-input-block" id="userSelect">
+
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="sub">立即提交</button>
+        <button onclick="parent.layer.closeAll()" class="layui-btn layui-btn-primary">关闭</button>
+      </div>
+    </div>
+  </div>
+  <script type="text/html" id="userTpl">
+      {{# layui.each(d,function(index,item){ }}
+        <input type="checkbox" name="UserIds" value="{{item.Id}}" title="{{item.Name}}" >
+      {{# }); }}
+  </script>
+  <script src="/layui.js"></script>
+  <script type="text/javascript">
+    var userDetail = {
+      userInIt: function ($, config, form) {
+        if (parent.layer.data) {
+          $("#SysRoleId").val(parent.layer.data.Id);
+          $("#Name").val(parent.layer.data.Text);
+        }
+        $.ajax({
+          url: config.apiUrl + '/Users/GetUsersByType',
+          type: 'get',
+          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), userType: 1 },
+          dataType: 'json',
+          contentType: 'application/json',
+          success: function (obj) {
+            var data = obj.data;
+            var meunTpl = document.getElementById('userTpl').innerHTML;
+            var menuSelect = document.getElementById('userSelect');
+            layui.laytpl(meunTpl).render(data, function (html) {
+              menuSelect.innerHTML = html;
+              form.render("checkbox");
+            });
+            userDetail.selectUser($, config, form);
+          },
+          error: function () {
+            layer.alert(JSON.stringify(data.msg), {
+              title: 'ajax请求失败！'
+            });
+          }
+        });
+      },
+      selectUser: function ($, config, form) {
+        $.ajax({
+          url: config.apiUrl + '/RoleUser/GetUserRoleByRoleID',
+          type: 'get',
+          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), roleId: parent.layer.data.Id },
+          dataType: 'json',
+          contentType: 'application/json',
+          success: function (obj) {
+            var data = obj.data;
+            var unitTypeCheckbox = $("input[name='UserIds']");
+            for (var j = 0; j < data.length; j++) {
+              for (var i = 0; i < unitTypeCheckbox.length; i++) {
+                if (unitTypeCheckbox[i].value == data[j].userid) {
+                  unitTypeCheckbox[i].checked = true;
+                }
+              }
+            }
+            form.render("checkbox");
+          },
+          error: function () {
+            layer.alert(JSON.stringify(data.msg), {
+              title: 'ajax请求失败！'
+            });
+          }
+        });
+      },
+      saveUser: function ($, config, saveData) {
+        var user = saveData;
+        user.SysRoleId = parseInt(saveData.SysRoleId);
+        var result = [];
+        $("[name='UserIds']:checkbox").each(function () {
+          if ($(this).is(":checked")) {
+            result.push($(this).attr("value"));
+          }
+        });
+        var meunIds = result.join(",");
+        user.UserIds = meunIds;
+        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        $.ajax({
+          type: 'Post',
+          dataType: "json",
+          data: JSON.stringify(user),
+          contentType: 'application/json',
+          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+          url: config.apiUrl + '/RoleUser/SaveData',
+          success: function (result) {
+            layer.close(LoadIndex);
+            console.log(result);
+            if (result.success) {
+              layer.msg("保存成功", { icon: 1 });
+            }
+            else {
+              layer.msg(result.msg, { icon: 2 });
+            }
+          },
+          error: function (XMLHttpResponse) {
+            layer.close(LoadIndex);
+            console.log("error: api request failed");
+            console.log(XMLHttpResponse);
+          }
+        })
+        return false;
+      }
+
+    }
+    layui.use(["form", "config", 'laytpl'], function () {
+      var form = layui.form,
+        layer = layui.layer,
+        $ = layui.$,
+        config = layui.config;
+      // 初始刷f
+
+      userDetail.userInIt($, config, form);
+      form.on("submit(sub)", function (obj) {
+        if (!obj.field.UserIds) {
+          layer.msg('您还未选择用户', {
+            time: 10000
+          });
+          return false;
+        }
+        userDetail.saveUser($, config, obj.field);
+      })
+
+    })
+  </script>
+</body>
+
+</html>

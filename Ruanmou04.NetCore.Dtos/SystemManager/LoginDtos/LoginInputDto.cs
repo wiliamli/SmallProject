@@ -1,8 +1,7 @@
-﻿using RM04.DBEntity;
-
-namespace Aio.Domain.SystemManage.Dtos
+﻿
+namespace Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos
 {
-    public class LoginInputDto:BaseEntity
+    public class LoginInputDto: BaseDto
     {
         /// <summary>
         /// 账号

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace RM04.DBEntity
+namespace Ruanmou04.EFCore.Model.Models.SystemManager
 {
     [Table("SysRole")]
     public class SysRole : BaseEntity

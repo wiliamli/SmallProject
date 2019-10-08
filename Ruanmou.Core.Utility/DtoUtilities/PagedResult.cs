@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace Ruanmou04.Core.Utility
+namespace Ruanmou04.Core.Utility.DtoUtilities
 {
     /// <summary>
     /// 分页结果

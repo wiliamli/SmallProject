@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ruanmou.EFCore3_0.Model.SqlLog
+namespace Ruanmou04.EFCore.Model.SqlLog
 {
     public class CustomEFLogger : ILogger
     {

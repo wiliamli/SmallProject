@@ -61,7 +61,7 @@
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Aio.Domain.SystemManage.Dtos.LoginInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.LoginController.LoginSystemManager(Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos.LoginInputDto)">
             <summary>
             登录
             </summary>
@@ -82,11 +82,17 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.DeleteMenuById(System.Int32)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.RemoveMenuById(System.Int32)">
             <summary>
             删除
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetRoleMenu">
+            <summary>
+            获取所有菜单数据
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenus(System.Int32,System.Int32,System.String)">
@@ -95,7 +101,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.SaveData(RM04.DBEntity.SysMenuDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.MenuDtos.SysMenuDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -115,11 +121,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(RM04.DBEntity.SysResourceInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos.SysResourceInputDto)">
             <summary>
             新增或修改数据
             </summary>
             <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.DeleteRoleById(System.Int32)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetEditRoleByID(System.Int32)">
@@ -135,7 +148,70 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.SaveData(RM04.DBEntity.SysRoleDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos.SysRoleDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.GetEditChannelByRoleID(System.Int32)">
+            <summary>
+            获取编辑用户
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.GetRoleChannelByRoleID(System.Int32)">
+            <summary>
+            获取已经设置角色频道
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.SaveData(Ruanmou04.EFCore.Dtos.ForumDtos.ForumRoleChannelDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.GetEditRoleMenuByRoleID(System.Int32)">
+            <summary>
+            获取编辑角色菜单
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.GetRoleMenuByRoleID(System.Int32)">
+            <summary>
+            根据角色Id获取已授权的菜单
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.SysRoleMenuDto)">
+            <summary>
+            新增或修改数据
+            </summary>
+            <param name="sysMenuDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.GetUserRoleByRoleID(System.Int32)">
+            <summary>
+            根据角色Id获取已有的用户
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.GetUserRoleByUserID(System.Int32)">
+            <summary>
+            根据用户Id获取已有的角色
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.SaveData(Ruanmou04.NetCore.Dtos.SystemManager.SysUserRoleDto)">
             <summary>
             新增或修改数据
             </summary>
@@ -163,13 +239,19 @@
             <param name="ids">id列表</param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsersByType(System.Int32)">
+            <summary>
+            根据用户类型获取用户
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetUsers(System.Int32,System.Int32,System.Int32,System.String)">
             <summary>
             获取所有用户
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(RM04.DBEntity.SysUserInputDto)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.SaveUser(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.SysUserInputDto)">
             <summary>
             新增或修改用户 DefaultPassword
             </summary>

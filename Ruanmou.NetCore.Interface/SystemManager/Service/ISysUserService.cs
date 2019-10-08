@@ -1,14 +1,10 @@
-﻿
-using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
+﻿using Ruanmou04.EFCore.Model.Models.SystemManager;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Ruanmou.NetCore.Interface
+namespace Ruanmou04.NetCore.Interface.SystemManager.Service
 {
     public interface ISysUserService : IBaseService
     {

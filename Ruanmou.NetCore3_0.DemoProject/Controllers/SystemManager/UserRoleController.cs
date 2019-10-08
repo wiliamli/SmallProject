@@ -1,11 +1,10 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using RM04.DBEntity;
-using Ruanmou.NetCore.Interface;
-using Ruanmou04.EFCore.Model.DtoHelper;
-using Ruanmou04.NetCore.AOP.Filter;
-using Ruanmou04.NetCore.Project.Models;
-
+using Microsoft.AspNetCore.Mvc;   
+using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.EFCore.Model.Models.SystemManager;
+using Ruanmou04.NetCore.AOP.Filter;         
+using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     [CustomAuthorize]
@@ -20,22 +19,33 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _currentUserInfo = currentUserInfo;
             _sysRoleService = sysRoleService;
         }
+
         [HttpGet]
+       // [HttpPost]
         public AjaxResult SaveData(int userId, string roleIds)
         {
-
-            AjaxResult ajaxResult = new AjaxResult { success = false };
-            _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
-            var roleIdAry = roleIds.Split(",");
-            for (int i = 0; i < roleIdAry.Length; i++)
+            if (userId<=0)
             {
-                var model = new SysUserRoleMapping() { SysUserId = userId, SysRoleId = Convert.ToInt32(roleIdAry[i]) };
-                _sysRoleService.Insert<SysUserRoleMapping>(model);
+                return AjaxResult.Failure("请求参数有误");
             }
-            ajaxResult.msg = "保存成功";
-            ajaxResult.success = true;
+            _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
+            if (!string.IsNullOrEmpty(roleIds))
+            {
+                var roleIdAry = roleIds.Split(",");
+                for (int i = 0; i < roleIdAry.Length; i++)
+                {
+                    var model = new SysUserRoleMapping() { SysUserId = userId, SysRoleId = Convert.ToInt32(roleIdAry[i]) };
+                    _sysRoleService.InsertNotCommit<SysUserRoleMapping>(model);
+                }
+            }
+           // AjaxResult ajaxResult = new AjaxResult { success = false };
+           // _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
+          
+            _sysRoleService.Commit();
+            //ajaxResult.msg = "保存成功";
+            //ajaxResult.success = true;
 
-            return ajaxResult;
+            return AjaxResult.Success("保存成功");
         }
     }
 }

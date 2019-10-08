@@ -1,19 +1,18 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
-using RM04.DBEntity;
-using Ruanmou.EFCore3_0.Model;
-using Ruanmou.NetCore.Interface;
-using Ruanmou04.Core.Model.DtoHelper;
-using Ruanmou04.EFCore.Model.DtoHelper;
+
+
+using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.EFCore.Model.Models.SystemManager;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using System;
 using System.Collections.Generic;
 
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ruanmou.NetCore.Service
 {

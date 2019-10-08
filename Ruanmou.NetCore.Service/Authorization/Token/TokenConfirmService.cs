@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Ruanmou04.EFCore.Model.DtoHelper;
 using System.IdentityModel.Tokens.Jwt;
 using Ruanmou.Core.Utility;
 using System.Threading;
 using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 
-namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
+namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 {
     /// <summary>
     /// 令牌实现
@@ -29,7 +29,7 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             _jwtSecurityTokenHandler = jwtSecurityTokenHandler;
         }
 
-        
+
         /// <summary>
         /// 验证token
         /// </summary>
@@ -38,40 +38,34 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         public async Task<AjaxResult> ConfirmVerificationAsync(string token)
         {
             AjaxResult result = new AjaxResult("");
-            try
+
+            token = token.Replace("Bearer ", "");
+            var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+
+            if (jwtSecurityToken.Claims.Any())
             {
-                token = token.Replace("Bearer ", "");
-                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+                ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                identity.AddClaims(jwtSecurityToken.Claims);
+                Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
+            }
 
-                if (jwtSecurityToken.Claims.Any())
+            if (jwtSecurityToken == null) //没有令牌 
+            {
+                result.msg = "token已失效，请重新登录";
+            }
+            else
+            {
+                if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
                 {
-                    ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
-                    identity.AddClaims(jwtSecurityToken.Claims);
-                    Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
-                }
-
-                if (jwtSecurityToken == null) //没有令牌 
-                {
-                    result.msg = "token已失效，请重新登录";
+                    result.msg = "token已过期，请重新登录";
                 }
                 else
                 {
-                    if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
-                    {
-                        result.msg = "token已过期，请重新登录";
-                    }
-                    else
-                    {
-                        result.msg = "token验证成功";
-                        result.success = true;
-                    }
+                    result.msg = "token验证成功";
+                    result.success = true;
                 }
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.TraceError(ex.Message);
-                result.success = false;
-            }
+
             return result;
         }
     }

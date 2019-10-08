@@ -6,16 +6,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
-using Ruanmou04.EFCore.Model.DtoHelper;
 using Ruanmou04.EFCore.Model.Token.Dtos;
-using Ruanmou.NetCore.Interface;
+
 using System.IdentityModel.Tokens.Jwt;
 using Ruanmou.Core.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading;
 using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
 
-namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
+namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 {
     /// <summary>
     /// 令牌实现
@@ -57,18 +58,12 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         public async Task<AjaxResult> GenerateTokenAsync(GenerateTokenDto generateDto)
         {
             AjaxResult result = new AjaxResult("");
-            try
-            {
-                TokenInformation tokenInfoMation = null;
-                generateDto.TokenExpiration = StaticConstraint.Expiration;
-                tokenInfoMation = await CreateTokenDataAsync(generateDto, tokenInfoMation);
-                result.data = tokenInfoMation.Token;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.TraceError(ex.Message);
-                result.success = false;
-            }
+
+            TokenInformation tokenInfoMation = null;
+            generateDto.TokenExpiration = StaticConstraint.Expiration;
+            tokenInfoMation = await CreateTokenDataAsync(generateDto, tokenInfoMation);
+            result.data = tokenInfoMation.Token;
+
             result.success = true;
             return result;
         }
@@ -81,39 +76,32 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         public async Task<AjaxResult> ConfirmVerificationAsync(string token)
         {
             AjaxResult result = new AjaxResult("");
-            try
+
+            token = token.Replace("Bearer ", "");
+            var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+
+            if (jwtSecurityToken.Claims.Any())
             {
-                token = token.Replace("Bearer ", "");
-                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+                ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                identity.AddClaims(jwtSecurityToken.Claims);
+                Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
+            }
 
-                if (jwtSecurityToken.Claims.Any())
+            if (jwtSecurityToken == null) //没有令牌 
+            {
+                result.msg = "token已失效，请重新登录";
+            }
+            else
+            {
+                if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
                 {
-                    ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
-                    identity.AddClaims(jwtSecurityToken.Claims);
-                    Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
-                }
-
-                if (jwtSecurityToken == null) //没有令牌 
-                {
-                    result.msg = "token已失效，请重新登录";
+                    result.msg = "token已过期，请重新登录";
                 }
                 else
                 {
-                    if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
-                    {
-                        result.msg = "token已过期，请重新登录";
-                    }
-                    else
-                    {
-                        result.msg = "token验证成功";
-                        result.success = true;
-                    }
+                    result.msg = "token验证成功";
+                    result.success = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.TraceError(ex.Message);
-                result.success = false;
             }
             return result;
         }
@@ -121,39 +109,31 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         public AjaxResult ConfirmVerification(string token)
         {
             AjaxResult result = new AjaxResult("");
-            try
+            token = token.Replace("Bearer ", "");
+            var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+
+            if (jwtSecurityToken.Claims.Any())
             {
-                token = token.Replace("Bearer ", "");
-                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+                ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                identity.AddClaims(jwtSecurityToken.Claims);
+                Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
+            }
 
-                if (jwtSecurityToken.Claims.Any())
+            if (jwtSecurityToken == null) //没有令牌 
+            {
+                result.msg = "token已失效，请重新登录";
+            }
+            else
+            {
+                if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
                 {
-                    ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
-                    identity.AddClaims(jwtSecurityToken.Claims);
-                    Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
-                }
-
-                if (jwtSecurityToken == null) //没有令牌 
-                {
-                    result.msg = "token已失效，请重新登录";
+                    result.msg = "token已过期，请重新登录";
                 }
                 else
                 {
-                    if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
-                    {
-                        result.msg = "token已过期，请重新登录";
-                    }
-                    else
-                    {
-                        result.msg = "token验证成功";
-                        result.success = true;
-                    }
+                    result.msg = "token验证成功";
+                    result.success = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.TraceError(ex.Message);
-                result.success = false;
             }
             return result;
         }
@@ -182,20 +162,15 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         private TokenInformationDetail CreateTokenDetailData(Guid tokenID, string systemID)
         {
             TokenInformationDetail tokenDetail = null;
-            try
+
+            tokenDetail = new TokenInformationDetail()
             {
-                tokenDetail = new TokenInformationDetail()
-                {
-                    Id = Guid.NewGuid(),
-                    SystemID = systemID,
-                    TokenInformationID = tokenID
-                };
-                //tokenDetail = tokenInformationDetailRepository.Insert(tokenDetail);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Trace.TraceError(ex.Message);
-            }
+                Id = Guid.NewGuid(),
+                SystemID = systemID,
+                TokenInformationID = tokenID
+            };
+            //tokenDetail = tokenInformationDetailRepository.Insert(tokenDetail);
+
             return tokenDetail;
         }
 
@@ -208,28 +183,23 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         private async Task<TokenInformation> CreateTokenDataAsync(GenerateTokenDto generateDto, TokenInformation tokenInformation)
         {
             //TokenInformation token = null;
-            try
+
+            if (tokenInformation == null)
             {
-                if (tokenInformation == null)
+                tokenInformation = new TokenInformation()
                 {
-                    tokenInformation = new TokenInformation()
-                    {
-                        Id = Guid.NewGuid(),
-                        Account = generateDto.Account,
-                        Token = await CreateTokenAsync(generateDto, null),
-                        IsEffective = 0,//正常
-                        FailureTime = DateTime.Now.Add(generateDto.TokenExpiration)
-                    };
-                }
-                else
-                {
-                    await CreateTokenAsync(generateDto, tokenInformation);
-                }
+                    Id = Guid.NewGuid(),
+                    Account = generateDto.Account,
+                    Token = await CreateTokenAsync(generateDto, null),
+                    IsEffective = 0,//正常
+                    FailureTime = DateTime.Now.Add(generateDto.TokenExpiration)
+                };
             }
-            catch (Exception ex)
+            else
             {
-                System.Diagnostics.Trace.TraceError(ex.Message);
+                await CreateTokenAsync(generateDto, tokenInformation);
             }
+
             return tokenInformation;
         }
 
@@ -267,7 +237,7 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
             };
             var claims = new ClaimsPrincipal(identity);
             _httpContextAccessor.HttpContext.User = claims;
-            
+
             await _authenticationService.SignInAsync(_httpContextAccessor.HttpContext, CookieAuthenticationDefaults.AuthenticationScheme, claims, props);
             return accessToken;
         }
@@ -322,26 +292,9 @@ namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
         public async Task<AjaxResult> LoginOutTokenAsync(LoginOutTokenDto loginOutTokenDto)
         {
             AjaxResult result = new AjaxResult("");
-            try
-            {
-                //var tokenObj = await tokenInformationRepository.FirstOrDefaultAsync(x => x.Token == loginOutTokenDto.Token);
-                //if (tokenObj != null)
-                //{
-                //    await tokenInformationRepository.DeleteAsync(tokenObj);
-                //    await SignOutTokenAsync(loginOutTokenDto);
-                //    result.success = true;
-                //}
-            }
-            catch (Exception ex)
-            {
-                result.msg = ex.Message;
-                result.success = false;
-            }
+            
             return result;
         }
-
-
-
 
     }
 }

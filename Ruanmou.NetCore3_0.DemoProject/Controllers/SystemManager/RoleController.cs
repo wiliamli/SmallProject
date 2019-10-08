@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using RM04.DBEntity;
-using Ruanmou.NetCore.Interface;
-using Ruanmou.NetCore.Service;
-using Ruanmou04.Core.Model.DtoHelper;
+using Newtonsoft.Json;     
+using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.Extensions;
-using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.AOP.Filter;
-using Ruanmou04.NetCore.Project.Models;
-
+using Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos;
+using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
+using Ruanmou04.Core.Utility.DtoUtilities;
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     [CustomAuthorize]
@@ -26,7 +26,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _currentUserInfo = currentUserInfo;
             _sysRoleService = sysRoleService;
         }
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
 
+        public string DeleteRoleById(int id)
+        {
+            _sysRoleService.Delete<SysRole>(id);
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功" });
+
+        }
         /// <summary>
         /// 获取编辑用户
         /// </summary>
@@ -34,9 +46,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
 
-        public string GetEditRoleByID(int userId)
+        public string GetEditRoleByID(int id)
         {
-            var user = _sysRoleService.Find<SysRole>(userId)?.MapTo<SysRole, SysRoleDto>();
+            var user = _sysRoleService.Find<SysRole>(id)?.MapTo<SysRole, SysRoleDto>();
             return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
@@ -108,7 +120,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 {
                     var model = sysMenuDto.MapTo<SysRoleDto, SysRole>();
                     model.CreateTime = DateTime.Now;
-                    model.CreateId= _currentUserInfo.CurrentUser.Id;
+                    model.CreateId = _currentUserInfo.CurrentUser.Id;
                     _sysRoleService.Insert<SysRole>(model);
                 }
                 ajaxResult.msg = "保存成功";

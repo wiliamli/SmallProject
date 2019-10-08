@@ -1,7 +1,9 @@
 ﻿
-using RM04.DBEntity;
 
-namespace YRuanmou04.NetCore.Project.Dtos
+
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
+
+namespace Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos
 { 
     public class LoginReusltDto
     {
