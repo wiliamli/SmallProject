@@ -37,5 +37,7 @@ namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
         void DeleteByUserId(int userId);
 
         void DeleteBatchByUserId(string userIds);
+
+        void UpdateUserStatus(string userIds, int status);
     }
 }

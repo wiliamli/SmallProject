@@ -125,8 +125,8 @@ function deleteOne($,layer,id,url){
           success: function (jsonData) {
             // var jsonData = JSON.parse(result);
             if (jsonData.Success) {
-              layer.msg(jsonData.Message, { icon: 1 });
-              $("#search").click();
+              layer.msg(jsonData.Message, { icon: 1 },function(){ $("#search").click();});
+            //  $("#search").click();
             }
             else {
               layer.msg(jsonData.Message, { icon: 2 });
@@ -169,8 +169,8 @@ function deleteMulity($,layer,table,obj,url){
           success: function (jsonData) {
             //var jsonData =result; //JSON.parse(result);
             if (jsonData.Success) {
-              layer.msg(jsonData.Message, { icon: 1 });
-              $("#search").click();
+              layer.msg(jsonData.Message, { icon: 1 },function(){ $("#search").click();});
+             // $("#search").click();
             }
             else {
               layer.msg(jsonData.Message, { icon: 2 });
@@ -178,4 +178,75 @@ function deleteMulity($,layer,table,obj,url){
           }
         })
       });
+}
+
+/**
+ * 单条启用禁用
+ * @param {* jQuery} $ 
+ * @param {* layer} layer 
+ * @param {* 要删除的ID} id 
+ * @param {* 要请求的地址} url 
+ */
+function updateStatusOne($,layer,id,url){ 
+      $.ajax({
+        type: "get",
+        data: {
+          id: id
+        },
+        beforeSend: function (XHR) {
+          XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+        },
+        url: config.apiUrl + url,
+        success: function (jsonData) {         
+          if (jsonData.Success) {
+            layer.msg(jsonData.Message, { icon: 1 },function(){ $("#search").click();});
+           // $("#search").click();
+          }
+          else {
+            layer.msg(jsonData.Message, { icon: 2 });
+          }
+        }
+      }) 
+}
+
+
+
+/**
+ * 批量启用禁用
+ * @param {*} $ 
+ * @param {*} layer 
+ * @param {*} table 
+ * @param {*} obj 
+ * @param {*} url 
+ */
+function updateStatusMulity($,layer,table,obj,url,status){   
+      var checkStatus = table.checkStatus(obj.config.id);
+debugger;
+      if (checkStatus.data.length == 0) {
+        layer.msg("没有选中数据", { icon: 2 });
+        return
+      }
+      var dataIds = checkStatus.data.map(function (item) {
+        return item['Id'];
+      });
+      $.ajax({
+        type: "get",
+        data: {
+          ids: dataIds.join(','),
+          status:status
+        },
+        beforeSend: function (XHR) {
+          XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+        },
+        url: config.apiUrl +url,
+        success: function (jsonData) {          
+          if (jsonData.Success) {
+            layer.msg(jsonData.Message, { icon: 1 },function(){ $("#search").click();});
+           
+          }
+          else {
+            layer.msg(jsonData.Message, { icon: 2 });
+          }
+        }
+      }) 
 }

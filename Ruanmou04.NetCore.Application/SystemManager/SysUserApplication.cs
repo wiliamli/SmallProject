@@ -96,5 +96,10 @@ namespace Ruanmou04.NetCore.Application.SystemManager
             }
             sysUserService.Update<SysUser>(sysUser);
         }
+
+        public void UpdateUserStatus(string userIds, int status)
+        {
+           
+        }
     }
 }

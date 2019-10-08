@@ -60,6 +60,12 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             return StandardAction(() => _userApplication.GetUserByUserId(userId));
         }
 
+        [HttpGet]
+        public StandardJsonResult UpdateStatusByIds(string ids,int status)
+        {
+            return StandardAction(() => _userApplication.UpdateUserStatus(ids, status));
+        }
+
         /// <summary>
         /// 删除数据通过Id
         /// </summary>
