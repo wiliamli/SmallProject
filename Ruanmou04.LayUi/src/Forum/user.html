@@ -161,6 +161,7 @@ layui.use(['jquery','laytpl','form'], function(){
           url:baseDomain()+"api/ForumTopic/GetForumTopicsByUserId",
           data: {"userId":userId},
           type: 'get',
+          headers: {token: key},
           dataType: 'json',
           success: function(obj) {
             var data = obj.Data;
