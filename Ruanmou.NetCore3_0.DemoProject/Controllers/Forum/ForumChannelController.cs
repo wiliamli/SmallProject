@@ -16,11 +16,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumChannelController : BaseApiController
     {
         private IForumChannelApplication forumChannelApplication;
-        private IMemoryCache memoryCache;
         private ICurrentUserInfo currentUserInfo;
 
-        public ForumChannelController(IForumChannelApplication forumChannelApplication,
-            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) :base(memoryCache, currentUserInfo)
+        public ForumChannelController(IForumChannelApplication forumChannelApplication,ICurrentUserInfo currentUserInfo) :base(currentUserInfo)
         {
             this.forumChannelApplication = forumChannelApplication;
         }

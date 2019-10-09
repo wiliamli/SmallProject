@@ -45,7 +45,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public async Task<string> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
-            if (ajax.Success)
+            if (ajax.success)
             {
                 var sysuserdto =  ajax.data as CurrentUser;
                 var generatedto= DataMapping<CurrentUser,GenerateTokenDto>.Trans(sysuserdto);

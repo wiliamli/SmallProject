@@ -64,7 +64,7 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
             tokenInfoMation = await CreateTokenDataAsync(generateDto, tokenInfoMation);
             result.data = tokenInfoMation.Token;
 
-            result.Success = true;
+            result.success = true;
             return result;
         }
 
@@ -89,18 +89,18 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 
             if (jwtSecurityToken == null) //没有令牌 
             {
-                result.Message = "token已失效，请重新登录";
+                result.msg = "token已失效，请重新登录";
             }
             else
             {
                 if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
                 {
-                    result.Message = "token已过期，请重新登录";
+                    result.msg = "token已过期，请重新登录";
                 }
                 else
                 {
-                    result.Message = "token验证成功";
-                    result.Success = true;
+                    result.msg = "token验证成功";
+                    result.success = true;
                 }
             }
             return result;
@@ -121,18 +121,18 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 
             if (jwtSecurityToken == null) //没有令牌 
             {
-                result.Message = "token已失效，请重新登录";
+                result.msg = "token已失效，请重新登录";
             }
             else
             {
                 if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
                 {
-                    result.Message = "token已过期，请重新登录";
+                    result.msg = "token已过期，请重新登录";
                 }
                 else
                 {
-                    result.Message = "token验证成功";
-                    result.Success = true;
+                    result.msg = "token验证成功";
+                    result.success = true;
                 }
             }
             return result;

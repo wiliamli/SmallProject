@@ -20,17 +20,16 @@ namespace Ruanmou.Core.Utility
             //MaxPageSize = Convert.ToInt32( func.Invoke("MaxPageSize"));
             //MaxPageSize = MaxPageSize == 0 ? 20 : MaxPageSize;
 
-            var expirationTimespan = func.Invoke("Expiration");
+            var expirationTimespan =func.Invoke("Expiration");
             //expirationTimespan = expirationTimespan == 0 ? 480 : expirationTimespan;
-
+         
             //Expiration = new TimeSpan(expirationTimespan) ;
-            Expiration = new TimeSpan(expirationTimespan.IsNullOrEmpty() ? Convert.ToInt32(expirationTimespan) / 60 : 8, 0, 0);
+            Expiration = new TimeSpan(expirationTimespan.IsNullOrEmpty() ? Convert.ToInt32(expirationTimespan)/60 : 8, 0, 0);
             SecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(func.Invoke("Authentication:JwtBearer:SecurityKey")));
             Issuer = func.Invoke("Authentication:JwtBearer:Issuer");
             Audience = func.Invoke("Authentication:JwtBearer:Audience");
             SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
             var expiration = func.Invoke("Authentication:JwtBearer:Expiration");
-
             PortalDefaultUrl = func.Invoke("PortalDefaultUrl");
             SysDefaultUrl = func.Invoke("SysDefaultUrl");
         }
@@ -65,6 +64,7 @@ namespace Ruanmou.Core.Utility
         #endregion
 
 
+
         #region 默认起始页
         public static string PortalDefaultUrl { get; private set; }
 
@@ -74,5 +74,6 @@ namespace Ruanmou.Core.Utility
         #region  默认密码
         public readonly static string DefaultPwd = "DefaultPassword";
         #endregion
+
     }
 }

@@ -5,7 +5,6 @@ using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
-using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 
 namespace Ruanmou.NetCore.Service
@@ -29,8 +28,8 @@ namespace Ruanmou.NetCore.Service
                 return AjaxResult.Failure("用户名或密码不正确,请检查！");
             }
 
-            var data = DataMapping<SysUser, SysUserOutputDto>.Trans(user);
-            return AjaxResult.SuccessResult("登录成功", data);
+            var data = DataMapping<SysUser, CurrentUser>.Trans(user);
+            return AjaxResult.Success("登录成功", data);
         }
     }
 }

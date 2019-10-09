@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;       
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
-using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface;      
 
 namespace Ruanmou04.NetCore.Project.Controllers
@@ -14,12 +13,10 @@ namespace Ruanmou04.NetCore.Project.Controllers
     /// </summary>
     public class BaseApiController : ControllerBase
     {
-        private IMemoryCache _memoryCache;
-        private ICurrentUserInfo _currentUserInfo;
-        public BaseApiController(IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo)
+        private ICurrentUserInfo currentUserInfo;
+        public BaseApiController(ICurrentUserInfo currentUserInfo)
         {
-            this._memoryCache = memoryCache;
-            this._currentUserInfo = currentUserInfo;
+            this.currentUserInfo = currentUserInfo;
         }
 
         /// <summary>
@@ -56,7 +53,7 @@ namespace Ruanmou04.NetCore.Project.Controllers
         /// <returns></returns>
         protected CurrentUser GetUserInfo()
         {
-            return _currentUserInfo.CurrentUser;
+            return currentUserInfo.CurrentUser;
         }
 
         /// <summary>
@@ -65,19 +62,19 @@ namespace Ruanmou04.NetCore.Project.Controllers
         /// <returns></returns>
         protected CurrentUser GetSysUserInfo()
         {
-            return _currentUserInfo.SysCurrentUser;
+            return currentUserInfo.SysCurrentUser;
         }
 
         /// <summary>
         /// 退出
         /// </summary>
-        protected void CleanUserInfo()
-        {
-            string key = HttpContext.Request.Headers["token"].SingleOrDefault();
-            if (key != null)
-            {
-                 this._memoryCache.Remove(key);
-            }
-        }
+        //protected void CleanUserInfo()
+        //{
+        //    string key = HttpContext.Request.Headers["token"].SingleOrDefault();
+        //    if (key != null)
+        //    {
+        //         this._memoryCache.Remove(key);
+        //    }
+        //}
     }
 }

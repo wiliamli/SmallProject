@@ -20,15 +20,12 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     public class PortalUserController : BaseApiController
     {
         private ISysUserService _IUserService = null;
-        private IMemoryCache _memoryCache = null;
         private ICurrentUserInfo _CurrentUser = null;
 
         public PortalUserController(ISysUserService userService,
-            ICurrentUserInfo currentUser,
-            IMemoryCache memoryCache) : base(memoryCache, currentUser)
+            ICurrentUserInfo currentUser) : base(currentUser)
         {
             this._IUserService = userService;
-            this._memoryCache = memoryCache;
             this._CurrentUser = currentUser;
         }
 
@@ -53,8 +50,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
             return new AjaxResult()
             {
-                Success = true,
-                Message = "ok",
+                success = true,
+                msg = "ok",
             };
         }
 
@@ -72,8 +69,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             //_IUserService.Update(user);
             return new AjaxResult()
             {
-                Success = true,
-                Message = "ok",
+                success = true,
+                msg = "ok",
             };
         }
 

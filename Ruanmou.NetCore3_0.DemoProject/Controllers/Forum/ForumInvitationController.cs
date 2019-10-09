@@ -14,11 +14,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumInvitationController : BaseApiController
     {
         private IForumInvitationApplication forumInvitationApplication;
-        private IMemoryCache memoryCache;
         private ICurrentUserInfo currentUserInfo;
 
-        public ForumInvitationController(IForumInvitationApplication forumInvitationApplication,
-            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
+        public ForumInvitationController(IForumInvitationApplication forumInvitationApplication,ICurrentUserInfo currentUserInfo) : base(currentUserInfo)
         {
             this.forumInvitationApplication = forumInvitationApplication;
         }

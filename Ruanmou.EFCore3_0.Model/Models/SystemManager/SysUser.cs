@@ -36,7 +36,7 @@ namespace Ruanmou04.EFCore.Model.Models.SystemManager
         /// <summary>
         /// 手机号
         /// <summary>
-        public long? Mobile { get; set; }
+        public Int64? Mobile { get; set; }
         /// <summary>
         /// 联系地址
         /// <summary>
@@ -48,7 +48,7 @@ namespace Ruanmou04.EFCore.Model.Models.SystemManager
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public long? QQ { get; set; }
+        public Int64? QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>
@@ -56,6 +56,7 @@ namespace Ruanmou04.EFCore.Model.Models.SystemManager
         /// <summary>
         /// 性别 男 女
         /// <summary>
+        [StringLength(2)]
         public string Sex { get; set; }
         /// <summary>
         /// 最后登陆时间

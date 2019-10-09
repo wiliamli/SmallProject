@@ -36,11 +36,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.CleanUserInfo">
-            <summary>
-            退出
-            </summary>
-        </member>
         <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsByRoleId(System.Collections.Generic.IList{System.Int32})">
             <summary>
             根据角色获取所有频道

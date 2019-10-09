@@ -19,23 +19,6 @@ namespace  Ruanmou04.Core.Utility.Extensions
         {
             return string.IsNullOrWhiteSpace(str);
         }
-
-        /// <summary>
-        /// 检查字符串是否可用
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="checkSpace"></param>
-        /// <returns></returns>
-        public static bool IsValid(this string str, bool checkSpace = true)
-        {     
-            if (checkSpace)
-            {
-                return !string.IsNullOrWhiteSpace(str);
-            }
-
-            return !string.IsNullOrEmpty(str);
-        }
-
         /// <summary>
         /// 是否Guid
         /// </summary>

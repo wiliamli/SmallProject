@@ -41,7 +41,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public long? QQ { get; set; }
+        public Int64? QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>

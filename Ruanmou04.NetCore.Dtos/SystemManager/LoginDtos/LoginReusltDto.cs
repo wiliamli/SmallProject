@@ -1,7 +1,10 @@
-﻿using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
+﻿
+
+
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 
 namespace Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos
-{
+{ 
     public class LoginReusltDto
     {
 
@@ -9,7 +12,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos
 
         public string Account { get; set; }
 
-        public SysUserOutputDto UsersData { get; set; }
+        public CurrentUser UsersData { get; set; }
     }
 
 

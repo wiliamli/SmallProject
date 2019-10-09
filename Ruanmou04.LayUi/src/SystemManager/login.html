@@ -71,14 +71,14 @@
           success: function (result) {
             debugger
             result = JSON.parse(result);
-            if (result.Success) {
+            if (result.success) {
               var data = result.data;
               sessionStorage.setItem("apiTicket", data.Token)
               sessionStorage.setItem("userName", data.Name)
               window.location.href = "home.html";
             }
             else {
-              layer.msg(result.Message, { icon: 2 });
+              layer.msg(result.msg, { icon: 2 });
             }
           }
         })

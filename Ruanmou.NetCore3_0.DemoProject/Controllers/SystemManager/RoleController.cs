@@ -36,7 +36,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string DeleteRoleById(int id)
         {
             _sysRoleService.Delete<SysRole>(id);
-            return JsonConvert.SerializeObject(new AjaxResult { Success = true, Message="删除成功" });
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功" });
 
         }
         /// <summary>
@@ -49,7 +49,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public string GetEditRoleByID(int id)
         {
             var user = _sysRoleService.Find<SysRole>(id)?.MapTo<SysRole, SysRoleDto>();
-            return JsonConvert.SerializeObject(new AjaxResult { Success = true, data = user });
+            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
 
         }
         [HttpGet]
@@ -103,7 +103,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public AjaxResult SaveData([FromBody]SysRoleDto sysMenuDto)
         {
 
-            AjaxResult ajaxResult = new AjaxResult { Success = false };
+            AjaxResult ajaxResult = new AjaxResult { success = false };
             if (sysMenuDto != null)
             {
                 if (sysMenuDto.Id > 0)
@@ -123,11 +123,11 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                     model.CreateId = _currentUserInfo.CurrentUser.Id;
                     _sysRoleService.Insert<SysRole>(model);
                 }
-                ajaxResult.Message = "保存成功";
-                ajaxResult.Success = true;
+                ajaxResult.msg = "保存成功";
+                ajaxResult.success = true;
             }
             else
-                ajaxResult.Message = "保存失败";
+                ajaxResult.msg = "保存失败";
             return ajaxResult;
         }
     }

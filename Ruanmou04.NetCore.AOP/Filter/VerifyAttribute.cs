@@ -34,7 +34,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
             else
             {
                 AjaxResult result = this._tokenService.ConfirmVerification(key);
-                if (!result.Success)
+                if (!result.success)
                 {
                     context.HttpContext.Response.Redirect(StaticConstraint.PortalDefaultUrl);
                 }

@@ -92,7 +92,7 @@
                         debugger;
 						parent.layer.close(LoadIndex);
                         console.log(result);
-                        if(result.Success)
+                        if(result.success)
                         {
                             var apiTiket= result.data; 
                             sessionStorage.setItem("RuanmouNetToken",apiTiket)
@@ -105,7 +105,7 @@
                         }
                         else
                         {  
-                            parent.layer.msg(result.Message, { icon: 2 });
+                            parent.layer.msg(result.msg, { icon: 2 });
                         } 
                     },
                     error: function (XMLHttpResponse) {

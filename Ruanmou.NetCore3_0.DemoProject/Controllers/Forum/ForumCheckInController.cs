@@ -17,11 +17,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumCheckInController : BaseApiController
     {
         private IForumCheckInApplication forumCheckInApplication;
-        private IMemoryCache memoryCache;
         private ICurrentUserInfo currentUserInfo;
 
-        public ForumCheckInController(IForumCheckInApplication forumCheckInApplication,
-            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
+        public ForumCheckInController(IForumCheckInApplication forumCheckInApplication,ICurrentUserInfo currentUserInfo) : base(currentUserInfo)
         {
             this.forumCheckInApplication = forumCheckInApplication;
         }

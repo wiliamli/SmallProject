@@ -28,13 +28,11 @@ namespace Ruanmou04.Core.Utility.MvcResult
             try
             {
                 action();
-                Message = "操作成功";
                 Success = true;
             }
             catch (Exception ex)
             {
                 Success = false;
-                Message = "操作失败";
                 throw ex;
             }
         }
@@ -59,24 +57,6 @@ namespace Ruanmou04.Core.Utility.MvcResult
             {
                 Success = Success,
                 Message = Message
-            };
-        }
-
-        public static StandardJsonResult GetSuccess(string msg)
-        {
-            return new StandardJsonResult()
-            {
-                Success = true,
-                Message = msg 
-            };
-        }
-
-        public static StandardJsonResult GetFailure(string msg)
-        {
-            return new StandardJsonResult()
-            {
-                Success = false,
-                Message = msg
             };
         }
     }
