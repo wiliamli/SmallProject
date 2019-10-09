@@ -630,7 +630,7 @@ var active = {
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
           data: {"userId":userInfo.Id},
-          headers: {Authorization: key},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
