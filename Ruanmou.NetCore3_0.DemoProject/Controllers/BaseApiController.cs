@@ -51,20 +51,21 @@ namespace Ruanmou04.NetCore.Project.Controllers
         }
 
         /// <summary>
-        /// 获取用户信息
+        /// 获取前台用户信息
         /// </summary>
         /// <returns></returns>
-        protected SysUserOutputDto GetUserInfo()
+        protected CurrentUser GetUserInfo()
         {
-            var user = _currentUserInfo.CurrentUser;
+            return _currentUserInfo.CurrentUser;
+        }
 
-            string key = HttpContext.Request.Headers["Authorization"].SingleOrDefault();
-            SysUserOutputDto sysUser = null;
-            if (key != null && user.Name != null)
-            {
-                sysUser = this._memoryCache.Get(key.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[1]) as SysUserOutputDto;
-            }
-            return sysUser;
+        /// <summary>
+        /// 获取后台用户信息
+        /// </summary>
+        /// <returns></returns>
+        protected CurrentUser GetSysUserInfo()
+        {
+            return _currentUserInfo.SysCurrentUser;
         }
 
         /// <summary>

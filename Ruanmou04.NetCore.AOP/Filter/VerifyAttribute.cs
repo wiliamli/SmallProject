@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Ruanmou.Core.Utility;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Tokens;
 using System;
@@ -25,17 +26,17 @@ namespace Ruanmou04.NetCore.AOP.Filter
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
+            string key = context.HttpContext.Request.Headers["token"].SingleOrDefault();
             if (key == null)
             {
-                throw new Exception("请登录后使用");
+                context.HttpContext.Response.Redirect(StaticConstraint.PortalDefaultUrl);
             }
             else
             {
                 AjaxResult result = this._tokenService.ConfirmVerification(key);
                 if (!result.Success)
                 {
-                    throw new Exception("请登录后使用");
+                    context.HttpContext.Response.Redirect(StaticConstraint.PortalDefaultUrl);
                 }
             }
         }

@@ -73,7 +73,7 @@
                 parent.layer.close(curIndex);
                 return false;
 				*/ 
-				console.log("api:" + config.apiUrl);
+				//console.log("api:" + config.apiUrl);
 				
                 /*** 校验图片验证码 ***/
                 var loginInput = {
@@ -89,12 +89,13 @@
                     url:config.apiUrl +'/Login/LoginSystemManager',
                     success:function (result)
                     {  
+                        debugger;
 						parent.layer.close(LoadIndex);
                         console.log(result);
                         if(result.Success)
                         {
-                           var apiTiket= result.data; 
-                           sessionStorage.setItem("RuanmouNetToken",apiTiket)
+                            var apiTiket= result.data; 
+                            sessionStorage.setItem("RuanmouNetToken",apiTiket)
 						   
                             parent.layer.msg("登录成功", { icon: 1 }); 
                             // 头部写入 用户中心和退出

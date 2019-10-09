@@ -31,6 +31,8 @@ namespace Ruanmou.Core.Utility
             SigningCredentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
             var expiration = func.Invoke("Authentication:JwtBearer:Expiration");
 
+            PortalDefaultUrl = func.Invoke("PortalDefaultUrl");
+            SysDefaultUrl = func.Invoke("SysDefaultUrl");
         }
 
         /// <summary>
@@ -62,6 +64,12 @@ namespace Ruanmou.Core.Utility
 
         #endregion
 
+
+        #region 默认起始页
+        public static string PortalDefaultUrl { get; private set; }
+
+        public static string SysDefaultUrl { get; private set; }
+        #endregion
 
         #region  默认密码
         public readonly static string DefaultPwd = "DefaultPassword";

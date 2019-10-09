@@ -10,7 +10,7 @@ layui.define('layer', function (exports) {
 
   var MOD_NAME = 'config'
     , config = {
-      apiUrl: 'https://localhost:44367/api',
+      apiUrl: 'https://localhost:5001/api',
       fileUrl: "https://localhost:44367/fileUpload/"
     }
 

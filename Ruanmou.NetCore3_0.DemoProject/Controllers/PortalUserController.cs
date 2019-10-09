@@ -33,11 +33,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
 
         [HttpGet]
-        public SysUserOutputDto GetUser()
+        public CurrentUser GetUser()
         {
-            SysUserOutputDto sysUser = base.GetUserInfo();
-            var user = _CurrentUser.CurrentUser;
-            return sysUser;
+            return base.GetUserInfo();
         }
 
         [HttpPost]
@@ -52,8 +50,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             if(string.IsNullOrWhiteSpace(model.Sex)) user.Sex = model.Sex; 
 
             _IUserService.Update(user);
-
-           // this._memoryCache.Set<SysUserOutputDto>(ajax.data, sysuserdto);
 
             return new AjaxResult()
             {

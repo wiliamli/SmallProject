@@ -12,5 +12,7 @@ namespace Ruanmou04.NetCore.Interface
     public interface ICurrentUserInfo: IApplication
     {
         CurrentUser CurrentUser { get; }
+
+        CurrentUser SysCurrentUser { get; }
     }
 }

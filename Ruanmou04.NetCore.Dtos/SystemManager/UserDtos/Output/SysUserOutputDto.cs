@@ -55,11 +55,6 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output
         public DateTime? LastLoginTime { get; set; }
 
         /// <summary>
-        /// 用户类型(1系统管理员 2学员)
-        /// </summary>
-        public int UserType { get; set; }
-
-        /// <summary>
         /// 当前角色
         /// </summary>
         public IEnumerable<SysRoleDto> SysRoles { get; set; }

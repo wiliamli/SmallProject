@@ -1,5 +1,4 @@
 using Autofac;
-using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +13,6 @@ using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.AOP.IOC;
 using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Service;
-using System.Collections.Generic;
 using System.IO;
 using YJ.PlatFormCore.Web.Startup;
 
@@ -49,6 +47,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
             services.AddSingleton<ICurrentUserInfo, CurrentUserInfo>();
             services.AddMemoryCache();
             services.AddSingleton<VerifyAttribute>();
+            services.AddSingleton<SysVerifyAttribute>();
             services.AddSingleton<CustomExceptionFilterAttribute>();
             //services.AddControllers().AddNewtonsoftJson(options =>
             //{
@@ -144,61 +143,5 @@ namespace Ruanmou.NetCore3_0.DemoProject
 
             });
         }
-
-        public static IEnumerable<ApiResource> GetApiResources()
-        {
-            return new List<ApiResource>
-           {
-               new ApiResource("inventoryapi", "this is inventory api"),
-               new ApiResource("orderapi", "this is order api"),
-               new ApiResource("productapi", "this is product api")
-           };
-        }
-
-        // clients want to access resources (aka scopes)
-        public static IEnumerable<Client> GetClients()
-        {
-            // client credentials client
-            return new List<Client>
-           {
-               new Client
-               {
-                   ClientId = "inventory",
-                   AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                   ClientSecrets =
-                   {
-                       new Secret("inventorysecret".Sha256())
-                   },
-
-                   AllowedScopes = { "inventoryapi" }
-               },
-                new Client
-               {
-                   ClientId = "order",
-                   AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                   ClientSecrets =
-                   {
-                       new Secret("ordersecret".Sha256())
-                   },
-
-                   AllowedScopes = { "orderapi" }
-               },
-                new Client
-               {
-                   ClientId = "product",
-                   AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                   ClientSecrets =
-                   {
-                       new Secret("productsecret".Sha256())
-                   },
-
-                   AllowedScopes = { "productapi" }
-               }
-           };
-        }
-
     }
 }

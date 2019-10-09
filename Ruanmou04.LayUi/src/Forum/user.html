@@ -179,7 +179,7 @@ layui.use(['jquery','laytpl','form'], function(){
        $.ajax({
           url:baseDomain()+"api/ForumInvitation/GetInvitationsByUserId",
           data: {"userId":userId},
-          headers: {Authorization: key},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -200,7 +200,7 @@ layui.use(['jquery','laytpl','form'], function(){
       $.ajax({
           url:baseDomain()+"api/Users/GetUserByID",
           data: {"userId":userId},
-          headers: {Authorization: key},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(data) {

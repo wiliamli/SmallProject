@@ -19,7 +19,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         [HttpGet]
-        public StandardJsonResult<SysUserOutputDto> GetLoginInfo()
+        public StandardJsonResult<CurrentUser> GetLoginInfo()
         {
             return StandardAction(()=> base.GetUserInfo());
         }
