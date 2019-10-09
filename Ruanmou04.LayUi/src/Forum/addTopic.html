@@ -194,7 +194,7 @@
       layui.jquery.ajax({
           url:domain+"api/ForumChannel/GetChannels",
           data: null,
-          headers: {Authorization: key},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
