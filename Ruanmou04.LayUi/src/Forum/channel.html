@@ -651,7 +651,7 @@ var active = {
     layui.jquery.ajax({
           url:domain+"api/ForumLogin/GetLoginInfo",
           data: null,
-          headers: {Authorization: key},
+          headers: {token: key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -665,7 +665,7 @@ var active = {
                 });
                 active.channelInit();
              }else{
-              window.location.href="/src/Forum/login.html";
+                window.location.href="/src/Forum/login.html";
              }
           },
           error: function() {

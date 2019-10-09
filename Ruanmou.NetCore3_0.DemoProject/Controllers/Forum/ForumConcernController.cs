@@ -12,22 +12,13 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumConcernController : BaseApiController
     {
         private IForumConcernApplication forumConcernApplication;
-        private IMemoryCache memoryCache;
         private ICurrentUserInfo currentUserInfo;
 
-        public ForumConcernController(IForumConcernApplication forumConcernApplication,
-            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
+        public ForumConcernController(IForumConcernApplication forumConcernApplication,ICurrentUserInfo currentUserInfo) : base(currentUserInfo)
         {
             this.forumConcernApplication = forumConcernApplication;
         }
 
-
-        // GET: api/ForumConcern
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
 
         // POST: api/ForumConcern
         [HttpPost]

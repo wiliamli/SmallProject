@@ -26,7 +26,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
             else
             {
                 var result = await this._tokenService.ConfirmVerificationAsync(key);
-                if (!result.Success)
+                if (!result.success)
                 {
                     throw new Exception("请登录后使用");
                 }

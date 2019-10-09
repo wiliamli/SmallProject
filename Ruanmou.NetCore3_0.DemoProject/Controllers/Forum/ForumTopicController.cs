@@ -16,10 +16,8 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
     public class ForumTopicController : BaseApiController
     {
         private IForumTopicApplication forumTopicApplication;
-        private IMemoryCache memoryCache;
         private ICurrentUserInfo currentUserInfo;
-        public ForumTopicController(IForumTopicApplication forumTopicApplication,
-            IMemoryCache memoryCache,ICurrentUserInfo currentUserInfo) :base(memoryCache,currentUserInfo)
+        public ForumTopicController(IForumTopicApplication forumTopicApplication,ICurrentUserInfo currentUserInfo) :base(currentUserInfo)
         {
             this.forumTopicApplication = forumTopicApplication;
         }

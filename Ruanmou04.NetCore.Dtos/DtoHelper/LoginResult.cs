@@ -1,5 +1,4 @@
 ﻿using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
-using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using System;
 
 namespace Ruanmou04.EFCore.Dtos.DtoHelper
@@ -12,7 +11,7 @@ namespace Ruanmou04.EFCore.Dtos.DtoHelper
         public string Token { get; set; }
         
         public Guid UserId { get; set; }
-        public SysUserOutputDto User { get; set; }
+        public CurrentUser User { get; set; }
         //public LoginResultType LoginResultType { get; set; }
     }
 }

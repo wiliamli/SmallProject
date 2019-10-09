@@ -26,14 +26,15 @@
         </member>
         <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.GetUserInfo">
             <summary>
-            获取用户信息
+            获取前台用户信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.CleanUserInfo">
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.BaseApiController.GetSysUserInfo">
             <summary>
-            退出
+            获取后台用户信息
             </summary>
+            <returns></returns>
         </member>
         <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsByRoleId(System.Collections.Generic.IList{System.Int32})">
             <summary>

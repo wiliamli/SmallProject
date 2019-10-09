@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 
 using Ruanmou04.Core.Dtos.DtoHelper;
-using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
@@ -29,44 +28,35 @@ namespace Ruanmou.NetCore.Service
             //userDB.LastLoginTime = DateTime.Now;
             this.Commit();
         }
-        ///// <summary>
-        ///// 获取所有用户
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<SysUserOutputDto> GetSysUsers(Expression<Func<SysUser, bool>> funcWhere)
-        //{
-        //    var users = Query<SysUser>(funcWhere);
+        /// <summary>
+        /// 获取所有用户
+        /// </summary>
+        /// <returns></returns>
+        public List<CurrentUser> GetSysUsers(Expression<Func<SysUser,bool>> funcWhere)
+        {
+            var users = Query<SysUser>(funcWhere);
+            
+            var userDtolist=users.Select(s => s.MapTo<SysUser, CurrentUser>()
+            //new SysUserOutputDto
+            //{
+            //    Account = s.Account,
+            //    Address = s.Address,
+            //    Email = s.Email,
+            //    Id = s.Id,
+            //    Mobile = s.Mobile,
+            //    Name = s.Name,
+            //    Phone = s.Phone,
+            //    QQ = s.QQ,
+            //    Sex = s.Sex,
+            //    Status = s.Status,
+            //    WeChat = s.WeChat
+            //}
+            ).ToList() ;
 
-        //    var userDtolist = users.Select(s => s.MapTo<SysUser, SysUserOutputDto>()
-        //    //new SysUserOutputDto
-        //    //{
-        //    //    Account = s.Account,
-        //    //    Address = s.Address,
-        //    //    Email = s.Email,
-        //    //    Id = s.Id,
-        //    //    Mobile = s.Mobile,
-        //    //    Name = s.Name,
-        //    //    Phone = s.Phone,
-        //    //    QQ = s.QQ,
-        //    //    Sex = s.Sex,
-        //    //    Status = s.Status,
-        //    //    WeChat = s.WeChat
-        //    //}
-        //    ).ToList();
+            return userDtolist;
 
-        //    return userDtolist;
+        }
 
-        //}
 
-        //public AjaxResult RestPwd(UserRestPwdDto dto)
-        //{
-        //    var sysUser = base.Find<SysUser>(dto.UserId);
-        //    if (sysUser == null)
-        //    {
-        //        return AjaxResult.Failure("该用户不存在");
-        //    }
-        //    sysUser.Password = dto.UserPwd;
-        //    base.UpdateNotCommit<SysUser>(sysUser);
-        //}
     }
 }

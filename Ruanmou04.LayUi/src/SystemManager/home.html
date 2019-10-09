@@ -87,7 +87,7 @@
     </script>
 
   <script src="/layui.js"></script>
-  <script src="/common.js?v=20190930111"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     //初始化主页
     var AdminPage = {
@@ -101,7 +101,7 @@
           },
           url: config.apiUrl + "/Menu/GetMenuList",
           success: function (result) {
-            if (result.Success) {
+            if (result.success) {
               document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
               var getTpl = document.getElementById('tepMenue').innerHTML;
               var view = document.getElementById('menuUl');
@@ -110,7 +110,7 @@
               });
             }
             else {
-              layer.msg(result.Message, { icon: 7 });
+              layer.msg(result.msg, { icon: 7 });
             }
           }
         })

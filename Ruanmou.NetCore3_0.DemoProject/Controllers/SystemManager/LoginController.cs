@@ -1,12 +1,10 @@
-﻿using System.Threading.Tasks;   
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;  
+using Newtonsoft.Json;
 using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
-using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Interface.Tokens;
@@ -15,7 +13,7 @@ using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
-{    
+{
     [Route("api/[controller]/[action]"), ApiController]
     public class LoginController : ControllerBase
     {
@@ -24,24 +22,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ISysUserService _IUserService = null;
         private ILoginApplication _loginApplication = null;
         private ITokenService _tokenService;
-        private IMemoryCache _memoryCache;
-        private ISysRoleApplication _sysRoleApplication;
 
 
         public LoginController(ILoggerFactory factory,
             ISysUserService userService
             , ILoginApplication loginApplication
             , ITokenService tokenService
-            , IMemoryCache memoryCache
-            , ISysRoleApplication sysRoleApplication
             )
         {
             this._Factory = factory;
             this._IUserService = userService;
             this._loginApplication = loginApplication;
             this._tokenService = tokenService;
-            this._memoryCache = memoryCache;
-            this._sysRoleApplication = sysRoleApplication;
         }
         #endregion
         /// <summary>
@@ -53,19 +45,19 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public async Task<string> LoginSystemManager(LoginInputDto loginInput)
         {
             var ajax = _loginApplication.Login(loginInput);
-            if (ajax.Success)
+            if (ajax.success)
             {
-                var sysuserdto =  ajax.data as SysUserOutputDto;
-                var generatedto= sysuserdto.MapTo<SysUserOutputDto, GenerateTokenDto>();// sys DataMapping<SysUserOutputDto, Ruanmou04.NetCore.Service.Core.Tokens.Dtos.GenerateTokenDto>.Trans(sysuserdto);
+                var sysuserdto =  ajax.data as CurrentUser;
+                var generatedto= DataMapping<CurrentUser,GenerateTokenDto>.Trans(sysuserdto);
                 ajax = await _tokenService.GenerateTokenAsync(generatedto);
                 generatedto.Token = ajax.data.ToString();
-                var curRoles = this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
-                if (curRoles != null)
-                {
-                    sysuserdto.SysRoles = curRoles;
-                }
+                //var curRoles = this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
+                //if (curRoles != null)
+                //{
+                //    sysuserdto.SysRoles = curRoles;
+                //}
                 ajax.data = generatedto;                
-                this._memoryCache.Set<SysUserOutputDto>(generatedto.Token, sysuserdto);
+                //this._memoryCache.Set<CurrentUser>($"Bearer {generatedto.Token}", sysuserdto);
             }
             return JsonConvert.SerializeObject( ajax);
         }

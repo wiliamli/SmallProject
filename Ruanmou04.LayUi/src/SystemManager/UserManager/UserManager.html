@@ -34,7 +34,11 @@
         <a class="layui-btn layui-btn-xs" lay-event="RoleUser">用户角色</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
+<<<<<<< HEAD
   <script src="/common.js?v=20191008000" type="text/javascript"></script>
+=======
+
+>>>>>>> origin/dev_william
   <script>
     // userManager = {
     //   openUserWindow: function (data) {
@@ -80,7 +84,7 @@
       openUserWindow: function (data) {
         var id = data && data.Id ? data.Id : "0";
         //title, url, w, h,data
-        pageShow('编辑用户', 'UserManager/UserDetail.html', 900, 450, id);
+        pageShow('编辑用户','UserManager/UserDetail.html',900, 450,id);
         // layer.open({
         //   type: 2,
         //   content: 'UserManager/UserDetail.html',
@@ -93,7 +97,7 @@
         // })
       },
       openUserRoleWindow: function (data) {
-        pageShow('编辑用户', 'UserManager/UserRoleAssign.html', 700, 450, data);
+        pageShow('编辑用户','UserManager/UserRoleAssign.html',700, 450,data);
         // layer.open({
         //   type: 2,
         //   content: 'UserManager/UserRoleAssign.html',
@@ -106,7 +110,7 @@
         // })
       },
       openRoleMenuWindow: function (data) {
-        pageShow('编辑用户', 'UserManager/UserRoleAssign.html', 700, 450, data);
+        pageShow('编辑用户','UserManager/UserRoleAssign.html',700, 450,data);
         // layer.open({
         //   type: 2,
         //   content: 'UserManager/UserRoleAssign.html',
@@ -150,12 +154,11 @@
         , limit: 20
         , toolbar: '#toolbarDemo'
         // , toolbar: true
-        , parseData: function (queryData) {
-          debugger;
+        , parseData: function (queryData) {          
           return {
             code: '0',
-            data: queryData.Data.Rows,
-            count: queryData.Data.Total
+            data: queryData.Rows,
+            count: queryData.Total
           };
         }
         , page: true
@@ -195,13 +198,17 @@
             break;
           case 'reload':
             table.reload('test', {
-              page: { curr: 1 }
+              page: { curr: 10 }
             }, 'data');
             break;
           case 'delbatch':
             // 实现批量删除功能了 
+<<<<<<< HEAD
             deleteMulity($, layer, table, obj, '/Users/DeleteBatchById');
             break;
+=======
+            deleteMulity($,layer,table,obj,'/Users/DeleteBatchById');
+>>>>>>> origin/dev_william
             // layer.confirm('确定要删除选中的数据吗???', function (index) {
             //   debugger
             //   var checkStatus = table.checkStatus(obj.config.id);
@@ -250,7 +257,7 @@
         var data = obj.data;
         if (obj.event === 'del') { // 实现删除功能了 
           //$,layer,id,url
-          deleteOne($, layer, data.Id, '/Users/DeleteById');
+          deleteOne($,layer,data.Id,'/Users/DeleteById');
           // layer.confirm('确定要删除吗???', function (index) {
           //   $.ajax({
           //     type: "get",

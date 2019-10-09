@@ -16,8 +16,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         private IForumAttachmentApplication forumAttachmentApplication;
         private ICurrentUserInfo currentUserInfo;
 
-        public ForumAttachmentController(IForumChannelApplication forumChannelApplication,
-            IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo) : base(memoryCache, currentUserInfo)
+        public ForumAttachmentController(IForumChannelApplication forumChannelApplication,ICurrentUserInfo currentUserInfo) : base(currentUserInfo)
         {
             this.forumAttachmentApplication = forumAttachmentApplication;
         }

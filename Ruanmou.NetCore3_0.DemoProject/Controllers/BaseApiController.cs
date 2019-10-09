@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;       
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
-using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface;      
 
 namespace Ruanmou04.NetCore.Project.Controllers
@@ -14,12 +13,10 @@ namespace Ruanmou04.NetCore.Project.Controllers
     /// </summary>
     public class BaseApiController : ControllerBase
     {
-        private IMemoryCache _memoryCache;
-        private ICurrentUserInfo _currentUserInfo;
-        public BaseApiController(IMemoryCache memoryCache, ICurrentUserInfo currentUserInfo)
+        private ICurrentUserInfo currentUserInfo;
+        public BaseApiController(ICurrentUserInfo currentUserInfo)
         {
-            this._memoryCache = memoryCache;
-            this._currentUserInfo = currentUserInfo;
+            this.currentUserInfo = currentUserInfo;
         }
 
         /// <summary>
@@ -51,32 +48,33 @@ namespace Ruanmou04.NetCore.Project.Controllers
         }
 
         /// <summary>
-        /// 获取用户信息
+        /// 获取前台用户信息
         /// </summary>
         /// <returns></returns>
-        protected SysUserOutputDto GetUserInfo()
+        protected CurrentUser GetUserInfo()
         {
-            var user = _currentUserInfo.CurrentUser;
+            return currentUserInfo.CurrentUser;
+        }
 
-            string key = HttpContext.Request.Headers["Authorization"].SingleOrDefault();
-            SysUserOutputDto sysUser = null;
-            if (key != null && user.Name != null)
-            {
-                sysUser = this._memoryCache.Get(key.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries)[1]) as SysUserOutputDto;
-            }
-            return sysUser;
+        /// <summary>
+        /// 获取后台用户信息
+        /// </summary>
+        /// <returns></returns>
+        protected CurrentUser GetSysUserInfo()
+        {
+            return currentUserInfo.SysCurrentUser;
         }
 
         /// <summary>
         /// 退出
         /// </summary>
-        protected void CleanUserInfo()
-        {
-            string key = HttpContext.Request.Headers["token"].SingleOrDefault();
-            if (key != null)
-            {
-                 this._memoryCache.Remove(key);
-            }
-        }
+        //protected void CleanUserInfo()
+        //{
+        //    string key = HttpContext.Request.Headers["token"].SingleOrDefault();
+        //    if (key != null)
+        //    {
+        //         this._memoryCache.Remove(key);
+        //    }
+        //}
     }
 }
