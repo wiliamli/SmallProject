@@ -56,6 +56,11 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos
         public DateTime? LastLoginTime { get; set; }
 
         /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
         /// 当前角色
         /// </summary>
         public IEnumerable<SysRoleDto> SysRoles { get; set; }

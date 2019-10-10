@@ -61,21 +61,24 @@ namespace Ruanmou04.NetCore.Service
 
             if (contextAccessor.HttpContext.Request.Headers.ContainsKey(headerKey))
             {
-                users = new CurrentUser();
                 contextAccessor.HttpContext.Request.Headers.TryGetValue(headerKey, out StringValues val);
                 identity = tokenService.GetClaims(val);
-                users.Id = Convert.ToInt32(identity.FindFirst(ClaimTypes.PrimarySid).Value);
-                users.Name = identity.FindFirst(ClaimTypes.Name).Value;
-                var curRoles = GetRoleCache(val);
-                if (curRoles != null && curRoles.Count() > 0)
+                if (identity != null)
                 {
-                    users.SysRoles = curRoles;
-                }
-                else
-                {
-                    curRoles = this.sysRoleApplication.GetUserRoles(users.Id);
-                    System.Threading.Tasks.Task.Run(() => SetRoleCache(val, curRoles));
-                    users.SysRoles = curRoles;
+                    users = new CurrentUser();
+                    users.Id = Convert.ToInt32(identity.FindFirst(ClaimTypes.PrimarySid).Value);
+                    users.Name = identity.FindFirst(ClaimTypes.Name).Value;
+                    var curRoles = GetRoleCache(val);
+                    if (curRoles != null && curRoles.Count() > 0)
+                    {
+                        users.SysRoles = curRoles;
+                    }
+                    else
+                    {
+                        curRoles = this.sysRoleApplication.GetUserRoles(users.Id);
+                        System.Threading.Tasks.Task.Run(() => SetRoleCache(val, curRoles));
+                        users.SysRoles = curRoles;
+                    }
                 }
             }
             return users;

@@ -47,7 +47,7 @@ namespace Ruanmou04.Core.Utility.MvcResult
         public Task ExecuteResultAsync(ActionContext context)
         {
             var response = context.HttpContext.Response;
-            response.ContentType = ContentType;
+            //response.ContentType = ContentType;
             return response.WriteAsync(JsonConvert.SerializeObject(ToJsonObject()), Encoding.UTF8);
         }
 

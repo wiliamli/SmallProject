@@ -57,7 +57,7 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
         /// <returns>string</returns>
         public async Task<AjaxResult> GenerateTokenAsync(GenerateTokenDto generateDto)
         {
-            AjaxResult result = new AjaxResult("");
+            AjaxResult result = new AjaxResult();
 
             TokenInformation tokenInfoMation = null;
             generateDto.TokenExpiration = StaticConstraint.Expiration;
@@ -75,9 +75,9 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
         /// <returns>AjaxResult</returns>
         public async Task<AjaxResult> ConfirmVerificationAsync(string token)
         {
-            AjaxResult result = new AjaxResult("");
+            AjaxResult result = new AjaxResult();
 
-            token = token.Replace("Bearer ", "");
+            token = token.Replace("Bearer ", string.Empty);
             var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
 
             if (jwtSecurityToken.Claims.Any())
@@ -108,31 +108,38 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 
         public AjaxResult ConfirmVerification(string token)
         {
-            AjaxResult result = new AjaxResult("");
-            token = token.Replace("Bearer ", "");
-            var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
-
-            if (jwtSecurityToken.Claims.Any())
-            {
-                ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
-                identity.AddClaims(jwtSecurityToken.Claims);
-                Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
-            }
-
-            if (jwtSecurityToken == null) //没有令牌 
+            AjaxResult result = new AjaxResult();
+            token = token.Replace("Bearer ", string.Empty);
+            if (token == "null")
             {
                 result.msg = "token已失效，请重新登录";
             }
             else
             {
-                if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
+                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+
+                if (jwtSecurityToken.Claims.Any())
                 {
-                    result.msg = "token已过期，请重新登录";
+                    ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                    identity.AddClaims(jwtSecurityToken.Claims);
+                    Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
+                }
+
+                if (jwtSecurityToken == null) //没有令牌 
+                {
+                    result.msg = "token已失效，请重新登录";
                 }
                 else
                 {
-                    result.msg = "token验证成功";
-                    result.success = true;
+                    if (jwtSecurityToken.ValidTo.Add(StaticConstraint.Expiration) < DateTime.Now) //已过期 
+                    {
+                        result.msg = "token已过期，请重新登录";
+                    }
+                    else
+                    {
+                        result.msg = "token验证成功";
+                        result.success = true;
+                    }
                 }
             }
             return result;
@@ -140,14 +147,19 @@ namespace Ruanmou04.NetCore.Service.Authorization.Tokens
 
         public ClaimsPrincipal GetClaims(string token)
         {
-            token = token.Replace("Bearer ", "");
-            var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+            token = token.Replace("Bearer ", string.Empty);
+            
             ClaimsPrincipal claimsPrincipal = null;
-            if (jwtSecurityToken.Claims.Any())
+            if (token != "null")
             {
-                ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
-                identity.AddClaims(jwtSecurityToken.Claims);
-                claimsPrincipal = new ClaimsPrincipal(identity);
+                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
+
+                if (jwtSecurityToken.Claims.Any())
+                {
+                    ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);
+                    identity.AddClaims(jwtSecurityToken.Claims);
+                    claimsPrincipal = new ClaimsPrincipal(identity);
+                }
             }
             return claimsPrincipal;
         }

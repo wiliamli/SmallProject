@@ -17,13 +17,15 @@ using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input;
+using Ruanmou04.NetCore.Project.Controllers;
+using Ruanmou04.Core.Utility.MvcResult;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     //[TypeFilter(typeof( CustomExceptionFilterAttribute))]
-    [CustomAuthorize]
+    [ServiceFilter(typeof(VerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         #region MyRegion
         private IConfiguration _configuration = null;
@@ -32,7 +34,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public UsersController(
            IConfiguration configuration,
             ICurrentUserInfo currentUserInfo,
-            ISysUserService userService)
+            ISysUserService userService):base(currentUserInfo)
         {
             this._configuration = configuration;
             this._userService = userService;
@@ -42,10 +44,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         // GET api/SysUser/5
         [HttpGet]
-        public CurrentUser GetUserByID(int userId)
+        public StandardJsonResult<CurrentUser> GetUserByID(int userId)
         {
-            return _userService.Find<SysUser>(userId).MapTo<SysUser, CurrentUser>();
-
+            return StandardAction(()=>_userService.Find<SysUser>(userId).MapTo<SysUser, CurrentUser>());
         }
 
         /// <summary>
