@@ -57,12 +57,13 @@ namespace Ruanmou04.NetCore.Service
         private CurrentUser GetCurrentUser(string headerKey)
         {
             var identity = contextAccessor.HttpContext.User;
-            var users = new CurrentUser();
+            CurrentUser users = null;
 
             if (contextAccessor.HttpContext.Request.Headers.ContainsKey(headerKey))
             {
                 if (identity.FindFirst(ClaimTypes.PrimarySid) != null)
                 {
+                    users = new CurrentUser();
                     contextAccessor.HttpContext.Request.Headers.TryGetValue(headerKey, out StringValues val);
                     users.Id = Convert.ToInt32(identity.FindFirst(ClaimTypes.PrimarySid).Value);
                     users.Name = identity.FindFirst(ClaimTypes.Name).Value;

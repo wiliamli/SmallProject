@@ -19,7 +19,7 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input
         /// 用户状态   1 正常 0 删除
         /// <summary>
         /// <summary>
-        public bool Status { get; set; }
+        public short Status { get; set; }
         /// <summary>
         /// 联系电话
         /// <summary>
