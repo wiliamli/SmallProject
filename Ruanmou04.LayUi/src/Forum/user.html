@@ -29,6 +29,8 @@
     </ul>
     -->
     <script id="topicTpl" type="text/html">
+      <h3 class="fly-panel-title">william 最近的发帖</h3>
+      <ul class="jie-row">
         {{# layui.each(d, function(index, item){ }}
            <li>
                 <a href="/src/Forum/detail.html?topic={{item.Id}}" class="jie-title">{{item.Name}}</a>
@@ -39,9 +41,12 @@
         {{#  if(d.length === 0){ }}
           <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><i style="font-size:14px;">没有发表任何主题</i></div>
         {{#  } }} 
+        </ul>
       </script>
 
       <script id="replyTpl" type="text/html">
+        <h3 class="fly-panel-title">william 最近的回帖</h3>
+        <ul  class="home-jieda">
         {{# layui.each(d, function(index, item){ }}
         <li>
             <p>
@@ -56,15 +61,16 @@
         {{#  if(d.length === 0){ }}
         <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><span>没有回复任何主题</span></div>
         {{#  } }} 
+        <ul>
       </script>
 
       <script id="userInfoTpl" type="text/html">
         <h1>
-          {{d.account}}
+          {{d.Name}}
           <i class="iconfont icon-nan"></i>
         </h1>
         <p class="fly-home-info">
-          <i class="iconfont icon-shijian"></i><span>{{d.createTime}} 加入</span>
+          <i class="iconfont icon-shijian"></i><span>{{d.CreateTime}} 加入</span>
         </p>
       
         <p class="fly-home-sign">（个人描述）</p>
@@ -73,7 +79,7 @@
       <script id="loginInfoTpl" type="text/html">
         <li class="layui-nav-item">
           <a class="fly-nav-avatar" href="javascript:;">
-            <cite class="layui-hide-xs">{{d.account}}</cite>
+            <cite class="layui-hide-xs">{{d.Name}}</cite>
             <!--
             <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
             <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
@@ -104,19 +110,15 @@
 <div class="layui-container">
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md6 fly-home-jie">
-      <div class="fly-panel">
-        <h3 class="fly-panel-title">william 最近的发帖</h3>
-        <ul id="userTopicView" class="jie-row">
-          
-          
-        </ul>
+      <div id="userTopicView" class="fly-panel">
+        
       </div>
     </div>
     
     <div class="layui-col-md6 fly-home-da">
-      <div class="fly-panel">
+      <div id="replyUserView" class="fly-panel">
         <h3 class="fly-panel-title">william 最近的回帖</h3>
-        <ul id="replyUserView" class="home-jieda">
+        <ul  class="home-jieda">
 
           <!--  -->
         </ul>
@@ -146,7 +148,7 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var userId = getQueryVariable("userId");
   var domain = baseDomain();
-  var key = "Bearer " +sessionStorage.getItem("Authorization");
+  var key = "Bearer " +sessionStorage.getItem("token");
    var loginInfo=function(data){
           var loginInfoTpl=document.getElementById('loginInfoTpl').innerHTML;
           var loginView=document.getElementById('loginView');
@@ -204,17 +206,16 @@ layui.use(['jquery','laytpl','form'], function(){
           headers: {token: key},
           type: 'get',
           dataType: 'json',
-          success: function(data) {
+          contentType:'application/json',
+          success: function(obj) {
+            debugger;
+            var data = obj.Data;
             var userInfoTpl=document.getElementById('userInfoTpl').innerHTML;
             var userInfoView=document.getElementById('userInfoView');
             layui.laytpl(userInfoTpl).render(data,function(html){
               userInfoView.innerHTML=html;
             });
             loginInfo(data);
-          },
-          error: function() {
-            layer.alert(JSON.stringify(data.field), {
-              title: 'ajax请求失败！'});
           }
        });
     }

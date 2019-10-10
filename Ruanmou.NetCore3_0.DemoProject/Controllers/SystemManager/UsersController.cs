@@ -24,7 +24,7 @@ using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     //[TypeFilter(typeof( CustomExceptionFilterAttribute))]
-    [CustomAuthorize]
+    [ServiceFilter(typeof(VerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : BaseApiController
     {
@@ -33,11 +33,13 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         private ISysUserService _userService = null;
         private ICurrentUserInfo _currentUserInfo = null;
         private ISysUserApplication _userApplication = null;
+
         public UsersController(
            IConfiguration configuration,
             ICurrentUserInfo currentUserInfo,
             ISysUserService userService,
-            ISysUserApplication userApplication) :base(currentUserInfo)
+            ISysUserApplication userApplication):base(currentUserInfo)
+
         {
             this._configuration = configuration;
             this._userService = userService;
@@ -48,10 +50,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 
         // GET api/SysUser/5
         [HttpGet]
-        public CurrentUser GetUserByID(int userId)
+        public StandardJsonResult<CurrentUser> GetUserByID(int userId)
         {
-            return _userService.Find<SysUser>(userId).MapTo<SysUser, CurrentUser>();
-
+            return StandardAction(()=>_userService.Find<SysUser>(userId).MapTo<SysUser, CurrentUser>());
         }
 
         /// <summary>
@@ -187,12 +188,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 _userService.Insert<SysUser>(user);
             }
             return AjaxResult.Success("保存成功");
-            //ajaxResult.msg = "保存成功";
-            //ajaxResult.success = true;
-            // }
-            //else
-            //    ajaxResult.msg = "保存失败";
-            //  return ajaxResult;
         }
     }
 }

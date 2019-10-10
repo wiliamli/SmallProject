@@ -77,7 +77,7 @@
      
     <li class="layui-nav-item">
       <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
-        <cite class="layui-hide-xs">{{d.Account}}</cite>
+        <cite class="layui-hide-xs">{{d.Name}}</cite>
       </a>
       <dl class="layui-nav-child">
         <dd><a href="/src/forum/user.html?userId={{d.Id}}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
@@ -655,7 +655,6 @@ var active = {
           dataType: 'json',
           success: function(obj) {
               if(obj.Success && obj.Data!=null){
-                debugger;
                 var data=obj.Data;
                 sessionStorage.setItem("userInfo",JSON.stringify(data));
                 var loginTpl=document.getElementById('loginTpl').innerHTML;
