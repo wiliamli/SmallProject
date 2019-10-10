@@ -557,11 +557,11 @@
 <script type="text/javascript">
 
 var domain=baseDomain();
-var key = "Bearer " + sessionStorage.getItem("Authorization");
+var key = "Bearer " + sessionStorage.getItem("token");
 var active = {
       channelInit:function(roleIds){
         layui.jquery.ajax({
-          headers: {Authorization: key},
+          headers: {"token": key},
           url:domain+"api/ForumChannel/GetChannels",
           data: null,
           type: 'get',
@@ -582,10 +582,9 @@ var active = {
       tabChange: function(othis,Id){
       //切换到指定Tab项
       var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
-      headers: { Authorization: key},
+      headers: { "token": key},
       data: {"channleId":Id},
       type: 'get',
       dataType: 'json',
@@ -610,7 +609,7 @@ var active = {
     layui.jquery.ajax({
       url:domain+"api/ForumCheckIn/Add",
       data:JSON.stringify(clockin),
-      headers: {Authorization: key},
+      headers: {"token": key},
       type: 'post',
       dataType: 'json',
       contentType:'application/json',
@@ -630,7 +629,7 @@ var active = {
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
           data: {"userId":userInfo.Id},
-          headers: {token: key},
+          headers: {"token": key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -651,11 +650,12 @@ var active = {
     layui.jquery.ajax({
           url:domain+"api/ForumLogin/GetLoginInfo",
           data: null,
-          headers: {token: key},
+          headers: {"token": key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
               if(obj.Success && obj.Data!=null){
+                debugger;
                 var data=obj.Data;
                 sessionStorage.setItem("userInfo",JSON.stringify(data));
                 var loginTpl=document.getElementById('loginTpl').innerHTML;

@@ -194,7 +194,7 @@
       layui.jquery.ajax({
           url:domain+"api/ForumChannel/GetChannels",
           data: null,
-          headers: {token: key},
+          headers: {"token": key},
           type: 'get',
           dataType: 'json',
           success: function(obj) {
@@ -249,7 +249,6 @@ layui.use(['jquery','laytpl','form'], function(){
 
 
    form.on('submit(topicPublish)', function(data){
-        debugger;
         var topicData={};
         topicData.channelId=selValue;
         topicData.name=data.field.title;
