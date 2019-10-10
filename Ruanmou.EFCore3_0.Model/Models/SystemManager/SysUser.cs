@@ -28,7 +28,7 @@ namespace Ruanmou04.EFCore.Model.Models.SystemManager
         /// 用户状态   0 正常 1 冻结 2 删除
         /// <summary>
         /// <summary>
-        public bool Status { get; set; } = true;
+        public short Status { get; set; } = 1;
         /// <summary>
         /// 联系电话
         /// <summary>
@@ -36,7 +36,7 @@ namespace Ruanmou04.EFCore.Model.Models.SystemManager
         /// <summary>
         /// 手机号
         /// <summary>
-        public Int64? Mobile { get; set; }
+        public long? Mobile { get; set; }
         /// <summary>
         /// 联系地址
         /// <summary>
@@ -48,7 +48,7 @@ namespace Ruanmou04.EFCore.Model.Models.SystemManager
         /// <summary>
         /// 联系QQ
         /// <summary>
-        public Int64? QQ { get; set; }
+        public long? QQ { get; set; }
         /// <summary>
         /// 微信号
         /// <summary>

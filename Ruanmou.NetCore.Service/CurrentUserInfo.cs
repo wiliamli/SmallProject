@@ -57,8 +57,9 @@ namespace Ruanmou04.NetCore.Service
         private CurrentUser GetCurrentUser(string headerKey)
         {
             var identity = contextAccessor.HttpContext.User;
-            CurrentUser users = null; 
-            
+
+            CurrentUser users = null;
+
             if (contextAccessor.HttpContext.Request.Headers.ContainsKey(headerKey))
             {
                 if (identity.FindFirst(ClaimTypes.PrimarySid) != null)
