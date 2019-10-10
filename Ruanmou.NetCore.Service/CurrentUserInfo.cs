@@ -61,24 +61,21 @@ namespace Ruanmou04.NetCore.Service
 
             if (contextAccessor.HttpContext.Request.Headers.ContainsKey(headerKey))
             {
-                if (identity.FindFirst(ClaimTypes.PrimarySid) != null)
+                users = new CurrentUser();
+                contextAccessor.HttpContext.Request.Headers.TryGetValue(headerKey, out StringValues val);
+                identity = tokenService.GetClaims(val);
+                users.Id = Convert.ToInt32(identity.FindFirst(ClaimTypes.PrimarySid).Value);
+                users.Name = identity.FindFirst(ClaimTypes.Name).Value;
+                var curRoles = GetRoleCache(val);
+                if (curRoles != null && curRoles.Count() > 0)
                 {
-                    users = new CurrentUser();
-                    contextAccessor.HttpContext.Request.Headers.TryGetValue(headerKey, out StringValues val);
-                    users.Id = Convert.ToInt32(identity.FindFirst(ClaimTypes.PrimarySid).Value);
-                    users.Name = identity.FindFirst(ClaimTypes.Name).Value;
-                    identity = tokenService.GetClaims(val);
-                    var curRoles = GetRoleCache(val);
-                    if (curRoles != null && curRoles.Count() > 0)
-                    {
-                        users.SysRoles = curRoles;
-                    }
-                    else
-                    {
-                        curRoles = this.sysRoleApplication.GetUserRoles(users.Id);
-                        System.Threading.Tasks.Task.Run(() => SetRoleCache(val, curRoles));
-                        users.SysRoles = curRoles;
-                    }
+                    users.SysRoles = curRoles;
+                }
+                else
+                {
+                    curRoles = this.sysRoleApplication.GetUserRoles(users.Id);
+                    System.Threading.Tasks.Task.Run(() => SetRoleCache(val, curRoles));
+                    users.SysRoles = curRoles;
                 }
             }
             return users;
