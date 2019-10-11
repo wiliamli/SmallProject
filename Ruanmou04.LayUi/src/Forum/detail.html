@@ -232,7 +232,7 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var topicParam = getQueryVariable("topic");
   var domain=baseDomain();
-  var key = "Bearer " +sessionStorage.getItem("Authorization");
+  var key = "Bearer " +sessionStorage.getItem("token");
 
   var active={
      topicShow:function(){

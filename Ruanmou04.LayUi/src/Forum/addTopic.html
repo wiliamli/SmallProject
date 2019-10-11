@@ -188,7 +188,7 @@
 <script src="/layui.js" charset="utf-8"></script>
 <script>
  var domain=baseDomain();
- var key = "Bearer " +sessionStorage.getItem("Authorization");
+ var key = "Bearer " + sessionStorage.getItem("token");
  var active={
      channelSelShow:function(){
       layui.jquery.ajax({
