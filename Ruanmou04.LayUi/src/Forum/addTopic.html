@@ -188,7 +188,7 @@
 <script src="/layui.js" charset="utf-8"></script>
 <script>
  var domain=baseDomain();
- var key = "Bearer " + sessionStorage.getItem("token");
+ var key = "Bearer " + localStorage.getItem("token");
  var active={
      channelSelShow:function(){
       layui.jquery.ajax({
@@ -213,7 +213,7 @@
        });
      }
      ,loginInit:function(){
-             var data = sessionStorage.getItem("userInfo");
+             var data = localStorage.getItem("userInfo");
              if(data!=null)
              {
                   var loginTpl=document.getElementById('loginTpl').innerHTML;

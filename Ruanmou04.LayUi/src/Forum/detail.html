@@ -232,7 +232,7 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var topicParam = getQueryVariable("topic");
   var domain=baseDomain();
-  var key = "Bearer " +sessionStorage.getItem("token");
+  var key = "Bearer " +localStorage.getItem("token");
 
   var active={
      topicShow:function(){
@@ -277,7 +277,7 @@ layui.use(['jquery','laytpl','form'], function(){
        });
       }
       ,loginInit:function(){
-             var data = sessionStorage.getItem("userInfo");
+             var data = localStorage.getItem("userInfo");
              if(data!=null)
              {
                   var loginTpl=document.getElementById('loginTpl').innerHTML;
