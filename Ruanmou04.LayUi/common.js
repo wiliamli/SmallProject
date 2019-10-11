@@ -125,15 +125,9 @@ function deleteOne($,layer,id,url){
           url: config.apiUrl + url,
           success: function (jsonData) {
             // var jsonData = JSON.parse(result);
-<<<<<<< HEAD
             if (jsonData.Success) {
               layer.msg(jsonData.Message, { icon: 1 },function(){ $("#search").click();});
             //  $("#search").click();
-=======
-            if (jsonData.success) {
-              layer.msg(jsonData.msg, { icon: 1 });
-              $("#search").click();
->>>>>>> origin/dev_william
             }
             else {
               layer.msg(jsonData.msg, { icon: 2 });
@@ -167,15 +161,9 @@ function deleteMulity($,layer,table,obj,url){
           url: config.apiUrl +url,
           success: function (jsonData) {
             //var jsonData =result; //JSON.parse(result);
-<<<<<<< HEAD
             if (jsonData.Success) {
               layer.msg(jsonData.Message, { icon: 1 },function(){ $("#search").click();});
              // $("#search").click();
-=======
-            if (jsonData.success) {
-              layer.msg(jsonData.msg, { icon: 1 });
-              $("#search").click();
->>>>>>> origin/dev_william
             }
             else {
               layer.msg(jsonData.msg, { icon: 2 });

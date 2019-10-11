@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="mb-header-info">
-                    <div class="mb-hello">欢迎你，<span class="mb-nickname">Eleven</span>！</div>
+                    <div class="mb-hello">欢迎你，<span class="mb-nickname"></span>！</div>
                     <div class="mb-lv"><i class="layui-icon layui-icon-diamond"></i>会员等级：<span class="mb-lv-sp">VIP</span></div>
                 </div>
                 <ul class="mb-header-account">
@@ -212,20 +212,20 @@
 						common.Init($, layer); 
 					}else
 					{
-						$("input[name='UserName']").val(result.account);
-						$("input[name='UserId']").val(result.id);
-						$("input[name='NickName']").val(result.name); //昵称
-						$("input[name='RealName']").val(result.name);
-						$("input[name='Mobile']").val(result.mobile);
-						$("input[name='QQ']").val(result.qq);
-						$("input[name='Wechat']").val(result.weChat); 
-						if(result.sex == '女')
+						$("input[name='UserName']").val(result.Name);
+						$("input[name='UserId']").val(result.Id);
+						$("input[name='NickName']").val(result.Name); //昵称
+						$("input[name='RealName']").val(result.Name);
+						$("input[name='Mobile']").val(result.Mobile);
+						$("input[name='QQ']").val(result.QQ);
+						$("input[name='Wechat']").val(result.WeChat); 
+						if(result.Sex == '女')
 						{ 
 							$(":radio[name='sex'][value='女']").prop("checked","checked"); 
 							form.render();  
 						}
 						
-						$(".mb-nickname").html(result.name);
+						$(".mb-nickname").html(result.Name);
 					} 
                 },
                 error: function (XMLHttpResponse) { 
