@@ -2,7 +2,7 @@
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
-using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.NetCore.Interface.Token.Applications;   
 using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.Application.SystemManager
@@ -11,8 +11,8 @@ namespace Ruanmou04.NetCore.Application.SystemManager
     {
 
         private readonly ILoginService _loginService;
-        private readonly ITokenService _tokenService;
-        public LoginApplication(ILoginService loginService, ITokenService tokenService)
+        private readonly ITokenApplication _tokenService;
+        public LoginApplication(ILoginService loginService, ITokenApplication tokenService)
         {
             _loginService = loginService;
             _tokenService = tokenService;

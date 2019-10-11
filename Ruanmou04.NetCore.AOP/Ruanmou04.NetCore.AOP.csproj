@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Ruanmou.NetCore.Interface\Ruanmou04.NetCore.Interface.csproj" />
     <ProjectReference Include="..\Ruanmou.NetCore.Service\Ruanmou04.NetCore.Service.csproj" />
+    <ProjectReference Include="..\Ruanmou04.NetCore.Application\Ruanmou04.NetCore.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

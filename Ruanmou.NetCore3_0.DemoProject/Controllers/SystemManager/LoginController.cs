@@ -7,7 +7,7 @@ using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
-using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.NetCore.Interface.Token.Applications;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -18,22 +18,18 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     public class LoginController : ControllerBase
     {
         #region MyRegion
-        private ILoggerFactory _Factory = null;
-        private ISysUserService _IUserService = null;
         private ILoginApplication _loginApplication = null;
-        private ITokenService _tokenService;
+        private ITokenApplication _tokenApplication;
 
 
         public LoginController(ILoggerFactory factory,
             ISysUserService userService
             , ILoginApplication loginApplication
-            , ITokenService tokenService
+            , ITokenApplication tokenApplication
             )
         {
-            this._Factory = factory;
-            this._IUserService = userService;
             this._loginApplication = loginApplication;
-            this._tokenService = tokenService;
+            this._tokenApplication = tokenApplication;
         }
         #endregion
         /// <summary>
@@ -49,7 +45,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             {
                 var sysuserdto =  ajax.data as CurrentUser;
                 var generatedto= DataMapping<CurrentUser,GenerateTokenDto>.Trans(sysuserdto);
-                ajax = await _tokenService.GenerateTokenAsync(generatedto);
+                ajax = await _tokenApplication.GenerateTokenAsync(generatedto);
                 generatedto.Token = ajax.data.ToString();
                 //var curRoles = this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
                 //if (curRoles != null)

@@ -34,11 +34,7 @@
         <a class="layui-btn layui-btn-xs" lay-event="RoleUser">用户角色</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
-<<<<<<< HEAD
   <script src="/common.js?v=20191008000" type="text/javascript"></script>
-=======
-
->>>>>>> origin/dev_william
   <script>
     // userManager = {
     //   openUserWindow: function (data) {
@@ -154,11 +150,12 @@
         , limit: 20
         , toolbar: '#toolbarDemo'
         // , toolbar: true
-        , parseData: function (queryData) {          
+        , parseData: function (queryData) {
+          debugger;
           return {
             code: '0',
-            data: queryData.Rows,
-            count: queryData.Total
+            data: queryData.Data.Rows,
+            count: queryData.Data.Total
           };
         }
         , page: true
@@ -198,17 +195,13 @@
             break;
           case 'reload':
             table.reload('test', {
-              page: { curr: 10 }
+              page: { curr: 1 }
             }, 'data');
             break;
           case 'delbatch':
             // 实现批量删除功能了 
-<<<<<<< HEAD
             deleteMulity($, layer, table, obj, '/Users/DeleteBatchById');
             break;
-=======
-            deleteMulity($,layer,table,obj,'/Users/DeleteBatchById');
->>>>>>> origin/dev_william
             // layer.confirm('确定要删除选中的数据吗???', function (index) {
             //   debugger
             //   var checkStatus = table.checkStatus(obj.config.id);

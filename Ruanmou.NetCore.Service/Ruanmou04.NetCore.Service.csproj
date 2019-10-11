@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Authorization\Token\ITokenConfirmService.cs" />
-    <Compile Remove="Authorization\Token\ITokenService.cs" />
+    <Compile Remove="Authorization\**" />
+    <EmbeddedResource Remove="Authorization\**" />
+    <None Remove="Authorization\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="JDDbContext.cs" />
   </ItemGroup>
 

@@ -4,26 +4,26 @@ using Microsoft.Extensions.Primitives;
 using Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.NetCore.Interface;
-using Ruanmou04.NetCore.Interface.SystemManager.Applications;
-using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.NetCore.Interface.SystemManager.Applications;   
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Linq;
+using Ruanmou04.NetCore.Interface.Token.Applications;
 
 namespace Ruanmou04.NetCore.Service
 {
     public class CurrentUserInfo: ICurrentUserInfo
     {
         IHttpContextAccessor contextAccessor;
-        ITokenService tokenService;
+        ITokenApplication tokenService;
         IMemoryCache memoryCache;
         ISysRoleApplication sysRoleApplication;
 
         private const string TOKEN = "token";
         private const string AUTHORIZATION = "Authorization";
 
-        public CurrentUserInfo(IHttpContextAccessor contextAccessor, ITokenService tokenService, 
+        public CurrentUserInfo(IHttpContextAccessor contextAccessor, ITokenApplication tokenService, 
             ISysRoleApplication sysRoleApplication, IMemoryCache memoryCache)
         {
             this.contextAccessor = contextAccessor;

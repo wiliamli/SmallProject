@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Ruanmou.Core.Utility;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
-using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.NetCore.Interface.Token.Applications;
 using System;
 using System.Linq;
 
@@ -11,8 +11,8 @@ namespace Ruanmou04.NetCore.AOP.Filter
     {
         //private IMemoryCache _memoryCache;
        // private ICurrentUserInfo _currentUserInfo;
-        private ITokenService _tokenService;
-        public VerifyAttribute(ITokenService tokenService)
+        private ITokenApplication _tokenService;
+        public VerifyAttribute(ITokenApplication tokenService)
         {
             //this._memoryCache = memoryCache;
             //this._currentUserInfo = currentUserInfo;

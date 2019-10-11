@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Ruanmou.Core.Utility;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
-using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.NetCore.Interface.Token.Applications;
 using System;
 using System.Linq;
 
@@ -9,9 +9,9 @@ namespace Ruanmou04.NetCore.AOP.Filter
 {
     public class SysVerifyAttribute : Attribute, IActionFilter
     {
-        private ITokenService _tokenService;
+        private ITokenApplication _tokenService;
 
-        public SysVerifyAttribute(ITokenService tokenService)
+        public SysVerifyAttribute(ITokenApplication tokenService)
         {
             this._tokenService = tokenService;
         }

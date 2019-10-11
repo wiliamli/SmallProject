@@ -37,7 +37,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         [HttpPost]
         public AjaxResult GetMenuList()
         {
-            var menu = _userMenuService.GetAuthorityMenuList(_currentUserInfo.CurrentUser.Id);
+            var menu = _userMenuService.GetAuthorityMenuList(_currentUserInfo.SysCurrentUser.Id);
             return new AjaxResult { success = true, data = menu };
         }
 

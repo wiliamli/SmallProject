@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
-using Ruanmou04.NetCore.Interface.Tokens;
-using Ruanmou04.NetCore.Service.Authorization.Tokens;
+using Ruanmou04.NetCore.Interface.Token.Applications;
+using Ruanmou04.NetCore.Application.Token;
 
 namespace Ruanmou04.NetCore.AOP.Filter
 {
     public class CustomAuthorizeAttribute : Attribute, IActionFilter
     {
-        private ITokenConfirmService _tokenConfirmService;
+        private ITokenConfirmApplication _tokenConfirmService;
         public CustomAuthorizeAttribute()
         {
         }
@@ -26,11 +26,11 @@ namespace Ruanmou04.NetCore.AOP.Filter
         public void OnActionExecuting(ActionExecutingContext context)
         {
             ContainerBuilder containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterType<TokenConfirmService>().As<ITokenConfirmService>();
+            containerBuilder.RegisterType<TokenConfirmApplication>().As<ITokenConfirmApplication>();
             containerBuilder.RegisterType<JwtSecurityTokenHandler>().As<JwtSecurityTokenHandler>();
 
             var container = containerBuilder.Build();
-            _tokenConfirmService = container.Resolve<ITokenConfirmService>();
+            _tokenConfirmService = container.Resolve<ITokenConfirmApplication>();
             
             var token = context.HttpContext.Request.Headers["Authorization"];
             if(token.IsNullOrEmpty())

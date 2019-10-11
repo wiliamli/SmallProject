@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 
-namespace Ruanmou04.NetCore.Interface.Tokens
+namespace Ruanmou04.NetCore.Interface.Token.Applications
 {
     /// <summary>
     /// 令牌接口
     /// </summary>
-    public interface ITokenConfirmService : IApplication
+    public interface ITokenConfirmApplication : IApplication
     {
         /// <summary>
         /// 验证token

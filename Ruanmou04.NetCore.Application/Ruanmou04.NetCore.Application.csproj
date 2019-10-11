@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Token\ITokenConfirmService.cs" />
+    <Compile Remove="Token\ITokenService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.19" />
   </ItemGroup>
 

@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
-using Ruanmou04.EFCore.Dtos.DtoHelper;
-using System.Security.Claims;
+﻿using Abp.Application.Services;
+using System.Threading.Tasks;
 using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
+using Ruanmou04.EFCore.Model.DtoHelper;
+using Ruanmou04.NetCore.Interface;
+using System.Security.Claims;
 
-namespace Ruanmou04.NetCore.Interface.Tokens
+namespace Ruanmou04.NetCore.Service.Core.Authorization.Tokens
 {
     /// <summary>
     /// 令牌接口

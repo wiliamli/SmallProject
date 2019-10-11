@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.Filters;
-using Ruanmou04.NetCore.Interface.Tokens;
+using Ruanmou04.NetCore.Interface.Token.Applications;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +9,8 @@ namespace Ruanmou04.NetCore.AOP.Filter
 {
     public class AsyncVerifyAttribute : Attribute, IAsyncActionFilter
     {
-        private ITokenService _tokenService;
-        public AsyncVerifyAttribute(ITokenService tokenService)
+        private ITokenApplication _tokenService;
+        public AsyncVerifyAttribute(ITokenApplication tokenService)
         {
             this._tokenService = tokenService;
         }
