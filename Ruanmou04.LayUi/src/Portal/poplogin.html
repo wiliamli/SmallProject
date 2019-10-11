@@ -65,16 +65,6 @@
  
             //登录事务处理
             form.on("submit(formSubmit)", function (obj) {
-                //假登录
-				/*
-                sessionStorage.setItem("RuanmouNetToken", "1234567890");
-                parent.layer.msg("登录成功", { icon: 1 }); 
-                parent.document.getElementsByClassName("rm-header-right")[0].innerHTML = common.WebLoginHtml;
-                parent.layer.close(curIndex);
-                return false;
-				*/ 
-				//console.log("api:" + config.apiUrl);
-				
                 /*** 校验图片验证码 ***/
                 var loginInput = {
                     Account: obj.field.UserName,
@@ -95,7 +85,7 @@
                         if(result.success)
                         {
                             var apiTiket= result.data; 
-                            sessionStorage.setItem("RuanmouNetToken",apiTiket)
+                            sessionStorage.setItem("token",apiTiket.Token)
 						   
                             parent.layer.msg("登录成功", { icon: 1 }); 
                             // 头部写入 用户中心和退出

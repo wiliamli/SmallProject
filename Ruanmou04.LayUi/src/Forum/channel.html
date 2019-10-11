@@ -655,6 +655,7 @@ var active = {
           dataType: 'json',
           success: function(obj) {
               if(obj.Success && obj.Data!=null){
+                debugger;
                 var data=obj.Data;
                 sessionStorage.setItem("userInfo",JSON.stringify(data));
                 var loginTpl=document.getElementById('loginTpl').innerHTML;
@@ -677,6 +678,7 @@ var active = {
 layui.use(['jquery','element'], function(){
   var $ = layui.jquery
   ,element = layui.element
+  debugger;
   active.loginInit();
   active.tabChange(null,4);
   active.checkInit();

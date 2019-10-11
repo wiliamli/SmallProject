@@ -182,7 +182,7 @@
     <script src="js/common.js"></script>
     <script type="text/javascript">
         layui.use(['element', 'layer', 'form', 'config'], function () {
-            //debugger;
+            debugger;
             var element = layui.element; 
 
             var layer = layui.layer;
@@ -192,7 +192,7 @@
 			$.support.cors = true;
             common.Init($, layer); 
 			
-			var key = sessionStorage.getItem("RuanmouNetToken");
+			var key = sessionStorage.getItem("token");
 			console.log("key = "+key);
 			//获取用户信息
 			$.ajax({
@@ -200,14 +200,15 @@
 				dataType: "json",
                 //contentType:'application/json',
                 url:config.apiUrl +'/PortalUser/GetUser',
-				headers: {token: key},
+				headers: {"token": key},
                 success:function (result)
                 {   
+                    debugger;
 					console.log(result);
 					if(result == null)
 					{
 						//登陆超时或没有登陆
-						sessionStorage.removeItem("RuanmouNetToken");
+						sessionStorage.removeItem("token");
 						common.Init($, layer); 
 					}else
 					{
@@ -231,7 +232,7 @@
                     console.log("error: api request failed");
                     console.log(XMLHttpResponse);
                 }
-            })
+            });
 			
 			//登录事务处理
             form.on("submit(submitInfo)", function (obj) {
@@ -250,7 +251,7 @@
 					dataType: "json", 
                     data:JSON.stringify(user),
 					contentType:'application/json',
-					headers: {token: key},
+					headers: {"token": key},
                     url:config.apiUrl +'/PortalUser/SaveUser',
                     success:function (result)
                     {  
@@ -271,12 +272,7 @@
                         console.log(XMLHttpResponse);
                     }
                 })
-					 
-				 
-				return false; 
-			  
             })
-
         })
     </script>
 </body>

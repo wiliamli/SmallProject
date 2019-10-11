@@ -130,20 +130,20 @@
 
             common.Init($, layer); 
 
-			var key = sessionStorage.getItem("RuanmouNetToken");
+			var key = sessionStorage.getItem("token");
 			//获取用户信息
 			$.ajax({
                 type:'GET',
 				dataType: "json",
                 url:config.apiUrl +'/PortalUser/GetUser',
-				headers: {token: key},
+				headers: {"token": key},
                 success:function (result)
                 {   
 					console.log(result);
 					if(result == null)
 					{
 						//登陆超时或没有登陆
-						sessionStorage.removeItem("RuanmouNetToken");
+						sessionStorage.removeItem("token");
 						common.Init($, layer); 
 					}else
 					{ 
