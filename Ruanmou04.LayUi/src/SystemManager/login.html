@@ -70,9 +70,9 @@
           url: config.apiUrl + '/Login/LoginSystemManager',
           success: function (result) {
             debugger
-            result = JSON.parse(result);
-            if (result.success) {
-              var data = result.data;
+            result = result;//JSON.parse(result);
+            if (result.Success) {
+              var data = result.Data;
               sessionStorage.setItem("apiTicket", data.Token)
               sessionStorage.setItem("userName", data.Name)
               window.location.href = "home.html";

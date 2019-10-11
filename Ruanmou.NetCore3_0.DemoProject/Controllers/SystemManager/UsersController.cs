@@ -26,7 +26,8 @@ using Ruanmou.Core.Utility;
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     //[TypeFilter(typeof( CustomExceptionFilterAttribute))]
-    [ServiceFilter(typeof(VerifyAttribute))]
+    [CustomAuthorize]
+    //[ServiceFilter(typeof(VerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : BaseApiController
     {
@@ -117,7 +118,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 Name = name,
                 UserType = userType
             };
-            return StandardAction(() => _userApplication.GetPagedResult(param));
+            var result = StandardAction(() => _userApplication.GetPagedResult(param));
+            return result;
         }
 
         /// <summary>
