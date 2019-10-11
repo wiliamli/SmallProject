@@ -130,7 +130,7 @@
 
             common.Init($, layer); 
 
-			var key = sessionStorage.getItem("token");
+			var key = localStorage.getItem("token");
 			//获取用户信息
 			$.ajax({
                 type:'GET',
@@ -143,7 +143,7 @@
 					if(result == null)
 					{
 						//登陆超时或没有登陆
-						sessionStorage.removeItem("token");
+						localStorage.removeItem("token");
 						common.Init($, layer); 
 					}else
 					{ 

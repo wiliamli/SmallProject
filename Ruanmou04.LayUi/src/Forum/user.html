@@ -117,11 +117,7 @@
     
     <div class="layui-col-md6 fly-home-da">
       <div id="replyUserView" class="fly-panel">
-        <h3 class="fly-panel-title">william 最近的回帖</h3>
-        <ul  class="home-jieda">
-
-          <!--  -->
-        </ul>
+        
       </div>
     </div>
   </div>
@@ -148,7 +144,7 @@ layui.use(['jquery','laytpl','form'], function(){
 
   var userId = getQueryVariable("userId");
   var domain = baseDomain();
-  var key = "Bearer " +sessionStorage.getItem("token");
+  var key = "Bearer " +localStorage.getItem("token");
    var loginInfo=function(data){
           var loginInfoTpl=document.getElementById('loginInfoTpl').innerHTML;
           var loginView=document.getElementById('loginView');
@@ -208,7 +204,6 @@ layui.use(['jquery','laytpl','form'], function(){
           dataType: 'json',
           contentType:'application/json',
           success: function(obj) {
-            debugger;
             var data = obj.Data;
             var userInfoTpl=document.getElementById('userInfoTpl').innerHTML;
             var userInfoView=document.getElementById('userInfoView');

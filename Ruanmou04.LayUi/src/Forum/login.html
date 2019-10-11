@@ -153,7 +153,7 @@ layui.use(['jquery','laytpl','form'], function(){
               document.getElementById("L_pass").value="";
               layer.alert("登录成功!", {
               title: '登录成功'});
-              sessionStorage.setItem("token",obj.data.Token);
+              localStorage.setItem("token",obj.data.Token);
               window.location.href="/src/Forum/channel.html";
             }
             else{

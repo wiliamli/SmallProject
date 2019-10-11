@@ -30,7 +30,7 @@ var common = {
     },
     Logout: function ($, layer) { 
         $(".rm-header").delegate(".a-logout", "click", function () {
-            sessionStorage.removeItem("token");
+            localStorage.removeItem("token");
             common.CheckLogin($, layer);
         });
     },
@@ -39,7 +39,7 @@ var common = {
             layer.alert("对不起，本站不支持该浏览器，请切换别的浏览器访问", { title: "系统提示" });
             return;
         } 
-        var apiTicket = sessionStorage.getItem("token");
+        var apiTicket = localStorage.getItem("token");
         var $HeaderInfo = $(".rm-header-right");
         var IsMemberPage = $HeaderInfo.attr("member"); 
         if (apiTicket == null) {

@@ -19,7 +19,7 @@
             <ul>
                 <li class="cl"><a href="index.html">首页</a></li>
                 <li class="cl"><a href="course.html">课程中心</a></li>
-                <li class="cl"><a href="forum.html">交流学习</a></li>
+                <li class="cl"><a href="/src/Forum/channel.html">交流学习</a></li>
                 <li class="cl"><a href="download.html">工具下载</a></li>
                 <li class="cl"><a href="about.html">关于我们</a></li>
             </ul>
@@ -182,7 +182,6 @@
     <script src="js/common.js"></script>
     <script type="text/javascript">
         layui.use(['element', 'layer', 'form', 'config'], function () {
-            debugger;
             var element = layui.element; 
 
             var layer = layui.layer;
@@ -192,7 +191,7 @@
 			$.support.cors = true;
             common.Init($, layer); 
 			
-			var key = sessionStorage.getItem("token");
+			var key = localStorage.getItem("token");
 			console.log("key = "+key);
 			//获取用户信息
 			$.ajax({
@@ -203,12 +202,11 @@
 				headers: {"token": key},
                 success:function (result)
                 {   
-                    debugger;
 					console.log(result);
 					if(result == null)
 					{
 						//登陆超时或没有登陆
-						sessionStorage.removeItem("token");
+						localStorage.removeItem("token");
 						common.Init($, layer); 
 					}else
 					{

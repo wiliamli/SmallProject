@@ -557,7 +557,7 @@
 <script type="text/javascript">
 
 var domain=baseDomain();
-var key = "Bearer " + sessionStorage.getItem("token");
+var key = "Bearer " + localStorage.getItem("token");
 var active = {
       channelInit:function(roleIds){
         layui.jquery.ajax({
@@ -581,7 +581,7 @@ var active = {
       },
       tabChange: function(othis,Id){
       //切换到指定Tab项
-      var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
       layui.jquery.ajax({
       url:domain+"api/ForumTopic/GetForumTopics",
       headers: { "token": key},
@@ -589,7 +589,7 @@ var active = {
       type: 'get',
       dataType: 'json',
       success: function(obj) {
-          var data = obj.Data;
+            var data = obj.Data;
             var topicTpl=document.getElementById('topicTpl').innerHTML;
             var topicMenu=document.getElementById('topicMenu');
             layui.laytpl(topicTpl).render(data,function(html){
@@ -602,7 +602,7 @@ var active = {
    });}
    ,clockin:function(){
 
-    var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    var userInfo = JSON.parse(localStorage.getItem("userInfo"));
     var clockin={};
     clockin.userId=userInfo.Id;
 
@@ -624,7 +624,7 @@ var active = {
    });
   }
   ,checkInit:function(){
-        var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        var userInfo = JSON.parse(localStorage.getItem("userInfo"));
         if(userInfo!=null){
         layui.jquery.ajax({
           url:domain+"api/ForumCheckIn/GetCheckIn",
@@ -657,7 +657,7 @@ var active = {
               if(obj.Success && obj.Data!=null){
                 debugger;
                 var data=obj.Data;
-                sessionStorage.setItem("userInfo",JSON.stringify(data));
+                localStorage.setItem("userInfo",JSON.stringify(data));
                 var loginTpl=document.getElementById('loginTpl').innerHTML;
                 var loginView=document.getElementById('loginView');
                 layui.laytpl(loginTpl).render(data,function(html){
@@ -677,8 +677,7 @@ var active = {
 
 layui.use(['jquery','element'], function(){
   var $ = layui.jquery
-  ,element = layui.element
-  debugger;
+  ,element = layui.element;
   active.loginInit();
   active.tabChange(null,4);
   active.checkInit();
