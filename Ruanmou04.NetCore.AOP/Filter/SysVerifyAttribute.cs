@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Ruanmou.Core.Utility;
+using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.Token.Applications;
 using System;
@@ -24,16 +24,17 @@ namespace Ruanmou04.NetCore.AOP.Filter
         public void OnActionExecuting(ActionExecutingContext context)
         {
             string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
-            if (key == null)
+            key = key.Replace("Bearer", string.Empty).Trim();
+            if (key == null || key == "null")
             {
-                context.HttpContext.Response.Redirect(StaticConstraint.SysDefaultUrl);
+                context.Result = new StandardJsonResult();
             }
             else
             {
                 AjaxResult result = this._tokenService.ConfirmVerification(key);
                 if (!result.success)
                 {
-                    context.HttpContext.Response.Redirect(StaticConstraint.SysDefaultUrl);
+                    context.Result = new StandardJsonResult();
                 }
             }
         }

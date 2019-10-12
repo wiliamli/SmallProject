@@ -78,11 +78,20 @@
     <li class="layui-nav-item">
       <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
         <cite class="layui-hide-xs">{{d.Name}}</cite>
+        <span class="layui-nav-more"></span>
       </a>
-      <dl class="layui-nav-child">
-        <dd><a href="/src/forum/user.html?userId={{d.Id}}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
-        <hr style="margin: 5px 0;">
-        <dd><a href="/user/logout/" style="text-align: center;">退出</a></dd>
+      <dl class="layui-nav-child layui-anim layui-anim-upbit">
+        <dd>
+          <a href="/src/forum/user.html?userId={{d.Id}}">
+          <i class="layui-icon" style="margin-left: 2px; font-size: 22px;"></i>我的主页
+          </a>
+      </dd>
+      <hr style="margin: 5px 0;">
+        <dd>
+          <a href="/user/logout/" style="text-align: center;">
+          <i class="iconfont icon-tongzhi" style="top: 4px;"></i>退出
+        </a>
+        </dd>
       </dl>
     </li>
 
@@ -655,7 +664,6 @@ var active = {
           dataType: 'json',
           success: function(obj) {
               if(obj.Success && obj.Data!=null){
-                debugger;
                 var data=obj.Data;
                 localStorage.setItem("userInfo",JSON.stringify(data));
                 var loginTpl=document.getElementById('loginTpl').innerHTML;
@@ -681,7 +689,6 @@ layui.use(['jquery','element'], function(){
   active.loginInit();
   active.tabChange(null,4);
   active.checkInit();
-
 });
 </script>
 
