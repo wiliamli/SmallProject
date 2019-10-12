@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Ruanmou.Core.Utility;
+using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.NetCore.Interface.Token.Applications;
 using System;
 using System.Linq;
@@ -9,13 +11,9 @@ namespace Ruanmou04.NetCore.AOP.Filter
 {
     public class VerifyAttribute : Attribute, IActionFilter
     {
-        //private IMemoryCache _memoryCache;
-       // private ICurrentUserInfo _currentUserInfo;
         private ITokenApplication _tokenService;
         public VerifyAttribute(ITokenApplication tokenService)
         {
-            //this._memoryCache = memoryCache;
-            //this._currentUserInfo = currentUserInfo;
             this._tokenService = tokenService;
         }
 
@@ -27,21 +25,19 @@ namespace Ruanmou04.NetCore.AOP.Filter
         public void OnActionExecuting(ActionExecutingContext context)
         {
             string key = context.HttpContext.Request.Headers["token"].SingleOrDefault();
-            if (key == null)
+            key = key.Replace("Bearer",string.Empty).Trim();
+            if (key == null || key =="null")
             {
-                context.HttpContext.Response.Redirect(StaticConstraint.PortalDefaultUrl);
+                context.Result = new StandardJsonResult();
             }
             else
             {
                 AjaxResult result = this._tokenService.ConfirmVerification(key);
                 if (!result.success)
                 {
-                    context.HttpContext.Response.Redirect(StaticConstraint.PortalDefaultUrl);
+                    context.Result = new StandardJsonResult();
                 }
             }
         }
-
-        
-
     }
 }
