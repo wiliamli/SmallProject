@@ -51,11 +51,11 @@ function initData($,url,config,form){
         url: config.apiUrl + url,
         success: function (result) { 
             debugger;
-          if (result.success) {
-            form.val("first", result.data); //默认都放在first下面
+          if (result.Success) {
+            form.val("first", result.Data); //默认都放在first下面
           }
           else {
-            layer.msg(result.msg);
+            layer.msg(result.Message);
           }
         }
       })
@@ -74,31 +74,37 @@ function saveDataWay($,data,config,url,type){
     if(!type){
         type="POST";
     }
+    debugger;
     $.ajax({
         type: type,
         // data: JSON.stringify(data),
         data: data,
         contentType: 'application/json',
-        headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+        headers: { 
+          "Authorization": "Bearer " + sessionStorage.getItem("apiTicket"),
+          "X-Requested-With":"XMLHttpRequest"
+       },
         url:config.apiUrl +url,
         success: function (result) {
         var jsonData=result;//JSON.parse(result);
             layer.closeAll("loadiing");
             parent.layer.close(index);
-            if (jsonData.success) {	
+            debugger;
+            if (jsonData!=null && jsonData.Success) {	
             // parent.layer.close(index);
-                layer.msg(jsonData.msg, { icon: 1, time: 2000 },//默认是3s
+                layer.msg(jsonData.Message, { icon: 1, time: 2000 },//默认是3s
                 function(){ //关闭之后弹出的框
                             parent.$('#search').click(); //得到父窗体的控件 
                             parent.layer.closeAll();
                 });						
             }
             else {
-                layer.msg(jsonData.msg, { icon: 5 , time: 2000});
+                layer.msg(jsonData.Message, { icon: 2 , time: 2000});
             }
         },
         error: function (XMLHttpResponse) {
-            layer.close(index);
+          layer.closeAll("loadiing");
+          parent.layer.close(index);
             console.log("error: api request failed");
             console.log(XMLHttpResponse);
           }
@@ -166,7 +172,7 @@ function deleteMulity($,layer,table,obj,url){
              // $("#search").click();
             }
             else {
-              layer.msg(jsonData.msg, { icon: 2 });
+              layer.msg(jsonData.Message, { icon: 2 });
             }
           }
         })

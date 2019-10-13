@@ -1,51 +1,38 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;   
+using Microsoft.AspNetCore.Mvc;
+using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.AOP.Filter;         
 using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
+using Ruanmou04.NetCore.Project.Controllers;
+
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
+    /// <summary>
+    /// 用户角色
+    /// </summary>
     [CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
-    public class UserRoleController : ControllerBase
+    public class UserRoleController :BaseApiController
     {
-        private readonly ICurrentUserInfo _currentUserInfo;
-        private readonly ISysUsersRoleService _sysRoleService;
+        private readonly ISysUserRoleMappingApplication _sysUserRoleMappingApplication;
 
-        public UserRoleController(ICurrentUserInfo currentUserInfo, ISysUsersRoleService sysRoleService)
+        public UserRoleController(ICurrentUserInfo currentUserInfo, ISysUserRoleMappingApplication sysUserRoleMappingApplication) :base(currentUserInfo)
         {
-            _currentUserInfo = currentUserInfo;
-            _sysRoleService = sysRoleService;
+            _sysUserRoleMappingApplication = sysUserRoleMappingApplication;
         }
 
         [HttpGet]
-       // [HttpPost]
-        public AjaxResult SaveData(int userId, string roleIds)
+        public StandardJsonResult SaveData(int userId, string roleIds)
         {
             if (userId<=0)
             {
-                return AjaxResult.Failure("请求参数有误");
+                return StandardJsonResult.GetFailureResult("请求参数有误");
             }
-            _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
-            if (!string.IsNullOrEmpty(roleIds))
-            {
-                var roleIdAry = roleIds.Split(",");
-                for (int i = 0; i < roleIdAry.Length; i++)
-                {
-                    var model = new SysUserRoleMapping() { SysUserId = userId, SysRoleId = Convert.ToInt32(roleIdAry[i]) };
-                    _sysRoleService.InsertNotCommit<SysUserRoleMapping>(model);
-                }
-            }
-           // AjaxResult ajaxResult = new AjaxResult { success = false };
-           // _sysRoleService.Delete<SysUserRoleMapping>(ur => ur.SysUserId == userId);
-          
-            _sysRoleService.Commit();
-            //ajaxResult.msg = "保存成功";
-            //ajaxResult.success = true;
-
-            return AjaxResult.Success("保存成功");
+            return StandardAction(() => _sysUserRoleMappingApplication.SaveUserRole(userId, roleIds));
         }
     }
 }

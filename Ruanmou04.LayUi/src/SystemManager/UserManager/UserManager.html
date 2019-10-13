@@ -31,92 +31,22 @@
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="restPwd">重置密码</a>
         <a class="layui-btn layui-btn-xs" lay-event="RoleUser">用户角色</a>
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
   <script src="/common.js?v=20191008000" type="text/javascript"></script>
   <script>
-    // userManager = {
-    //   openUserWindow: function (data) {
-    //     var id = data && data.Id ? data.Id : "0"
-    //     layer.open({
-    //       type: 2,
-    //       content: 'UserManager/UserDetail.html',
-    //       data: id,
-    //       title: "编辑用户",
-    //       area: ["700px", "450px"],
-    //       end: function () { // layui 关闭弹框时的回调函数
-    //         $("#search").click();
-    //       }
-    //     })
-    //   },
-    //   openUserRoleWindow: function (data) {
-    //     layer.open({
-    //       type: 2,
-    //       content: 'UserManager/UserRoleAssign.html',
-    //       data: data,
-    //       title: "编辑用户",
-    //       area: ["700px", "450px"],
-    //       end: function () { // layui 关闭弹框时的回调函数
-    //         $("#search").click();
-    //       }
-    //     })
-    //   },
-    //   openRoleMenuWindow: function (data) {
-    //     layer.open({
-    //       type: 2,
-    //       content: 'UserManager/UserRoleAssign.html',
-    //       data: data,
-    //       title: "编辑用户",
-    //       area: ["700px", "450px"],
-    //       end: function () { // layui 关闭弹框时的回调函数
-    //         $("#search").click();
-    //       }
-    //     })
-    //   }
-    // }
-
     userManager = {
       openUserWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0";
-        //title, url, w, h,data
+        var id = data && data.Id ? data.Id : "0"; 
         pageShow('编辑用户','UserManager/UserDetail.html',900, 450,id);
-        // layer.open({
-        //   type: 2,
-        //   content: 'UserManager/UserDetail.html',
-        //   data: id,
-        //   title: "编辑用户",
-        //   area: ["700px", "450px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       },
       openUserRoleWindow: function (data) {
         pageShow('编辑用户','UserManager/UserRoleAssign.html',700, 450,data);
-        // layer.open({
-        //   type: 2,
-        //   content: 'UserManager/UserRoleAssign.html',
-        //   data: data,
-        //   title: "编辑用户",
-        //   area: ["700px", "450px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       },
       openRoleMenuWindow: function (data) {
         pageShow('编辑用户','UserManager/UserRoleAssign.html',700, 450,data);
-        // layer.open({
-        //   type: 2,
-        //   content: 'UserManager/UserRoleAssign.html',
-        //   data: data,
-        //   title: "编辑用户",
-        //   area: ["700px", "450px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       }
     }
 
@@ -182,7 +112,7 @@
               }
             }
           }
-          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 220 }
+          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 320 }
         ]]
       });
 
@@ -202,39 +132,6 @@
             // 实现批量删除功能了 
             deleteMulity($, layer, table, obj, '/Users/DeleteBatchById');
             break;
-            // layer.confirm('确定要删除选中的数据吗???', function (index) {
-            //   debugger
-            //   var checkStatus = table.checkStatus(obj.config.id);
-
-            //   if (checkStatus.data.length == 0) {
-            //     layer.msg("没有选中数据", { icon: 2 });
-            //     return
-            //   }
-            //   var dataIds = checkStatus.data.map(function (item) {
-            //     return item['Id'];
-            //   });
-            //   $.ajax({
-            //     type: "get",
-            //     data: {
-            //       ids: dataIds.join(',')
-            //     },
-            //     beforeSend: function (XHR) {
-            //       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-            //     },
-            //     url: config.apiUrl + "/Users/DeleteBatchById",
-            //     success: function (result) {
-            //       var jsonData =result; //JSON.parse(result);
-            //       if (jsonData.success) {
-            //         layer.msg(jsonData.msg, { icon: 1 });
-            //         $("#search").click();
-            //       }
-            //       else {
-            //         layer.msg(jsonData.msg, { icon: 2 });
-            //       }
-            //     }
-            //   })
-            // });
-           
             case 'enablBatch':
             updateStatusMulity($, layer, table, obj, '/Users/UpdateStatusByIds',1);
             break;
@@ -248,31 +145,8 @@
       //监听行工具事件
       table.on('tool(test)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'del') { // 实现删除功能了 
-          //$,layer,id,url
+        if (obj.event === 'del') { // 实现删除功能了  
           deleteOne($,layer,data.Id,'/Users/DeleteById');
-          // layer.confirm('确定要删除吗???', function (index) {
-          //   $.ajax({
-          //     type: "get",
-          //     data: {
-          //       id: data.Id
-          //     },
-          //     beforeSend: function (XHR) {
-          //       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-          //     },
-          //     url: config.apiUrl + "/Users/DeleteById",
-          //     success: function (result) {
-          //       var jsonData = JSON.parse(result);
-          //       if (jsonData.success) {
-          //         layer.msg(jsonData.msg, { icon: 1 });
-          //         $("#search").click();
-          //       }
-          //       else {
-          //         layer.msg(jsonData.msg, { icon: 2 });
-          //       }
-          //     }
-          //   })
-          // });
         }
         else if (obj.event === 'RoleUser') {
           userManager.openUserRoleWindow(data);
@@ -280,6 +154,8 @@
           userManager.openUserMenuWindow(data);
         } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
+        } else if (obj.event === 'restPwd') {  
+          saveDataWay($,null,config,'/Users/RestUserPwd?userId='+data.Id);
         }
       });
 

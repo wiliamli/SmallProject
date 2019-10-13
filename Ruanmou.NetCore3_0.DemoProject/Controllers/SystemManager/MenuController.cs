@@ -11,19 +11,20 @@ using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.Dtos.SystemManager.MenuDtos;
 using Ruanmou04.NetCore.Interface;
-using Ruanmou04.NetCore.Interface.SystemManager.Service;   
+using Ruanmou04.NetCore.Interface.SystemManager.Service;
+using Ruanmou04.NetCore.Project.Controllers;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     [CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
-    public class MenuController : ControllerBase
+    public class MenuController : BaseApiController  // ControllerBase
     {
         private readonly ICurrentUserInfo _currentUserInfo;
         private readonly IUserMenuService _userMenuService;
         private readonly ISysRoleMenuMappingService _roleMenuMappingService;
 
-        public MenuController(ICurrentUserInfo currentUserInfo, IUserMenuService userMenuService, ISysRoleMenuMappingService roleMenuMappingService)
+        public MenuController(ICurrentUserInfo currentUserInfo, IUserMenuService userMenuService, ISysRoleMenuMappingService roleMenuMappingService):base(currentUserInfo)
         {
             _currentUserInfo = currentUserInfo;
             _userMenuService = userMenuService;
@@ -47,7 +48,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
-
         public string GetEditMenuByID(int userId)
         {
             var user = _userMenuService.Find<SysMenu>(userId)?.MapTo<SysMenu, SysMenuDto>();
@@ -76,7 +76,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-
         public string GetRoleMenu()
         {
             var menuData = _userMenuService.
@@ -94,7 +93,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-
         public string GetMenus(int page, int limit, string name)
         {
             var userData = _userMenuService.

@@ -15,5 +15,10 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input
         /// 用户密码
         /// </summary>
         public string UserPwd { set; get; }
+
+        /// <summary>
+        /// 最后修改者
+        /// </summary>
+        public int LastModifyId { set; get; }
     }
 }
