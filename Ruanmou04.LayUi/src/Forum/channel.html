@@ -76,11 +76,11 @@
 -->
      
     <li class="layui-nav-item">
-      <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
+      <a id="loginA" class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}" >
         <cite class="layui-hide-xs">{{d.Name}}</cite>
         <span class="layui-nav-more"></span>
       </a>
-      <dl class="layui-nav-child layui-anim layui-anim-upbit">
+      <dl id="loginDl" class="layui-nav-child layui-anim layui-anim-upbit">
         <dd>
           <a href="/src/forum/user.html?userId={{d.Id}}">
           <i class="layui-icon" style="margin-left: 2px; font-size: 22px;"></i>我的主页
@@ -689,6 +689,10 @@ layui.use(['jquery','element'], function(){
   active.loginInit();
   active.tabChange(null,4);
   active.checkInit();
+
+  $("#loginA").on("click",function(){
+      $("#loginDl").addClass("layui-show");
+  });
 });
 </script>
 
