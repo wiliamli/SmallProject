@@ -30,18 +30,25 @@
     <a href="/src/Forum/login.html">登入</a>
   </li>
 -->
-   
-  <li class="layui-nav-item">
-    <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
-      <cite class="layui-hide-xs">{{d.Name}}</cite>
+<li class="layui-nav-item">
+  <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}" onmouseover="active.tipShow()" onblur="active.tipHid()">
+    <cite class="layui-hide-xs">{{d.Name}}</cite>
+    <span class="layui-nav-more"></span>
+  </a>
+  <dl id="loginDl" class="layui-nav-child layui-anim layui-anim-upbit">
+    <dd>
+      <a href="/src/forum/user.html?userId={{d.Id}}">
+      <i class="layui-icon" style="margin-left: 2px; font-size: 22px;"></i>我的主页
+      </a>
+  </dd>
+  <hr style="margin: 5px 0;">
+    <dd>
+      <a href="javascript:logout()" style="text-align: center;">
+      <i class="iconfont icon-tongzhi" style="top: 4px;"></i>退出
     </a>
-    <dl class="layui-nav-child">
-      <dd><a href="/src/forum/user.html?userId={{d.Id}}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
-      <hr style="margin: 5px 0;">
-      <dd><a href="/user/logout/" style="text-align: center;">退出</a></dd>
-    </dl>
-  </li>
-
+    </dd>
+  </dl>
+</li>
 </script>
 
 
@@ -224,6 +231,12 @@
               }else{
                 window.location.href="/src/Forum/login.html";
           }
+      },
+      tipShow:function(){
+        layui.jquery("#loginDl").addClass("layui-show");
+      },
+      tipHid:function(){
+        layui.jquery("#loginDl").removeClass("layui-show");
       }
   }
 

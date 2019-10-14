@@ -76,7 +76,7 @@
 -->
      
     <li class="layui-nav-item">
-      <a id="loginA" class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}" >
+      <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}" onmouseover="active.tipShow()" onblur="active.tipHid()">
         <cite class="layui-hide-xs">{{d.Name}}</cite>
         <span class="layui-nav-more"></span>
       </a>
@@ -88,7 +88,7 @@
       </dd>
       <hr style="margin: 5px 0;">
         <dd>
-          <a href="/user/logout/" style="text-align: center;">
+          <a href="javascript:logout()" style="text-align: center;">
           <i class="iconfont icon-tongzhi" style="top: 4px;"></i>退出
         </a>
         </dd>
@@ -680,6 +680,12 @@ var active = {
               console.log('ajax请求失败！');
           }
        });
+    },
+    tipShow:function(){
+      layui.jquery("#loginDl").addClass("layui-show");
+    },
+    tipHid:function(){
+      layui.jquery("#loginDl").removeClass("layui-show");
     }
 }
 
@@ -689,10 +695,6 @@ layui.use(['jquery','element'], function(){
   active.loginInit();
   active.tabChange(null,4);
   active.checkInit();
-
-  $("#loginA").on("click",function(){
-      $("#loginDl").addClass("layui-show");
-  });
 });
 </script>
 
