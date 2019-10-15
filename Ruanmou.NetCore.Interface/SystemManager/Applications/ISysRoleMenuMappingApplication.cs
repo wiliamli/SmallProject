@@ -1,18 +1,17 @@
 ﻿
 
 
-using Ruanmou04.NetCore.Interface;
-using System;
+using Ruanmou04.NetCore.Dtos.SystemManager;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
 {
     public interface ISysRoleMenuMappingApplication : IApplication
     {
-        
+        SysRoleMenuDto GetRoleMenuById(int id);
+
+        List<SysRoleMenuDto> GetRoleMenuByRoleId(int roleId);
+
+        void SaveRoleMenu(int roleId, string menuIds);
     }
 }

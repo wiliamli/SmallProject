@@ -42,6 +42,7 @@
       {{# }); }}
   </script>
   <script src="/layui.js"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     var userDetail = {
       userInIt: function ($, config, form) {
@@ -53,7 +54,7 @@
           url: config.apiUrl + '/ForumChannel/GetChannels',
           type: 'get',
           beforeSend: function (XHR) {
-            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+            XHR.setRequestHeader("token", "Bearer " + sessionStorage.getItem("apiTicket"));
           },
           dataType: 'json',
           contentType: 'application/json',
@@ -69,7 +70,7 @@
             userDetail.selectForum($, config, form);
           },
           error: function () {
-            layer.alert(JSON.stringify(data.msg), {
+            layer.alert(JSON.stringify(data.Message), {
               title: 'ajax请求失败！'
             });
           }
@@ -83,11 +84,11 @@
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
-            var data = obj.data;
+            var data = obj.Data;
             var unitTypeCheckbox = $("input[name='ForumIds']");
             for (var j = 0; j < data.length; j++) {
               for (var i = 0; i < unitTypeCheckbox.length; i++) {
-                if (unitTypeCheckbox[i].value == data[j]) {
+                if (unitTypeCheckbox[i].value == data[j].ChannelId) {
                   unitTypeCheckbox[i].checked = true;
                 }
               }
@@ -102,8 +103,8 @@
         });
       },
       saveSetData: function ($, config, saveData) {
-        var user = saveData;
-        user.SysRoleId = parseInt(saveData.SysRoleId);
+        var userForum = saveData;
+        userForum.SysRoleId = parseInt(saveData.SysRoleId);
         var result = [];
         $("[name='ForumIds']:checkbox").each(function () {
           if ($(this).is(":checked")) {
@@ -111,31 +112,33 @@
           }
         });
         var meunIds = result.join(",");
-        user.ForumIds = meunIds;
-        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        $.ajax({
-          type: 'Post',
-          dataType: "json",
-          data: JSON.stringify(user),
-          contentType: 'application/json',
-          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/RoleForum/SaveData',
-          success: function (result) {
-            layer.close(LoadIndex);
-            console.log(result);
-            if (result.success) {
-              layer.msg("保存成功", { icon: 1 });
-            }
-            else {
-              layer.msg(result.msg, { icon: 2 });
-            }
-          },
-          error: function (XMLHttpResponse) {
-            layer.close(LoadIndex);
-            console.log("error: api request failed");
-            console.log(XMLHttpResponse);
-          }
-        })
+        userForum.ForumIds = meunIds;
+        var data=JSON.stringify(userForum);
+        saveDataWay($,data,config,'/RoleForum/SaveData');
+        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        // $.ajax({
+        //   type: 'Post',
+        //   dataType: "json",
+        //   data: JSON.stringify(user),
+        //   contentType: 'application/json',
+        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+        //   url: config.apiUrl + '/RoleForum/SaveData',
+        //   success: function (result) {
+        //     layer.close(LoadIndex);
+        //     console.log(result);
+        //     if (result.success) {
+        //       layer.msg("保存成功", { icon: 1 });
+        //     }
+        //     else {
+        //       layer.msg(result.msg, { icon: 2 });
+        //     }
+        //   },
+        //   error: function (XMLHttpResponse) {
+        //     layer.close(LoadIndex);
+        //     console.log("error: api request failed");
+        //     console.log(XMLHttpResponse);
+        //   }
+        // })
         return false;
       }
 

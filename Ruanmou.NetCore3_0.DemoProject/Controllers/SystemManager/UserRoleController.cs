@@ -20,11 +20,22 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     {
         private readonly ISysUserRoleMappingApplication _sysUserRoleMappingApplication;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="currentUserInfo"></param>
+        /// <param name="sysUserRoleMappingApplication"></param>
         public UserRoleController(ICurrentUserInfo currentUserInfo, ISysUserRoleMappingApplication sysUserRoleMappingApplication) :base(currentUserInfo)
         {
             _sysUserRoleMappingApplication = sysUserRoleMappingApplication;
         }
 
+        /// <summary>
+        /// 保存用户角色
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roleIds"></param>
+        /// <returns></returns>
         [HttpGet]
         public StandardJsonResult SaveData(int userId, string roleIds)
         {

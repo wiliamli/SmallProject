@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input
 {
-    public class SysUserEditInputDto:BaseDto
+    public class SysUserEditInputDto: BaseDto
     {   
         /// <summary>
         /// 用户名/姓名

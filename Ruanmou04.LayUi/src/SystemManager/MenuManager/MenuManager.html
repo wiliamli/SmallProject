@@ -32,20 +32,21 @@
     </script>
 
   <script>
-    userManager = {
-      openUserWindow: function (data) {
+    menuManager = {
+      openMenuWindow: function (data) {
         debugger
         var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'MenuManager/MenuDetail.html?id=' + id,
-          data: id,
-          title: "编辑菜单",
-          area: ["700px", "500px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+        pageShow('编辑菜单','MenuManager/MenuDetail.html?id=' + id,700, 500,id);
+        // layer.open({
+        //   type: 2,
+        //   content: 'MenuManager/MenuDetail.html?id=' + id,
+        //   data: id,
+        //   title: "编辑菜单",
+        //   area: ["700px", "500px"],
+        //   end: function () { // layui 关闭弹框时的回调函数
+        //     $("#search").click();
+        //   }
+        // })
       }
     }
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
@@ -80,8 +81,8 @@
         , parseData: function (queryData) {
           return {
             code: '0',
-            data: queryData.Rows,
-            count: queryData.Total
+            data: queryData.Data.Rows,
+            count: queryData.Data.Total
           };
         }
         , page: true
@@ -117,12 +118,12 @@
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
           case 'addNew':
-            userManager.openUserWindow();
+          menuManager.openMenuWindow();
             break;
 
           case 'reload':
             table.reload('test', {
-              page: { curr: 10 }
+              page: { curr: 1 }
             }, 'data');
             break;
         };
@@ -132,31 +133,32 @@
       table.on('tool(test)', function (obj) {
         var data = obj.data;
         if (obj.event === 'del') { // 实现删除功能了 
-          layer.confirm('确定删除吗???', function (index) {
-            $.ajax({
-              type: "get",
-              data: {
-                id: data.Id
-              },
-              beforeSend: function (XHR) {
-                XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-              },
-              url: config.apiUrl + "/Menu/RemoveMenuById",
-              success: function (result) {
-                debugger
-                var jsonResult = result//JSON.parse(result);
-                if (jsonResult.success) {
-                  $("#search").click();
-                  layer.msg(jsonResult.msg, { icon: 1 });
-                }
-                else {
-                  layer.msg(jsonResult.msg, { icon: 2 });
-                }
-              }
-            })
-          });
+          deleteOne($,layer,data.Id,'/Menu/RemoveMenuById');
+          // layer.confirm('确定删除吗???', function (index) {
+          //   $.ajax({
+          //     type: "get",
+          //     data: {
+          //       id: data.Id
+          //     },
+          //     beforeSend: function (XHR) {
+          //       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          //     },
+          //     url: config.apiUrl + "/Menu/RemoveMenuById",
+          //     success: function (result) {
+          //       debugger
+          //       var jsonResult = result//JSON.parse(result);
+          //       if (jsonResult.success) {
+          //         $("#search").click();
+          //         layer.msg(jsonResult.msg, { icon: 1 });
+          //       }
+          //       else {
+          //         layer.msg(jsonResult.msg, { icon: 2 });
+          //       }
+          //     }
+          //   })
+          // });
         } else if (obj.event === 'edit') {
-          userManager.openUserWindow(data);
+          menuManager.openMenuWindow(data);
         }
       });
 

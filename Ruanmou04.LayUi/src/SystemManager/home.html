@@ -101,16 +101,17 @@
           },
           url: config.apiUrl + "/Menu/GetMenuList",
           success: function (result) {
-            if (result.success) {
+            debugger;
+            if (result.Success) {
               document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
               var getTpl = document.getElementById('tepMenue').innerHTML;
               var view = document.getElementById('menuUl');
-              laytpl(getTpl).render(result.data, function (html) {
+              laytpl(getTpl).render(result.Data, function (html) {
                 view.innerHTML = html;
               });
             }
             else {
-              layer.msg(result.msg, { icon: 7 });
+              layer.msg(result.Message, { icon: 7 });
             }
           }
         })

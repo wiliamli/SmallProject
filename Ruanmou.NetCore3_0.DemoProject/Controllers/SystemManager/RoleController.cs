@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;     
+using Newtonsoft.Json;
 using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.Extensions;
@@ -12,123 +12,161 @@ using Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos;
 using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.Core.Utility.DtoUtilities;
+using Ruanmou04.NetCore.Project.Controllers;
+using Ruanmou04.Core.Utility.MvcResult;
+using Ruanmou04.NetCore.Interface.SystemManager.Applications;
+using System.Collections.Generic;
+using Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos.Output;
+using Ruanmou04.NetCore.Dtos.SystemManager.RoleDtos.Input;
+
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
+    /// <summary>
+    /// 角色管理
+    /// </summary>
     [CustomAuthorize]
     [Route("api/[controller]/[action]"), ApiController]
-    public class RoleController : ControllerBase
+    public class RoleController : BaseApiController //ControllerBase
     {
         private readonly ICurrentUserInfo _currentUserInfo;
-        private readonly ISysUsersRoleService _sysRoleService;
-
-        public RoleController(ICurrentUserInfo currentUserInfo, ISysUsersRoleService sysRoleService)
+        private readonly ISysRoleApplication _sysRoleApplication;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="currentUserInfo"></param> 
+        public RoleController(ICurrentUserInfo currentUserInfo, ISysRoleApplication sysRoleApplication) : base(currentUserInfo)
         {
             _currentUserInfo = currentUserInfo;
-            _sysRoleService = sysRoleService;
+            _sysRoleApplication = sysRoleApplication;
         }
+
         /// <summary>
         /// 删除角色
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-
-        public string DeleteRoleById(int id)
+        public StandardJsonResult DeleteRoleById(int id)
         {
-            _sysRoleService.Delete<SysRole>(id);
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, msg="删除成功" });
-
+            return StandardAction(() => _sysRoleApplication.DeleteRoleById(id));
         }
+
         /// <summary>
-        /// 获取编辑用户
+        /// 获取编辑角色
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-
-        public string GetEditRoleByID(int id)
+        public StandardJsonResult<SysRoleDto> GetEditRoleById(int id)
         {
-            var user = _sysRoleService.Find<SysRole>(id)?.MapTo<SysRole, SysRoleDto>();
-            return JsonConvert.SerializeObject(new AjaxResult { success = true, data = user });
-
+            return StandardAction(() => _sysRoleApplication.GetRoleDetailById(id));
         }
-        [HttpGet]
-        public string GetUserSetRoles()
-        {
-            var userData = _sysRoleService.
-               Query<SysRole>(u => u.Status)
-               .Select(m => new SysRoleDto
-               {
-                   Id = m.Id,
-                   Description = m.Description,
-                   Text = m.Text,
 
-               }).ToList();
-            return JsonConvert.SerializeObject(userData);
-        }
         /// <summary>
-        /// 获取所有数据
+        /// 得到所有的角色
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-
-        public string GetRoles(int page, int limit, string name)
+        public StandardJsonResult<List<SysRoleDto>> GetUserSetRoles()
         {
-            var userData = _sysRoleService.
-                Query<SysRole>(u => (!name.IsNullOrEmpty() && u.Text.Contains(name)) || name.IsNullOrEmpty())
-                .Select(m => new SysRoleDto
-                {
-                    Id = m.Id,
-                    Description = m.Description,
-                    CreateTime = m.CreateTime,
-                    Text = m.Text,
+            //var userData = _sysRoleService.
+            //   Query<SysRole>(u => u.Status)
+            //   .Select(m => new SysRoleDto
+            //   {
+            //       Id = m.Id,
+            //       Description = m.Description,
+            //       Text = m.Text,
 
-                    Status = m.Status,
+            //   }).ToList();
+            //return JsonConvert.SerializeObject(userData);
 
-                }).ToList();
+            return StandardAction(() => _sysRoleApplication.GetAllRoles());
+        }
 
-            PagedResult<SysRoleDto> pagedResult = new PagedResult<SysRoleDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
+        /// <summary>
+        /// 分页获取所有角色数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public StandardJsonResult<PagedResult<SysRoleListOutputDto>> GetRoles(int page, int limit, string name)
+        {
+            var param = new SysRoleListInputDto()
+            {
+                Name = name,
+                PageIndex = page,
+                PageSize = limit
+            };
+            return StandardAction(() => _sysRoleApplication.GetPagedResult(param));
 
-            return JsonConvert.SerializeObject(pagedResult);
+            //var userData = _sysRoleService.
+            //    Query<SysRole>(u => (!name.IsNullOrEmpty() && u.Text.Contains(name)) || name.IsNullOrEmpty())
+            //    .Select(m => new SysRoleDto
+            //    {
+            //        Id = m.Id,
+            //        Description = m.Description,
+            //        CreateTime = m.CreateTime,
+            //        Text = m.Text,
 
+            //        Status = m.Status,
 
+            //    }).ToList();
+
+            //PagedResult<SysRoleDto> pagedResult = new PagedResult<SysRoleDto> { PageIndex = page, PageSize = limit, Rows = userData, Total = userData.Count };
+            //return JsonConvert.SerializeObject(pagedResult);
         }
 
         /// <summary>
         /// 新增或修改数据
         /// </summary>
-        /// <param name="sysMenuDto"></param>
+        /// <param name="sysRoleDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public AjaxResult SaveData([FromBody]SysRoleDto sysMenuDto)
+        public StandardJsonResult SaveData([FromBody]SysRoleDto sysRoleDto)
         {
 
-            AjaxResult ajaxResult = new AjaxResult { success = false };
-            if (sysMenuDto != null)
+            if (sysRoleDto == null)
             {
-                if (sysMenuDto.Id > 0)
-                {
-                    var model = _sysRoleService.Find<SysRole>(sysMenuDto.Id);
-                    model.Id = sysMenuDto.Id;
-                    model.Description = sysMenuDto.Description;
-                    model.Status = sysMenuDto.Status;
-                    model.LastModifyTime = DateTime.Now;
-                    model.LastModifierId = _currentUserInfo.CurrentUser.Id;
-                    _sysRoleService.Update<SysRole>(model);
-                }
-                else
-                {
-                    var model = sysMenuDto.MapTo<SysRoleDto, SysRole>();
-                    model.CreateTime = DateTime.Now;
-                    model.CreateId = _currentUserInfo.CurrentUser.Id;
-                    _sysRoleService.Insert<SysRole>(model);
-                }
-                ajaxResult.msg = "保存成功";
-                ajaxResult.success = true;
+                return StandardJsonResult.GetFailureResult("参数有误");
+            }
+            if (sysRoleDto.Id > 0)
+            {
+                var sysRoleEditInputDto = DataMapping<SysRoleDto, SysRoleEditInputDto>.Trans(sysRoleDto);
+                sysRoleEditInputDto.LastModifierId = _currentUserInfo.SysCurrentUser.Id;
+                return StandardAction(() => _sysRoleApplication.EditRole(sysRoleEditInputDto));
             }
             else
-                ajaxResult.msg = "保存失败";
-            return ajaxResult;
+            {
+                var sysRoleAddInputDto = DataMapping<SysRoleDto, SysRoleAddInputDto>.Trans(sysRoleDto);
+                sysRoleAddInputDto.CreateId = _currentUserInfo.SysCurrentUser.Id;
+                return StandardAction(() => _sysRoleApplication.AddRole(sysRoleAddInputDto));
+            }
+
+            //AjaxResult ajaxResult = new AjaxResult { success = false };
+            //if (sysMenuDto != null)
+            //{
+            //    if (sysMenuDto.Id > 0)
+            //    {
+            //        var model = _sysRoleService.Find<SysRole>(sysMenuDto.Id);
+            //        model.Id = sysMenuDto.Id;
+            //        model.Description = sysMenuDto.Description;
+            //        model.Status = sysMenuDto.Status;
+            //        model.LastModifyTime = DateTime.Now;
+            //        model.LastModifierId = _currentUserInfo.CurrentUser.Id;
+            //        _sysRoleService.Update<SysRole>(model);
+            //    }
+            //    else
+            //    {
+            //        var model = sysMenuDto.MapTo<SysRoleDto, SysRole>();
+            //        model.CreateTime = DateTime.Now;
+            //        model.CreateId = _currentUserInfo.CurrentUser.Id;
+            //        _sysRoleService.Insert<SysRole>(model);
+            //    }
+            //    ajaxResult.msg = "保存成功";
+            //    ajaxResult.success = true;
+            //}
+            //else
+            //    ajaxResult.msg = "保存失败";
+            //return ajaxResult;
         }
     }
 }

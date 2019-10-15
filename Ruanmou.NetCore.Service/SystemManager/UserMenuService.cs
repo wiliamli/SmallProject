@@ -23,29 +23,34 @@ namespace Ruanmou04.NetCore.Service.SystemManager
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public List<SysMenuTreeDto> GetAuthorityMenuList(int userID, int menuType)
+        //public List<SysMenuTreeDto> GetAuthorityMenuList(int userID, int menuType)
+        //{
+        //    var menuTree = from m in Query<SysMenu>(m => m.MenuType == menuType && m.Status)
+        //                   join r in Query<SysRoleMenuMapping>() on m.Id equals r.SysMenuId
+        //                   join ur in Query<SysUserRoleMapping>(u => u.SysUserId == userID) on r.SysRoleId equals ur.SysRoleId
+        //                   select new SysMenuTreeDto
+        //                   {
+        //                       Id = m.Id,
+        //                       Text = m.Text,
+        //                       Url = m.Url,
+        //                       MenuLevel = m.MenuLevel,
+        //                       SourcePath = m.SourcePath,
+        //                       MenuIcon = m.MenuIcon,
+        //                       Description = m.Description,
+        //                       Sort = m.Sort
+        //                   };
+
+        //    return menuTree.Distinct().OrderBy(m => m.Sort).ToList();
+        //}
+
+        public List<SysMenu> GetAuthorityMenuList(int userID, int menuType)
         {
             var menuTree = from m in Query<SysMenu>(m => m.MenuType == menuType && m.Status)
                            join r in Query<SysRoleMenuMapping>() on m.Id equals r.SysMenuId
                            join ur in Query<SysUserRoleMapping>(u => u.SysUserId == userID) on r.SysRoleId equals ur.SysRoleId
-                           select new SysMenuTreeDto
-                           {
-                               Id = m.Id,
-                               Text = m.Text,
-                               Url = m.Url,
-                               MenuLevel = m.MenuLevel,
-                               SourcePath = m.SourcePath,
-                               MenuIcon = m.MenuIcon,
-                               Description = m.Description,
-                               Sort = m.Sort
-                           };
-
+                           select m;
             return menuTree.Distinct().OrderBy(m=>m.Sort).ToList();
         }
-        //public List<SysMenuTreeDto> GetAuthorityMenuList(int userID)
-        //{
-        //    //var menuList=from rm in base
-        //    throw new un
-        //}
+
     }
 }

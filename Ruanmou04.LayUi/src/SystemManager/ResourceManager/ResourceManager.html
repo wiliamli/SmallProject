@@ -32,18 +32,19 @@
 
   <script>
     userManager = {
-      openUserWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'ResourceManager/ResourceDetail.html',
-          data: id,
-          title: "编辑菜单",
-          area: ["900px", "600px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+      openUserWindow: function (data) { 
+        var id = data && data.Id ? data.Id : "0";
+        pageShow('编辑菜单','ResourceManager/ResourceDetail.html',900, 600,id);
+        // layer.open({
+        //   type: 2,
+        //   content: 'ResourceManager/ResourceDetail.html',
+        //   data: id,
+        //   title: "编辑菜单",
+        //   area: ["900px", "600px"],
+        //   end: function () { // layui 关闭弹框时的回调函数
+        //     $("#search").click();
+        //   }
+        // })
       }
     }
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
@@ -78,8 +79,8 @@
         , parseData: function (queryData) {
           return {
             code: '0',
-            data: queryData.Rows,
-            count: queryData.Total
+            data: queryData.Data.Rows,
+            count: queryData.Data.Total
           };
         }
         , page: true
@@ -107,10 +108,9 @@
           case 'addNew':
             userManager.openUserWindow();
             break;
-
           case 'reload':
             table.reload('test', {
-              page: { curr: 10 }
+              page: { curr: 1 }
             }, 'data');
             break;
         };
