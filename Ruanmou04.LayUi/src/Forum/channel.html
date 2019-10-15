@@ -76,10 +76,20 @@
 -->
      
     <li class="layui-nav-item">
-      <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}" onmouseover="active.tipShow()" onblur="active.tipHid()">
+      <div style="float:left">
+      <a class="fly-nav-avatar" href="/src/forum/user.html?userId={{d.Id}}">
         <cite class="layui-hide-xs">{{d.Name}}</cite>
         <span class="layui-nav-more"></span>
       </a>
+    </div>
+    <div style="float:left">
+      <a  class="fly-nav-avatar" href="javascript:logout()">
+        <cite class="layui-hide-xs">退出</cite>
+        <span class="layui-nav-more"></span>
+      </a>
+    </div>
+
+      <!--
       <dl id="loginDl" class="layui-nav-child layui-anim layui-anim-upbit">
         <dd>
           <a href="/src/forum/user.html?userId={{d.Id}}">
@@ -93,6 +103,7 @@
         </a>
         </dd>
       </dl>
+      -->
     </li>
 
 </script>
@@ -116,7 +127,7 @@
       </li>
     </ul>
     -->
-    <ul id="loginView" class="layui-nav fly-nav-user">
+    <ul id="loginView" class="layui-nav fly-nav-user" >
       
       <!-- 未登入的状态 
       <li class="layui-nav-item">
@@ -680,12 +691,6 @@ var active = {
               console.log('ajax请求失败！');
           }
        });
-    },
-    tipShow:function(){
-      layui.jquery("#loginDl").addClass("layui-show");
-    },
-    tipHid:function(){
-      layui.jquery("#loginDl").removeClass("layui-show");
     }
 }
 
