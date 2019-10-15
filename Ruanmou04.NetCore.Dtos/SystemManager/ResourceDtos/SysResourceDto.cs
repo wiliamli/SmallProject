@@ -35,6 +35,12 @@ namespace Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos
         /// 添加用户
         /// <summary>
         public string Creator { get; set; }
+
+        /// <summary>
+        /// 创建者Id
+        /// </summary>
+        public int? CreatorId { set;get; }
+
         /// <summary>
         /// 修改时间
         /// <summary>

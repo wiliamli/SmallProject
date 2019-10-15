@@ -42,6 +42,7 @@
       {{# }); }}
   </script>
   <script src="/layui.js"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     var userDetail = {
       userInIt: function ($, config, form) {
@@ -56,7 +57,7 @@
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
-            var data = obj.data;
+            var data = obj.Data;
             var meunTpl = document.getElementById('userTpl').innerHTML;
             var menuSelect = document.getElementById('userSelect');
             layui.laytpl(meunTpl).render(data, function (html) {
@@ -65,8 +66,8 @@
             });
             userDetail.selectUser($, config, form);
           },
-          error: function () {
-            layer.alert(JSON.stringify(data.msg), {
+          error: function (data) {
+            layer.alert(JSON.stringify(data.Message), {
               title: 'ajax请求失败！'
             });
           }
@@ -80,27 +81,27 @@
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
-            var data = obj.data;
+            var data = obj.Data;
             var unitTypeCheckbox = $("input[name='UserIds']");
             for (var j = 0; j < data.length; j++) {
               for (var i = 0; i < unitTypeCheckbox.length; i++) {
-                if (unitTypeCheckbox[i].value == data[j].userid) {
+                if (unitTypeCheckbox[i].value == data[j].SysUserId) {
                   unitTypeCheckbox[i].checked = true;
                 }
               }
             }
             form.render("checkbox");
           },
-          error: function () {
-            layer.alert(JSON.stringify(data.msg), {
+          error: function (data) {
+            layer.alert(JSON.stringify(data.Message), {
               title: 'ajax请求失败！'
             });
           }
         });
       },
       saveUser: function ($, config, saveData) {
-        var user = saveData;
-        user.SysRoleId = parseInt(saveData.SysRoleId);
+        var roleUser = saveData;
+        roleUser.SysRoleId = parseInt(saveData.SysRoleId);
         var result = [];
         $("[name='UserIds']:checkbox").each(function () {
           if ($(this).is(":checked")) {
@@ -108,31 +109,33 @@
           }
         });
         var meunIds = result.join(",");
-        user.UserIds = meunIds;
-        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        $.ajax({
-          type: 'Post',
-          dataType: "json",
-          data: JSON.stringify(user),
-          contentType: 'application/json',
-          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/RoleUser/SaveData',
-          success: function (result) {
-            layer.close(LoadIndex);
-            console.log(result);
-            if (result.success) {
-              layer.msg("保存成功", { icon: 1 });
-            }
-            else {
-              layer.msg(result.msg, { icon: 2 });
-            }
-          },
-          error: function (XMLHttpResponse) {
-            layer.close(LoadIndex);
-            console.log("error: api request failed");
-            console.log(XMLHttpResponse);
-          }
-        })
+        roleUser.UserIds = meunIds;
+        var data=JSON.stringify(roleUser);
+        saveDataWay($,data,config,'/RoleUser/SaveData');
+        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        // $.ajax({
+        //   type: 'Post',
+        //   dataType: "json",
+        //   data: JSON.stringify(user),
+        //   contentType: 'application/json',
+        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+        //   url: config.apiUrl + '/RoleUser/SaveData',
+        //   success: function (result) {
+        //     layer.close(LoadIndex);
+        //     console.log(result);
+        //     if (result.success) {
+        //       layer.msg("保存成功", { icon: 1 });
+        //     }
+        //     else {
+        //       layer.msg(result.msg, { icon: 2 });
+        //     }
+        //   },
+        //   error: function (XMLHttpResponse) {
+        //     layer.close(LoadIndex);
+        //     console.log("error: api request failed");
+        //     console.log(XMLHttpResponse);
+        //   }
+        // })
         return false;
       }
 

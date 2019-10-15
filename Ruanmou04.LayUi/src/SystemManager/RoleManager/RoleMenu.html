@@ -42,9 +42,28 @@
       {{# }); }}
   </script>
   <script src="/layui.js"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     var userDetail = {
-      userInIt: function ($, config, form) {
+      // LoadData:function($, url,myFunc){
+      //   $.ajax({
+      //     url: url,
+      //     type: 'get',
+      //     data: { token: "Bearer " + sessionStorage.getItem("apiTicket") },
+      //     dataType: 'json',
+      //     contentType: 'application/json',
+      //     success: function (obj) {
+      //       myFunc(obj);
+      //     },
+      //     error: function () {
+      //       layer.alert(JSON.stringify(data.msg), {
+      //         title: 'ajax请求失败！'
+      //       });
+      //     }
+      //   });
+      // },
+
+      roleMenuInit: function ($, config, form) {
         if (parent.layer.data) {
           $("#SysRoleId").val(parent.layer.data.Id);
           $("#Name").val(parent.layer.data.Text);
@@ -56,23 +75,24 @@
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
-            var data = obj.data;
+            debugger;
+            var data = obj.Data;
             var meunTpl = document.getElementById('menuTpl').innerHTML;
             var menuSelect = document.getElementById('menuSelect');
             layui.laytpl(meunTpl).render(data, function (html) {
               menuSelect.innerHTML = html;
-              // $("#selRoleMenu").append(html);
               form.render("checkbox");
             });
             userDetail.selectMenu($, config, form);
           },
           error: function () {
-            layer.alert(JSON.stringify(data.msg), {
+            layer.alert(JSON.stringify(data.Message), {
               title: 'ajax请求失败！'
             });
           }
         });
       },
+
       selectMenu: function ($, config, form) {
         $.ajax({
           url: config.apiUrl + '/SysRoleMenu/GetRoleMenuByRoleID',
@@ -81,27 +101,29 @@
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
-            var data = obj.data;
+            debugger;
+            var data = obj.Data;
             var unitTypeCheckbox = $("input[name='SysMenuIds']");
             for (var j = 0; j < data.length; j++) {
               for (var i = 0; i < unitTypeCheckbox.length; i++) {
-                if (unitTypeCheckbox[i].value == data[j]) {
+                if (unitTypeCheckbox[i].value == data[j].SysMenuId) {
                   unitTypeCheckbox[i].checked = true;
                 }
               }
             }
             form.render("checkbox");
           },
-          error: function () {
-            layer.alert(JSON.stringify(data.msg), {
+          error: function (data) {
+            layer.alert(JSON.stringify(data.Message), {
               title: 'ajax请求失败！'
             });
           }
         });
       },
-      saveUser: function ($, config, saveData) {
-        var user = saveData;
-        user.SysRoleId = parseInt(saveData.SysRoleId);
+
+      saveRoleMenu: function ($, config, saveData) {
+        var roleMenu = saveData;
+        roleMenu.SysRoleId = parseInt(saveData.SysRoleId);
         var result = [];
         $("[name='SysMenuIds']:checkbox").each(function () {
           if ($(this).is(":checked")) {
@@ -109,31 +131,33 @@
           }
         });
         var meunIds = result.join(",");
-        user.SysMenuIds = meunIds;
-        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        $.ajax({
-          type: 'Post',
-          dataType: "json",
-          data: JSON.stringify(user),
-          contentType: 'application/json',
-          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/SysRoleMenu/SaveData',
-          success: function (result) {
-            layer.close(LoadIndex);
-            console.log(result);
-            if (result.success) {
-              layer.msg("保存成功", { icon: 1 });
-            }
-            else {
-              layer.msg(result.msg, { icon: 2 });
-            }
-          },
-          error: function (XMLHttpResponse) {
-            layer.close(LoadIndex);
-            console.log("error: api request failed");
-            console.log(XMLHttpResponse);
-          }
-        })
+        roleMenu.SysMenuIds = meunIds;
+        var data=JSON.stringify(roleMenu);
+        saveDataWay($,data,config,'/SysRoleMenu/SaveData');
+        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        // $.ajax({
+        //   type: 'Post',
+        //   dataType: "json",
+        //   data: JSON.stringify(user),
+        //   contentType: 'application/json',
+        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+        //   url: config.apiUrl + '/SysRoleMenu/SaveData',
+        //   success: function (result) {
+        //     layer.close(LoadIndex);
+        //     console.log(result);
+        //     if (result.success) {
+        //       layer.msg("保存成功", { icon: 1 });
+        //     }
+        //     else {
+        //       layer.msg(result.msg, { icon: 2 });
+        //     }
+        //   },
+        //   error: function (XMLHttpResponse) {
+        //     layer.close(LoadIndex);
+        //     console.log("error: api request failed");
+        //     console.log(XMLHttpResponse);
+        //   }
+        // })
         return false;
       }
 
@@ -145,7 +169,7 @@
         config = layui.config;
       // 初始刷f
 
-      userDetail.userInIt($, config, form);
+      userDetail.roleMenuInit($, config, form);
       form.on("submit(sub)", function (obj) {
         if (!obj.field.SysMenuIds) {
           layer.msg('您还未选择菜单', {
@@ -153,7 +177,7 @@
           });
           return false;
         }
-        userDetail.saveUser($, config, obj.field);
+        userDetail.saveRoleMenu($, config, obj.field);
       })
     })
   </script>

@@ -99,9 +99,9 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public AjaxResult GetUsersByType(int userType)
-        {
-            return null;
+        public StandardJsonResult GetUsersByType(int userType)
+        { 
+            return StandardAction(() => _userApplication.GetUsers(u => userType == 0 || u.UserType == userType));
         }
 
         /// <summary>

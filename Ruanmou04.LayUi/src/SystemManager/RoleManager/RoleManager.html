@@ -23,8 +23,7 @@
 
   <div class="layui-btn layui-btn-normal" id="search">查询</div>
 
-  <table id="test" lay-filter="test"></table>
-
+  <table id="test" lay-filter="test"></table> 
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -35,58 +34,52 @@
     </script>
 
   <script>
-    userManager = {
+    roleManager = {
       openRoleWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'RoleManager/RoleDetail.html',
-          data: id,
-          title: "编辑角色",
-          area: ["600px", "350px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+        var id = data && data.Id ? data.Id : "0"; 
+        pageShow('编辑角色','RoleManager/RoleDetail.html',900, 450,id);
       },
       openRoleMenuWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'RoleManager/RoleMenu.html',
-          data: data,
-          title: "编辑角色",
-          area: ["600px", "350px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+        //var id = data && data.Id ? data.Id : "0";
+        pageShow('编辑角色菜单','RoleManager/RoleMenu.html',600, 350,data);
+        // layer.open({
+        //   type: 2,
+        //   content: 'RoleManager/RoleMenu.html',
+        //   data: data,
+        //   title: "编辑角色",
+        //   area: ["600px", "350px"],
+        //   end: function () { // layui 关闭弹框时的回调函数
+        //     $("#search").click();
+        //   }
+        // })
       },
       openRoleUserWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'RoleManager/RoleUser.html',
-          data: data,
-          title: "编辑角色",
-          area: ["600px", "350px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+        //var id = data && data.Id ? data.Id : "0";
+        pageShow('编辑用户角色','RoleManager/RoleUser.html',600, 350,data);
+        // layer.open({
+        //   type: 2,
+        //   content: 'RoleManager/RoleUser.html',
+        //   data: data,
+        //   title: "编辑角色",
+        //   area: ["600px", "350px"],
+        //   end: function () { // layui 关闭弹框时的回调函数
+        //     $("#search").click();
+        //   }
+        // })
       },
       openRoleForumWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"
-        layer.open({
-          type: 2,
-          content: 'RoleManager/RoleForum.html',
-          data: data,
-          title: "编辑角色",
-          area: ["600px", "350px"],
-          end: function () { // layui 关闭弹框时的回调函数
-            $("#search").click();
-          }
-        })
+        //var id = data && data.Id ? data.Id : "0";
+        pageShow('编辑角色论坛','RoleManager/RoleForum.html',600, 350,data);
+        // layer.open({
+        //   type: 2,
+        //   content: 'RoleManager/RoleForum.html',
+        //   data: data,
+        //   title: "编辑角色",
+        //   area: ["600px", "350px"],
+        //   end: function () { // layui 关闭弹框时的回调函数
+        //     $("#search").click();
+        //   }
+        // })
       },
     }
 
@@ -109,7 +102,7 @@
       table.render({
         elem: '#test'
         , height: 700
-        , title: '用户数据表'
+        , title: '角色数据表'
         , url: config.apiUrl + '/Role/GetRoles'
         , where: {
           Name: $("#Name").val(),
@@ -119,10 +112,11 @@
         , limit: 10
         , toolbar: '#toolbarDemo'
         , parseData: function (queryData) {
+          debugger;
           return {
             code: '0',
-            data: queryData.Rows,
-            count: queryData.Total
+            data: queryData.Data.Rows,
+            count: queryData.Data.Total
           };
         }
         , page: true
@@ -154,12 +148,12 @@
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
           case 'addNew':
-            userManager.openRoleWindow();
+            roleManager.openRoleWindow();
             break;
 
           case 'reload':
             table.reload('test', {
-              page: { curr: 10 }
+              page: { curr: 1 }
             }, 'data');
             break;
         };
@@ -169,40 +163,41 @@
       table.on('tool(test)', function (obj) {
         var data = obj.data;
         if (obj.event === 'del') { // 实现删除功能了 
-          layer.confirm('确定删除吗???', function (index) {
-            $.ajax({
-              type: "get",
-              data: {
-                id: data.Id
-              },
-              beforeSend: function (XHR) {
-                XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-              },
-              url: config.apiUrl + "/Role/DeleteRoleById",
-              success: function (result) {
-                debugger
-                var jsonResult = JSON.parse(result);
-                if (jsonResult.success) {
-                  $("#search").click();
-                  layer.msg(jsonResult.msg, { icon: 1 });
-                }
-                else {
-                  layer.msg(jsonResult.msg, { icon: 2 });
-                }
-              }
-            })
-          });
+          deleteOne($,layer,data.Id,'/Role/DeleteRoleById');
+          // layer.confirm('确定删除吗???', function (index) {
+          //   $.ajax({
+          //     type: "get",
+          //     data: {
+          //       id: data.Id
+          //     },
+          //     beforeSend: function (XHR) {
+          //       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+          //     },
+          //     url: config.apiUrl + "/Role/DeleteRoleById",
+          //     success: function (result) {
+          //       debugger
+          //       var jsonResult = JSON.parse(result);
+          //       if (jsonResult.success) {
+          //         $("#search").click();
+          //         layer.msg(jsonResult.msg, { icon: 1 });
+          //       }
+          //       else {
+          //         layer.msg(jsonResult.msg, { icon: 2 });
+          //       }
+          //     }
+          //   })
+          // });
         }
         else if (obj.event === 'menu') {
-          userManager.openRoleMenuWindow(data);
+          roleManager.openRoleMenuWindow(data);
         }
         else if (obj.event === 'user') {
-          userManager.openRoleUserWindow(data);
+          roleManager.openRoleUserWindow(data);
         } else if (obj.event === 'forum') {
-          userManager.openRoleForumWindow(data);
+          roleManager.openRoleForumWindow(data);
         }
         else if (obj.event === 'edit') {
-          userManager.openRoleWindow(data);
+          roleManager.openRoleWindow(data);
         }
       });
 

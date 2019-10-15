@@ -69,23 +69,34 @@
             <param name="loginInput"></param>
             <returns></returns>
         </member>
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController">
+            <summary>
+            菜单管理
+            </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.#ctor(Ruanmou04.NetCore.Interface.ICurrentUserInfo,Ruanmou04.NetCore.Interface.SystemManager.Applications.ISysMenuApplication)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="currentUserInfo"></param>
+            <param name="sysMenuApplication"></param>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetMenuList">
             <summary>
             获取权限菜单 
             </summary>
-            <param name="menuType">1后台的，2是网站，3是论坛</param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.GetEditMenuByID(System.Int32)">
             <summary>
-            获取编辑用户
+            获取菜单信息
             </summary>
-            <param name="userId"></param>
+            <param name="menuId"></param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.MenuController.RemoveMenuById(System.Int32)">
             <summary>
-            删除
+            删除菜单
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -109,11 +120,23 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetEditResouceByID(System.Int32)">
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController">
+            <summary>
+            资源管理
+            </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.#ctor(Ruanmou04.NetCore.Interface.ICurrentUserInfo,Ruanmou04.NetCore.Interface.SystemManager.Applications.ISysResourceApplication)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="currentUserInfo"></param>
+            <param name="sysResourceApplication"></param>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetEditResouceById(System.Int32)">
             <summary>
             获取编辑资源
             </summary>
-            <param name="userId"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.ResourceController.GetResouces(System.Int32,System.Int32,System.String)">
@@ -126,8 +149,19 @@
             <summary>
             新增或修改数据
             </summary>
-            <param name="sysMenuDto"></param>
+            <param name="sysResourceDto"></param>
             <returns></returns>
+        </member>
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController">
+            <summary>
+            角色管理
+            </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.#ctor(Ruanmou04.NetCore.Interface.ICurrentUserInfo,Ruanmou04.NetCore.Interface.SystemManager.Applications.ISysRoleApplication)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="currentUserInfo"></param> 
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.DeleteRoleById(System.Int32)">
             <summary>
@@ -136,16 +170,22 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetEditRoleByID(System.Int32)">
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetEditRoleById(System.Int32)">
             <summary>
-            获取编辑用户
+            获取编辑角色
             </summary>
-            <param name="userId"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetUserSetRoles">
+            <summary>
+            得到所有的角色
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleController.GetRoles(System.Int32,System.Int32,System.String)">
             <summary>
-            获取所有数据
+            分页获取所有角色数据
             </summary>
             <returns></returns>
         </member>
@@ -153,7 +193,7 @@
             <summary>
             新增或修改数据
             </summary>
-            <param name="sysMenuDto"></param>
+            <param name="sysRoleDto"></param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleForumController.GetEditChannelByRoleID(System.Int32)">
@@ -177,11 +217,23 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController">
+            <summary>
+            角色菜单
+            </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.#ctor(Ruanmou04.NetCore.Interface.ICurrentUserInfo,Ruanmou04.NetCore.Interface.SystemManager.Applications.ISysRoleMenuMappingApplication)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="currentUserInfo"></param>
+            <param name="sysRoleMenuMappingApplication"></param>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.GetEditRoleMenuByRoleID(System.Int32)">
             <summary>
             获取编辑角色菜单
             </summary>
-            <param name="userId"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.SysRoleMenuController.GetRoleMenuByRoleID(System.Int32)">
@@ -197,6 +249,18 @@
             </summary>
             <param name="sysMenuDto"></param>
             <returns></returns>
+        </member>
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController">
+            <summary>
+            角色用户
+            </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.#ctor(Ruanmou04.NetCore.Interface.ICurrentUserInfo,Ruanmou04.NetCore.Interface.SystemManager.Applications.ISysUserRoleMappingApplication)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="currentUserInfo"></param>
+            <param name="sysUserRoleMappingApplication"></param>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.RoleUserController.GetUserRoleByRoleID(System.Int32)">
             <summary>
@@ -223,6 +287,21 @@
             <summary>
             用户角色
             </summary>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UserRoleController.#ctor(Ruanmou04.NetCore.Interface.ICurrentUserInfo,Ruanmou04.NetCore.Interface.SystemManager.Applications.ISysUserRoleMappingApplication)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="currentUserInfo"></param>
+            <param name="sysUserRoleMappingApplication"></param>
+        </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UserRoleController.SaveData(System.Int32,System.String)">
+            <summary>
+            保存用户角色
+            </summary>
+            <param name="userId"></param>
+            <param name="roleIds"></param>
+            <returns></returns>
         </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetEditUserByID(System.Int32)">
             <summary>

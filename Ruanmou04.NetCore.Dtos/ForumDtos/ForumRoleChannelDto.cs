@@ -51,15 +51,15 @@ namespace Ruanmou04.EFCore.Dtos.ForumDtos
 
     public static class ForumRoleChannelDtoExt
     {
-        public static ForumRoleChannelDto ToDto(this ForumRoleChannel forumRoleChannel)
-        {
-            ForumRoleChannelDto dto = null;
-            if (forumRoleChannel != null)
-            {
-                dto = DataMapping<ForumRoleChannel, ForumRoleChannelDto>.Trans(forumRoleChannel);
-            }
-            return dto;
-        }
+        //public static ForumRoleChannelDto ToDto(this ForumRoleChannel forumRoleChannel)
+        //{
+        //    ForumRoleChannelDto dto = null;
+        //    if (forumRoleChannel != null)
+        //    {
+        //        dto = DataMapping<ForumRoleChannel, ForumRoleChannelDto>.Trans(forumRoleChannel);
+        //    }
+        //    return dto;
+        //}
 
        
         public static ForumRoleChannel ToEntity(this ForumRoleChannelDto dto)

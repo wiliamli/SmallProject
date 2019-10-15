@@ -41,31 +41,34 @@
       </div>
     </div>
   </div>
-  <script src="/layui.js"></script>
+  <script src="/layui.js?v=2222"></script>
+  <script src="/common.js"></script>
   <script type="text/javascript">
     var userDetail = {
       userInIt: function ($, config, form, layedit, editorindex) {
-
         if (parent.layer.data) {
+          //var url="/Resource/GetEditResouceById?id="+parent.layer.data;//取的是layer.open的data的值
+         // initData($,url,config,form);
           $.ajax({
             type: "Get",
             data: {
-              userId: parent.layer.data
+              id: parent.layer.data
             },
             beforeSend: function (XHR) {
               XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
             },
-            url: config.apiUrl + "/Resource/GetEditResouceByID",
+            url: config.apiUrl + "/Resource/GetEditResouceById",
             success: function (result) {
-              var jsonResult = JSON.parse(result);
+              debugger;
+              var jsonResult = result;
               //var newscontent = utf16to8(jsonResult.data.Content);//解码
 
-              if (jsonResult.success) {
-                form.val("first", jsonResult.data);
-                layedit.setContent(editorindex, jsonResult.data.Content);
+              if (jsonResult.Success) {
+                form.val("first", jsonResult.Data);
+                layedit.setContent(editorindex, jsonResult.Data.Content,true);
               }
               else {
-                layer.msg(jsonResult.msg);
+                layer.msg(jsonResult.Message);
               }
             }
           })
@@ -73,38 +76,40 @@
       },
       saveData: function ($, config, saveData, layedit, editorindex) {
         debugger
-        var user = saveData;
-        user.Id = saveData.Id ? parseInt(saveData.Id) : 0;
-        user.Content = layedit.getContent(editorindex);
-        if (!user.Content) {
+        var resource = saveData;
+        resource.Id = saveData.Id ? parseInt(saveData.Id) : 0;
+        resource.Content = layedit.getContent(editorindex);
+        if (!resource.Content) {
           layer.msg("请输入资源内容", { icon: 2 });
           return;
         }
-        var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        $.ajax({
-          type: 'Post',
-          dataType: "json",
-          data: JSON.stringify(user),
-          contentType: 'application/json',
-          headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-          url: config.apiUrl + '/Resource/SaveData',
-          success: function (result) {
+        var data=JSON.stringify(resource);
+        saveDataWay($,data,config,'/Resource/SaveData');
+        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
+        // $.ajax({
+        //   type: 'Post',
+        //   dataType: "json",
+        //   data: JSON.stringify(user),
+        //   contentType: 'application/json',
+        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
+        //   url: config.apiUrl + '/Resource/SaveData',
+        //   success: function (result) {
 
-            layer.close(LoadIndex);
-            console.log(result);
-            if (result.success) {
-              layer.msg("保存成功", { icon: 1 });
-            }
-            else {
-              layer.msg(result.msg, { icon: 2 });
-            }
-          },
-          error: function (XMLHttpResponse) {
-            layer.close(LoadIndex);
-            console.log("error: api request failed");
-            console.log(XMLHttpResponse);
-          }
-        })
+        //     layer.close(LoadIndex);
+        //     console.log(result);
+        //     if (result.success) {
+        //       layer.msg("保存成功", { icon: 1 });
+        //     }
+        //     else {
+        //       layer.msg(result.msg, { icon: 2 });
+        //     }
+        //   },
+        //   error: function (XMLHttpResponse) {
+        //     layer.close(LoadIndex);
+        //     console.log("error: api request failed");
+        //     console.log(XMLHttpResponse);
+        //   }
+        // })
         return false;
       }
 
@@ -115,6 +120,7 @@
         layedit = layui.layedit,
         $ = layui.$,
         config = layui.config;
+        debugger;
       // 初始刷f
       var editorindex = layedit.build('Content');
       userDetail.userInIt($, config, form, layedit, editorindex);

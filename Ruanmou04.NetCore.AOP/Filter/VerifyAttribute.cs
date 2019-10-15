@@ -25,13 +25,14 @@ namespace Ruanmou04.NetCore.AOP.Filter
         public void OnActionExecuting(ActionExecutingContext context)
         {
             string key = context.HttpContext.Request.Headers["token"].SingleOrDefault();
-            key = key.Replace("Bearer",string.Empty).Trim();
+            
             if (key == null || key =="null")
             {
                 context.Result = new StandardJsonResult();
             }
             else
             {
+                key = key.Replace("Bearer", string.Empty).Trim();
                 AjaxResult result = this._tokenService.ConfirmVerification(key);
                 if (!result.success)
                 {
