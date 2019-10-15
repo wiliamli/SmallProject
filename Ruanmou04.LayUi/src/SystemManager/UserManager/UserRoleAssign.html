@@ -57,23 +57,24 @@
           },
           url: config.apiUrl + "/Role/GetUserSetRoles",
           success: function (result) {
+            debugger;
             if (parent.layer.data) {
               $("#userId").val(parent.layer.data.Id);
               $("#Name").val(parent.layer.data.Name);
               $("#Account").val(parent.layer.data.Account);
             }
-            var jsonResult = JSON.parse(result);
-            if (jsonResult) {
+            var jsonResult =result;// JSON.parse(result);
+            if (jsonResult.Success) {
               var laytpl = layui.laytpl;
               var getTpl = document.getElementById('tepMenue').innerHTML;
               var view = document.getElementById('userRole');
-              laytpl(getTpl).render(jsonResult, function (html) {
+              laytpl(getTpl).render(jsonResult.Data, function (html) {
                 view.innerHTML = html;
                 form.render();
               });
             }
             else {
-              layer.msg(jsonResult.msg);
+              layer.msg(jsonResult.Message);
             }
             userDetail.selectRole($, config, form);
           }
@@ -88,11 +89,11 @@
           dataType: 'json',
           contentType: 'application/json',
           success: function (obj) {
-            var data = obj.data;
+            var data = obj.Data;
             var unitTypeCheckbox = $("input[name='roleIds']");
             for (var j = 0; j < data.length; j++) {
               for (var i = 0; i < unitTypeCheckbox.length; i++) {
-                if (unitTypeCheckbox[i].value == data[j]) {
+                if (unitTypeCheckbox[i].value == data[j].SysRoleId) {
                   unitTypeCheckbox[i].checked = true;
                 }
               }

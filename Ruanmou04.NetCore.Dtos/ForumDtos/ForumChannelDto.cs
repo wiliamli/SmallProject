@@ -1,4 +1,5 @@
 ﻿using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.EFCore.Model.Models.Forum;
 using System;
 using System.Collections.Generic;
@@ -88,6 +89,21 @@ namespace Ruanmou04.EFCore.Dtos.ForumDtos
                 forumChannel = DataMapping<ForumChannelDto, ForumChannel>.Trans(dto);
             }
             return forumChannel;
+        }
+
+        public static PagedResult<ForumChannelDto> ToPaged(this PagedResult<ForumChannel> param)
+        {
+            var pagedResult = new PagedResult<ForumChannelDto>();
+            if (param == null)
+            {
+                return pagedResult;
+            }
+
+            pagedResult.Rows = param.Rows.Select(u => DataMapping<ForumChannel, ForumChannelDto>.Trans(u)).ToList();
+            pagedResult.PageIndex = param.PageIndex;
+            pagedResult.PageSize = param.PageSize;
+            pagedResult.Total = param.Total;
+            return pagedResult;
         }
     }
 }

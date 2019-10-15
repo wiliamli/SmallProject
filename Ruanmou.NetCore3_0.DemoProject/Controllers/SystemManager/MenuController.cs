@@ -129,6 +129,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 sysMenuAddInputDto.LastModifierId = sysMenuAddInputDto.CreatorId;
                 sysMenuAddInputDto.LastModifyTime = DateTime.Now;
                 sysMenuAddInputDto.ParentId = 0;
+                sysMenuAddInputDto.MenuType = 1;
                 return StandardAction(() => _sysMenuApplication.AddMenu(sysMenuAddInputDto));
             }
         }

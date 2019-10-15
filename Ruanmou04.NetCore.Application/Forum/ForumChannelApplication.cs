@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.Core.Utility.DtoUtilities;
+using Ruanmou04.Core.Utility.Extensions;
+using System.Data;
 
 namespace Ruanmou04.NetCore.Application.Forum
 {
@@ -49,9 +52,16 @@ namespace Ruanmou04.NetCore.Application.Forum
 
         public void DeleteForumChannel(int id)
         {
-            System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[1] 
-            {new System.Data.SqlClient.SqlParameter("@id",id)};
-            forumChannelService.Excute<ForumChannel>($"UPDATE ForumChannel SET Status=0 WHERE Id=@id", paramList);
+            var entity=forumChannelService.Find<ForumChannel>(id);
+            if (entity==null)
+            {
+                return;
+            }
+            entity.Status = false;
+            forumChannelService.Update<ForumChannel>(entity);
+            //System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[1] 
+            //{new System.Data.SqlClient.SqlParameter("@id",SqlDbType.Int,4){ Value=id } };
+            //forumChannelService.Excute<ForumChannel>($"UPDATE ForumChannel SET Status=0 WHERE Id=@id", paramList);
         }
 
         public void EditForumChannel(ForumChannelDto forumChannelDto)
@@ -108,6 +118,15 @@ namespace Ruanmou04.NetCore.Application.Forum
             });
 
             return query;
+        }
+
+        public PagedResult<ForumChannelDto> GetPagedResult(string name, PagingInput pagingInput)
+        {
+            var pagedResult = forumTopicService.QueryPage<ForumChannel, DateTime>
+                (u => ((!name.IsNullOrEmpty() && u.Name.Contains(name)) || name.IsNullOrEmpty()), pagingInput.PageSize,
+                pagingInput.PageIndex, n => n.ModifiedDate.Value, false);
+
+            return pagedResult.ToPaged();
         }
     }
 }

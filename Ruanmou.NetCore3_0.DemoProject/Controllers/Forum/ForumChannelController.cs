@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;  
+using Microsoft.Extensions.Caching.Memory;
+using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Dtos.ForumDtos;
 using Ruanmou04.NetCore.AOP.Filter;
@@ -10,8 +11,7 @@ using Ruanmou04.NetCore.Interface.Forum.Applications;
 
 namespace Ruanmou04.NetCore.Project.Controllers.Forum
 {
-    [Route("api/[controller]/[action]")]
-    [ServiceFilter(typeof(VerifyAttribute))]
+    [Route("api/[controller]/[action]")]    
     [ApiController]
     public class ForumChannelController : BaseApiController
     {
@@ -28,6 +28,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         /// 根据角色获取所有频道
         /// </summary>
         /// <returns></returns>
+        [ServiceFilter(typeof(VerifyAttribute))]
         [HttpGet]
         public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannelsByRoleId(IList<int> roleIds)
         {
@@ -39,14 +40,28 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         /// 获取所有频道
         /// </summary>
         /// <returns></returns>
+        [ServiceFilter(typeof(VerifyAttribute))]
         [HttpGet]
         public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannels()
         {
             return StandardAction(() => forumChannelApplication.GetForumChannels());
         }
 
+        [CustomAuthorizeAttribute]
+        [HttpGet]
+        public StandardJsonResult<PagedResult<ForumChannelDto>> GetPagedChannels(int page, int limit, string name)
+        {
+            var param = new PagingInput()
+            {
+                PageSize = limit,
+                PageIndex = page ,
+            };
+            var result = StandardAction(() => forumChannelApplication.GetPagedResult(name,param));
+            return result;
+        }
 
         // GET: api/ForumChannel/5
+        [CustomAuthorizeAttribute]       
         [HttpGet("{id}", Name = "Get")]
         public StandardJsonResult<ForumChannelDto> GetChannel(int id)
         {
@@ -54,6 +69,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // POST: api/ForumChannel
+        [CustomAuthorizeAttribute]
         [HttpPost]
         public StandardJsonResult<int> AddChannel(ForumChannelDto forumChannelDto)
         {
@@ -61,6 +77,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // PUT: api/ForumChannel/5
+        [CustomAuthorizeAttribute]
         [HttpPost]
         public StandardJsonResult EditChannel(ForumChannelDto forumChannelDto)
         {
@@ -68,7 +85,9 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [CustomAuthorizeAttribute]
+        //[HttpDelete("{id}")]
+        [HttpGet] //前台统一使用
         public StandardJsonResult Delete(int id)
         {
             return StandardAction(() => forumChannelApplication.DeleteForumChannel(id));
