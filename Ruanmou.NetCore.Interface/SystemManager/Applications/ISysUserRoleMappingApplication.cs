@@ -10,6 +10,7 @@ namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
 {
     public interface ISysUserRoleMappingApplication :IApplication
     {
-        
+
+        void SaveUserRole(int userId, string roleIds);
     }
 }

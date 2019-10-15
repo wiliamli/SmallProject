@@ -58,6 +58,19 @@ namespace Ruanmou04.NetCore.Application.SystemManager
             sysUserService.Update<SysUser>(sysUserEntity);
         }
 
+        public void RestUserPwd(UserRestPwdInputDto resetUserPwdDto)
+        {
+            var sysUserEntity = sysUserService.Find<SysUser>(resetUserPwdDto.UserId);
+            if (sysUserService == null)
+            {
+                return;
+            }
+            sysUserEntity.Password = resetUserPwdDto.UserPwd;
+            sysUserEntity.LastModifyTime = DateTime.Now;
+            sysUserEntity.LastModifyId = resetUserPwdDto.LastModifyId;
+            sysUserService.Update<SysUser>(sysUserEntity);
+        }
+
         public PagedResult<SysUserListOutputDto> GetPagedResult(SysUserListInputDto param)
         {
             if (param == null)

@@ -85,6 +85,25 @@ namespace Ruanmou04.Core.Utility.MvcResult
     {
         public T Data { get; set; }
 
+        public static StandardJsonResult<T> GetSuccessResult(string msg, T data)
+        {
+            return new StandardJsonResult<T>()
+            {
+                Success = true,
+                Message = msg,
+                Data = data
+            };
+        }
+
+        public static StandardJsonResult<T> GetFailureResult(string msg)
+        {
+            return new StandardJsonResult<T>()
+            {
+                Success = false,
+                Message = msg
+            };
+        }
+
         protected override IStandardResult ToJsonObject()
         {
             return new StandardResult<T>

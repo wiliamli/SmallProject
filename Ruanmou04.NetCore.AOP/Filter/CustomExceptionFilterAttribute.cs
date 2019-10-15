@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Ruanmou04.Core.Utility.MvcResult;
 
 namespace Ruanmou04.NetCore.AOP.Filter
 {
@@ -38,10 +39,10 @@ namespace Ruanmou04.NetCore.AOP.Filter
             {
                 _logger.LogError(filterContext.Exception, filterContext.HttpContext.Request.Path + "---请求出错");
 
-                var ajaxResult = new { success = false, msg = "请求出错,请联系管理员" };
+                var ajaxResult = new StandardJsonResult { Success = false, Message = "请求出错,请联系管理员" };
                 if (this.IsAjaxRequest(filterContext.HttpContext.Request))//检查请求头
                 {
-                    filterContext.Result = new JsonResult(ajaxResult);
+                    filterContext.Result =ajaxResult;
                 }
                 else
                 {

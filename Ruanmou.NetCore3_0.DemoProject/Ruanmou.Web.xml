@@ -219,6 +219,11 @@
             <param name="sysMenuDto"></param>
             <returns></returns>
         </member>
+        <member name="T:Ruanmou.NetCore3_0.DemoProject.Controllers.UserRoleController">
+            <summary>
+            用户角色
+            </summary>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.GetEditUserByID(System.Int32)">
             <summary>
             获取编辑用户

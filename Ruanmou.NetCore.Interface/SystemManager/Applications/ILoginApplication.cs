@@ -1,6 +1,9 @@
-﻿using Ruanmou04.EFCore.Dtos.DtoHelper;
+﻿using Ruanmou04.Core.Utility.MvcResult;
+using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
+using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.NetCore.Interface;
+using Ruanmou04.NetCore.Service.Core.Tokens.Dtos;
 using System.Threading.Tasks;
 
 namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
@@ -13,7 +16,7 @@ namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
         /// <param name="loginInput"></param>
         /// <returns></returns>
 
-        AjaxResult Login(LoginInputDto loginInput);
+        Task<StandardJsonResult<GenerateTokenDto>> Login(LoginInputDto loginInput);
 
         /// <summary>
         /// 验证token

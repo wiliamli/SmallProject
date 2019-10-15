@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
- 
+
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
-using Ruanmou04.Core.Utility.Security;       
+using Ruanmou04.Core.Utility.Security;
 using Microsoft.Extensions.Configuration;
 using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.NetCore.AOP.Filter;
@@ -26,7 +26,8 @@ using Ruanmou.Core.Utility;
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
     //[TypeFilter(typeof( CustomExceptionFilterAttribute))]
-    [ServiceFilter(typeof(VerifyAttribute))]
+    [CustomAuthorize]
+    //[ServiceFilter(typeof(VerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : BaseApiController
     {
@@ -38,7 +39,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         public UsersController(
            IConfiguration configuration,
             ICurrentUserInfo currentUserInfo,
-            ISysUserApplication userApplication):base(currentUserInfo)
+            ISysUserApplication userApplication) : base(currentUserInfo)
 
         {
             this._configuration = configuration;
@@ -66,7 +67,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         }
 
         [HttpGet]
-        public StandardJsonResult UpdateStatusByIds(string ids,int status)
+        public StandardJsonResult UpdateStatusByIds(string ids, int status)
         {
             return StandardAction(() => _userApplication.UpdateUserStatus(ids, status));
         }
@@ -78,7 +79,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
         public StandardJsonResult DeleteById(int id)
-        {   
+        {
             return StandardAction(() => _userApplication.DeleteByUserId(id));
         }
 
@@ -117,7 +118,8 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 Name = name,
                 UserType = userType
             };
-            return StandardAction(() => _userApplication.GetPagedResult(param));
+            var result = StandardAction(() => _userApplication.GetPagedResult(param));
+            return result;
         }
 
         /// <summary>
@@ -143,7 +145,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             {
                 var sysUserEditInputDto = DataMapping<SysUserInputDto, SysUserEditInputDto>.Trans(sysUserInput);//sysUserInput.MapTo<SysUserInputDto, SysUserEditInputDto>();
                 sysUserEditInputDto.LastModifyTime = DateTime.Now;
-                sysUserEditInputDto.LastModifyId = _currentUserInfo.CurrentUser.Id;
+                sysUserEditInputDto.LastModifyId = _currentUserInfo.SysCurrentUser.Id;
                 return StandardAction(() => _userApplication.EditUser(sysUserEditInputDto));
             }
             else
@@ -151,12 +153,28 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
                 var sysUserAddInputDto = DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);  //DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);
                 var defaultPassword = _configuration[StaticConstraint.DefaultPwd];
                 sysUserAddInputDto.Password = Encrypt.EncryptionPassword(defaultPassword);
-                sysUserAddInputDto.CreateId = _currentUserInfo.CurrentUser.Id;
-               
+                sysUserAddInputDto.CreateId = _currentUserInfo.SysCurrentUser.Id;
+                sysUserAddInputDto.LastModifyTime = DateTime.Now;
                 return StandardAction(() => _userApplication.AddUser(sysUserAddInputDto));
             }
         }
 
+        [HttpPost]
+        public StandardJsonResult RestUserPwd(int userId)
+        {
+            if (userId <= 0)
+            {
+                return StandardJsonResult.GetFailureResult("参数有误");
+            }
+            var defaultPassword = _configuration[StaticConstraint.DefaultPwd];
+            var userRestPwdInputDto = new UserRestPwdInputDto()
+            {
+                LastModifyId = _currentUserInfo.SysCurrentUser.Id,
+                UserId = userId,
+                UserPwd = Encrypt.EncryptionPassword(defaultPassword)
+            };
+            return StandardAction(() => _userApplication.RestUserPwd(userRestPwdInputDto));
+        }
         ///// <summary>
         ///// 新增或修改用户 DefaultPassword
         ///// </summary>

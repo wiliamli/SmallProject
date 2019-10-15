@@ -120,31 +120,6 @@
          var roleIds= result.join(",");
          var data={ userId: userId, roleIds: roleIds };
          saveDataWay($,data,config,'/UserRole/SaveData','Get');
-
-        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        // $.ajax({
-        //   type: 'get',
-        //   dataType: "json",
-        //   data: { userId: userId, roleIds: roleIds },
-        //   contentType: 'application/json',
-        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-        //   url: config.apiUrl + '/UserRole/SaveData',
-        //   success: function (result) {
-        //     layer.close(LoadIndex);
-        //     console.log(result);
-        //     if (result.success) {
-        //       layer.msg("保存成功", { icon: 1 });
-        //     }
-        //     else {
-        //       layer.msg(result.msg, { icon: 2 });
-        //     }
-        //   },
-        //   error: function (XMLHttpResponse) {
-        //     layer.close(LoadIndex);
-        //     console.log("error: api request failed");
-        //     console.log(XMLHttpResponse);
-        //   }
-        // })
         return false;
       },
 

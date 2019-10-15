@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Ruanmou04.Core.Dtos.DtoHelper;
+using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.NetCore.Dtos.SystemManager.LoginDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
@@ -19,50 +20,38 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     {
         #region MyRegion
         private ILoginApplication _loginApplication = null;
-        private ITokenApplication _tokenApplication;
+       // private ITokenApplication _tokenApplication;
 
 
-        public LoginController(ILoggerFactory factory,
-            ISysUserService userService
-            , ILoginApplication loginApplication
-            , ITokenApplication tokenApplication
-            )
+        public LoginController(ILoginApplication loginApplication, ITokenApplication tokenApplication)
         {
             this._loginApplication = loginApplication;
-            this._tokenApplication = tokenApplication;
+          //  this._tokenApplication = tokenApplication;
         }
         #endregion
+
         /// <summary>
         /// 登录
         /// </summary>
         /// <param name="loginInput"></param>
         /// <returns></returns>
         [HttpPostAttribute]
-        public async Task<string> LoginSystemManager(LoginInputDto loginInput)
+        public async Task<StandardJsonResult<GenerateTokenDto>> LoginSystemManager(LoginInputDto loginInput)
         {
-            var ajax = _loginApplication.Login(loginInput);
-            if (ajax.success)
-            {
-                var sysuserdto =  ajax.data as CurrentUser;
-                var generatedto= DataMapping<CurrentUser,GenerateTokenDto>.Trans(sysuserdto);
-                ajax = await _tokenApplication.GenerateTokenAsync(generatedto);
-                generatedto.Token = ajax.data.ToString();
-                //var curRoles = this._sysRoleApplication.GetUserRoles(sysuserdto.Id);
-                //if (curRoles != null)
-                //{
-                //    sysuserdto.SysRoles = curRoles;
-                //}
-                ajax.data = generatedto;                
-                //this._memoryCache.Set<CurrentUser>($"Bearer {generatedto.Token}", sysuserdto);
-            }
-            return JsonConvert.SerializeObject( ajax);
-        }
+            return await _loginApplication.Login(loginInput);
+            //var loginResult = _loginApplication.Login(loginInput);
+            //if (loginResult.Success)
+            //{
+            //    var sysUserDto = loginResult.Data;
+            //    var generateDto= DataMapping<CurrentUser,GenerateTokenDto>.Trans(sysUserDto);
 
-        //[HttpGet]
-        //public async Task<AjaxResult> TokenConfirm(string token)
-        //{
-        //    var ajax =await _tokenService.ConfirmVerificationAsync(token);
-        //    return ajax;
-        //}
+            //   var ajax = await _tokenApplication.GenerateTokenAsync(generateDto);
+
+            //    generateDto.Token = ajax.data.ToString();
+               
+            //    ajax.data = generatedto;                
+            //}
+            //return JsonConvert.SerializeObject(ajax);
+        } 
     }
 }
