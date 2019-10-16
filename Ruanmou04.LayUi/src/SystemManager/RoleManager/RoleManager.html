@@ -40,46 +40,13 @@
         pageShow('编辑角色','RoleManager/RoleDetail.html',900, 450,id);
       },
       openRoleMenuWindow: function (data) {
-        //var id = data && data.Id ? data.Id : "0";
         pageShow('编辑角色菜单','RoleManager/RoleMenu.html',600, 350,data);
-        // layer.open({
-        //   type: 2,
-        //   content: 'RoleManager/RoleMenu.html',
-        //   data: data,
-        //   title: "编辑角色",
-        //   area: ["600px", "350px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       },
       openRoleUserWindow: function (data) {
-        //var id = data && data.Id ? data.Id : "0";
         pageShow('编辑用户角色','RoleManager/RoleUser.html',600, 350,data);
-        // layer.open({
-        //   type: 2,
-        //   content: 'RoleManager/RoleUser.html',
-        //   data: data,
-        //   title: "编辑角色",
-        //   area: ["600px", "350px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       },
       openRoleForumWindow: function (data) {
-        //var id = data && data.Id ? data.Id : "0";
         pageShow('编辑角色论坛','RoleManager/RoleForum.html',600, 350,data);
-        // layer.open({
-        //   type: 2,
-        //   content: 'RoleManager/RoleForum.html',
-        //   data: data,
-        //   title: "编辑角色",
-        //   area: ["600px", "350px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       },
     }
 
@@ -164,29 +131,6 @@
         var data = obj.data;
         if (obj.event === 'del') { // 实现删除功能了 
           deleteOne($,layer,data.Id,'/Role/DeleteRoleById');
-          // layer.confirm('确定删除吗???', function (index) {
-          //   $.ajax({
-          //     type: "get",
-          //     data: {
-          //       id: data.Id
-          //     },
-          //     beforeSend: function (XHR) {
-          //       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-          //     },
-          //     url: config.apiUrl + "/Role/DeleteRoleById",
-          //     success: function (result) {
-          //       debugger
-          //       var jsonResult = JSON.parse(result);
-          //       if (jsonResult.success) {
-          //         $("#search").click();
-          //         layer.msg(jsonResult.msg, { icon: 1 });
-          //       }
-          //       else {
-          //         layer.msg(jsonResult.msg, { icon: 2 });
-          //       }
-          //     }
-          //   })
-          // });
         }
         else if (obj.event === 'menu') {
           roleManager.openRoleMenuWindow(data);

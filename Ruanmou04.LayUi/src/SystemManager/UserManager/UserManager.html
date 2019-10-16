@@ -123,15 +123,18 @@
           case 'addNew':
             userManager.openUserWindow();
             break;
+
           case 'reload':
             table.reload('test', {
               page: { curr: 1 }
             }, 'data');
             break;
+            
           case 'delbatch':
             // 实现批量删除功能了 
             deleteMulity($, layer, table, obj, '/Users/DeleteBatchById');
             break;
+
             case 'enablBatch':
             updateStatusMulity($, layer, table, obj, '/Users/UpdateStatusByIds',1);
             break;

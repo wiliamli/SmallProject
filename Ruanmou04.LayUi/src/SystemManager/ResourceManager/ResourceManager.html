@@ -35,16 +35,6 @@
       openUserWindow: function (data) { 
         var id = data && data.Id ? data.Id : "0";
         pageShow('编辑菜单','ResourceManager/ResourceDetail.html',900, 600,id);
-        // layer.open({
-        //   type: 2,
-        //   content: 'ResourceManager/ResourceDetail.html',
-        //   data: id,
-        //   title: "编辑菜单",
-        //   area: ["900px", "600px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       }
     }
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {

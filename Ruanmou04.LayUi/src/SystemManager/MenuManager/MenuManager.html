@@ -37,16 +37,6 @@
         debugger
         var id = data && data.Id ? data.Id : "0"
         pageShow('编辑菜单','MenuManager/MenuDetail.html?id=' + id,700, 500,id);
-        // layer.open({
-        //   type: 2,
-        //   content: 'MenuManager/MenuDetail.html?id=' + id,
-        //   data: id,
-        //   title: "编辑菜单",
-        //   area: ["700px", "500px"],
-        //   end: function () { // layui 关闭弹框时的回调函数
-        //     $("#search").click();
-        //   }
-        // })
       }
     }
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
@@ -134,29 +124,6 @@
         var data = obj.data;
         if (obj.event === 'del') { // 实现删除功能了 
           deleteOne($,layer,data.Id,'/Menu/RemoveMenuById');
-          // layer.confirm('确定删除吗???', function (index) {
-          //   $.ajax({
-          //     type: "get",
-          //     data: {
-          //       id: data.Id
-          //     },
-          //     beforeSend: function (XHR) {
-          //       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-          //     },
-          //     url: config.apiUrl + "/Menu/RemoveMenuById",
-          //     success: function (result) {
-          //       debugger
-          //       var jsonResult = result//JSON.parse(result);
-          //       if (jsonResult.success) {
-          //         $("#search").click();
-          //         layer.msg(jsonResult.msg, { icon: 1 });
-          //       }
-          //       else {
-          //         layer.msg(jsonResult.msg, { icon: 2 });
-          //       }
-          //     }
-          //   })
-          // });
         } else if (obj.event === 'edit') {
           menuManager.openMenuWindow(data);
         }

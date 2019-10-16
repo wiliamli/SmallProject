@@ -134,40 +134,14 @@
         roleMenu.SysMenuIds = meunIds;
         var data=JSON.stringify(roleMenu);
         saveDataWay($,data,config,'/SysRoleMenu/SaveData');
-        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        // $.ajax({
-        //   type: 'Post',
-        //   dataType: "json",
-        //   data: JSON.stringify(user),
-        //   contentType: 'application/json',
-        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-        //   url: config.apiUrl + '/SysRoleMenu/SaveData',
-        //   success: function (result) {
-        //     layer.close(LoadIndex);
-        //     console.log(result);
-        //     if (result.success) {
-        //       layer.msg("保存成功", { icon: 1 });
-        //     }
-        //     else {
-        //       layer.msg(result.msg, { icon: 2 });
-        //     }
-        //   },
-        //   error: function (XMLHttpResponse) {
-        //     layer.close(LoadIndex);
-        //     console.log("error: api request failed");
-        //     console.log(XMLHttpResponse);
-        //   }
-        // })
         return false;
       }
-
     }
     layui.use(["form", "config", 'laytpl'], function () {
       var form = layui.form,
         layer = layui.layer,
         $ = layui.$,
         config = layui.config;
-      // 初始刷f
 
       userDetail.roleMenuInit($, config, form);
       form.on("submit(sub)", function (obj) {

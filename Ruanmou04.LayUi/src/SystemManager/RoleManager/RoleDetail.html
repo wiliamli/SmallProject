@@ -51,25 +51,6 @@
         if (parent.layer.data) {
           var url="/Role/GetEditRoleById?id="+parent.layer.data;//取的是layer.open的data的值
           initData($,url,config,form);
-          // $.ajax({
-          //   type: "Get",
-          //   data: {
-          //     id: parent.layer.data
-          //   },
-          //   beforeSend: function (XHR) {
-          //     XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-          //   },
-          //   url: config.apiUrl + "/Role/GetEditRoleByID",
-          //   success: function (result) {
-          //     var jsonResult = JSON.parse(result);
-          //     if (jsonResult.success) {
-          //       form.val("first", jsonResult.data);
-          //     }
-          //     else {
-          //       layer.msg(jsonResult.msg);
-          //     }
-          //   }
-          // })
         }
       },
       saveRole: function ($, config, saveData) {
@@ -80,34 +61,8 @@
         role.Status = saveData.Status == "1";
         var data=JSON.stringify(role);
         saveDataWay($,data,config,'/Role/SaveData');
-        // var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
-        // $.ajax({
-        //   type: 'Post',
-        //   dataType: "json",
-        //   data: JSON.stringify(user),
-        //   contentType: 'application/json',
-        //   headers: { Authorization: "Bearer " + sessionStorage.getItem("apiTicket") },
-        //   url: config.apiUrl + '/Role/SaveData',
-        //   success: function (result) {
-
-        //     layer.close(LoadIndex);
-        //     console.log(result);
-        //     if (result.success) {
-        //       layer.msg("保存成功", { icon: 1 });
-        //     }
-        //     else {
-        //       layer.msg(result.msg, { icon: 2 });
-        //     }
-        //   },
-        //   error: function (XMLHttpResponse) {
-        //     layer.close(LoadIndex);
-        //     console.log("error: api request failed");
-        //     console.log(XMLHttpResponse);
-        //   }
-        // })
         return false;
       }
-
     }
     layui.use(["form", "config"], function () {
       var form = layui.form,
