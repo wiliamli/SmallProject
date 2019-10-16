@@ -1,12 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ruanmou04.Core.Utility.MvcResult;
-using Ruanmou04.EFCore.Dtos.DtoHelper;
-using Ruanmou04.EFCore.Model.Models.SystemManager;
-using Ruanmou04.NetCore.AOP.Filter;         
+using Ruanmou04.NetCore.AOP.Filter;
 using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
-using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Project.Controllers;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers

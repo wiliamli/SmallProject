@@ -1,22 +1,13 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;  
+﻿using Microsoft.AspNetCore.Mvc;
 using Ruanmou04.Core.Dtos.DtoHelper;
-using Ruanmou04.Core.Utility;
 using Ruanmou04.Core.Utility.DtoUtilities;
-using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.Core.Utility.MvcResult;
-using Ruanmou04.EFCore.Dtos.DtoHelper;
-using Ruanmou04.EFCore.Model.Models.SystemManager;
 using Ruanmou04.NetCore.AOP.Filter;
-using Ruanmou04.NetCore.Application.SystemManager;
 using Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos;
 using Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos.Input;
 using Ruanmou04.NetCore.Dtos.SystemManager.ResourceDtos.Output;
 using Ruanmou04.NetCore.Interface;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
-using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Project.Controllers;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
@@ -29,7 +20,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     public class ResourceController :BaseApiController // ControllerBase
     {
         private readonly ICurrentUserInfo _currentUserInfo;
-        //private readonly ISysResourceService _resourceService;
         private readonly ISysResourceApplication _sysResourceApplication;
 
         /// <summary>
@@ -42,7 +32,6 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             _currentUserInfo = currentUserInfo;
             _sysResourceApplication = sysResourceApplication;
         }
-
 
         /// <summary>
         /// 获取编辑资源
