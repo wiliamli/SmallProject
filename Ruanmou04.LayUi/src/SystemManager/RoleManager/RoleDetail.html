@@ -46,8 +46,8 @@
   <script src="/layui.js"></script>
   <script src="/common.js"></script>
   <script type="text/javascript">
-    var userDetail = {
-      userInIt: function ($, config, form) {
+    var roleDetail = {
+      roleInit: function ($, config, form) {
         if (parent.layer.data) {
           var url="/Role/GetEditRoleById?id="+parent.layer.data;//取的是layer.open的data的值
           initData($,url,config,form);
@@ -69,11 +69,10 @@
         layer = layui.layer,
         $ = layui.$,
         config = layui.config;
-      // 初始刷f
 
-      userDetail.userInIt($, config, form);
+      roleDetail.roleInit($, config, form);
       form.on("submit(sub)", function (obj) {
-        userDetail.saveRole($, config, obj.field);
+        roleDetail.saveRole($, config, obj.field);
       })
     })
   </script>

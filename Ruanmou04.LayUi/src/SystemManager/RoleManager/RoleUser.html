@@ -44,7 +44,7 @@
   <script src="/layui.js"></script>
   <script src="/common.js"></script>
   <script type="text/javascript">
-    var userDetail = {
+    var roleUser = {
       userInIt: function ($, config, form) {
         if (parent.layer.data) {
           $("#SysRoleId").val(parent.layer.data.Id);
@@ -64,7 +64,7 @@
               menuSelect.innerHTML = html;
               form.render("checkbox");
             });
-            userDetail.selectUser($, config, form);
+            roleUser.selectUser($, config, form);
           },
           error: function (data) {
             layer.alert(JSON.stringify(data.Message), {
@@ -122,7 +122,7 @@
         $ = layui.$,
         config = layui.config;
 
-      userDetail.userInIt($, config, form);
+       roleUser.userInIt($, config, form);
       form.on("submit(sub)", function (obj) {
         if (!obj.field.UserIds) {
           layer.msg('您还未选择用户', {
@@ -130,7 +130,7 @@
           });
           return false;
         }
-        userDetail.saveUser($, config, obj.field);
+        roleUser.saveUser($, config, obj.field);
       })
 
     })
