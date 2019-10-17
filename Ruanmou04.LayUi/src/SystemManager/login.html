@@ -52,6 +52,7 @@
     </div>
   </div>
   <script src="/layui.js"></script>
+  <script src="/common.js"></script> 
   <script>
     // 登录 需要做表单提交给后台，  或者数据收集之后提交给后台
     layui.use(['layer', 'form', 'config'], function () {
@@ -59,6 +60,12 @@
       var form = layui.form,
         $ = layui.jquery
       config = layui.config;
+
+      global.form = layui.form;
+      global.layer = layui.layer;
+      global.$ = layui.jquery;
+      global.config = layui.config;
+
       sessionStorage.setItem("apiTicket", "")
       sessionStorage.setItem("userName", "")
       form.on("submit(loginxxx)", function (obj) {

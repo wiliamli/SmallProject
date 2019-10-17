@@ -25,15 +25,13 @@
     <div class="layui-form-item">
       <label class="layui-form-label">Url地址</label>
       <div class="layui-input-inline">
-        <input type="text" name="Url" lay-verify="required" style="width:400px;" placeholder="请输入Url地址"
-          autocomplete="off" class="layui-input">
+        <input type="text" name="Url" lay-verify="required" style="width:400px;" placeholder="请输入Url地址" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">菜单层级</label>
       <div class="layui-input-inline">
-        <input type="text" name="MenuLevel" lay-verify="required|number" placeholder="请输入菜单层级" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="MenuLevel" lay-verify="required|number" placeholder="请输入菜单层级" autocomplete="off" class="layui-input">
       </div>
       <div class="layui-form-mid layui-word-aux">请务必填写菜单层级</div>
     </div>
@@ -59,8 +57,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">备注</label>
       <div class="layui-input-inline">
-        <input type="text" name="Description" placeholder="请输入备注" autocomplete="off" style="width:400px;"
-          class="layui-input">
+        <input type="text" name="Description" placeholder="请输入备注" autocomplete="off" style="width:400px;" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
@@ -74,34 +71,33 @@
   <script src="/common.js"></script>
   <script type="text/javascript">
     var menuDetail = {
-      menuInit: function ($, config, form) {
+      menuInit: function () {
         debugger
         if (parent.layer.data) {
-          var url="/Menu/GetEditMenuByID?menuId="+parent.layer.data;//取的是layer.open的data的值
-          initData($,url,config,form);
+          var url = "/Menu/GetEditMenuByID?menuId=" + parent.layer.data;//取的是layer.open的data的值
+          initData(url);
         }
       },
-      saveMenu: function ($, config, saveData) {
+
+      saveMenu: function (saveData) {
         var menu = saveData;
         menu.Id = saveData.Id ? parseInt(saveData.Id) : 0;
         menu.MenuLevel = parseInt(saveData.MenuLevel);
         menu.Sort = parseInt(saveData.Sort);
         menu.Status = saveData.Status == "1";
-        var data=JSON.stringify(menu);
-        saveDataWay($,data,config,'/Menu/SaveData');
+        var data = JSON.stringify(menu);
+        saveDataWay(data, '/Menu/SaveData');
         return false;
       }
-
     }
-    layui.use(["form", "config"], function () {
-      var form = layui.form,
-        layer = layui.layer,
-        $ = layui.$,
-        config = layui.config;
 
-      menuDetail.menuInit($, config, form);
+    layui.use(["form", "config"], function () {
+      var form = layui.form;
+
+      initJs(layui);
+      menuDetail.menuInit();
       form.on("submit(sub)", function (obj) {
-        menuDetail.saveMenu($, config, obj.field);
+        menuDetail.saveMenu(obj.field);
       })
     })
   </script>

@@ -45,10 +45,10 @@
   <script src="/common.js"></script>
   <script type="text/javascript">
     var userDetail = {
-      userInIt: function ($, config, form, layedit, editorindex) {
+      userInIt: function ( layedit, editorindex) {
+       var $=global.$, config=global.config, form=global.form;
+
         if (parent.layer.data) {
-          //var url="/Resource/GetEditResouceById?id="+parent.layer.data;//取的是layer.open的data的值
-         // initData($,url,config,form);
           $.ajax({
             type: "Get",
             data: {
@@ -74,7 +74,7 @@
           })
         }
       },
-      saveData: function ($, config, saveData, layedit, editorindex) {
+      saveData: function (saveData, layedit, editorindex) {
         debugger
         var resource = saveData;
         resource.Id = saveData.Id ? parseInt(saveData.Id) : 0;
@@ -84,7 +84,7 @@
           return;
         }
         var data=JSON.stringify(resource);
-        saveDataWay($,data,config,'/Resource/SaveData');
+        saveDataWay(data,'/Resource/SaveData');
         return false;
       }
     }
@@ -93,13 +93,16 @@
         layer = layui.layer,
         layedit = layui.layedit,
         $ = layui.$,
-        config = layui.config;
-        debugger;
-      // 初始刷f
+        config = layui.config; 
+
+        initJs(layui);
+
+     
       var editorindex = layedit.build('Content');
-      userDetail.userInIt($, config, form, layedit, editorindex);
+      userDetail.userInIt(layedit, editorindex);
+
       form.on("submit(sub)", function (obj) {
-        userDetail.saveData($, config, obj.field, layedit, editorindex);
+        userDetail.saveData(obj.field, layedit, editorindex);
       })
     })
   </script>

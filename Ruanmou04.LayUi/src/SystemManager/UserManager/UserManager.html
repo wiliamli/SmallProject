@@ -55,6 +55,8 @@
         laydate = layui.laydate,
         config = layui.config;
 
+        initJs(layui);
+        
       //日期  // 初始化日期
       laydate.render({
         elem: '#starDate'
@@ -158,7 +160,7 @@
         } else if (obj.event === 'edit') {
           userManager.openUserWindow(data);
         } else if (obj.event === 'restPwd') {  
-          saveDataWay($,null,config,'/Users/RestUserPwd?userId='+data.Id);
+          saveDataWay(null,'/Users/RestUserPwd?userId='+data.Id);
         }
       });
 

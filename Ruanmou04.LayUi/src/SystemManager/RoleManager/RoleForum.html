@@ -18,8 +18,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">角色名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="Name" id="Name" lay-verify="required" placeholder="请输入名称" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="Name" id="Name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
       </div>
       <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
     </div>
@@ -37,71 +36,55 @@
     </div>
   </div>
   <script type="text/html" id="menuTpl">
-      {{# layui.each(d,function(index,item){ }}
-        <input type="checkbox" name="ForumIds" value="{{item.Id}}" title="{{item.Name}}" >
-      {{# }); }}
+    {{# layui.each(d,function(index,item){ }}
+    <input type="checkbox" name="ForumIds" value="{{item.Id}}" title="{{item.Name}}"> {{# }); }}
   </script>
   <script src="/layui.js"></script>
   <script src="/common.js"></script>
+
   <script type="text/javascript">
     var roleForumDetail = {
-      roleForumInit: function ($, config, form) {
+      roleForumInitCallBack: function (data) {
+        var meunTpl = document.getElementById('menuTpl').innerHTML;
+        var forumSelect = document.getElementById('forumSelect');
+        layui.laytpl(meunTpl).render(data, function (html) {
+          forumSelect.innerHTML = html;
+          global.form.render("checkbox");
+        });
+        roleForumDetail.selectForum();
+      },
+
+      roleForumInit: function () {
+        var $ = global.$;
         if (parent.layer.data) {
           $("#SysRoleId").val(parent.layer.data.Id);
           $("#Name").val(parent.layer.data.Text);
         }
-        $.ajax({
-          url: config.apiUrl + '/ForumChannel/GetChannels',
-          type: 'get',
-          beforeSend: function (XHR) {
-            XHR.setRequestHeader("token", "Bearer " + sessionStorage.getItem("apiTicket"));
-          },
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (obj) {
-            var data = obj.Data;
-            var meunTpl = document.getElementById('menuTpl').innerHTML;
-            var forumSelect = document.getElementById('forumSelect');
-            layui.laytpl(meunTpl).render(data, function (html) {
-              forumSelect.innerHTML = html;
-              form.render("checkbox");
-            });
-            roleForumDetail.selectForum($, config, form);
-          },
-          error: function () {
-            layer.alert(JSON.stringify(data.Message), {
-              title: 'ajax请求失败！'
-            });
-          }
-        });
+        LoadData('/ForumChannel/GetChannels4Sys', null, roleForumDetail.roleForumInitCallBack);
       },
-      selectForum: function ($, config, form) {
-        $.ajax({
-          url: config.apiUrl + '/RoleForum/GetRoleChannelByRoleID',
-          type: 'get',
-          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), roleId: parent.layer.data.Id },
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (obj) {
-            var data = obj.Data;
-            var unitTypeCheckbox = $("input[name='ForumIds']");
-            for (var j = 0; j < data.length; j++) {
-              for (var i = 0; i < unitTypeCheckbox.length; i++) {
-                if (unitTypeCheckbox[i].value == data[j].ChannelId) {
-                  unitTypeCheckbox[i].checked = true;
-                }
-              }
+
+      selectForumCallBack: function (data) {
+        var $ = global.$;
+        var unitTypeCheckbox = $("input[name='ForumIds']");
+        for (var j = 0; j < data.length; j++) {
+          for (var i = 0; i < unitTypeCheckbox.length; i++) {
+            if (unitTypeCheckbox[i].value == data[j].ChannelId) {
+              unitTypeCheckbox[i].checked = true;
             }
-            form.render("checkbox");
-          },
-          error: function () {
-            layer.alert(JSON.stringify(data.msg), {
-              title: 'ajax请求失败！'
-            });
           }
-        });
+        }
+        global.form.render("checkbox");
       },
-      saveSetData: function ($, config, saveData) {
+
+      selectForum: function () {
+        var data = { roleId: parent.layer.data.Id };
+        LoadData('/RoleForum/GetRoleChannelByRoleID', data, roleForumDetail.selectForumCallBack);
+      },
+
+      saveRoleForumData: function (saveData) {
+        var $ = global.$;
+        var config = global.config;
+
         var userForum = saveData;
         userForum.SysRoleId = parseInt(saveData.SysRoleId);
         var result = [];
@@ -112,18 +95,21 @@
         });
         var meunIds = result.join(",");
         userForum.ForumIds = meunIds;
-        var data=JSON.stringify(userForum);
-        saveDataWay($,data,config,'/RoleForum/SaveData');
+        var data = JSON.stringify(userForum);
+        saveDataWay(data,'/RoleForum/SaveData');
         return false;
       }
+
     }
+
     layui.use(["form", "config", 'laytpl'], function () {
       var form = layui.form,
-        layer = layui.layer,
-        $ = layui.$,
-        config = layui.config;
+        layer = layui.layer;
 
-        roleForumDetail.roleForumInit($, config, form);
+      initJs(layui);
+
+      roleForumDetail.roleForumInit();
+
       form.on("submit(sub)", function (obj) {
         if (!obj.field.ForumIds) {
           layer.msg('您还未选择菜单', {
@@ -131,7 +117,7 @@
           });
           return false;
         }
-        roleForumDetail.saveSetData($, config, obj.field);
+        roleForumDetail.saveRoleForumData(obj.field);
       })
     })
   </script>

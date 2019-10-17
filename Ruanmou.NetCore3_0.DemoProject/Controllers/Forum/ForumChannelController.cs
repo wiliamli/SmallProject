@@ -47,6 +47,18 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
             return StandardAction(() => forumChannelApplication.GetForumChannels());
         }
 
+        /// <summary>
+        /// 获取所有频道
+        /// </summary>
+        /// <returns></returns>
+        [CustomAuthorizeAttribute]
+        [HttpGet]
+        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannels4Sys()
+        {
+            return StandardAction(() => forumChannelApplication.GetForumChannels());
+        }
+
+
         [CustomAuthorizeAttribute]
         [HttpGet]
         public StandardJsonResult<PagedResult<ForumChannelDto>> GetPagedChannels(int page, int limit, string name)

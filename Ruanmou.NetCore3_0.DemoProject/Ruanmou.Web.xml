@@ -48,6 +48,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannels4Sys">
+            <summary>
+            获取所有频道
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumInvitationController.GetOnlyInvitation(System.Int32)">
             <summary>
             只看楼主

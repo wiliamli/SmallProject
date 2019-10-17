@@ -18,8 +18,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">角色名称</label>
       <div class="layui-input-inline">
-        <input type="text" name="Name" id="Name" lay-verify="required" placeholder="请输入名称" autocomplete="off"
-          class="layui-input">
+        <input type="text" name="Name" id="Name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
       </div>
       <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
     </div>
@@ -37,91 +36,53 @@
     </div>
   </div>
   <script type="text/html" id="menuTpl">
-      {{# layui.each(d,function(index,item){ }}
-        <input type="checkbox" name="SysMenuIds" value="{{item.Id}}" title="{{item.Text}}" >
-      {{# }); }}
+    {{# layui.each(d,function(index,item){ }}
+    <input type="checkbox" name="SysMenuIds" value="{{item.Id}}" title="{{item.Text}}"> {{# }); }}
   </script>
   <script src="/layui.js"></script>
   <script src="/common.js"></script>
   <script type="text/javascript">
     var roleMenu = {
-      // LoadData:function($, url,myFunc){
-      //   $.ajax({
-      //     url: url,
-      //     type: 'get',
-      //     data: { token: "Bearer " + sessionStorage.getItem("apiTicket") },
-      //     dataType: 'json',
-      //     contentType: 'application/json',
-      //     success: function (obj) {
-      //       myFunc(obj);
-      //     },
-      //     error: function () {
-      //       layer.alert(JSON.stringify(data.msg), {
-      //         title: 'ajax请求失败！'
-      //       });
-      //     }
-      //   });
-      // },
+      roleMenuInitCallBack: function (data) {
+        var form = global.form;
+        var meunTpl = document.getElementById('menuTpl').innerHTML;
+        var menuSelect = document.getElementById('menuSelect');
+        layui.laytpl(meunTpl).render(data, function (html) {
+          menuSelect.innerHTML = html;
+          form.render("checkbox");
+        });
+        roleMenu.selectMenu();
+      },
 
       roleMenuInit: function ($, config, form) {
+        var $ = global.$;
         if (parent.layer.data) {
           $("#SysRoleId").val(parent.layer.data.Id);
           $("#Name").val(parent.layer.data.Text);
         }
-        $.ajax({
-          url: config.apiUrl + '/Menu/GetRoleMenu',
-          type: 'get',
-          data: { token: "Bearer " + sessionStorage.getItem("apiTicket") },
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (obj) {
-            debugger;
-            var data = obj.Data;
-            var meunTpl = document.getElementById('menuTpl').innerHTML;
-            var menuSelect = document.getElementById('menuSelect');
-            layui.laytpl(meunTpl).render(data, function (html) {
-              menuSelect.innerHTML = html;
-              form.render("checkbox");
-            });
-            roleMenu.selectMenu($, config, form);
-          },
-          error: function () {
-            layer.alert(JSON.stringify(data.Message), {
-              title: 'ajax请求失败！'
-            });
-          }
-        });
+        LoadData('/Menu/GetRoleMenu', null, roleMenu.roleMenuInitCallBack);
       },
 
-      selectMenu: function ($, config, form) {
-        $.ajax({
-          url: config.apiUrl + '/SysRoleMenu/GetRoleMenuByRoleID',
-          type: 'get',
-          data: { token: "Bearer " + sessionStorage.getItem("apiTicket"), roleId: parent.layer.data.Id },
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (obj) {
-            debugger;
-            var data = obj.Data;
-            var unitTypeCheckbox = $("input[name='SysMenuIds']");
-            for (var j = 0; j < data.length; j++) {
-              for (var i = 0; i < unitTypeCheckbox.length; i++) {
-                if (unitTypeCheckbox[i].value == data[j].SysMenuId) {
-                  unitTypeCheckbox[i].checked = true;
-                }
-              }
+      selectMenuCallBack: function (data) { 
+        var $ = global.$, form = global.form;
+
+        var unitTypeCheckbox = $("input[name='SysMenuIds']");
+        for (var j = 0; j < data.length; j++) {
+          for (var i = 0; i < unitTypeCheckbox.length; i++) {
+            if (unitTypeCheckbox[i].value == data[j].SysMenuId) {
+              unitTypeCheckbox[i].checked = true;
             }
-            form.render("checkbox");
-          },
-          error: function (data) {
-            layer.alert(JSON.stringify(data.Message), {
-              title: 'ajax请求失败！'
-            });
           }
-        });
+        }
+        form.render("checkbox");
+      },
+      selectMenu: function () {
+        var data = { roleId: parent.layer.data.Id };
+        LoadData('/SysRoleMenu/GetRoleMenuByRoleID', data, roleMenu.selectMenuCallBack);
       },
 
-      saveRoleMenu: function ($, config, saveData) {
+      saveRoleMenu: function (saveData) {
+        var $=global.$;
         var roleMenu = saveData;
         roleMenu.SysRoleId = parseInt(saveData.SysRoleId);
         var result = [];
@@ -132,18 +93,22 @@
         });
         var meunIds = result.join(",");
         roleMenu.SysMenuIds = meunIds;
-        var data=JSON.stringify(roleMenu);
-        saveDataWay($,data,config,'/SysRoleMenu/SaveData');
+        var data = JSON.stringify(roleMenu);
+        saveDataWay(data, '/SysRoleMenu/SaveData');
         return false;
       }
     }
+    
     layui.use(["form", "config", 'laytpl'], function () {
       var form = layui.form,
         layer = layui.layer,
         $ = layui.$,
         config = layui.config;
 
-      roleMenu.roleMenuInit($, config, form);
+      initJs(layui);
+
+      roleMenu.roleMenuInit();
+
       form.on("submit(sub)", function (obj) {
         if (!obj.field.SysMenuIds) {
           layer.msg('您还未选择菜单', {
@@ -151,7 +116,7 @@
           });
           return false;
         }
-        roleMenu.saveRoleMenu($, config, obj.field);
+        roleMenu.saveRoleMenu(obj.field);
       })
     })
   </script>

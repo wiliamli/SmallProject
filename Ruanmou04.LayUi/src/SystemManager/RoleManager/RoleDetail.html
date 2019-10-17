@@ -47,32 +47,34 @@
   <script src="/common.js"></script>
   <script type="text/javascript">
     var roleDetail = {
-      roleInit: function ($, config, form) {
+      roleInit: function () {
         if (parent.layer.data) {
           var url="/Role/GetEditRoleById?id="+parent.layer.data;//取的是layer.open的data的值
-          initData($,url,config,form);
+          initData(url);
         }
       },
-      saveRole: function ($, config, saveData) {
+      saveRole: function (saveData) {
         var role = saveData;
         role.Id = saveData.Id ? parseInt(saveData.Id) : 0;
         role.MenuLevel = parseInt(saveData.MenuLevel);
         role.Sort = parseInt(saveData.Sort);
         role.Status = saveData.Status == "1";
         var data=JSON.stringify(role);
-        saveDataWay($,data,config,'/Role/SaveData');
+        saveDataWay(data,'/Role/SaveData');
         return false;
       }
     }
+
     layui.use(["form", "config"], function () {
       var form = layui.form,
-        layer = layui.layer,
-        $ = layui.$,
-        config = layui.config;
+        layer = layui.layer;
 
-      roleDetail.roleInit($, config, form);
+        initJs(layui);
+
+      roleDetail.roleInit();
+      
       form.on("submit(sub)", function (obj) {
-        roleDetail.saveRole($, config, obj.field);
+        roleDetail.saveRole(obj.field);
       })
     })
   </script>

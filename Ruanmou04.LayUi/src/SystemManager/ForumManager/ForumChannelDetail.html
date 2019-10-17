@@ -40,37 +40,37 @@
   <script src="/common.js"></script>
   <script type="text/javascript">
     var forumChannelDetail = {
-        forumChannelInit: function ($, config, form) {
+      forumChannelInit: function () {
         debugger
         if (parent.layer.data) {
-          var url="/ForumChannel/GetChannel/"+parent.layer.data.Id;//取的是layer.open的data的值
-          initData($,url,config,form);
+          var url = "/ForumChannel/GetChannel/" + parent.layer.data.Id;//取的是layer.open的data的值
+          initData(url);
         }
       },
-      saveForumChannel: function ($, config, saveData) {
+
+      saveForumChannel: function (saveData) {
         var forumChannel = saveData;
         forumChannel.Id = saveData.Id ? parseInt(saveData.Id) : 0;
-        forumChannel.Name=saveData.Name;
-        forumChannel.Status = saveData.Status=="1";
-        var data=JSON.stringify(forumChannel);
+        forumChannel.Name = saveData.Name;
+        forumChannel.Status = saveData.Status == "1";
+        var data = JSON.stringify(forumChannel);
 
-        var url='/ForumChannel/AddChannel';
-        if(forumChannel.Id>0){
-          url='/ForumChannel/EditChannel';
+        var url = '/ForumChannel/AddChannel';
+        if (forumChannel.Id > 0) {
+          url = '/ForumChannel/EditChannel';
         }
-        saveDataWay($,data,config,url);
+        saveDataWay(data, url);
         return false;
       }
     }
     layui.use(["form", "config"], function () {
-      var form = layui.form,
-        layer = layui.layer,
-        $ = layui.$,
-        config = layui.config;
+      var form = layui.form;
 
-      forumChannelDetail.forumChannelInit($, config, form);
+      initJs(layui);
+
+      forumChannelDetail.forumChannelInit();
       form.on("submit(sub)", function (obj) {
-        forumChannelDetail.saveForumChannel($, config, obj.field);
+        forumChannelDetail.saveForumChannel(obj.field);
       })
     })
   </script>
