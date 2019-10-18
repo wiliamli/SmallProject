@@ -7,17 +7,11 @@ var global = {
 };
 
 function initJs(layui) {
-  debugger;
   global.form = layui.form;
   global.layer = layui.layer;
   global.$ = layui.jquery;
   global.config = layui.config;
 }
-// global.form = layui.form;
-// global.layer = layui.layer;
-// global.$ = layui.jquery;
-// global.config = layui.config;
-
 
 /*弹出层*/
 /*
@@ -86,10 +80,9 @@ function initData(url) {
 
 /**
  * 保存数据
- * @param {*} $ 
  * @param {*} data:要保存的数据 
- * @param {*} config:配置文件 
  * @param {*} url:保存的地址
+ * @param {} type:post or get 请求 
  */
 function saveDataWay(data, url, type) {
   var $ = global.$, config = global.config;
@@ -119,8 +112,9 @@ function saveDataWay(data, url, type) {
         // parent.layer.close(index);
         layer.msg(jsonData.Message, { icon: 1, time: 2000 },//默认是3s
           function () { //关闭之后弹出的框
-            parent.$('#search').click(); //得到父窗体的控件 
-            parent.layer.closeAll();
+            parent.global.$('#search').click(); //得到父窗体的控件
+           // parent.$('#search').click(); //得到父窗体的控件 
+            parent.layer.closeAll(); 
           });
       }
       else {
@@ -138,12 +132,11 @@ function saveDataWay(data, url, type) {
 
 /**
  * 
- * @param {* jQuery} $ 
- * @param {* layer} layer 
  * @param {* 要删除的ID} id 
  * @param {* 要请求的地址} url 
  */
-function deleteOne($, layer, id, url) {
+function deleteOne(id, url) {
+  var layer=global.layer,$=global.$,config=global.config;
   layer.confirm('确定要删除吗???', function (index) {
     $.ajax({
       type: "get",
@@ -168,7 +161,8 @@ function deleteOne($, layer, id, url) {
   });
 }
 
-function deleteMulity($, layer, table, obj, url) {
+function deleteMulity(table, obj, url) {
+  var layer=global.layer,$=global.$;
   // 实现批量删除功能了 
   layer.confirm('确定要删除选中的数据吗???', function (index) {
     debugger
@@ -206,12 +200,11 @@ function deleteMulity($, layer, table, obj, url) {
 
 /**
  * 单条启用禁用
- * @param {* jQuery} $ 
- * @param {* layer} layer 
  * @param {* 要删除的ID} id 
  * @param {* 要请求的地址} url 
  */
-function updateStatusOne($, layer, id, url) {
+function updateStatusOne(id, url) {
+  var layer=global.layer,$=global.$;
   $.ajax({
     type: "get",
     data: {
@@ -237,13 +230,13 @@ function updateStatusOne($, layer, id, url) {
 
 /**
  * 批量启用禁用
- * @param {*} $ 
- * @param {*} layer 
  * @param {*} table 
  * @param {*} obj 
  * @param {*} url 
+ * @param {*} status 
  */
-function updateStatusMulity($, layer, table, obj, url, status) {
+function updateStatusMulity(table, obj, url, status) {
+  var layer=global.layer,$=global.$;
   var checkStatus = table.checkStatus(obj.config.id);
   debugger;
   if (checkStatus.data.length == 0) {
@@ -269,17 +262,21 @@ function updateStatusMulity($, layer, table, obj, url, status) {
 
       }
       else {
-        layer.msg(jsonData.Message, { icon: 2 });
+        layer.msg(jsonData.Message, { icon: 2, time: 2000 });
       }
     }
   })
 }
 
-function LoadData(url, data, fun_callback) {
+function LoadData(url, data, fun_callback, type) {
   var $ = global.$;
+
+  if (!type) {
+    type = 'get';
+  }
   $.ajax({
     url: global.config.apiUrl + url,
-    type: 'get',
+    type: type,
     data: data,
     beforeSend: function (XHR) {
       XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
@@ -287,8 +284,12 @@ function LoadData(url, data, fun_callback) {
     dataType: 'json',
     contentType: 'application/json',
     success: function (obj) {
-      if (fun_callback) {
-        fun_callback(obj.Data);
+      if (obj.Success) {
+        if (fun_callback) {
+          fun_callback(obj.Data);
+        }
+      } else {
+        layer.msg(obj.Message, { icon: 2, time: 2000 });
       }
     },
     error: function (data) {
@@ -297,4 +298,75 @@ function LoadData(url, data, fun_callback) {
       });
     }
   });
+}
+
+function tableRender(table, url, whereCondition, cols) {
+  var config = global.config;
+  //渲染
+  table.render({
+    elem: '#test'
+    , height: 700
+    , title: '数据表'
+    , headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("apiTicket")
+    }
+    , url: config.apiUrl + url
+    , where: whereCondition
+    , loading: true
+    , limit: 10
+    , toolbar: '#toolbarDemo'
+    , parseData: function (queryData) {
+      return {
+        code: '0',
+        data: queryData.Data.Rows,
+        count: queryData.Data.Total
+      };
+    }
+    , page: true
+    , cols: [cols]
+  });
+
+  // //渲染
+  // table.render({
+  //   elem: '#test'
+  //   , height: 700
+  //   , title: '角色数据表'
+  //   , url: config.apiUrl + '/Role/GetRoles'
+  //   , where: {
+  //     Name: $("#Name").val(),
+  //     token: sessionStorage.getItem("apiTicket")
+  //   }
+  //   , loading: true
+  //   , limit: 10
+  //   , toolbar: '#toolbarDemo'
+  //   , parseData: function (queryData) {
+  //     return {
+  //       code: '0',
+  //       data: queryData.Data.Rows,
+  //       count: queryData.Data.Total
+  //     };
+  //   }
+  //   , page: true
+  //   , cols: [[
+  //     { type: 'checkbox', fixed: 'left' }
+  //     , {
+  //       title: '序号', width: 60, fixed: 'left', templet: function (obj) {
+  //         return obj.LAY_INDEX;
+  //       }
+  //     }
+  //     , { field: 'Text', title: '角色名称', width: 120 }
+  //     , {
+  //       field: 'Status', title: '状态', width: 110, templet: function (obj) {
+  //         if (obj.Status) {
+  //           return "正常";
+  //         }
+  //         else {
+  //           return "已冻结";
+  //         }
+  //       }
+  //     }
+  //     , { field: 'Description', title: '备注', width: 200, sort: true }
+  //     , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 380 }
+  //   ]]
+  // });
 }

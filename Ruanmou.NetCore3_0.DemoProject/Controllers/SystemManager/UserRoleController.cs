@@ -10,7 +10,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     /// <summary>
     /// 用户角色
     /// </summary>
-    [CustomAuthorize]
+    [ServiceFilter(typeof(SysVerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class UserRoleController :BaseApiController
     {

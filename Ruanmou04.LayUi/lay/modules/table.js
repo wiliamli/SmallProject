@@ -706,6 +706,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
         ,dataType: 'json'
         ,headers: options.headers || {}
         ,success: function(res){
+          debugger;
           //如果有数据解析的回调，则获得其返回的数据
           if(typeof options.parseData === 'function'){
             res = options.parseData(res) || res;

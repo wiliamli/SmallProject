@@ -56,6 +56,8 @@ namespace Ruanmou04.Core.Utility.MvcResult
         protected virtual IStandardResult ToJsonObject()
         {
             return new StandardResult
+
+
             {
                 Success = Success,
                 Message = Message

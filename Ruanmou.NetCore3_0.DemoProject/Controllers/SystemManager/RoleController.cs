@@ -16,7 +16,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     /// <summary>
     /// 角色管理
     /// </summary>
-    [CustomAuthorize]
+    [ServiceFilter(typeof(SysVerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class RoleController : BaseApiController
     {

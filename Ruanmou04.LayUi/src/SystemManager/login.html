@@ -20,15 +20,15 @@
       <div class="layui-form-item">
         <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i></label>
         <div class="layui-input-block">
-          <input required lay-verify="required" name="account" class="layui-input" type="text" placeholder="请输入账号"
-            autocomplete="off" />
+          <input required lay-verify="required" name="account" class="layui-input" type="text" placeholder="请输入账号" autocomplete="off"
+          />
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
         <div class="layui-input-block">
-          <input required lay-verify="required" name="passWord" class="layui-input" type="password" placeholder="请输入密码"
-            autocomplete="off" />
+          <input required lay-verify="required" name="passWord" class="layui-input" type="password" placeholder="请输入密码" autocomplete="off"
+          />
         </div>
       </div>
       <div class="layui-form-item">
@@ -52,8 +52,17 @@
     </div>
   </div>
   <script src="/layui.js"></script>
-  <script src="/common.js"></script> 
+  <script src="/common.js"></script>
   <script>
+    loginInfo = {
+      
+      loginCallBack: function (data) {
+        sessionStorage.setItem("apiTicket", data.Token)
+        sessionStorage.setItem("userName", data.Name)
+        window.location.href = "home.html";
+      }
+    }
+
     // 登录 需要做表单提交给后台，  或者数据收集之后提交给后台
     layui.use(['layer', 'form', 'config'], function () {
       var layer = layui.layer;
@@ -61,36 +70,33 @@
         $ = layui.jquery
       config = layui.config;
 
-      global.form = layui.form;
-      global.layer = layui.layer;
-      global.$ = layui.jquery;
-      global.config = layui.config;
+      initJs(layui);
 
       sessionStorage.setItem("apiTicket", "")
       sessionStorage.setItem("userName", "")
       form.on("submit(loginxxx)", function (obj) {
         var user = obj.field;
-        $.ajax({
-          type: 'Post',
-          data: JSON.stringify(user),
-          contentType: 'application/json',
-          url: config.apiUrl + '/Login/LoginSystemManager',
-          success: function (result) {
-            debugger
-            result = result;//JSON.parse(result);
-            if (result.Success) {
-              var data = result.Data;
-              sessionStorage.setItem("apiTicket", data.Token)
-              sessionStorage.setItem("userName", data.Name)
-              window.location.href = "home.html";
-            }
-            else {
-              layer.msg(result.msg, { icon: 2 });
-            }
-          }
-        })
+        LoadData('/Login/LoginSystemManager', JSON.stringify(user), loginInfo.loginCallBack, 'Post');
+        // $.ajax({
+        //   type: 'Post',
+        //   data: JSON.stringify(user),
+        //   contentType: 'application/json',
+        //   url: config.apiUrl + '/Login/LoginSystemManager',
+        //   success: function (result) {
+        //     debugger
+        //     result = result;//JSON.parse(result);
+        //     if (result.Success) {
+        //       var data = result.Data;
+        //       sessionStorage.setItem("apiTicket", data.Token)
+        //       sessionStorage.setItem("userName", data.Name)
+        //       window.location.href = "home.html";
+        //     }
+        //     else {
+        //       layer.msg(result.msg, { icon: 2 });
+        //     }
+        //   }
+        // })
       })
-
     })
   </script>
 </body>

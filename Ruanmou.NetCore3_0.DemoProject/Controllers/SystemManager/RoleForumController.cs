@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-    [CustomAuthorize]
+    [ServiceFilter(typeof(SysVerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class RoleForumController : BaseApiController // ControllerBase
     {

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>后台管理 - Layui</title>
-  <link rel="stylesheet" href="/css/layui.css?v=22">  
+  <link rel="stylesheet" href="/css/layui.css?v=22">
 </head>
 
 <body class="layui-layout-body">
@@ -66,57 +66,69 @@
   <!-- onclick="AdminPage.selectMenu(this)" -->
   <!--左侧菜单模板-->
   <script id="tepMenue" type="text/html">
-        {{# layui.each(d,function(index,item){ }}
-        <li class="layui-nav-item left-menu">
-            <a href="javascript:;" ico="{{item.MenuIcon}}" name="{{item.Text}}" alt="{{item.Description}}" dir="{{ item.Url }}" onclick="AdminPage.PageInit(this)">
+    {{# layui.each(d,function(index,item){ }}
+    <li class="layui-nav-item left-menu">
+      <a href="javascript:;" ico="{{item.MenuIcon}}" name="{{item.Text}}" alt="{{item.Description}}" dir="{{ item.Url }}" onclick="AdminPage.PageInit(this)">
               <i class="layui-icon {{item.MenuIcon}}"></i>
               {{ item.Text }}
           </a>
-        </li>
-        {{# }); }}
-    </script>
+    </li>
+    {{# }); }}
+  </script>
 
   <!--面包屑模板-->
   <script id="tepCrumbs" type="text/html">
-        <li class="" lay-id="../../Home/Index">
-            <i class="layui-icon layui-icon-home">首页</i>
-        </li>
-        <li class="layui-this" lay-id="../../Home/Index">
-            <i class="layui-icon {{d.ico}}">{{d.name}}</i>
-        </li>
-    </script>
+    <li class="" lay-id="../../Home/Index">
+      <i class="layui-icon layui-icon-home">首页</i>
+    </li>
+    <li class="layui-this" lay-id="../../Home/Index">
+      <i class="layui-icon {{d.ico}}">{{d.name}}</i>
+    </li>
+  </script>
 
   <script src="/layui.js"></script>
   <script src="/common.js"></script>
   <script type="text/javascript">
     //初始化主页
     var AdminPage = {
+      LeftMenuCallBack: function (data) {
+        var laytpl = layui.laytpl;
+        document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
+        var getTpl = document.getElementById('tepMenue').innerHTML;
+        var view = document.getElementById('menuUl');
+        laytpl(getTpl).render(data, function (html) {
+          view.innerHTML = html;
+        });
+      },
       LeftMenuInit: function () {
         var config = layui.config;
-        $.ajax({
-          type: "post",
-          data: {},
-          beforeSend: function (XHR) {
-            XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
-          },
-          url: config.apiUrl + "/Menu/GetMenuList",
-          success: function (result) {
-            debugger;
-            if (result.Success) {
-              document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
-              var getTpl = document.getElementById('tepMenue').innerHTML;
-              var view = document.getElementById('menuUl');
-              laytpl(getTpl).render(result.Data, function (html) {
-                view.innerHTML = html;
-              });
-            }
-            else {
-              layer.msg(result.Message, { icon: 7 });
-            }
-          }
-        })
+        LoadData('/Menu/GetMenuList', null, AdminPage.LeftMenuCallBack, 'Post');
+        // $.ajax({
+        //   type: "post",
+        //   data: {},
+        //   beforeSend: function (XHR) {
+        //     XHR.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("apiTicket"));
+        //   },
+        //   url: config.apiUrl + "/Menu/GetMenuList",
+        //   success: function (result) {
+        //     debugger;
+        //     if (result.Success) {
+        //       document.getElementById('spUsername').innerHTML = sessionStorage.getItem("userName");
+        //       var getTpl = document.getElementById('tepMenue').innerHTML;
+        //       var view = document.getElementById('menuUl');
+        //       laytpl(getTpl).render(result.Data, function (html) {
+        //         view.innerHTML = html;
+        //       });
+        //     }
+        //     else {
+        //       layer.msg(result.Message, { icon: 7 });
+        //     }
+        //   }
+        // })
       },// 选择左侧一级菜单js 处理
+
       PageInit: function (event) {
+        var $=global.$; 
         $(".layui-this").each(function (index, item) {
           $(item).removeClass("layui-this");
         })
@@ -124,6 +136,7 @@
         var ico = $(event).attr("ico");
         var url = $(event).attr("dir");
         $(event.parentNode).addClass("layui-this");
+
         $.ajax({
           type: "get",
           url: url,
@@ -143,13 +156,17 @@
         top.location.href = "login.html";
       },
     };
+
     //JavaScript代码区域
     layui.use(['jquery', 'layer', 'laytpl', 'config'], function () {
-      $ = layui.$,
-        laytpl = layui.laytpl,
-        config = layui.config;
+      // $ = layui.$,
+      //   laytpl = layui.laytpl,
+      //   config = layui.config;
+      initJs(layui);
+
       // 初始化左侧菜单
       AdminPage.LeftMenuInit();
+
       if (!sessionStorage.getItem("apiTicket")) {
         layer.msg("请先登录", { icon: 7 });
         window.location.href = "login.html";
@@ -157,4 +174,5 @@
     });
   </script>
 </body>
+
 </html>

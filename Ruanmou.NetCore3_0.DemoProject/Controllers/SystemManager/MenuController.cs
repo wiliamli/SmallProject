@@ -24,7 +24,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
     /// <summary>
     /// 菜单管理
     /// </summary>
-    [CustomAuthorize]
+    [ServiceFilter(typeof(SysVerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class MenuController : BaseApiController
     {

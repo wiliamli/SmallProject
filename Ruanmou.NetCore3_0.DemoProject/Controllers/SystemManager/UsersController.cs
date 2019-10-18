@@ -19,7 +19,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace Ruanmou.NetCore3_0.DemoProject.Controllers
 {
-    [CustomAuthorize]
+    [ServiceFilter(typeof(SysVerifyAttribute))]
     [Route("api/[controller]/[action]"), ApiController]
     public class UsersController : BaseApiController
     {

@@ -3,19 +3,18 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>表格操作 - layui</title>
 </head>
 
 <body>
   <script type="text/html" id="toolbarDemo">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="addNew">新增</button>
-            <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delbatch">批量删除</button>
-            <button class="layui-btn layui-btn-sm" lay-event="reload">刷新数据</button>
-        </div>
-    </script>
+    <div class="layui-btn-container">
+      <button class="layui-btn layui-btn-sm" lay-event="addNew">新增</button>
+      <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delbatch">批量删除</button>
+      <button class="layui-btn layui-btn-sm" lay-event="reload">刷新数据</button>
+    </div>
+  </script>
   <div class="layui-form layui-form-pane1" action="" lay-filter="first">
     <div class="layui-inline">
 
@@ -46,9 +45,9 @@
 
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-    </script>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+  </script>
 
   <script>
     userManager = {
@@ -71,7 +70,10 @@
       var table = layui.table,
         laydate = layui.laydate,
         form = layui.form,
-        config = layui.config;
+        config = layui.config,
+        $ = layui.$;
+
+      initJs(layui);
 
       //日期  // 初始化日期
       laydate.render({
@@ -84,64 +86,107 @@
         elem: '#endDate'
       });
       form.render();
+
+
+      var whereCondition = {
+        name: $("#Name").val(),
+        userType: $("#uesrType").val(),
+      };
+      var cols = [
+        { type: 'checkbox', fixed: 'left' }
+        , {
+          title: '序号', width: 60, fixed: 'left', templet: function (obj) {
+            return obj.LAY_INDEX;
+          }
+        }
+        , { field: 'Name', title: '用户名', width: 80 }
+        , { field: 'Account', title: '账号', width: 80 }
+        , { field: 'Sex', title: '性别', width: 60 }
+        , { field: 'Mobile', title: '手机号', width: 120, sort: true }
+        , { field: 'Email', title: '联系邮箱', width: 200, sort: true }
+        , { field: 'QQ', title: 'QQ', width: 120 }
+        , {
+          field: 'Status', title: '是否Vip', width: 110, templet: function (obj) {
+            if (obj.UserType == "2") {
+              return "是";
+            }
+            else {
+              return "不是";
+            }
+          }
+        }
+        , {
+          field: 'Status', title: '用户状态', width: 110, templet: function (obj) {
+            if (obj.Status) {
+              return "正常";
+            }
+            else {
+              return "已冻结";
+            }
+          }
+        }
+        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
+      ];
+      tableRender(table, '/Users/GetUsers?userType=2', whereCondition, cols);
+
       //渲染
-      table.render({
-        elem: '#test'
-        , height: 700
-        , title: '用户数据表'
-        , url: config.apiUrl + '/Users/GetUsers?userType=2'
-        , where: {
-          name: $("#Name").val(),
-          userType: $("#uesrType").val(),
-          token: "Bearer " + sessionStorage.getItem("apiTicket")
-        }
-        , loading: true
-        , limit: 10
-        , toolbar: '#toolbarDemo'
-        , parseData: function (queryData) {
-          return {
-            code: '0',
-            data: queryData.Rows,
-            count: queryData.Total
-          };
-        }
-        , page: true
-        , cols: [[
-          { type: 'checkbox', fixed: 'left' }
-          , {
-            title: '序号', width: 60, fixed: 'left', templet: function (obj) {
-              return obj.LAY_INDEX;
-            }
-          }
-          , { field: 'Name', title: '用户名', width: 80 }
-          , { field: 'Account', title: '账号', width: 80 }
-          , { field: 'Sex', title: '性别', width: 60 }
-          , { field: 'Mobile', title: '手机号', width: 120, sort: true }
-          , { field: 'Email', title: '联系邮箱', width: 200, sort: true }
-          , { field: 'QQ', title: 'QQ', width: 120 }
-          , {
-            field: 'Status', title: '是否Vip', width: 110, templet: function (obj) {
-              if (obj.UserType == "2") {
-                return "是";
-              }
-              else {
-                return "不是";
-              }
-            }
-          }
-          , {
-            field: 'Status', title: '用户状态', width: 110, templet: function (obj) {
-              if (obj.Status) {
-                return "正常";
-              }
-              else {
-                return "已冻结";
-              }
-            }
-          }
-          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
-        ]]
-      });
+      // table.render({
+      //   elem: '#test'
+      //   , height: 700
+      //   , title: '用户数据表'
+      //   , url: config.apiUrl + '/Users/GetUsers?userType=2'
+      //   , where: {
+      //     name: $("#Name").val(),
+      //     userType: $("#uesrType").val(),
+      //     token: "Bearer " + sessionStorage.getItem("apiTicket")
+      //   }
+      //   , loading: true
+      //   , limit: 10
+      //   , toolbar: '#toolbarDemo'
+      //   , parseData: function (queryData) {
+      //     return {
+      //       code: '0',
+      //       data: queryData.Rows,
+      //       count: queryData.Total
+      //     };
+      //   }
+      //   , page: true
+      //   , cols: [[
+      //     { type: 'checkbox', fixed: 'left' }
+      //     , {
+      //       title: '序号', width: 60, fixed: 'left', templet: function (obj) {
+      //         return obj.LAY_INDEX;
+      //       }
+      //     }
+      //     , { field: 'Name', title: '用户名', width: 80 }
+      //     , { field: 'Account', title: '账号', width: 80 }
+      //     , { field: 'Sex', title: '性别', width: 60 }
+      //     , { field: 'Mobile', title: '手机号', width: 120, sort: true }
+      //     , { field: 'Email', title: '联系邮箱', width: 200, sort: true }
+      //     , { field: 'QQ', title: 'QQ', width: 120 }
+      //     , {
+      //       field: 'Status', title: '是否Vip', width: 110, templet: function (obj) {
+      //         if (obj.UserType == "2") {
+      //           return "是";
+      //         }
+      //         else {
+      //           return "不是";
+      //         }
+      //       }
+      //     }
+      //     , {
+      //       field: 'Status', title: '用户状态', width: 110, templet: function (obj) {
+      //         if (obj.Status) {
+      //           return "正常";
+      //         }
+      //         else {
+      //           return "已冻结";
+      //         }
+      //       }
+      //     }
+      //     , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120 }
+      //   ]]
+      // });
 
       //工具栏事件
       table.on('toolbar(test)', function (obj) {

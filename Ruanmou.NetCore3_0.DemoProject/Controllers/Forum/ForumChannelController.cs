@@ -51,7 +51,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         /// 获取所有频道
         /// </summary>
         /// <returns></returns>
-        [CustomAuthorizeAttribute]
+        [ServiceFilter(typeof(SysVerifyAttribute))]
         [HttpGet]
         public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannels4Sys()
         {
@@ -59,7 +59,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
 
-        [CustomAuthorizeAttribute]
+        [ServiceFilter(typeof(SysVerifyAttribute))]
         [HttpGet]
         public StandardJsonResult<PagedResult<ForumChannelDto>> GetPagedChannels(int page, int limit, string name)
         {
@@ -73,7 +73,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // GET: api/ForumChannel/5
-        [CustomAuthorizeAttribute]       
+        [ServiceFilter(typeof(SysVerifyAttribute))]
         [HttpGet("{id}", Name = "Get")]
         public StandardJsonResult<ForumChannelDto> GetChannel(int id)
         {
@@ -81,7 +81,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // POST: api/ForumChannel
-        [CustomAuthorizeAttribute]
+        [ServiceFilter(typeof(SysVerifyAttribute))]
         [HttpPost]
         public StandardJsonResult<int> AddChannel(ForumChannelDto forumChannelDto)
         {
@@ -89,7 +89,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // PUT: api/ForumChannel/5
-        [CustomAuthorizeAttribute]
+        [ServiceFilter(typeof(SysVerifyAttribute))]
         [HttpPost]
         public StandardJsonResult EditChannel(ForumChannelDto forumChannelDto)
         {
@@ -97,7 +97,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         }
 
         // DELETE: api/ApiWithActions/5
-        [CustomAuthorizeAttribute]
+        [ServiceFilter(typeof(SysVerifyAttribute))]
         //[HttpDelete("{id}")]
         [HttpGet] //前台统一使用
         public StandardJsonResult Delete(int id)

@@ -3,18 +3,17 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>表格操作 - layui</title>
 </head>
 
 <body>
   <script type="text/html" id="toolbarDemo">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="addNew">新增</button>
-            <button class="layui-btn layui-btn-sm" lay-event="reload">刷新数据</button>
-        </div>
-    </script>
+    <div class="layui-btn-container">
+      <button class="layui-btn layui-btn-sm" lay-event="addNew">新增</button>
+      <button class="layui-btn layui-btn-sm" lay-event="reload">刷新数据</button>
+    </div>
+  </script>
 
   <div class="layui-inline">
     <input type="text" autocomplete="off" id="Name" placeholder="输入名称查询..." class="layui-input layui-btn-sm">
@@ -23,38 +22,40 @@
 
   <div class="layui-btn layui-btn-normal" id="search">查询</div>
 
-  <table id="test" lay-filter="test"></table> 
+  <table id="test" lay-filter="test"></table>
   <!-- layer模板 -->
   <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs" lay-event="menu">角色菜单</a>
-        <a class="layui-btn layui-btn-xs" lay-event="user">角色用户</a>
-        <a class="layui-btn layui-btn-xs" lay-event="forum">角色频道</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-    </script>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="menu">角色菜单</a>
+    <a class="layui-btn layui-btn-xs" lay-event="user">角色用户</a>
+    <a class="layui-btn layui-btn-xs" lay-event="forum">角色频道</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+  </script>
 
   <script>
     roleManager = {
       openRoleWindow: function (data) {
-        var id = data && data.Id ? data.Id : "0"; 
-        pageShow('编辑角色','RoleManager/RoleDetail.html',900, 450,id);
+        var id = data && data.Id ? data.Id : "0";
+        pageShow('编辑角色', 'RoleManager/RoleDetail.html', 900, 450, id);
       },
       openRoleMenuWindow: function (data) {
-        pageShow('编辑角色菜单','RoleManager/RoleMenu.html',600, 350,data);
+        pageShow('编辑角色菜单', 'RoleManager/RoleMenu.html', 600, 350, data);
       },
       openRoleUserWindow: function (data) {
-        pageShow('编辑用户角色','RoleManager/RoleUser.html',600, 350,data);
+        pageShow('编辑用户角色', 'RoleManager/RoleUser.html', 600, 350, data);
       },
       openRoleForumWindow: function (data) {
-        pageShow('编辑角色论坛','RoleManager/RoleForum.html',600, 350,data);
+        pageShow('编辑角色论坛', 'RoleManager/RoleForum.html', 600, 350, data);
       },
     }
 
     layui.use(['table', 'laytpl', 'laydate', 'config'], function () {
       var table = layui.table,
         laydate = layui.laydate,
-        config = layui.config; 
+        config = layui.config,
+        $ = layui.$;
 
+      initJs(layui);
       //日期  // 初始化日期
       laydate.render({
         elem: '#starDate'
@@ -66,50 +67,76 @@
         elem: '#endDate'
       });
 
-      //渲染
-      table.render({
-        elem: '#test'
-        , height: 700
-        , title: '角色数据表'
-        , url: config.apiUrl + '/Role/GetRoles'
-        , where: {
-          Name: $("#Name").val(),
-          token: sessionStorage.getItem("apiTicket")
+
+      var whereCondition = {
+        Name: $("#Name").val()
+      };
+      var cols = [
+        { type: 'checkbox', fixed: 'left' }
+        , {
+          title: '序号', width: 60, fixed: 'left', templet: function (obj) {
+            return obj.LAY_INDEX;
+          }
         }
-        , loading: true
-        , limit: 10
-        , toolbar: '#toolbarDemo'
-        , parseData: function (queryData) {
-          debugger;
-          return {
-            code: '0',
-            data: queryData.Data.Rows,
-            count: queryData.Data.Total
-          };
-        }
-        , page: true
-        , cols: [[
-          { type: 'checkbox', fixed: 'left' }
-          , {
-            title: '序号', width: 60, fixed: 'left', templet: function (obj) {
-              return obj.LAY_INDEX;
+        , { field: 'Text', title: '角色名称', width: 120 }
+        , {
+          field: 'Status', title: '状态', width: 110, templet: function (obj) {
+            if (obj.Status) {
+              return "正常";
+            }
+            else {
+              return "已冻结";
             }
           }
-          , { field: 'Text', title: '角色名称', width: 120 }
-          , {
-            field: 'Status', title: '状态', width: 110, templet: function (obj) {
-              if (obj.Status) {
-                return "正常";
-              }
-              else {
-                return "已冻结";
-              }
-            }
-          }
-          , { field: 'Description', title: '备注', width: 200, sort: true }
-          , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 380 }
-        ]]
-      });
+        }
+        , { field: 'Description', title: '备注', width: 200, sort: true }
+        , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 380 }
+      ];
+      tableRender(table, '/Role/GetRoles', whereCondition, cols);
+
+      // //渲染
+      // table.render({
+      //   elem: '#test'
+      //   , height: 700
+      //   , title: '角色数据表'
+      //   , url: config.apiUrl + '/Role/GetRoles'
+      //   , where: {
+      //     Name: $("#Name").val(),
+      //     token: sessionStorage.getItem("apiTicket")
+      //   }
+      //   , loading: true
+      //   , limit: 10
+      //   , toolbar: '#toolbarDemo'
+      //   , parseData: function (queryData) {
+      //     return {
+      //       code: '0',
+      //       data: queryData.Data.Rows,
+      //       count: queryData.Data.Total
+      //     };
+      //   }
+      //   , page: true
+      //   , cols: [[
+      //     { type: 'checkbox', fixed: 'left' }
+      //     , {
+      //       title: '序号', width: 60, fixed: 'left', templet: function (obj) {
+      //         return obj.LAY_INDEX;
+      //       }
+      //     }
+      //     , { field: 'Text', title: '角色名称', width: 120 }
+      //     , {
+      //       field: 'Status', title: '状态', width: 110, templet: function (obj) {
+      //         if (obj.Status) {
+      //           return "正常";
+      //         }
+      //         else {
+      //           return "已冻结";
+      //         }
+      //       }
+      //     }
+      //     , { field: 'Description', title: '备注', width: 200, sort: true }
+      //     , { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 380 }
+      //   ]]
+      // });
 
       //工具栏事件
       table.on('toolbar(test)', function (obj) {
@@ -131,7 +158,7 @@
       table.on('tool(test)', function (obj) {
         var data = obj.data;
         if (obj.event === 'del') { // 实现删除功能了 
-          deleteOne($,layer,data.Id,'/Role/DeleteRoleById');
+          deleteOne(data.Id, '/Role/DeleteRoleById');
         }
         else if (obj.event === 'menu') {
           roleManager.openRoleMenuWindow(data);
