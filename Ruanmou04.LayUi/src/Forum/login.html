@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>登入</title>
@@ -8,14 +8,15 @@
   <link rel="stylesheet" href="/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
+
 <body>
 
-<div class="fly-header layui-bg-black">
-  <div class="layui-container">
-    <a class="fly-logo" href="/">
+  <div class="fly-header layui-bg-black">
+    <div class="layui-container">
+      <a class="fly-logo" href="/">
       <img src="../../res/images/logo.png" alt="layui">
     </a>
-    <!--
+      <!--
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this">
         <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
@@ -28,15 +29,15 @@
       </li>
     </ul>
     -->
-    <ul class="layui-nav fly-nav-user">
-      <!-- 未登入的状态 -->
-      <li class="layui-nav-item">
-        <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
-      </li>
-      <li class="layui-nav-item">
-        <a href="user/login.html">登入</a>
-      </li>
-      <!--
+      <ul class="layui-nav fly-nav-user">
+        <!-- 未登入的状态 -->
+        <li class="layui-nav-item">
+          <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="user/login.html">登入</a>
+        </li>
+        <!--
       <li class="layui-nav-item">
         <a href="user/reg.html">注册</a>
       </li>
@@ -47,22 +48,22 @@
         <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
       </li>
       -->
-    </ul>
+      </ul>
+    </div>
   </div>
-</div>
 
-<div class="layui-container fly-marginTop">
-  <div class="fly-panel fly-panel-user" pad20>
-    <div class="layui-tab layui-tab-brief" lay-filter="user">
-      <ul class="layui-tab-title">
-        <li class="layui-this">登入</li>
-        <!--
+  <div class="layui-container fly-marginTop">
+    <div class="fly-panel fly-panel-user" pad20>
+      <div class="layui-tab layui-tab-brief" lay-filter="user">
+        <ul class="layui-tab-title">
+          <li class="layui-this">登入</li>
+          <!--
         <li><a href="reg.html">注册</a></li>
         -->
-      </ul>
-      <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
-        <div class="layui-tab-item layui-show">
-          <div class="layui-form layui-form-pane">
+        </ul>
+        <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+          <div class="layui-tab-item layui-show">
+            <div class="layui-form layui-form-pane">
               <div class="layui-form-item">
                 <label for="L_username" class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
@@ -101,13 +102,13 @@
                 <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入"></a>
               </div>
               -->
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!--
+  <!--
 <div class="fly-footer">
   <p><a href="http://fly.layui.com/" target="_blank">Fly社区</a> 2017 &copy; <a href="http://www.layui.com/" target="_blank">layui.com 出品</a></p>
   <p>
@@ -117,56 +118,70 @@
   </p>
 </div>
 -->
-<script src="/src/Forum/api/base.js" charset="utf-8"></script>
-<script src="/layui.js"></script>
-<script>
+  <script src="/src/Forum/api/base.js" charset="utf-8"></script>
+  <script src="/layui.js"></script>
+  <script src="/common.js"></script>
+  <script>
+    loginInfo = {
+      loginCallBack: function (data) {
+        document.getElementById("L_username").value = "";
+        document.getElementById("L_pass").value = "";
+        layer.alert("登录成功!", {
+          title: '登录成功'});
+        localStorage.setItem("token",data.Token);
+        window.location.href = "/src/Forum/channel.html";
+      }
+    }
 
-layui.config({
-  version: "3.0.0"
-  ,base: '/src/Forum/api/'
-}).extend({
-  fly: 'index'
-}).use('fly');
-var domain=baseDomain();
+    layui.config({
+      version: "3.0.0"
+      , base: '/src/Forum/api/'
+    }).extend({
+      fly: 'index'
+    }).use('fly');
+    var domain = baseDomain();
 
-function handleData(resp_data) {
-	console.log("Data: ", resp_data);
-}
+    function handleData(resp_data) {
+      console.log("Data: ", resp_data);
+    }
 
-layui.use(['jquery','laytpl','form'], function(){
-  var $ = layui.jquery
-  ,element = layui.element
-  ,form = layui.form
-  form.on('submit(login)', function(data){
-    var login={};
-    login.account=data.field.username;
-    login.password=data.field.pass;
-    $.ajax({
-          url:domain+"api/Login/LoginSystemManager",
-          data: JSON.stringify(login),
-          type: 'post',
-          dataType: 'json',
-          contentType:'application/json',
-          success: function(obj) {
-            if(obj.success){
-              document.getElementById("L_username").value="";
-              document.getElementById("L_pass").value="";
-              layer.alert("登录成功!", {
-              title: '登录成功'});
-              localStorage.setItem("token",obj.data.Token);
-              window.location.href="/src/Forum/channel.html";
-            }
-            else{
-              layer.alert(obj.msg, {
-              title: '登录失败'});
-            }
-          }
-       });
-  });
 
-});
+    layui.use(['jquery', 'laytpl', 'form','config'], function () {
+      var $ = layui.jquery
+        , element = layui.element
+        , form = layui.form;
+      initJs(layui);
 
-</script>
+      form.on('submit(login)', function (data) {
+        var login = {};
+        login.account = data.field.username;
+        login.password = data.field.pass;
+        LoadData('/Login/LoginSystemManager', JSON.stringify(login), loginInfo.loginCallBack, 'Post');
+        // $.ajax({
+        //       url:domain+"api/Login/LoginSystemManager",
+        //       data: JSON.stringify(login),
+        //       type: 'post',
+        //       dataType: 'json',
+        //       contentType:'application/json',
+        //       success: function(obj) {
+        //         if(obj.Success){
+        //           document.getElementById("L_username").value="";
+        //           document.getElementById("L_pass").value="";
+        //           layer.alert("登录成功!", {
+        //           title: '登录成功'});
+        //           localStorage.setItem("token",obj.Data.Token);
+        //           window.location.href="/src/Forum/channel.html";
+        //         }
+        //         else{
+        //           layer.alert(obj.Message, {
+        //           title: '登录失败'});
+        //         }
+        //       }
+        //    });
+      });
+    });
+  </script>
 
 </body>
+
 </html>

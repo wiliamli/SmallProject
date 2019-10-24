@@ -265,6 +265,7 @@ layui.use(['jquery','laytpl','form'], function(){
           data: JSON.stringify(topicData),
           type: 'post',
           dataType: 'json',
+          headers: {"token": key},
           contentType:'application/json',
           success: function(obj) {
             if(obj.Success){
