@@ -2,7 +2,7 @@
 using Ruanmou04.Core.Utility.DtoUtilities;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -182,6 +182,14 @@ namespace Ruanmou04.NetCore.Interface
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         void Excute<T>(string sql, SqlParameter[] parameters) where T : class;
+
+        /// <summary>
+        /// 批量执行，无返回值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="parameterList"></param>
+        void Excute<T>(string sql, List<SqlParameter[]> parameterList) where T : class;
         #endregion
     }
 }

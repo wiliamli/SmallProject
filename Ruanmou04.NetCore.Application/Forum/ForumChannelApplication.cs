@@ -59,8 +59,8 @@ namespace Ruanmou04.NetCore.Application.Forum
             }
             entity.Status = false;
             forumChannelService.Update<ForumChannel>(entity);
-            //System.Data.SqlClient.SqlParameter[] paramList = new System.Data.SqlClient.SqlParameter[1] 
-            //{new System.Data.SqlClient.SqlParameter("@id",SqlDbType.Int,4){ Value=id } };
+            //Microsoft.Data.SqlClient.SqlParameter[] paramList = new Microsoft.Data.SqlClient.SqlParameter[1] 
+            //{new Microsoft.Data.SqlClient.SqlParameter("@id",SqlDbType.Int,4){ Value=id } };
             //forumChannelService.Excute<ForumChannel>($"UPDATE ForumChannel SET Status=0 WHERE Id=@id", paramList);
         }
 

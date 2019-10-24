@@ -9,7 +9,8 @@ using Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Output;
 using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Application.Extensions;
-using Ruanmou04.Core.Utility.Extensions;
+using Ruanmou04.Core.Utility.Extensions;  
+using Microsoft.Data.SqlClient;     
 
 namespace Ruanmou04.NetCore.Application.SystemManager
 {
@@ -112,7 +113,25 @@ namespace Ruanmou04.NetCore.Application.SystemManager
 
         public void UpdateUserStatus(string userIds, int status)
         {
+            if (userIds.IsNullOrWhiteSpace())
+            {
+                return;
+            }
+            var userIdArray = userIds.Split(',');
+            if (!userIdArray.HasAny())
+            {
+                return;
+            }
 
+            var paramList = new List<SqlParameter[]>();          
+            foreach (var item in userIdArray)
+            {
+                paramList.Add(new SqlParameter[2]{
+                                                  new SqlParameter("@status", status) ,
+                                                  new SqlParameter("@userIds", item)
+                });
+            }   
+            sysUserService.Excute<SysUser>($"UPDATE [SystemUser] SET Status=@status WHERE Id = (@userIds)", paramList);
         }
     }
 }

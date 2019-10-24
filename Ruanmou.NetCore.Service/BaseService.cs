@@ -4,9 +4,10 @@ using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.NetCore.Interface;
 using System;
 using System.Collections.Generic;   
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using Ruanmou04.Core.Utility.Extensions;
 
 namespace Ruanmou.NetCore.Service
 {
@@ -286,6 +287,30 @@ namespace Ruanmou.NetCore.Service
             {
                 trans = this.Context.Database.BeginTransaction();
                 this.Context.Database.ExecuteSqlRaw(sql, parameters);
+                //this.Context.Database.ExecuteSqlCommand(sql, parameters);
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                if (trans != null)
+                    trans.Rollback();
+                throw ex;
+            }
+        }
+        public void Excute<T>(string sql, List<SqlParameter[]> parameterList) where T : class
+        {
+            IDbContextTransaction trans = null;
+            try
+            {
+                trans = this.Context.Database.BeginTransaction();
+                if (!parameterList.HasAny())
+                {
+                    return;
+                }
+                foreach (var parameters in parameterList)
+                {
+                    this.Context.Database.ExecuteSqlRaw(sql, parameters);
+                }  
                 //this.Context.Database.ExecuteSqlCommand(sql, parameters);
                 trans.Commit();
             }
