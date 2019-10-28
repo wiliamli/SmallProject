@@ -635,7 +635,13 @@ var active = {
       contentType:'application/json',
       success: function(obj) {
           if(obj.Success){
-            active.checkInit();
+            if(obj.Data>0){
+              active.checkInit();
+            }
+            else{
+              layer.alert("当天已签到！",{
+              title: '消息'});
+            }
           }
       },
       error: function() {
@@ -653,12 +659,14 @@ var active = {
           type: 'get',
           dataType: 'json',
           success: function(obj) {
+            if(obj.Success){
               var data = obj.Data;
               var checkTpl=document.getElementById('checkTpl').innerHTML;
               var checkView=document.getElementById('checkView');
               layui.laytpl(checkTpl).render(data,function(html){
                   checkView.innerHTML=html;
               });
+            }
           },
           error: function() {
               console.log('ajax请求失败！');
@@ -694,7 +702,7 @@ var active = {
     }
 }
 
-layui.use(['jquery','element'], function(){
+layui.use(['layer','jquery','element'], function(){
   var $ = layui.jquery
   ,element = layui.element;
   active.loginInit();
