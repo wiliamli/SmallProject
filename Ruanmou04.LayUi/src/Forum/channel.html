@@ -635,7 +635,13 @@ var active = {
       contentType:'application/json',
       success: function(obj) {
           if(obj.Success){
-            active.checkInit();
+            if(obj.Data>0){
+              active.checkInit();
+            }
+            else{
+              layer.alert("当天已签到！",{
+              title: '消息'});
+            }
           }
       },
       error: function() {
@@ -694,7 +700,7 @@ var active = {
     }
 }
 
-layui.use(['jquery','element'], function(){
+layui.use(['layer','jquery','element'], function(){
   var $ = layui.jquery
   ,element = layui.element;
   active.loginInit();
