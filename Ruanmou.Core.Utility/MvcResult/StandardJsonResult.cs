@@ -56,9 +56,8 @@ namespace Ruanmou04.Core.Utility.MvcResult
         protected virtual IStandardResult ToJsonObject()
         {
             return new StandardResult
-
-
             {
+                StatusCode = StatusCode,
                 Success = Success,
                 Message = Message
             };
@@ -73,12 +72,13 @@ namespace Ruanmou04.Core.Utility.MvcResult
             };
         }
 
-        public static StandardJsonResult GetFailureResult(string msg)
+        public static StandardJsonResult GetFailureResult(string msg, string statusCode=null)
         {
             return new StandardJsonResult()
             {
                 Success = false,
-                Message = msg
+                Message = msg,
+                StatusCode = statusCode,
             };
         }
     }
@@ -97,12 +97,13 @@ namespace Ruanmou04.Core.Utility.MvcResult
             };
         }
 
-        public static StandardJsonResult<T> GetFailureResult(string msg)
+        public static StandardJsonResult<T> GetFailureResult(string msg, string statusCode = null)
         {
             return new StandardJsonResult<T>()
             {
                 Success = false,
-                Message = msg
+                Message = msg ,
+                StatusCode=statusCode,
             };
         }
 
@@ -112,7 +113,8 @@ namespace Ruanmou04.Core.Utility.MvcResult
             {
                 Success = Success,
                 Message = Message,
-                Data = Data
+                Data = Data,
+                StatusCode=StatusCode
             };
         }
     }

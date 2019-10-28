@@ -15,6 +15,7 @@ using System.Threading;
 using Ruanmou04.EFCore.Dtos.DtoHelper;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Interface.Token.Applications;
+using Ruanmou04.Core.Utility.Extensions;
 
 namespace Ruanmou04.NetCore.Application.Token
 {
@@ -110,14 +111,13 @@ namespace Ruanmou04.NetCore.Application.Token
         {
             AjaxResult result = new AjaxResult();
             token = token.Replace("Bearer ", string.Empty);
-            if (token == "null")
+            if (token == "null" || token.IsNullOrWhiteSpace())
             {
                 result.msg = "token已失效，请重新登录";
             }
             else
             {
-                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);
-
+                var jwtSecurityToken = _jwtSecurityTokenHandler.ReadJwtToken(token);    
                 if (jwtSecurityToken.Claims.Any())
                 {
                     ClaimsIdentity identity = new ClaimsIdentity(Ruanmou.Core.Utility.StaticConstraint.AuthenticationScheme);

@@ -1,9 +1,11 @@
-
 var global = {
   form: null,
   layer: null,
   $: null,
-  config: null
+  config: null,
+
+  loginUrl:'login.html',
+  Authenticate_Failed:'Authenticate_Failed'
 };
 
 function initJs(layui) {
@@ -71,8 +73,11 @@ function initData(url) {
       if (result.Success) {
         form.val("first", result.Data); //默认都放在first下面
       }
-      else {
+      else { 
         layer.msg(result.Message);
+        if(result.StatusCode && global.Authenticate_Failed==result.StatusCode) {
+          location.href=global.loginUrl;
+        }
       }
     }
   })
@@ -119,6 +124,9 @@ function saveDataWay(data, url, type) {
       }
       else {
         layer.msg(jsonData.Message, { icon: 2, time: 2000 });
+        if(jsonData.StatusCode && global.Authenticate_Failed==jsonData.StatusCode) {
+          location.href=global.loginUrl;
+        }
       }
     },
     error: function (XMLHttpResponse) {
@@ -154,12 +162,16 @@ function deleteOne(id, url) {
           //  $("#search").click();
         }
         else {
-          layer.msg(jsonData.msg, { icon: 2 });
+          layer.msg(jsonData.Message, { icon: 2 });
+          if(jsonData.StatusCode && global.Authenticate_Failed==jsonData.StatusCode) {
+            location.href=global.loginUrl;
+          }
         }
       }
     })
   });
 }
+
 
 function deleteMulity(table, obj, url) {
   var layer=global.layer,$=global.$;
@@ -192,6 +204,9 @@ function deleteMulity(table, obj, url) {
         }
         else {
           layer.msg(jsonData.Message, { icon: 2 });
+          if(jsonData.StatusCode && global.Authenticate_Failed==jsonData.StatusCode) {
+            location.href=global.loginUrl;
+          }
         }
       }
     })
@@ -221,6 +236,9 @@ function updateStatusOne(id, url) {
       }
       else {
         layer.msg(jsonData.Message, { icon: 2 });
+        if(jsonData.StatusCode && global.Authenticate_Failed==jsonData.StatusCode) {
+          location.href=global.loginUrl;
+        }
       }
     }
   })
@@ -236,7 +254,7 @@ function updateStatusOne(id, url) {
  * @param {*} status 
  */
 function updateStatusMulity(table, obj, url, status) {
-  var layer=global.layer,$=global.$;
+  var layer=global.layer,$=global.$,config=global.config;
   var checkStatus = table.checkStatus(obj.config.id);
   debugger;
   if (checkStatus.data.length == 0) {
@@ -263,6 +281,9 @@ function updateStatusMulity(table, obj, url, status) {
       }
       else {
         layer.msg(jsonData.Message, { icon: 2, time: 2000 });
+        if(jsonData.StatusCode && global.Authenticate_Failed==jsonData.StatusCode) {
+          location.href=global.loginUrl;
+        }
       }
     }
   })
@@ -290,6 +311,9 @@ function LoadData(url, data, fun_callback, type) {
         }
       } else {
         layer.msg(obj.Message, { icon: 2, time: 2000 });
+        if(obj.StatusCode && global.Authenticate_Failed==obj.StatusCode) {
+          location.href=global.loginUrl;
+        }
       }
     },
     error: function (data) {
@@ -299,6 +323,7 @@ function LoadData(url, data, fun_callback, type) {
     }
   });
 }
+
 
 function tableRender(table, url, whereCondition, cols) {
   var config = global.config;

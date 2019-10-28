@@ -6,6 +6,8 @@
 
         public string Message { get; set; }
 
+        public string StatusCode { set; get; }
+
         public void Succeed()
         {
             Success = true;
