@@ -35,6 +35,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
             if (key.IsNullOrWhiteSpace())
             {
                 result.Message = "请先登录";
+                context.Result = result;
             }
             else
             {
@@ -47,5 +48,31 @@ namespace Ruanmou04.NetCore.AOP.Filter
                 }
             }
         }
+
+        //public void OnActionExecuting(ActionExecutingContext context)
+        //{
+        //    string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
+        //    if (key.IsNullOrWhiteSpace())
+        //    {
+        //        context.Result = new StandardJsonResult()
+        //        {
+        //            Success = false,
+        //            StatusCode = StatusCodeEnum.Authenticate_Failed.ToString(),
+        //            Message = "请先登录"
+        //        };
+        //    }
+        //    else
+        //    {
+        //        key = key.Replace("Bearer", string.Empty).Trim();
+        //        AjaxResult ajaxResult = this._tokenService.ConfirmVerification(key);
+        //        if (!ajaxResult.success)
+        //            context.Result = new StandardJsonResult()
+        //            {
+        //                Success = false,
+        //                StatusCode = StatusCodeEnum.Authenticate_Failed.ToString(),
+        //                Message = ajaxResult.msg
+        //            }; ;
+        //    }
+        //}
     }
 }
