@@ -20,7 +20,7 @@ namespace Ruanmou.NetCore3_0.DemoProject
 {
     public class Startup
     {
-        private const string _defaultCorsPolicyName = "localhost";
+        private string _defaultCorsPolicyName => _Configuration.GetValue<string>("DefaultCrossDomain");
         /// <summary>
         /// 自有妙用
         /// </summary>
@@ -39,7 +39,6 @@ namespace Ruanmou.NetCore3_0.DemoProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-         
             services.AddControllersWithViews();
             services.AddRazorPages();//约等于AddMvc() 就是3.0把内容拆分的更细一些，能更小的依赖
             services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
