@@ -185,7 +185,6 @@ layui.use(['layer','jquery','laytpl','form'], function(){
           success: function(obj) {
             if(obj.Success){
               var data = obj.Data;
-              debugger;
               data.CreatedBy=data[0].CreatedBy;
               var replyTpl=document.getElementById('replyTpl').innerHTML;
               var replyUserView=document.getElementById('replyUserView');
