@@ -7,13 +7,13 @@ var common = {
         this.Register($, layer);
         this.Logout($, layer);
     },
-    WebLoginHtml: '<div class="reg"><a href="mbInfo.html" class="a-mbcenter">个人中心</a></div><div class="login"><a href="javascript:void(0);" class="a-logout">退出</a></div>',
+    WebLoginHtml: '<div class="reg"><a href="/src/portal/mbInfo.html" class="a-mbcenter">个人中心</a></div><div class="login"><a href="javascript:void(0);" class="a-logout">退出</a></div>',
     Login: function ($, layer) {
         $(".rm-header").delegate(".a-login", "click", function () {
             layer.open({
                 title: '登录'
                 , type: 2
-                , content: ['poplogin.html', 'no']
+                , content: ['/src/portal/poplogin.html', 'no']
                 , area: ['350px', '320px']
             });  
         });
@@ -23,7 +23,7 @@ var common = {
             layer.open({
                 title: '注册'
                 , type: 2
-                , content: 'popregister.html'
+                , content: '/src/portal/popregister.html'
                 , area: ['420px', '500px']
             });
         });
