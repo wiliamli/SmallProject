@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Ruanmou04.Core.Utility.DtoUtilities;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.EFCore.Dtos.ForumDtos;
@@ -53,7 +51,7 @@ namespace Ruanmou04.NetCore.Project.Controllers.Forum
         /// <returns></returns>
         [ServiceFilter(typeof(SysVerifyAttribute))]
         [HttpGet]
-        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannels4Sys()
+        public StandardJsonResult<IEnumerable<ForumChannelDto>> GetChannelsSys()
         {
             return StandardAction(() => forumChannelApplication.GetForumChannels());
         }

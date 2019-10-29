@@ -29,7 +29,7 @@
     </ul>
     -->
     <script id="topicTpl" type="text/html">
-      <h3 class="fly-panel-title">william 最近的发帖</h3>
+      <h3 class="fly-panel-title">{{d.CreatedBy}} 最近的发帖</h3>
       <ul class="jie-row">
         {{# layui.each(d, function(index, item){ }}
            <li>
@@ -45,7 +45,7 @@
       </script>
 
       <script id="replyTpl" type="text/html">
-        <h3 class="fly-panel-title">william 最近的回帖</h3>
+        <h3 class="fly-panel-title">{{d.CreatedBy}} 最近的回帖</h3>
         <ul  class="home-jieda">
         {{# layui.each(d, function(index, item){ }}
         <li>
@@ -67,10 +67,10 @@
       <script id="userInfoTpl" type="text/html">
         <h1>
           {{d.Name}}
-          <i class="iconfont icon-nan"></i>
+          <!--<i class="iconfont icon-nan"></i>-->
         </h1>
         <p class="fly-home-info">
-          <i class="iconfont icon-shijian"></i><span>{{d.CreateTime}} 加入</span>
+         <!-- <i class="iconfont icon-shijian"></i><span>{{d.CreateTime}} 加入</span> -->
         </p>
       
         <p class="fly-home-sign">（个人描述）</p>
@@ -133,7 +133,7 @@
 <script src="/src/Forum/api/base.js" charset="utf-8"></script>
 <script src="/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
-layui.use(['jquery','laytpl','form'], function(){
+layui.use(['layer','jquery','laytpl','form'], function(){
   var $ = layui.jquery
   ,element = layui.element
   ,form = layui.form
@@ -158,12 +158,17 @@ layui.use(['jquery','laytpl','form'], function(){
           headers: {token: key},
           dataType: 'json',
           success: function(obj) {
-            var data = obj.Data;
-            var topicTpl=document.getElementById('topicTpl').innerHTML;
-            var userTopicView=document.getElementById('userTopicView');
-            layui.laytpl(topicTpl).render(data,function(html){
-                userTopicView.innerHTML=html;
-            });
+            if(obj.Success){
+              var data = obj.Data;
+              data.CreatedBy=data[0].CreatedBy;
+              var topicTpl=document.getElementById('topicTpl').innerHTML;
+              var userTopicView=document.getElementById('userTopicView');
+              layui.laytpl(topicTpl).render(data,function(html){
+                  userTopicView.innerHTML=html;
+              });
+            }else{
+              window.location.href="/src/Forum/login.html";
+            }
           },
           error: function() {
             layer.alert(JSON.stringify(data.field), {
@@ -178,12 +183,18 @@ layui.use(['jquery','laytpl','form'], function(){
           type: 'get',
           dataType: 'json',
           success: function(obj) {
-            var data = obj.Data;
-            var replyTpl=document.getElementById('replyTpl').innerHTML;
-            var replyUserView=document.getElementById('replyUserView');
-            layui.laytpl(replyTpl).render(data,function(html){
-                replyUserView.innerHTML=html;
-            });
+            if(obj.Success){
+              var data = obj.Data;
+              debugger;
+              data.CreatedBy=data[0].CreatedBy;
+              var replyTpl=document.getElementById('replyTpl').innerHTML;
+              var replyUserView=document.getElementById('replyUserView');
+              layui.laytpl(replyTpl).render(data,function(html){
+                  replyUserView.innerHTML=html;
+              });
+            }else{
+              window.location.href="/src/Forum/login.html";
+            }
           },
           error: function() {
             layer.alert(JSON.stringify(data.field), {
@@ -193,20 +204,24 @@ layui.use(['jquery','laytpl','form'], function(){
     }
     ,userInfo:function(){
       $.ajax({
-          url:baseDomain()+"api/Users/GetUserByID",
-          data: {"userId":userId},
+          url:baseDomain()+"api/ForumLogin/GetLoginInfo ",
+          data: null,
           headers: {token: key},
           type: 'get',
           dataType: 'json',
           contentType:'application/json',
           success: function(obj) {
-            var data = obj.Data;
-            var userInfoTpl=document.getElementById('userInfoTpl').innerHTML;
-            var userInfoView=document.getElementById('userInfoView');
-            layui.laytpl(userInfoTpl).render(data,function(html){
-              userInfoView.innerHTML=html;
-            });
-            loginInfo(data);
+            if(obj.Success){
+              var data = obj.Data;
+              var userInfoTpl=document.getElementById('userInfoTpl').innerHTML;
+              var userInfoView=document.getElementById('userInfoView');
+              layui.laytpl(userInfoTpl).render(data,function(html){
+                userInfoView.innerHTML=html;
+              });
+              loginInfo(data);
+            }else{
+              window.location.href="/src/Forum/login.html";
+            }
           }
        });
     }

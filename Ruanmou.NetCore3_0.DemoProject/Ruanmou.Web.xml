@@ -48,7 +48,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannels4Sys">
+        <member name="M:Ruanmou04.NetCore.Project.Controllers.Forum.ForumChannelController.GetChannelsSys">
             <summary>
             获取所有频道
             </summary>

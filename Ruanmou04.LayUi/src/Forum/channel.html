@@ -587,12 +587,16 @@ var active = {
           type: 'get',
           dataType: 'json',
           success: function(obj) {
+            if(obj.Success){
               var data = obj.Data;
               var channelTpl=document.getElementById('channelTpl').innerHTML;
                 var channelMenu=document.getElementById('channelMenu');
                 layui.laytpl(channelTpl).render(data,function(html){
                   channelMenu.innerHTML=html;
                 });
+            }else{
+              window.location.href="/src/Forum/login.html";
+            }
           },
           error: function() {
               console.log('ajax请求失败！');
@@ -609,12 +613,16 @@ var active = {
       type: 'get',
       dataType: 'json',
       success: function(obj) {
+          if(obj.Success){
             var data = obj.Data;
             var topicTpl=document.getElementById('topicTpl').innerHTML;
             var topicMenu=document.getElementById('topicMenu');
             layui.laytpl(topicTpl).render(data,function(html){
               topicMenu.innerHTML=html;
             });
+          }else{
+              window.location.href="/src/Forum/login.html";
+            }
       },
       error: function() {
           console.log('ajax请求失败！');
@@ -666,6 +674,8 @@ var active = {
               layui.laytpl(checkTpl).render(data,function(html){
                   checkView.innerHTML=html;
               });
+            }else{
+              window.location.href="/src/Forum/login.html";
             }
           },
           error: function() {

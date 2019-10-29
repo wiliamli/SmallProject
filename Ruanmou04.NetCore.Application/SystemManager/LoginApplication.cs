@@ -57,9 +57,6 @@ namespace Ruanmou04.NetCore.Application.SystemManager
             var generateResult = await _tokenService.GenerateTokenAsync(generateDto);
             generateDto.Token = generateResult.data.ToString();
 
-            //ajax.data = generatedto;
-
-
             return StandardJsonResult<GenerateTokenDto>.GetSuccessResult("登录成功", generateDto);
         }
     }
