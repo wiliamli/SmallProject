@@ -27,8 +27,7 @@ namespace Ruanmou04.NetCore.AOP.Filter
         {
             string key = context.HttpContext.Request.Headers["Authorization"].SingleOrDefault();
             var result = new StandardJsonResult()
-            {
-
+            {  
                 Success = false,
                 StatusCode = StatusCodeEnum.Authenticate_Failed.ToString(),
             };

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Ruanmou.Core.Utility;
 using Ruanmou04.Core.Dtos.DtoHelper;
 using Ruanmou04.Core.Utility.DtoUtilities;
+using Ruanmou04.Core.Utility.Extensions;
 using Ruanmou04.Core.Utility.MvcResult;
 using Ruanmou04.Core.Utility.Security;
 using Ruanmou04.NetCore.AOP.Filter;
@@ -92,7 +93,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
         /// <returns></returns>
         [HttpGet]
         public StandardJsonResult GetUsersByType(int userType)
-        { 
+        {
             return StandardAction(() => _userApplication.GetUsers(u => userType == 0 || u.UserType == userType));
         }
 
@@ -142,7 +143,7 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             }
             else
             {
-                var sysUserAddInputDto = DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput); 
+                var sysUserAddInputDto = DataMapping<SysUserInputDto, SysUserAddInputDto>.Trans(sysUserInput);
                 var defaultPassword = _configuration[StaticConstraint.DefaultPwd];
                 sysUserAddInputDto.Password = Encrypt.EncryptionPassword(defaultPassword);
                 sysUserAddInputDto.CreateId = _currentUserInfo.SysCurrentUser.Id;
@@ -167,5 +168,31 @@ namespace Ruanmou.NetCore3_0.DemoProject.Controllers
             };
             return StandardAction(() => _userApplication.RestUserPwd(userRestPwdInputDto));
         }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public StandardJsonResult UpdatePwd(UserUpdatePwdInputDto param)
+        {
+            if (param == null || param.UserOldPwd.IsNullOrWhiteSpace() || param.UserPwd.IsNullOrWhiteSpace())
+            {
+                return StandardJsonResult.GetFailureResult("参数有误");
+            }
+               
+            int userId = _currentUserInfo.SysCurrentUser.Id;
+            var userRestPwdInputDto = new UserUpdatePwdInputDto()
+            {
+                LastModifyId = userId,
+                UserId = userId,
+                UserPwd = Encrypt.EncryptionPassword(param.UserPwd),
+                UserOldPwd = Encrypt.EncryptionPassword(param.UserOldPwd)
+            };
+            return _userApplication.UpdateUserPwd(userRestPwdInputDto);
+        }
+
+
     }
 }

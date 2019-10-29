@@ -56,9 +56,10 @@
   <script>
     loginInfo = {
       
-      loginCallBack: function (data) {
-        sessionStorage.setItem("apiTicket", data.Token)
-        sessionStorage.setItem("userName", data.Name)
+      loginCallBack: function (data) { 
+        sessionStorage.setItem("apiTicket", data.Token);
+        sessionStorage.setItem("userName", data.Name);
+        sessionStorage.setItem("userId",data.Id);
         window.location.href = "home.html";
       }
     }

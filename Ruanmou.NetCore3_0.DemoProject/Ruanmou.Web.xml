@@ -349,6 +349,13 @@
             <param name="sysUserInput"></param>
             <returns></returns>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.UsersController.UpdatePwd(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input.UserUpdatePwdInputDto)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:Ruanmou.NetCore3_0.DemoProject.Program" -->
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Program.Main(System.String[])">
             <summary>

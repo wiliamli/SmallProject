@@ -10,7 +10,8 @@ using Ruanmou04.NetCore.Interface.SystemManager.Applications;
 using Ruanmou04.NetCore.Interface.SystemManager.Service;
 using Ruanmou04.NetCore.Application.Extensions;
 using Ruanmou04.Core.Utility.Extensions;  
-using Microsoft.Data.SqlClient;     
+using Microsoft.Data.SqlClient;
+using Ruanmou04.Core.Utility.MvcResult;
 
 namespace Ruanmou04.NetCore.Application.SystemManager
 {
@@ -70,6 +71,33 @@ namespace Ruanmou04.NetCore.Application.SystemManager
             sysUserEntity.LastModifyTime = DateTime.Now;
             sysUserEntity.LastModifyId = resetUserPwdDto.LastModifyId;
             sysUserService.Update<SysUser>(sysUserEntity);
+        }
+
+        public StandardJsonResult UpdateUserPwd(UserUpdatePwdInputDto updateUserPwdDto)
+        {
+            if (updateUserPwdDto == null || 
+                updateUserPwdDto.UserId<=0 ||
+                updateUserPwdDto.UserOldPwd.IsNullOrWhiteSpace() ||
+                updateUserPwdDto.UserPwd.IsNullOrWhiteSpace())
+            {
+                return StandardJsonResult.GetFailureResult("参数有误");
+            }
+            var sysUserEntity = sysUserService.Find<SysUser>(updateUserPwdDto.UserId);
+            if (sysUserEntity == null)
+            {
+                return StandardJsonResult.GetFailureResult("请重新登录后修改");
+            }
+            if (!updateUserPwdDto.UserOldPwd.Equals(sysUserEntity.Password))
+            {
+                return StandardJsonResult.GetFailureResult("请输入正确的原始密码");
+            }
+
+            sysUserEntity.Password = updateUserPwdDto.UserPwd;
+            sysUserEntity.LastModifyTime = DateTime.Now;
+            sysUserEntity.LastModifyId = updateUserPwdDto.LastModifyId;
+            sysUserService.Update<SysUser>(sysUserEntity);
+
+            return StandardJsonResult.GetSuccessResult("操作成功");
         }
 
         public PagedResult<SysUserListOutputDto> GetPagedResult(SysUserListInputDto param)
