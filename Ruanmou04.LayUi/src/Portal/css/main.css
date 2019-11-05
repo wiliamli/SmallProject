@@ -15,11 +15,11 @@ input.disabled { background:#EEE; }
 .rm-header .rm-header-right, .rm-header .rm-header-right div { float: right; line-height: 80px; margin-left:10px }
 
 /*** nav ***/
-.rm-nav { width: 100%; background:#009688;}
+.rm-nav { width: 100%; background:#FFB800;}
 .rm-nav .layui-nav { padding:0 15px;}
 .rm-nav .layui-nav .layui-nav-item a { font-size: 16px; color: #FFF; }
 .rm-nav .layui-nav .layui-nav-item a:hover,
-.rm-nav .layui-nav .layui-nav-item.layui-this a { background: #1cbb9b; } 
+.rm-nav .layui-nav .layui-nav-item.layui-this a { background: #DAA613; } 
 .rm-nav .layui-nav .layui-nav-item.layui-this:after { background-color: inherit; }
 .rm-nav .layui-nav .layui-nav-bar { display:none;}
 
@@ -47,11 +47,11 @@ input.disabled { background:#EEE; }
 
 .rm-body .rm-brand .brand-title { text-align: center; padding: 50px 0 15px 0; }
 .rm-body .rm-brand .brand-title h1 { font-size: 40px; }
-.rm-body .rm-brand .brand-title h1 span { color: #1dd2af; }
+.rm-body .rm-brand .brand-title h1 span { color: #FFB800; }
 .rm-body .rm-brand .rm-brand-content { margin: 0 70px; }
 .rm-body .rm-brand .layui-tab .layui-tab-title { padding-top: 20px; border-top: 1px dashed #e0e0e0; border-bottom: 1px solid #dee1e1; height:auto; }
 .rm-body .rm-brand .layui-tab .layui-tab-title li{ float:left; margin-right:33px; padding:0; }  
-.rm-body .rm-brand .layui-tab .layui-tab-title li a { display: block; width: 60px; height: 60px; display: block; padding: 21px; border-radius: 15px; border: 1px dotted #1dd2af; background: #fff; }
+.rm-body .rm-brand .layui-tab .layui-tab-title li a { display: block; width: 60px; height: 60px; display: block; padding: 21px; border-radius: 15px; border: 1px dotted #FFB800; background: #fff; }
 .rm-body .rm-brand .layui-tab .layui-tab-title li a span { width: 60px; height: 60px; display: block; } 
 .rm-body .rm-brand .layui-tab .layui-tab-title .rcsp_1 span { background: url(../images/icon1.png) no-repeat bottom center; }
 .rm-body .rm-brand .layui-tab .layui-tab-title .rcsp_2 span { background: url(../images/icon2.png) no-repeat bottom center; }
@@ -60,9 +60,9 @@ input.disabled { background:#EEE; }
 .rm-body .rm-brand .layui-tab .layui-tab-title .rcsp_5 span { background: url(../images/icon5.png) no-repeat bottom center; }
 .rm-body .rm-brand .layui-tab .layui-tab-title .rcsp_6 span { background: url(../images/icon6.png) no-repeat bottom center; }
 .rm-body .rm-brand .layui-tab .layui-tab-title .rcsp_7 span { background: url(../images/icon7.png) no-repeat bottom center; }
-.rm-body .rm-brand .layui-tab .layui-tab-title li p { line-height: 18px; margin-top: 20px; text-align: center; display: block; color: #1dd2af; }
-.rm-body .rm-brand .layui-tab .layui-tab-title li strong { border-bottom: 1px solid #24d2b0; position: relative; display: block; margin-top: 15px; z-index: 4; }
-.rm-body .rm-brand .layui-tab .layui-tab-title li strong i { display: none; position: absolute; width: 0px; height: 0px; border: 10px solid transparent; display: block; left: 50%; margin-left: -9px; border-top-color: #1dd2af; }
+.rm-body .rm-brand .layui-tab .layui-tab-title li p { line-height: 18px; margin-top: 20px; text-align: center; display: block; color: #FFB800; }
+.rm-body .rm-brand .layui-tab .layui-tab-title li strong { border-bottom: 1px solid #FFB800; position: relative; display: block; margin-top: 15px; z-index: 4; }
+.rm-body .rm-brand .layui-tab .layui-tab-title li strong i { display: none; position: absolute; width: 0px; height: 0px; border: 10px solid transparent; display: block; left: 50%; margin-left: -9px; border-top-color: #FFB800; }
 .rm-body .rm-brand .layui-tab-brief > .layui-tab-more li.layui-this:after,
 .rm-body .rm-brand .layui-tab-brief > .layui-tab-title .layui-this:after { display: none; }
 .rm-body .rm-brand .layui-tab .layui-tab-title li:hover a { border: 1px dotted #696969; background: #fff; }
@@ -95,7 +95,7 @@ input.disabled { background:#EEE; }
 .rm-body .rm-brand .layui-tab .layui-tab-content .layui-tab-item .icon_top .i_left1 { float: left; background: url(../images/icon_left1.png) 0 center no-repeat; }
 .rm-body .rm-brand .layui-tab .layui-tab-content .layui-tab-item .icon_top .i_right1 { float: right; background: url(../images/icon_right1.png) 0 center no-repeat; }
 .rm-body .rm-brand .layui-tab .layui-tab-content .layui-tab-item .study { padding: 0px 32px; }
-.rm-body .rm-brand .layui-tab .layui-tab-content .layui-tab-item .study h3 { font: bold 25px/30px "Microsoft YaHei"; color: #1dd2af; display: block; padding-bottom: 15px; }
+.rm-body .rm-brand .layui-tab .layui-tab-content .layui-tab-item .study h3 { font: bold 25px/30px "Microsoft YaHei"; color: #FFB800; display: block; padding-bottom: 15px; }
 .rm-body .rm-brand .layui-tab .layui-tab-content .layui-tab-item .study span { font: 14px/18px "Microsoft YaHei"; color: #535353; display: block; text-indent: 2em; }
 
 /*** rm-util ***/

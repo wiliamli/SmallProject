@@ -20,7 +20,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="user-login-icon layui-icon layui-icon-password" for="Password"></label>
-                    <input type="password" name="Password" id="Password" lay-verType="tips" lay-verify="required" placeholder="请输入软谋注册密码" class="layui-input">
+                    <input type="password" name="Password" id="Password" lay-verType="tips" lay-verify="required" placeholder="请输入朝夕注册密码" class="layui-input">
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-row">
@@ -43,7 +43,7 @@
     </div>  
 
     <script src="../../layui.js"></script>
-    <script src="/src/portal/js/common.js"></script>
+    <script src="/src/portal/js/portalCommon.js"></script>
     <script type="text/javascript"> 
         var curIndex = parent.layer.getFrameIndex(window.name);
         layui.use(['element', 'carousel', 'util', 'layer', 'form', 'config'], function () {
@@ -63,6 +63,7 @@
                 document.getElementById("Img1").src = "/Login/GetLoginVerCode?NumKey=" + numkey;
             }
  
+
             //登录事务处理
             form.on("submit(formSubmit)", function (obj) {
                 /*** 校验图片验证码 ***/
@@ -81,14 +82,14 @@
                     {  
 						parent.layer.close(LoadIndex);
                         console.log(result);
-                        if(result.success)
+                        debugger;
+                        if(result.Success)
                         {
-                            var apiTiket= result.data; 
+                            var apiTiket= result.Data; 
                             localStorage.setItem("token",apiTiket.Token)
-						   
                             parent.layer.msg("登录成功", { icon: 1 }); 
                             // 头部写入 用户中心和退出
-                            parent.$(".rm-header-right").html(common.WebLoginHtml);  
+                            parent.$(".rm-header-right").html(portalCommon.WebLoginHtml);  
 							
 							parent.layer.close(curIndex);
                         }
@@ -103,8 +104,6 @@
                         console.log(XMLHttpResponse);
                     }
                 })
-					 
-				 
 				return false; 
 			  
             })

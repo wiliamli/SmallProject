@@ -1,14 +1,17 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
     <title>修改密码</title>
     <link href="/css/layui.css" rel="stylesheet" media="all" />
     <link href="/src/portal/css/main.css" rel="stylesheet" media="all" />
 
 </head>
+
 <body>
     <!-- header -->
     <div class="layui-container rm-header">
@@ -24,16 +27,16 @@
                 <li class="cl"><a href="/src/portal/about.html">关于我们</a></li>
             </ul>
         </div>
-        <div class="rm-header-right"  member="1">
-           
+        <div class="rm-header-right" member="1">
+
         </div>
-    </div> 
-    
+    </div>
+
     <!-- rm-body -->
-    <div class="rm-body"> 
+    <div class="rm-body">
         <div class="blank0"></div>
         <div class="mb-header-wrap">
-            <div class="layui-container"> 
+            <div class="layui-container">
                 <div class="mb-headface cl">
                     <!--<img src="http://localhost:26338/Content/img/face_big.png" alt="夜静无息">-->
                     <div class="default-face">
@@ -57,7 +60,7 @@
             </div>
         </div>
         <div class="layui-container cl">
-            <div class="layui-row rm-member"> 
+            <div class="layui-row rm-member">
                 <div class="main-left ">
                     <div class="mb-leftmenu-wrap">
                         <dl class="mb-leftmenu">
@@ -65,9 +68,9 @@
                             <dd class="leftmenu-item "><a href="/src/portal/mbInfo.html">信息管理</a></dd>
                             <dd class="leftmenu-item active"><a href="/src/portal/mbPwd.html">修改密码</a></dd>
                             <dd class="leftmenu-item"><a href="/src/portal/mbDownload.html">资料下载</a></dd>
-                        </dl> 
+                        </dl>
                         <dl class="mb-leftmenu">
-                            <dt class="leftmenu-title"><i class="iconfont">&#xe714;</i>积分管理</dt> 
+                            <dt class="leftmenu-title"><i class="iconfont">&#xe714;</i>积分管理</dt>
                             <dd class="leftmenu-item"><a href="javascript:void(0);">积分概况</a></dd>
                             <dd class="leftmenu-item"><a href="javascript:void(0);">积分说明</a></dd>
                             <dd class="leftmenu-item"><a href="javascript:void(0);">积分获取/兑换记录</a></dd>
@@ -75,14 +78,15 @@
                     </div>
                 </div>
                 <div class="main-right">
-                    <div class="content-title"><span>修改密码</span></div> 
+                    <div class="content-title"><span>修改密码</span></div>
                     <div class="main-content">
-                        <form method="post" class="layui-form">
+                        <!-- <form method="post" class="layui-form"> -->
+                        <div class="layui-form layui-form-pane1" action="" lay-filter="first">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label" for="CurPwd">当前密码</label>
                                     <div class="layui-input-block cell">
-                                        <input type="password" id="CurPwd" name="CurPwd" autocomplete="off" placeholder="请输入当前密码" value="" class="layui-input">
+                                        <input type="password" id="CurPwd" lay-verify="required" name="CurPwd" autocomplete="off" placeholder="请输入当前密码" class="layui-input">
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +94,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label" for="NewPwd">新的密码</label>
                                     <div class="layui-input-block cell">
-                                        <input type="password" id="NewPwd" name="NewPwd" autocomplete="off" value="" class="layui-input">
+                                        <input type="password" id="NewPwd" lay-verify="required" name="NewPwd" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                             </div>
@@ -98,14 +102,16 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label" for="ComPwd">确认密码</label>
                                     <div class="layui-input-block cell">
-                                        <input type="password" id="ComPwd" name="ComPwd" autocomplete="off" value="" class="layui-input">
+                                        <input type="password" id="ComPwd" lay-verify="required" name="ComPwd" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <button class="layui-btn layui-input-block" lay-submit="submitInfo">确认修改</button>
+                                <button class="layui-btn layui-input-block" lay-submit lay-filter="sub">确认修改</button>
+                                <!-- <button class="layui-btn layui-input-block" lay-submit="submitInfo">确认修改</button> -->
                             </div>
-                        </form>
+                            <!-- </form> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -133,7 +139,7 @@
                 <a href="/StudyExplain.aspx">学习说明</a>
             </p>
             <p class="copyright">
-                <span>Copyright 软谋教育 2012-2018</span>
+                <span>Copyright 朝夕教育 2012-2018</span>
                 <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">鄂ICP备13007080号</a>
                 <a href="https://ke.qq.com/download/pcapp.html#from=student" target="_blank">腾讯课堂PC端下载</a>
                 <a href="https://ke.qq.com/download/app.html" target="_blank">腾讯课堂移动端下载</a>
@@ -144,47 +150,65 @@
 
 
     <script src="../../layui.js"></script>
-    <script src="/src/portal/js/common.js"></script>
+    <script src="/src/portal/js/portalCommon.js"></script>
     <script type="text/javascript">
+        var userUpdatePwd = {
+            saveUserPwd: function () {
+                var $ = portalCommon.$;
+                var oldPwd = $("#CurPwd").val();
+                var newPwd = $("#NewPwd").val();
+                var confimPwd = $("#ComPwd").val();
+                if (newPwd != confimPwd) {
+                    layer.msg("新密码跟确认密码不一致", { icon: 7 });
+                    return false;
+                }
+                debugger;
+                var data = { UserPwd: newPwd, UserOldPwd: oldPwd };
+                portalCommon.SaveDataWay(JSON.stringify(data), '/PortalUser/UpdatePwd');
+                return false;
+            },
+        }
+
         layui.use(['element', 'layer', 'form', 'config'], function () {
             //debugger;
             var element = layui.element;
-          
-
             var layer = layui.layer;
             var form = layui.form;
             var config = layui.config;
             var $ = layui.jquery;
 
-            common.Init($, layer); 
+            portalCommon.Init($, layer); 
 
-			var key = localStorage.getItem("token"); 			 
-			//获取用户信息
-			$.ajax({
-                type:'GET',
-				dataType: "json",
-                url:config.apiUrl +'/PortalUser/GetUser',
-				headers: {token: key},
-                success:function (result)
-                {   
-					console.log(result);
-					if(result == null)
-					{
-						//登陆超时或没有登陆
-						localStorage.removeItem("token");
-						common.Init($, layer); 
-					}else
-					{ 
-						$(".mb-nickname").html(result.name);
-					} 
-                },
-                error: function (XMLHttpResponse) { 
-                    console.log("error: api request failed");
-                    console.log(XMLHttpResponse);
-                }
+            // var key = localStorage.getItem("token");
+            // //获取用户信息
+            // $.ajax({
+            //     type: 'GET',
+            //     dataType: "json",
+            //     url: config.apiUrl + '/PortalUser/GetUser',
+            //     headers: { token: key },
+            //     success: function (result) {
+            //         console.log(result);
+            //         if (result == null) {
+            //             //登陆超时或没有登陆
+            //             localStorage.removeItem("token");
+            //             portalCommon.Init($, layer);
+            //         }
+            //         else {
+            //             $(".mb-nickname").html(result.name);
+            //         }
+            //     },
+            //     error: function (XMLHttpResponse) {
+            //         console.log("error: api request failed");
+            //         console.log(XMLHttpResponse);
+            //     }
+            // })
+
+            form.on("submit(sub)", function (obj) {
+                debugger;
+                userUpdatePwd.saveUserPwd();
             })
-
         })
     </script>
 </body>
+
 </html>

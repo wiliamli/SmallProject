@@ -31,6 +31,8 @@ namespace Ruanmou04.NetCore.Interface.SystemManager.Applications
 
         void EditUser(SysUserEditInputDto userEditDto);
 
+        void EditUser4Memeber(SysUserEditInputDto userEditDto);
+
         void DeleteByUserId(int userId);
 
         void DeleteBatchByUserId(string userIds);

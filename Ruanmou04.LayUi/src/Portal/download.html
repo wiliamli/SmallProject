@@ -22,7 +22,7 @@
 
     <!-- nav -->
     <div class="rm-nav">
-        <ul class="layui-nav layui-container layui-bg-green">
+        <ul class="layui-nav layui-container layui-bg-orange">
             <li class="layui-nav-item "><a href="/src/portal/index.html">首页</a></li>
             <li class="layui-nav-item"><a href="/src/portal/course.html">课程中心</a></li>
             <li class="layui-nav-item"><a href="/src/forum/channel.html">交流学习</a></li>
@@ -131,7 +131,7 @@
                 <a href="/StudyExplain.aspx">学习说明</a>
             </p>
             <p class="copyright">
-                <span>Copyright 软谋教育 2012-2018</span>
+                <span>Copyright 朝夕教育 2012-2018</span>
                 <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">鄂ICP备13007080号</a>
                 <a href="https://ke.qq.com/download/pcapp.html#from=student" target="_blank">腾讯课堂PC端下载</a>
                 <a href="https://ke.qq.com/download/app.html" target="_blank">腾讯课堂移动端下载</a>
@@ -142,7 +142,7 @@
 
 
     <script src="../../layui.js"></script>
-    <script src="/src/portal/js/common.js"></script>
+    <script src="/src/portal/js/portalCommon.js"></script>
     <script type="text/javascript">
         layui.use(['element', 'util', 'layer', 'form', 'config'], function () {
             //debugger;
@@ -154,7 +154,7 @@
             var config = layui.config;
             var $ = layui.jquery;
 
-            common.Init($, layer);
+            portalCommon.Init($, layer);
 
             //fixed bar
             util.fixbar({

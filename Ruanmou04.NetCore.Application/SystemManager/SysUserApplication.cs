@@ -60,6 +60,26 @@ namespace Ruanmou04.NetCore.Application.SystemManager
             sysUserService.Update<SysUser>(sysUserEntity);
         }
 
+        public void EditUser4Memeber(SysUserEditInputDto userEditDto)
+        {
+            var sysUserEntity = sysUserService.Find<SysUser>(userEditDto.Id);
+            if (sysUserService == null)
+            {
+                return;
+            }
+            sysUserEntity.Mobile = userEditDto.Mobile;
+            sysUserEntity.Email = userEditDto.Email;
+            sysUserEntity.Name = userEditDto.Name;
+            sysUserEntity.Phone = userEditDto.Phone;
+            sysUserEntity.QQ = userEditDto.QQ;
+            sysUserEntity.Sex = userEditDto.Sex;
+            sysUserEntity.WeChat = userEditDto.WeChat;
+            sysUserEntity.LastModifyTime = DateTime.Now;
+            sysUserEntity.LastModifyId = userEditDto.LastModifyId;
+            sysUserService.Update(sysUserEntity);
+        }
+
+
         public void RestUserPwd(UserRestPwdInputDto resetUserPwdDto)
         {
             var sysUserEntity = sysUserService.Find<SysUser>(resetUserPwdDto.UserId);

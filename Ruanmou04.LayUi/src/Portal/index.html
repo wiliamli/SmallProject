@@ -16,18 +16,12 @@
             <img src="/src/portal/images/logo.jpg" />
         </div>
         <div class="rm-header-right">
-            <!--<div class="login">
-                <a href="javascript:void(0);" class="a-login">登录1</a>
-            </div>
-            <div class="reg">
-                <a href="javascript:void(0);" class="a-reg">注册1</a>
-            </div>-->
         </div>
     </div>
 
     <!-- nav -->
     <div class="rm-nav">
-        <ul class="layui-nav layui-container layui-bg-green">
+        <ul class="layui-nav layui-container layui-bg-orange">
             <li class="layui-nav-item layui-this"><a href="/src/portal/index.html">首页</a></li>
             <li class="layui-nav-item "><a href="/src/portal/course.html">课程中心</a></li>
             <li class="layui-nav-item"><a href="/src/Forum/channel.html">交流学习</a></li>
@@ -572,7 +566,7 @@
                                 <div class="study">
                                     <h3>老师辅导</h3>
                                     <span>
-                                        <p><span style="font-size: small;">老师7*12小时全职在线辅导，学习相关的问题线上解答，学员也在软谋官网发帖求助，100+名软谋帮成员及时为您解答，解答的结果第一时间通知给您。</span></p>
+                                        <p><span style="font-size: small;">老师7*12小时全职在线辅导，学习相关的问题线上解答，学员也在朝夕官网发帖求助，100+名朝夕帮成员及时为您解答，解答的结果第一时间通知给您。</span></p>
                                     </span>
 
                                 </div>
@@ -657,7 +651,7 @@
                 <a href="/StudyExplain.aspx">学习说明</a>
             </p>
             <p class="copyright">
-                <span>Copyright 软谋教育 2012-2018</span>
+                <span>Copyright 朝夕教育 2012-2018</span>
                 <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">鄂ICP备13007080号</a>
                 <a href="https://ke.qq.com/download/pcapp.html#from=student" target="_blank">腾讯课堂PC端下载</a>
                 <a href="https://ke.qq.com/download/app.html" target="_blank">腾讯课堂移动端下载</a>
@@ -668,7 +662,7 @@
 
 
     <script src="../../layui.js"></script>
-    <script src="/src/portal/js/common.js"></script>
+    <script src="/src/portal/js/portalCommon.js"></script>
     <script type="text/javascript">    
         layui.use(['element', 'carousel', 'util', 'layer', 'form', 'config'], function () {
             //debugger;
@@ -681,7 +675,7 @@
             var config = layui.config;
             $ = layui.jquery;
 
-            common.Init($, layer);
+            portalCommon.Init($, layer);
 
             //banner
             carousel.render({
