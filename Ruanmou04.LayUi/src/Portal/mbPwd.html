@@ -166,7 +166,7 @@
                 var data = { UserPwd: newPwd, UserOldPwd: oldPwd };
                 portalCommon.SaveDataWay(JSON.stringify(data), '/PortalUser/UpdatePwd');
                 return false;
-            },
+            }
         }
 
         layui.use(['element', 'layer', 'form', 'config'], function () {

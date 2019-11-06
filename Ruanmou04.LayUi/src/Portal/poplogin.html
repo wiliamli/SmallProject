@@ -82,15 +82,14 @@
                     {  
 						parent.layer.close(LoadIndex);
                         console.log(result);
-                        debugger;
                         if(result.Success)
                         {
                             var apiTiket= result.Data; 
-                            localStorage.setItem("token",apiTiket.Token)
+                            localStorage.setItem("token",apiTiket.Token);
+                            localStorage.setItem("account",apiTiket.Account);
                             parent.layer.msg("登录成功", { icon: 1 }); 
                             // 头部写入 用户中心和退出
                             parent.$(".rm-header-right").html(portalCommon.WebLoginHtml);  
-							
 							parent.layer.close(curIndex);
                         }
                         else

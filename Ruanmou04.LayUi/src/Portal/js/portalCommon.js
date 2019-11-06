@@ -1,14 +1,14 @@
 ﻿
 //全局js 
-var portalCommon = { 
+var portalCommon = {
     form: null,
     layer: null,
     $: null,
-    config: null,  
-    loginUrl:'login.html',
-    Authenticate_Failed:'Authenticate_Failed',
+    config: null,
+    loginUrl: 'login.html',
+    Authenticate_Failed: 'Authenticate_Failed',
 
-    Init: function ($, layer) {  
+    Init: function ($, layer) {
         this.CheckLogin($, layer); //检查是否登录
         //初始化绑定事件
         this.Login($, layer);
@@ -28,7 +28,7 @@ var portalCommon = {
                 , type: 2
                 , content: ['poplogin.html', 'no']
                 , area: ['350px', '320px']
-            });  
+            });
         });
     },
     Register: function ($, layer) {
@@ -41,7 +41,7 @@ var portalCommon = {
             });
         });
     },
-    Logout: function ($, layer) { 
+    Logout: function ($, layer) {
         $(".rm-header").delegate(".a-logout", "click", function () {
             localStorage.removeItem("token");
             portalCommon.CheckLogin($, layer);
@@ -51,10 +51,12 @@ var portalCommon = {
         if (typeof (Storage) === "undefined") {
             layer.alert("对不起，本站不支持该浏览器，请切换别的浏览器访问", { title: "系统提示" });
             return;
-        } 
+        }
+        var account = localStorage.getItem("account");
         var apiTicket = localStorage.getItem("token");
         var $HeaderInfo = $(".rm-header-right");
-        var IsMemberPage = $HeaderInfo.attr("member"); 
+        var IsMemberPage = $HeaderInfo.attr("member");
+        var $mbNickName = $(".mb-nickname");
         if (apiTicket == null) {
             //未登录
             if (IsMemberPage == "1") {
@@ -64,123 +66,122 @@ var portalCommon = {
                 //登录页
                 var sHtml = '<div class="login"><a href="javascript:void(0);" class="a-login">登录</a></div>';
                 sHtml += '<div class="reg"><a href="javascript:void(0);" class="a-reg">注册</a></div>';
-                $HeaderInfo.html(sHtml);  
+                $HeaderInfo.html(sHtml);
             }
         } else {
             //已登录 
             if (IsMemberPage == "1") {
                 var sHtml = '<div class="login"><a href="javascript:void(0);" class="a-logout">退出</a></div>';
-                $HeaderInfo.html(sHtml);  
-            } else { 
+                $HeaderInfo.html(sHtml);
+                $mbNickName.html(account);
+            } else {
                 $HeaderInfo.html(this.WebLoginHtml);
                 //var sHtml = '<div class="reg"><a href="mbInfo.html" class="a-mbcenter">个人中心</a></div>';
                 //sHtml += '<div class="login"><a href="javascript:void(0);" class="a-logout">退出</a></div>'; 
                 //$HeaderInfo.html(sHtml);
             }
-        } 
+        }
     },
-    SaveDataWay:function(data, url, type) {
+    SaveDataWay: function (data, url, type) {
         var $ = portalCommon.$, config = portalCommon.config;
-        debugger;
         //var LoadIndex = layer.msg('正在处理中', { icon: 16, shade: 0.2, time: 0 }); //显示Loading层
         var index = parent.layer.load(5, { shade: [0.5, "#5588AA"] });
         if (!type) {
-          type = "POST";
+            type = "POST";
         }
-        debugger;
         $.ajax({
-          type: type,
-          // data: JSON.stringify(data),
-          data: data,
-          contentType: 'application/json',
-          headers: {
-            "token": "Bearer " + localStorage.getItem("token"),
-            "X-Requested-With": "XMLHttpRequest"
-          },
-          url: config.apiUrl + url,
-          success: function (result) {
-            var jsonData = result;//JSON.parse(result);
-            layer.closeAll("loadiing");
-            parent.layer.close(index);
-            debugger;
-            if (jsonData != null && jsonData.Success) {
-              layer.msg(jsonData.Message, { icon: 1, time: 2000 },//默认是3s
-                function () {});
+            type: type,
+            // data: JSON.stringify(data),
+            data: data,
+            contentType: 'application/json',
+            headers: {
+                "token": "Bearer " + localStorage.getItem("token"),
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            url: config.apiUrl + url,
+            success: function (result) {
+                var jsonData = result;//JSON.parse(result);
+                layer.closeAll("loadiing");
+                parent.layer.close(index);
+              
+                if (jsonData != null && jsonData.Success) {
+                    layer.msg(jsonData.Message, { icon: 1, time: 2000 },//默认是3s
+                        function () { });
+                }
+                else {
+                    layer.msg(jsonData.Message, { icon: 2, time: 2000 });
+                    if (jsonData.StatusCode && portalCommon.Authenticate_Failed == jsonData.StatusCode) {
+                        location.href = portalCommon.loginUrl;
+                    }
+                }
+            },
+            error: function (XMLHttpResponse) {
+                layer.closeAll("loadiing");
+                parent.layer.close(index);
+                console.log("error: api request failed");
+                console.log(XMLHttpResponse);
             }
-            else {
-              layer.msg(jsonData.Message, { icon: 2, time: 2000 });
-              if(jsonData.StatusCode && portalCommon.Authenticate_Failed==jsonData.StatusCode) {
-                location.href=portalCommon.loginUrl;
-              }
-            }
-          },
-          error: function (XMLHttpResponse) {
-            layer.closeAll("loadiing");
-            parent.layer.close(index);
-            console.log("error: api request failed");
-            console.log(XMLHttpResponse);
-          }
         })
-      },
+    },
 
-      InitData:function (url) {
+    InitData: function (url) {
         debugger;
-        var $ = portalCommon.$, config = portalCommon.config, form = portalCommon.form;      
+        var $ = portalCommon.$, config = portalCommon.config, form = portalCommon.form;
         $.ajax({
-          type: "Get",
-          beforeSend: function (XHR) {
-            XHR.setRequestHeader("token", "Bearer " + localStorage.getItem("token"));
-          },
-          url: config.apiUrl + url,
-          success: function (result) {
-            if (result.Success) {
-              form.val("first", result.Data); //默认都放在first下面
-              $(".mb-nickname").html(result.Name);
-            }
-            else { 
-              if(result.StatusCode && portalCommon.Authenticate_Failed==result.StatusCode) {
-                location.href=portalCommon.loginUrl;
-              }
+            type: "Get",
+            beforeSend: function (XHR) {
+                XHR.setRequestHeader("token", "Bearer " + localStorage.getItem("token"));
+            },
+            url: config.apiUrl + url,
+            success: function (result) {
+                if (result.Success) {
+                    form.val("first", result.Data); //默认都放在first下面
+                    $(".mb-nickname").html(result.Name);
+                }
+                else {
+                    if (result.StatusCode && portalCommon.Authenticate_Failed == result.StatusCode) {
+                        location.href = portalCommon.loginUrl;
+                    }
 
-              localStorage.removeItem("token");
-              portalCommon.Init($, layer);
+                    localStorage.removeItem("token");
+                    portalCommon.Init($, layer);
+                }
             }
-          }
         })
-      },
-      LoadData:function(url, data, fun_callback, type) {
-        var $ = portalCommon.$;      
+    },
+    LoadData: function (url, data, fun_callback, type) {
+        var $ = portalCommon.$;
         if (!type) {
-          type = 'get';
+            type = 'get';
         }
         $.ajax({
-          url: portalCommon.config.apiUrl + url,
-          type: type,
-          data: data,
-          beforeSend: function (XHR) {
-            XHR.setRequestHeader("token", "Bearer " +localStorage.getItem("token"));
-          },
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (obj) {
-            if (obj.Success) {
-              if (fun_callback) {
-                fun_callback(obj.Data);
-              }
-            } else {
-              layer.msg(obj.Message, { icon: 2, time: 2000 });
-              if(obj.StatusCode && portalCommon.Authenticate_Failed==obj.StatusCode) {
-                location.href=portalCommon.loginUrl;
-              }
+            url: portalCommon.config.apiUrl + url,
+            type: type,
+            data: data,
+            beforeSend: function (XHR) {
+                XHR.setRequestHeader("token", "Bearer " + localStorage.getItem("token"));
+            },
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (obj) {
+                if (obj.Success) {
+                    if (fun_callback) {
+                        fun_callback(obj.Data);
+                    }
+                } else {
+                    layer.msg(obj.Message, { icon: 2, time: 2000 });
+                    if (obj.StatusCode && portalCommon.Authenticate_Failed == obj.StatusCode) {
+                        location.href = portalCommon.loginUrl;
+                    }
+                }
+            },
+            error: function (data) {
+                layer.alert(JSON.stringify(data.Message), {
+                    title: 'ajax请求失败！'
+                });
             }
-          },
-          error: function (data) {
-            layer.alert(JSON.stringify(data.Message), {
-              title: 'ajax请求失败！'
-            });
-          }
         });
-      }
+    }
 };
 
 

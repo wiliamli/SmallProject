@@ -68,6 +68,13 @@
             <param name="containerBuilder"></param>
             <param name="_appConfiguration"></param>
         </member>
+        <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.PortalUserController.UserRegister(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input.SysUserInputDto)">
+            <summary>
+            新增或修改会员
+            </summary>
+            <param name="sysUserInput"></param>
+            <returns></returns>
+        </member>
         <member name="M:Ruanmou.NetCore3_0.DemoProject.Controllers.PortalUserController.UpdatePwd(Ruanmou04.NetCore.Dtos.SystemManager.UserDtos.Input.UserUpdatePwdInputDto)">
             <summary>
             修改密码
